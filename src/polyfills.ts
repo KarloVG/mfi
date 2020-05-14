@@ -56,7 +56,7 @@
  * Zone JS is required by default for Angular itself.
  */
 import 'zone.js/dist/zone';  // Included with Angular CLI.
-
+import '@angular/localize/init' //https://stackoverflow.com/questions/57953317/angular-9-introduced-a-global-localize-function-that-needs-to-be-loaded
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
