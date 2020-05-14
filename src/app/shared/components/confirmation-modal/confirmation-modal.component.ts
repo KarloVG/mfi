@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-confirmation-modal',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfirmationModalComponent implements OnInit {
 
-  constructor() { }
+  @Input() title: string;
+  @Input() description: string;
+  
+  constructor(public modal: NgbActiveModal) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
 }
