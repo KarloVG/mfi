@@ -4,6 +4,10 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
+import { HttpClientModule }    from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { FakeDataService } from './shared/in-memory-api/fake-data.service';
 
 @NgModule({
   declarations: [
@@ -12,7 +16,10 @@ import { SharedModule } from './shared/shared.module';
   imports: [
     BrowserModule,
     SharedModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    environment.production ?
+    [] : HttpClientInMemoryWebApiModule.forRoot(FakeDataService, { delay: 300 })
   ],
   providers: [],
   bootstrap: [AppComponent],

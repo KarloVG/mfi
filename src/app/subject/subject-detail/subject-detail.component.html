@@ -1,0 +1,93 @@
+<ngb-alert type="primary" [dismissible]="false" class="mb-0" style="color: black; text-align: center;">
+    <strong>
+        <i class="fas fa-folder-open"></i> Novi predmet
+    </strong>
+</ngb-alert>
+<ngb-alert type="secondary" [dismissible]="false" style="color: green;">
+    <div class="row">
+        <div class="col-md-2" style="display:flex; flex-direction: column; text-align: center;">
+            <i class="fas fa-check-square" style="cursor: pointer; font-size: 40px;"></i>
+            <span style="font-size: 18px;">
+                Stvori predmet
+            </span>
+        </div>
+        <div class="col-md-2" style="display:flex; flex-direction: column; text-align: center;">
+            <i class="fas fa-times" style="cursor: pointer; font-size: 40px;"></i>
+            <span style="font-size: 18px;">
+                Odustani
+            </span>
+        </div>
+    </div>
+</ngb-alert>
+<div class="container">
+    <form [formGroup]="subjectFormGroup">
+        <div class="input-group">
+          <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+            <label for="BrojPredmeta">
+                Broj predmeta <span class="text-danger">*</span>
+            </label>
+            <input type="text" class="form-control" id="BrojPredmeta"
+              name="BrojPredmeta" placeholder="Mjesec, npr. 14. mjesec"
+              formControlName="BrojPredmeta"
+              [ngClass]="{'is-invalid': BrojPredmeta.invalid && (BrojPredmeta.dirty || BrojPredmeta.touched)}" (change)="log()">
+            <div class="invalid-feedback">Polje je obavezno</div>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+            <label for="DatumOtvaranja">Datum otvaranja predmeta <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <input class="form-control" placeholder="dd.mm.yyyy." name="dp" formControlName="DatumOtvaranja"
+                ngbDatepicker #d="ngbDatepicker" [readonly]="true"
+                [ngClass]="{'is-invalid': DatumOtvaranja.invalid && (DatumOtvaranja.dirty || DatumOtvaranja.touched)}"
+                [minDate]="{year: 2000, month: 1, day: 1}">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar-box" (click)="d.toggle()" type="button"><i class="fas fa-calendar"></i></button>
+              </div>
+              <div class="invalid-feedback">Polje je obavezno</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+            <label for="NazivPredmeta">Naziv predmeta <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="NazivPredmeta"
+                name="NazivPredmeta" placeholder="Mjesec, npr. 14. mjesec"
+                formControlName="NazivPredmeta"
+                [ngClass]="{'is-invalid': NazivPredmeta.invalid && (NazivPredmeta.dirty || NazivPredmeta.touched)}">
+            <div class="invalid-feedback">Polje je obavezno</div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+            <label for="StatusPredmeta">Status predmeta <span class="text-danger">*</span></label>
+            <ng-select [items]="subjectStatuses" [multiple]="true" bindLabel="name" bindValue="id"
+                labelForId="state" placeholder="Izaberi..." clearAllText="Clear" formControlName="StatusPredmeta"
+                [ngClass]="{'is-invalid': StatusPredmeta.invalid && (StatusPredmeta.dirty || StatusPredmeta.touched)}">
+            </ng-select>
+            <div class="invalid-feedback">Polje je obavezno</div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+            <label for="psHypersensitivityStimulusId">
+                Dozvole za rad na predmetu 
+            </label>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Country</th>
+                        <th scope="col">Area</th>
+                        <th scope="col">Population</th>
+                    </tr>
+                </thead>
+                <!-- <tbody>
+                    <tr *ngFor="let country of countries; index as i">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>
+                        <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag" class="mr-2" style="width: 20px">
+                        {{ country.name }}
+                        </td>
+                        <td>{{ country.area | number }}</td>
+                        <td>{{ country.population | number }}</td>
+                    </tr>
+                </tbody> -->
+            </table>
+        </div>
+      </form>
+</div>
+
