@@ -1,6 +1,7 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { ISubject } from 'src/app/subject/models/subject';
 import { ISimpleDropdownItem } from '../models/simple-dropdown-item';
+import { ISubjectPermission } from 'src/app/subject/models/subject-permission';
 
 export class FakeDataService implements InMemoryDbService {
   createDb() {
@@ -31,7 +32,39 @@ export class FakeDataService implements InMemoryDbService {
             id: 4,
             name: 'Arhiviran'
         }
-    ]
-    return {subjects, subjectStatuses};
+    ];
+
+    let subjectPermissions: ISubjectPermission[] = [
+        {
+            ID: 1,
+            Ime: 'Matija',
+            Prezime: 'Matijić',
+            Email: 'matija.matijic@gmail.com',
+            Flag: false,
+        },
+        {
+            ID: 2,
+            Ime: 'Ivan',
+            Prezime: 'Ivić',
+            Email: 'ivan.ivic@gmail.com',
+            Flag: false,
+        },
+        {
+            ID: 3,
+            Ime: 'Darko',
+            Prezime: 'Darkić',
+            Email: 'darko.darkic@gmail.com',
+            Flag: false,
+        },
+        {
+            ID: 4,
+            Ime: 'Miro',
+            Prezime: 'Mirić',
+            Email: 'miro.miric@gmail.com',
+            Flag: false,
+        },
+    ];
+
+    return {subjects, subjectStatuses, subjectPermissions};
   }
 }

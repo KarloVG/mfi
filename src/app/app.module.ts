@@ -8,6 +8,7 @@ import { HttpClientModule }    from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { FakeDataService } from './shared/in-memory-api/fake-data.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { FakeDataService } from './shared/in-memory-api/fake-data.service';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     SharedModule,
     AppRoutingModule,
     HttpClientModule,

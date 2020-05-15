@@ -5,10 +5,13 @@ import { SharedModule } from '../shared/shared.module';
 import { SubjectRoutingModule } from './subject-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ModalSubjectPermissionComponent } from './subject-detail/modal-subject-permission/modal-subject-permission.component';
+import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
-    SubjectDetailComponent
+    SubjectDetailComponent,
+    ModalSubjectPermissionComponent
   ],
   imports: [
     CommonModule,
@@ -16,8 +19,15 @@ import { NgSelectModule } from '@ng-select/ng-select';
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
-
   ],
-  exports: [SubjectRoutingModule]
+  exports: [SubjectRoutingModule],
+  providers: [
+    {
+      provide: NgbDateAdapter,
+      useClass: NgbDateNativeAdapter
+    }
+  ],
+  entryComponents: [ModalSubjectPermissionComponent]
+  
 })
 export class SubjectModule { }

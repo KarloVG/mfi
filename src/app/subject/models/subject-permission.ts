@@ -3,4 +3,6 @@ export interface ISubjectPermission {
     Ime: string,
     Prezime: string,
     Email: string,
+    Flag: boolean,
+    isAdalUser?: boolean
 }

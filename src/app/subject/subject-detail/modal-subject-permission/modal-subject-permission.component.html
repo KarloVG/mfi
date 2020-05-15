@@ -1,0 +1,74 @@
+<div class="modal-header">
+    <h4 class="modal-title text-primary" id="modal-title">Dodavanje dozvola za rad na predmetu</h4>
+  </div>
+  <div class="modal-body pb-0">
+    <form [formGroup]="subjectPermisionGroup" (ngSubmit)="onSubmit()">
+      <div class="card-body">
+        <h6>1) Unesite podatke za pretraživanje imenika</h6>
+        <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+            <label for="Ime">
+                Ime
+            </label>
+            <input type="text" class="form-control" id="Ime"
+              name="Ime" placeholder="Upišite tekst"
+              formControlName="Ime"
+              [ngClass]="{'is-invalid': Ime.invalid && (Ime.dirty || Ime.touched)}">
+            <div class="invalid-feedback">Polje je obavezno</div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+            <label for="Prezime">
+                Prezime
+            </label>
+            <input type="text" class="form-control" id="Prezime"
+              name="Prezime" placeholder="Upišite tekst"
+              formControlName="Prezime"
+              [ngClass]="{'is-invalid': Prezime.invalid && (Prezime.dirty || Prezime.touched)}">
+            <div class="invalid-feedback">Polje je obavezno</div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+            <label for="Email">
+                E-mail
+            </label>
+            <input type="text" class="form-control" id="Email"
+              name="Email" placeholder="Upišite tekst"
+              formControlName="Email"
+              [ngClass]="{'is-invalid': Email.invalid && (Email.dirty || Email.touched)}">
+            <div class="invalid-feedback">Polje je obavezno</div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+            <button type="button" class="btn btn-secondary" (click)="filterUserTable()">
+                Traži
+            </button>
+        </div>
+        <h6>2) Odaberite korisnika</h6>
+        <div class="col-sm-12 col-md-12 col-lg-12 mb-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Ime</th>
+                        <th scope="col">Prezime</th>
+                        <th scope="col">E-mail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let permission of filteredSubjectPermissions; index as i"  (click)="selectPermissionUser($event, permission);" [class.selected]="permission.Flag === true">
+                        <td>{{ permission.Ime }}</td>
+                        <td>{{ permission.Prezime }}</td>
+                        <td>{{ permission.Email }}</td>
+                    </tr>
+                    <tr *ngIf="filteredSubjectPermissions.length == 0">
+                        <td>n/a</td>
+                        <td>n/a</td>
+                        <td>n/a</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary btn-rounded mr-auto" (click)="modal.dismiss()">Odustani</button>
+        <button type="submit" ngbAutofocus class="btn btn-primary btn-rounded">Spremi</button>
+      </div>
+    </form>
+  </div>
+  
