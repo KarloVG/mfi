@@ -13,6 +13,11 @@ const routes: Routes = [
     component: MainLayoutComponent,
     loadChildren: () => import('./subject/subject.module').then(m => m.SubjectModule)
   },
+  {
+    path: 'statement-base',
+    component: MainLayoutComponent,
+    loadChildren: () => import('./statement-base/statement-base.module').then(m => m.StatementBaseModule)
+  },
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
 ];
 

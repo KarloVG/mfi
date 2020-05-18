@@ -1,28 +1,87 @@
 <form [formGroup]="subjectFormGroup"  (ngSubmit)="onSubmit()" #myForm="ngForm">
     <ngb-alert type="primary" [dismissible]="false" class="mb-0" style="color: black; text-align: center;">
-        <strong>
-            <i class="fas fa-folder-open"></i> Novi predmet
+        <strong *ngIf="subjectId; else noSubjectId">
+            <i class="fas fa-pen-square" ></i> Uredi predmet
         </strong>
+        <ng-template #noSubjectId>
+            <strong>
+                <i class="fas fa-folder-open"></i> Novi predmet
+            </strong>
+        </ng-template>
     </ngb-alert>
     <ngb-alert type="secondary" [dismissible]="false" style="color: green;">
-        <div class="row">
-            <div class="col-md-2">
-                <button type="submit" class="button-no-css">
-                    <i class="fas fa-check-square" style="cursor: pointer; font-size: 40px;"></i>
-                </button>
+        <div class="row" *ngIf="subjectId; else noId">
+            <div class="col-md-2 col-sm-6" style="display: flex; flex-direction: column;flex-wrap: wrap;">
+                <div>
+                    <button type="submit" class="button-no-css ml-5">
+                        <i class="fas fa-check-square" style="cursor: pointer; font-size: 40px;"></i>
+                    </button>
+                </div>
                 <span style="font-size: 18px;">
-                    Pohrani predmet
+                    Pohrani promjene
                 </span>
             </div>
-            <div class="col-md-2">
-                <i class="fas fa-times" style="cursor: pointer; font-size: 40px;"></i>
+            <div class="col-md-2 col-sm-6">
+                <div>
+                    <button type="button" class="button-no-css ml-4">
+                        <i class="fas fa-times" style="cursor: pointer; font-size: 40px;"></i>
+                    </button>
+                </div>
                 <span style="font-size: 18px;">
                     Odustani
                 </span>
             </div>
         </div>
+        <ng-template #noId>
+            <div class="row" *ngIf="BrojPredmeta.enabled; else formNotDisabled">
+                <div class="col-md-2 col-sm-6" style="display: flex; flex-direction: column;flex-wrap: wrap;">
+                    <div>
+                        <button type="submit" class="button-no-css ml-5">
+                            <i class="fas fa-check-square" style="cursor: pointer; font-size: 40px;"></i>
+                        </button>
+                    </div>
+                    <span style="font-size: 18px;">
+                        Pohrani predmet
+                    </span>
+                </div>
+                <div class="col-md-2 col-sm-6" style="display: flex; flex-direction: column;flex-wrap: wrap;">
+                    <div>
+                        <button type="button" class="button-no-css ml-4">
+                            <i class="fas fa-times" style="cursor: pointer; font-size: 40px;"></i>
+                        </button>
+                    </div>
+                    <span style="font-size: 18px;">
+                        Odustani
+                    </span>
+                </div>
+            </div>
+            <ng-template #formNotDisabled>
+                <div class="row">
+                    <div class="col-md-2 col-sm-6" style="display: flex; flex-direction: column;flex-wrap: wrap;">
+                        <div>
+                            <button type="submit" class="button-no-css ml-5">
+                                <i class="fas fa-check-square" style="cursor: pointer; font-size: 40px;"></i>
+                            </button>
+                        </div>
+                        <span style="font-size: 18px;">
+                            Uredi predmet
+                        </span>
+                    </div>
+                    <div class="col-md-2 col-sm-6" style="display: flex; flex-direction: column;flex-wrap: wrap;">
+                        <div>
+                            <button type="button" class="button-no-css ml-4">
+                                <i class="fas fa-times" style="cursor: pointer; font-size: 40px;"></i>
+                            </button>
+                        </div>
+                        <span style="font-size: 18px;">
+                            Odustani
+                        </span>
+                    </div>
+                </div>
+            </ng-template>
+        </ng-template>
     </ngb-alert>
-    <div class="container">
+    <div class="container" *ngIf="!subject; else detailView">
         <div class="input-group">
             <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
                 <label for="BrojPredmeta">
@@ -59,7 +118,8 @@
             <label for="StatusPredmeta">Status predmeta <span class="text-danger">*</span></label>
             <ng-select [items]="subjectStatuses" bindLabel="name" bindValue="id" labelForId="state"
                 placeholder="Izaberi..." clearAllText="Clear" formControlName="StatusPredmeta"
-                [ngClass]="{'is-invalid': StatusPredmeta.invalid && (StatusPredmeta.dirty || StatusPredmeta.touched || myForm.submitted)}">
+                [ngClass]="{'is-invalid': StatusPredmeta.invalid && (StatusPredmeta.dirty || StatusPredmeta.touched || myForm.submitted),
+            'is-disabled': StatusPredmeta.disabled}">
             </ng-select>
             <div class="invalid-feedback">Polje je obavezno</div>
         </div>
@@ -67,7 +127,7 @@
             <label for="permission">
                 Dozvole za rad na predmetu <span class="text-danger">*</span>
             </label>
-            <table class="table table-striped">
+            <table class="table table-striped" formArrayName="DozvoljeniKorisnici" *ngIf="DozvoljeniKorisnici.controls">
                 <thead>
                     <tr>
                         <th scope="col">Broj</th>
@@ -78,18 +138,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let permission of userPermissions; index as i">
-                        <th scope="row">{{ i + 1 }}</th>
-                        <td>{{ permission.Ime }}</td>
-                        <td>{{ permission.Prezime }}</td>
-                        <td>{{ permission.Email }}</td>
+                    <tr *ngFor="let korisnik of DozvoljeniKorisnici.controls; let userIndex = index" [formGroupName]="userIndex">
+                        <th scope="row">{{ userIndex + 1 }}</th>
+                        <td>{{ korisnik.get('Ime').value }}</td>
+                        <td>{{ korisnik.get('Prezime').value }}</td>
+                        <td>{{ korisnik.get('Email').value }}</td>
                         <td>
-                            <button type="button" class="text-danger" (click)="removePermission(permission)">
+                            <button type="button" class="text-danger" (click)="removePermission(korisnik,userIndex)">
                                 <i class="fas fa-times"></i>
                             </button>
                         </td>
                     </tr>
-                    <tr *ngIf="userPermissions.length == 0">
+                    <tr *ngIf="DozvoljeniKorisnici.controls.length == 0">
                         <td>n/a</td>
                         <td>n/a</td>
                         <td>n/a</td>
@@ -101,10 +161,93 @@
             <button type="button" style="float: right;" (click)="openPermissionModal()">Dodaj novu dozvolu</button>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
-            <label for="Napomena">Zaključak <span class="text-danger">*</span></label>
-            <textarea class="form-control" placeholder="Upišite zaključak..." rows="5" formControlName="Napomena"
+            <label for="Napomena">Napomena</label>
+            <textarea class="form-control" placeholder="Upišite napomenu..." rows="5" formControlName="Napomena"
                 [ngClass]="{'is-invalid': Napomena.invalid && (Napomena.dirty || Napomena.touched || myForm.submitted)}"></textarea>
             <div class="invalid-feedback">Polje je obavezno</div>
         </div>
     </div>
+    <ng-template #detailView>
+        <div class="container">
+            <div class="input-group">
+                <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+                    <label for="BrojPredmeta" style="font-size: 18px;">
+                        Broj predmeta:
+                    </label>
+                    <strong class="ml-3">
+                        {{ subject.BrojPredmeta }}
+                    </strong>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+                    <label for="DatumOtvaranja" style="font-size: 18px;">
+                        Datum otvaranja predmeta:
+                    </label>
+                    <strong class="ml-3">
+                        {{ subject.DatumOtvaranja | date: 'dd.MM.yyyy' }}
+                    </strong>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+                <label for="BrojPredmeta" style="font-size: 18px;">
+                    Naziv predmeta:
+                </label>
+                <strong class="ml-3">
+                    {{ subject.NazivPredmeta }}
+                </strong>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+                <label for="BrojPredmeta" style="font-size: 18px;">
+                    Status predmeta:
+                </label>
+                <strong class="ml-3">
+                    {{ subjectStatus.name }}
+                </strong>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12 mb-5">
+                <label for="permission" style="font-size: 18px;">
+                    Dozvole za rad na predmetu 
+                </label>
+                <table class="table table-striped" formArrayName="DozvoljeniKorisnici">
+                    <thead>
+                        <tr>
+                            <th scope="col">Broj</th>
+                            <th scope="col">Ime</th>
+                            <th scope="col">Prezime</th>
+                            <th scope="col">E-mail</th>
+                            <th scope="col">Alat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let korisnik of DozvoljeniKorisnici.controls; let i = index" [formGroupName]="i">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{ korisnik.get('Ime').value }}</td>
+                            <td>{{ korisnik.get('Prezime').value }}</td>
+                            <td>{{ korisnik.get('Email').value }}</td>
+                            <td>
+                                <button type="button" class="text-danger">
+                                    <i class="fas fa-times" (click)="removePermission(korisnik,i)"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="DozvoljeniKorisnici.controls.length == 0">
+                            <td>n/a</td>
+                            <td>n/a</td>
+                            <td>n/a</td>
+                            <td>n/a</td>
+                            <td>n/a</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" style="float: right;" (click)="openPermissionModal()">Dodaj novu dozvolu</button>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+                <label for="BrojPredmeta" style="font-size: 18px;">
+                    Napomena:
+                </label>
+                <strong class="ml-3">
+                    {{ subject.Napomena }}
+                </strong>
+            </div>
+        </div>
+    </ng-template>
 </form>

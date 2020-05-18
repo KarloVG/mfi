@@ -1,0 +1,24 @@
+<div class="container">
+    <!-- TODO WITH BACKEND PAGINATION AND SORTING -->
+    <ngx-datatable class="material horizontal-table-scroll" columnMode="force" [headerHeight]="50" [footerHeight]="50"
+        [rowHeight]="'50'" [limit]="10" [loadingIndicator]="isLoading" [rows]="baseItems" [messages]="{
+            emptyMessage:'Nema odabranih rezultata',
+            totalMessage: 'ukupno',
+            selectedMessage: 'odabran'
+          }">
+        <ngx-datatable-column *ngFor="let col of columns; let i = index" [name]="col.name" [prop]="col.prop"
+            [resizeable]="true" [sortable]="true" [flexGrow]="1" [width]="col.width ? col.width : false">
+
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+                *ngIf="col.prop == 'dateCreated'">
+                {{value | date: 'dd.MM.yyyy'}}
+            </ng-template>
+
+            <ng-template ngx-datatable-header-template let-sort="sortFn">
+                <span (click)="sort()">
+                    {{ col.name }}
+                </span>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>

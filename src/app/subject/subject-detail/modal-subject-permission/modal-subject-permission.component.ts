@@ -4,6 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SubjectPermissionervice } from '../../services/subject-permission.service';
 import { take } from 'rxjs/operators';
 import { ISubjectPermission } from '../../models/subject-permission';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-modal-subject-permission',
@@ -15,7 +16,7 @@ export class ModalSubjectPermissionComponent implements OnInit {
   subjectPermisionGroup: FormGroup = this.formBuilder.group({
     Ime: [''],
     Prezime: [''],
-    Email: [''],
+    Email: ['']
   })
 
   dataBindingObject: ISubjectPermission;
@@ -25,10 +26,11 @@ export class ModalSubjectPermissionComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public modal: NgbActiveModal,
-    private subjectPermisssionService: SubjectPermissionervice
+    private subjectPermisssionService: SubjectPermissionervice,
+    private toastr: ToastrService
   ) { }
 
-  //future backend filtering
+  //future backend filtering - will be refactored when backend comes
   filterUserTable() {
       let searchVal = this.Ime.value.toLowerCase();
       let colsAmt = 10;
@@ -67,8 +69,15 @@ export class ModalSubjectPermissionComponent implements OnInit {
       }
     )
   }
+  
   onSubmit() {
-    this.modal.close(this.dataBindingObject);
+    if(this.dataBindingObject) {
+      this.modal.close(this.dataBindingObject);
+    } else {
+      this.toastr.warning('Korisnik nije odabran', 'Pažnja',{
+        progressBar: true
+      })
+    }
   }
 
   get Ime() {

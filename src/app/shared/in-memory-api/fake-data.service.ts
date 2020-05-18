@@ -12,7 +12,17 @@ export class FakeDataService implements InMemoryDbService {
             NazivPredmeta: 'Test predmet 1',
             DatumOtvaranja: new Date(),
             StatusPredmeta: 1,
-            Napomena: 'Nema napomene za navedeni predmet'
+            Napomena: 'Nema napomene za navedeni predmet',
+            DozvoljeniKorisnici: [
+                {
+                    ID: 15,
+                    Ime: 'David',
+                    Prezime: 'Corona',
+                    Flag: false,
+                    Email: 'david.corona@gmail.com',
+                    isAdalUser: true
+                }
+            ]
         }
     ];
     let subjectStatuses: ISimpleDropdownItem[] = [
