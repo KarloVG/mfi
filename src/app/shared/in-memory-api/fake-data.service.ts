@@ -2,6 +2,7 @@ import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { ISubject } from 'src/app/subject/models/subject';
 import { ISimpleDropdownItem } from '../models/simple-dropdown-item';
 import { ISubjectPermission } from 'src/app/subject/models/subject-permission';
+import { IBaseExtract } from 'src/app/statement-base/models/base-extract';
 
 export class FakeDataService implements InMemoryDbService {
   createDb() {
@@ -75,6 +76,26 @@ export class FakeDataService implements InMemoryDbService {
         },
     ];
 
-    return {subjects, subjectStatuses, subjectPermissions};
+    let baseExtracts: IBaseExtract[] = [
+        {
+            IzvodID: 1,
+            PredmetID: 1,
+            OsobaID: 12,
+            BrojRacuna: '123-456-123',
+            DatumVrijemeOd: new Date(),
+            DatumVrijemeDo: new Date(), 
+            DatumVrijemeUvoza: new Date(), 
+            BrojTransakcija: 321,
+            BrojIsplata: 21, 
+            Racun: '543-321-23', 
+            IznosTransakcija: 21,
+            IznosUplata: 59123921,
+            IznosIsplata: 2312312,
+            HashDatoteke: '#123123',  
+            HashAlgoritam : '#321321'
+        }
+    ]
+
+    return {subjects, subjectStatuses, subjectPermissions, baseExtracts};
   }
 }
