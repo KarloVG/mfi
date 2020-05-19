@@ -9,13 +9,13 @@ export const OVERVIEW_COLUMNS: any[] = [
         name: 'Ime / Naziv vlasnika računa', prop: 'kindergarten', sortable: true, width: 150        
     },
     {
-        name: 'Broj uvezenih računa', prop: 'text', sortable: true, width: 250        
+        name: 'Broj uvezenih računa', prop: 'text', sortable: true, width: 150        
     },
     {
-        name: 'Ukupan broj transakcija', prop: 'link', sortable: true, width: 100
+        name: 'Ukupan broj transakcija', prop: 'link', sortable: true, width: 150
     },
     {
-        name: 'Ukupan iznos transakcija', prop: 'link', sortable: true, width: 100
+        name: 'Ukupan iznos transakcija', prop: 'link', sortable: true, width: 150
     },
     {
         name: 'Akcija', prop: 'action2', sortable: true, width: 70        

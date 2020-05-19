@@ -7,11 +7,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalSubjectPermissionComponent } from './subject-detail/modal-subject-permission/modal-subject-permission.component';
 import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { SubjectAddOrEditComponent } from './subject-add-or-edit/subject-add-or-edit.component';
 
 @NgModule({
   declarations: [
     SubjectDetailComponent,
-    ModalSubjectPermissionComponent
+    ModalSubjectPermissionComponent,
+    SubjectAddOrEditComponent
   ],
   imports: [
     CommonModule,
