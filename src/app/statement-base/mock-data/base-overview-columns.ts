@@ -1,6 +1,9 @@
 export const OVERVIEW_COLUMNS: any[] = [
     {
-        name: 'Akcija', prop: 'action1', sortable: true, width: 70        
+        name: 'Br.', prop: 'index', sortable: true, width: 50        
+    },
+    {
+        name: 'Akcija', prop: 'action1', sortable: true, width: 50        
     },
     {
         name: 'Ime / Naziv vlasnika računa', prop: 'action1', sortable: true, width: 150        
@@ -18,6 +21,6 @@ export const OVERVIEW_COLUMNS: any[] = [
         name: 'Ukupan iznos transakcija', prop: 'link', sortable: true, width: 150
     },
     {
-        name: 'Akcija', prop: 'action2', sortable: true, width: 70        
+        name: 'Akcija', prop: 'action2', sortable: true, width: 50        
     }
 ]

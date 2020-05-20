@@ -34,6 +34,19 @@
 </ngb-alert>
 <div class="col-lg-12 col-md-12 col-sm-12 p-5">
     <div class="container-fluid">
+        <div class="row mb-3">
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <input type="text" class="form-control form-rounded" placeholder="Upišite pojam pretrage">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <button type="button" class="mr-3 btn btn-primary">
+                    Traži
+                </button>
+                <button type="button" class="btn btn-outline-primary">
+                    Poništi pretragu
+                </button>
+            </div>
+        </div>
         <!-- TODO WITH BACKEND PAGINATION AND SORTING -->
         <ngx-datatable class="material horizontal-table-scroll" columnMode="force" [headerHeight]="50" [footerHeight]="50"
             [rowHeight]="'50'" [limit]="10" [loadingIndicator]="isLoading" [rows]="baseItems" [messages]="{
