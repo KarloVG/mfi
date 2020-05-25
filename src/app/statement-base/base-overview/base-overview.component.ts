@@ -43,8 +43,8 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
     )
   }
 
-  onDetailToggle(): void {
-
+  onDetailToggle(event): void {
+    console.log(event);
   }
 
   toggleExpandRow(row): void {
