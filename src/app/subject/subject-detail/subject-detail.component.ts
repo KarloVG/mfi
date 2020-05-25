@@ -5,6 +5,9 @@ import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item'
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubjectService } from '../services/subject.service';
 import { ISubject } from '../models/subject';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationModalComponent } from 'src/app/shared/components/confirmation-modal/confirmation-modal.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-subject-detail',
@@ -25,6 +28,8 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
     private subjectStatusService: SubjectStatusService,
     private activatedRoute: ActivatedRoute,
     private subjectService: SubjectService,
+    private ngbModalService: NgbModal,
+    private toastrService: ToastrService,
     private router: Router
   ) { }
 
@@ -55,7 +60,17 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
   }
 
   deleteSubject() {
-    
+    const modalRef = this.ngbModalService.open(ConfirmationModalComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.title = 'Brisanje predmeta';
+    modalRef.componentInstance.description = `Jeste li sigurni da želite izbrisati predmet: '${this.subject.NazivPredmeta}' sa brojem predmeta '${this.subject.BrojPredmeta}'`
+    modalRef.result.then((result) => {
+      if (result) {
+        this.toastrService.success('Obrisali ste predmet', 'Uspjeh');
+        this.navigateToHome();
+      } else {
+        this.toastrService.warning('Niste izbrisali predmet', 'Pažnja');
+      }
+    }).catch((res) => { });
   }
 
   getSubjectStatuses(): void {
