@@ -38,9 +38,6 @@ export class SubjectAddOrEditComponent implements OnInit {
   subjectId: number;
   subject: ISubject;
 
-  //temporarily 
-  subjectStatus: ISimpleDropdownItem;
-
   isReadOnly: boolean = false;
 
   adalUser: ISubjectPermission = {
@@ -66,7 +63,6 @@ export class SubjectAddOrEditComponent implements OnInit {
     this.getSubjectStatuses();
 
     this.subjectId = +this.activatedRoute.snapshot.paramMap.get('id') || null;
-    console.log(this.subjectId)
     if (this.subjectId) {
       this.subjectService.getSubjectById(this.subjectId).pipe(untilComponentDestroyed(this)).subscribe(
         data => {
@@ -91,14 +87,6 @@ export class SubjectAddOrEditComponent implements OnInit {
               }))
             }
           );
-          this.subjectStatus = this.subjectStatuses.find(x => x.id == this.subject.StatusPredmeta);
-          setTimeout(() => {
-            this.BrojPredmeta.disable();
-            this.DatumOtvaranja.disable();
-            this.NazivPredmeta.disable();
-            this.StatusPredmeta.disable();
-            this.Napomena.disable();
-          }, 100)
         }
       )
     } else {
@@ -126,7 +114,7 @@ export class SubjectAddOrEditComponent implements OnInit {
   }
 
   navigateToWelcome() {
-    if(this.subjectId) {
+    if (this.subjectId) {
       this.router.navigate(['subject', this.subjectId])
     } else {
       this.router.navigate(['welcome']);
@@ -137,7 +125,6 @@ export class SubjectAddOrEditComponent implements OnInit {
     const modalRef = this.ngbModalService.open(ModalSubjectPermissionComponent, { backdrop: 'static', keyboard: false });
     modalRef.result.then((result) => {
       if (result) {
-        console.log(result)
         this.DozvoljeniKorisnici.push(this.formBuilder.group({
           ID: result.ID,
           Ime: result.Ime,
@@ -167,11 +154,12 @@ export class SubjectAddOrEditComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.subjectFormGroup.value)
     if (this.subjectId) {
       this.toastr.success('Uredili ste predmet', 'Uspjeh', {
         progressBar: true
       })
-      this.router.navigate(['subject',1]);
+      this.router.navigate(['subject', 1]);
     } else {
       if (this.subjectFormGroup.invalid) {
         // triggers contitional for myForm.submitted on html

@@ -16,9 +16,10 @@ export class ModalSubjectPermissionComponent implements OnInit {
   subjectPermisionGroup: FormGroup = this.formBuilder.group({
     Ime: [''],
     Prezime: [''],
-    Email: ['']
-  })
+    Email: [''],
+  });
 
+  isAdalSearchActive: boolean = false;
   dataBindingObject: ISubjectPermission;
   filteredSubjectPermissions: ISubjectPermission[] = [];
   subjectPermissions: ISubjectPermission[] = [];
@@ -45,7 +46,7 @@ export class ModalSubjectPermissionComponent implements OnInit {
       });
   }
 
-  selectPermissionUser(event: any, permission: any) {
+  selectPermissionUser(event: MouseEvent, permission: ISubjectPermission) {
     this.filteredSubjectPermissions.forEach(
       element => {
         if(element.ID == permission.ID) {
@@ -56,6 +57,13 @@ export class ModalSubjectPermissionComponent implements OnInit {
         }
       }
     )
+  }
+
+  onSelectAdalSearch(event: MouseEvent) {
+    if(event && event.target) {
+      const htmlCheckbox = event.target as HTMLInputElement;
+      this.isAdalSearchActive = htmlCheckbox.checked;
+    }
   }
 
   ngOnInit(): void {

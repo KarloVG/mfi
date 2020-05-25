@@ -69,8 +69,7 @@
         <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
             <label for="StatusPredmeta">Status predmeta <span class="text-danger">*</span></label>
             <ng-select [items]="subjectStatuses" bindLabel="name" bindValue="id" labelForId="state"
-                placeholder="Izaberi..." clearAllText="Clear" formControlName="StatusPredmeta" [ngClass]="{'is-invalid': StatusPredmeta.invalid && (StatusPredmeta.dirty || StatusPredmeta.touched || myForm.submitted),
-            'is-disabled': StatusPredmeta.disabled}">
+                placeholder="Izaberi..." clearAllText="Clear" formControlName="StatusPredmeta" [ngClass]="{'is-invalid': StatusPredmeta.invalid && (StatusPredmeta.dirty || StatusPredmeta.touched || myForm.submitted)}">
             </ng-select>
             <div class="invalid-feedback">Polje je obavezno</div>
         </div>

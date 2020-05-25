@@ -41,6 +41,12 @@
                 <div class="invalid-feedback">Polje je obavezno</div>
             </div>
         </div>
+        <div class="form-check float-right">
+            <input class="form-check-input" type="checkbox" (click)="onSelectAdalSearch($event)" value="isAdalSearchActive" id="isAdalSearchActive">
+            <label class="form-check-label" for="isAdalSearchActive">
+                Pretraživanje ADAL korisnika
+            </label>
+          </div>
         <button type="button" class="btn btn-secondary mb-3" (click)="filterUserTable()">
             Traži
         </button>
