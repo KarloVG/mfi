@@ -5,9 +5,9 @@
     </button>
 </div>
 <div class="modal-body">
-    <p>Želite li odbaciti unesene promjene?</p>
+    <p>Želite li odbaciti unesene promjene? <strong class="text-danger">Ova akcija je trajna.</strong></p>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark btn-rounded" (click)="activeModal.close(false)">Ne</button>
-    <button type="button" class="btn btn-dark btn-rounded ml-auto" (click)="activeModal.close(true)">Da</button>
+    <button type="button" class="btn btn-danger btn-rounded ml-auto" (click)="activeModal.close(true)">Da</button>
 </div>

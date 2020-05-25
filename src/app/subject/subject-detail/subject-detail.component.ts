@@ -50,6 +50,14 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
     this.router.navigate(['subject/edit', this.subjectId]);
   }
 
+  navigateToHome() {
+    this.router.navigate(['welcome']);
+  }
+
+  deleteSubject() {
+    
+  }
+
   getSubjectStatuses(): void {
     this.subjectStatusService.getSubjectStatuses().pipe(untilComponentDestroyed(this)).subscribe(
       data => {
