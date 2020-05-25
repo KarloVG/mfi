@@ -1,7 +1,7 @@
 <form [formGroup]="subjectFormGroup" (ngSubmit)="onSubmit()" #myForm="ngForm">
     <ngb-alert type="primary" [dismissible]="false" class="mb-0" style="color: black; text-align: center;">
         <strong *ngIf="subjectId; else noSubjectId">
-            <i class="fas fa-pen-square"></i> Uredi predmet
+            <i class="fas fa-folder-open"></i> Uredi predmet
         </strong>
         <ng-template #noSubjectId>
             <strong>

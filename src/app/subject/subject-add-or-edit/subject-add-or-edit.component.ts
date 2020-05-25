@@ -13,6 +13,7 @@ import { ModalSubjectPermissionComponent } from '../subject-detail/modal-subject
 import { NgbDateParserFormatter, NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
 import { CustomDatepickerI18n } from 'src/app/shared/utils/custom-date-picker-i18n';
 import { NgbDateCustomParserFormatter } from 'src/app/shared/utils/ngb-date-custom-parser-formatter';
+import { DeactivationGuarded } from 'src/app/shared/services/deactivation-guarded';
 
 @Component({
   selector: 'app-subject-add-or-edit',
@@ -23,7 +24,7 @@ import { NgbDateCustomParserFormatter } from 'src/app/shared/utils/ngb-date-cust
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n }
   ]
 })
-export class SubjectAddOrEditComponent implements OnInit {
+export class SubjectAddOrEditComponent implements OnInit, DeactivationGuarded{
 
   subjectStatuses: ISimpleDropdownItem[] = [];
   subjectFormGroup: FormGroup = this.formBuilder.group({
@@ -39,6 +40,8 @@ export class SubjectAddOrEditComponent implements OnInit {
   subject: ISubject;
 
   isReadOnly: boolean = false;
+  //deativation guard
+  isSubmited: boolean = false;
 
   adalUser: ISubjectPermission = {
     ID: 15,
@@ -156,6 +159,7 @@ export class SubjectAddOrEditComponent implements OnInit {
   onSubmit() {
     console.log(this.subjectFormGroup.value)
     if (this.subjectId) {
+      this.isSubmited = true;
       this.toastr.success('Uredili ste predmet', 'Uspjeh', {
         progressBar: true
       })
@@ -165,6 +169,7 @@ export class SubjectAddOrEditComponent implements OnInit {
         // triggers contitional for myForm.submitted on html
         return;
       } else {
+        this.isSubmited = true;
         this.toastr.success('Pohranili ste novi predmet', 'Uspjeh', {
           progressBar: true
         });
@@ -174,6 +179,9 @@ export class SubjectAddOrEditComponent implements OnInit {
   }
 
   //getters - AC
+  isDirty(): boolean {
+    return this.isSubmited ? false : this.subjectFormGroup.dirty;
+  }
   get BrojPredmeta(): AbstractControl {
     return this.subjectFormGroup.get('BrojPredmeta');
   }
