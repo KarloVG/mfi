@@ -138,7 +138,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
     if (this.subjectFormGroup.dirty) {
       const modalRef = this.ngbModalService.open(ModalCanDeactivateComponent, { backdrop: 'static', keyboard: false });
       modalRef.componentInstance.subjectName = this.subjectId ? this.NazivPredmeta.value : '';
-      const a = modalRef.result.then((result) => {
+      modalRef.result.then((result) => {
         if (result == true) {
           if(this.subjectId) {
             console.log('kak')
@@ -211,7 +211,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
 
   onSubmit() {
     if (this.subjectId) {
-      this.isSubmited = true;
+      this.subjectFormGroup.markAsPristine();
       this.toastr.success('Uredili ste predmet', 'Uspjeh', {
         progressBar: true
       })
@@ -221,7 +221,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
         // triggers contitional for myForm.submitted on html
         return;
       } else {
-        this.isSubmited = true;
+        this.subjectFormGroup.markAsPristine();
         this.toastr.success('Pohranili ste novi predmet', 'Uspjeh', {
           progressBar: true
         });
@@ -229,6 +229,8 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
       }
     }
   }
+
+  
 
   get BrojPredmeta(): AbstractControl {
     return this.subjectFormGroup.get('BrojPredmeta');
