@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ISubject } from '../models/subject';
 import { map } from 'rxjs/operators';
+import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +27,15 @@ export class SubjectService {
       // hacking due to in memory fake web api
       map( value => value[0])
     );
+  }
+
+  getSubjectsDropdown(): Observable<ISimpleDropdownItem[]> {
+    const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
+    return this.http.get<ISubject[]>(url).pipe(map(response => {
+      return response.map(el => {
+        const item: ISimpleDropdownItem = { id: el.PredmetID , name: `Predmet '${el.NazivPredmeta}' (${el.DatumOtvaranja})` }
+        return item
+      })
+    }));
   }
 }
