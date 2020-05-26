@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { SubjectService } from '../services/subject.service';
-import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray, FormGroupDirective } from '@angular/forms';
 import { SubjectStatusService } from '../services/subject-status.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -13,7 +13,9 @@ import { ModalSubjectPermissionComponent } from '../subject-detail/modal-subject
 import { NgbDateParserFormatter, NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
 import { CustomDatepickerI18n } from 'src/app/shared/utils/custom-date-picker-i18n';
 import { NgbDateCustomParserFormatter } from 'src/app/shared/utils/ngb-date-custom-parser-formatter';
-import { DeactivationGuarded } from 'src/app/shared/services/deactivation-guarded';
+import { Observable, Subject } from 'rxjs';
+import { ModalCanDeactivateComponent } from './modal-can-deactivate/modal-can-deactivate.component';
+import { CanComponentDeactivate } from 'src/app/shared/services/confirm-exit-popup-guard';
 
 @Component({
   selector: 'app-subject-add-or-edit',
@@ -24,8 +26,11 @@ import { DeactivationGuarded } from 'src/app/shared/services/deactivation-guarde
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n }
   ]
 })
-export class SubjectAddOrEditComponent implements OnInit, DeactivationGuarded{
-
+export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate{
+  @ViewChild('myForm') myForm: FormGroupDirective; 
+  @Input() passEntry;
+  
+  private confimationSubject = new Subject<boolean>();
   subjectStatuses: ISimpleDropdownItem[] = [];
   subjectFormGroup: FormGroup = this.formBuilder.group({
     PredmetID: null,
@@ -42,6 +47,7 @@ export class SubjectAddOrEditComponent implements OnInit, DeactivationGuarded{
   isReadOnly: boolean = false;
   //deativation guard
   isSubmited: boolean = false;
+  subjectName: string = '';
 
   adalUser: ISubjectPermission = {
     ID: 15,
@@ -64,7 +70,11 @@ export class SubjectAddOrEditComponent implements OnInit, DeactivationGuarded{
 
   ngOnInit(): void {
     this.getSubjectStatuses();
-
+    this.NazivPredmeta.valueChanges.pipe(untilComponentDestroyed(this)).subscribe(
+      data => {
+        this.subjectName = data ? data : '';
+      }
+    )
     this.subjectId = +this.activatedRoute.snapshot.paramMap.get('id') || null;
     if (this.subjectId) {
       this.subjectService.getSubjectById(this.subjectId).pipe(untilComponentDestroyed(this)).subscribe(
@@ -124,6 +134,49 @@ export class SubjectAddOrEditComponent implements OnInit, DeactivationGuarded{
     }
   }
 
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if (this.subjectFormGroup.dirty) {
+      const modalRef = this.ngbModalService.open(ModalCanDeactivateComponent, { backdrop: 'static', keyboard: false });
+      modalRef.componentInstance.subjectName = this.subjectId ? this.NazivPredmeta.value : '';
+      const a = modalRef.result.then((result) => {
+        if (result == true) {
+          if(this.subjectId) {
+            console.log('kak')
+            this.toastr.success('Uredili ste predmet', 'Uspjeh', {
+              progressBar: true
+            });
+            this.confimationSubject.next(true);
+          } else {
+            if(this.subjectFormGroup.invalid) {
+              this.subjectFormGroup.markAllAsTouched();
+              this.toastr.error('Nisu ispunjena sva obavezna polja', 'Greška', {
+                progressBar: true
+              });
+              this.confimationSubject.next(false);
+            } else {
+              this.toastr.success('Pohranili ste novi predmet', 'Uspjeh', {
+                progressBar: true
+              });
+              this.confimationSubject.next(true);
+            }
+          }
+        } else if(result == false) {
+          this.toastr.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
+            progressBar: true
+          });
+          this.confimationSubject.next(true);
+        } else {
+          this.confimationSubject.next(false);
+        }
+      }).catch((res) => {
+        console.log(res)
+      });
+      return this.confimationSubject;
+    } else {
+      return true;
+    }
+  }
+
   openPermissionModal(): void {
     const modalRef = this.ngbModalService.open(ModalSubjectPermissionComponent, { backdrop: 'static', keyboard: false });
     modalRef.result.then((result) => {
@@ -157,7 +210,6 @@ export class SubjectAddOrEditComponent implements OnInit, DeactivationGuarded{
   }
 
   onSubmit() {
-    console.log(this.subjectFormGroup.value)
     if (this.subjectId) {
       this.isSubmited = true;
       this.toastr.success('Uredili ste predmet', 'Uspjeh', {
@@ -178,10 +230,6 @@ export class SubjectAddOrEditComponent implements OnInit, DeactivationGuarded{
     }
   }
 
-  //getters - AC
-  isDirty(): boolean {
-    return this.isSubmited ? false : this.subjectFormGroup.dirty;
-  }
   get BrojPredmeta(): AbstractControl {
     return this.subjectFormGroup.get('BrojPredmeta');
   }

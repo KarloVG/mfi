@@ -1,25 +1,19 @@
-import { Injectable } from '@angular/core';
 import { CanDeactivate } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DeactivationGuarded } from './deactivation-guarded';
-import { ConfirmExitModalComponent } from '../components/confirm-exit-modal/confirm-exit-modal.component';
+import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+
+export interface CanComponentDeactivate {
+    canDeactivate: () => Observable<boolean> | Promise<boolean> | boolean;
+}
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
-export class ConfirmExitPopupGuard implements CanDeactivate<DeactivationGuarded> {
 
-  constructor(private modalService: NgbModal) { }
-  private confimationSubject = new Subject<boolean>();
+export class ConfirmExitPopupGuard implements
+    CanDeactivate<CanComponentDeactivate> {
 
-  canDeactivate(component: DeactivationGuarded): Observable<boolean> | Promise<boolean> | boolean {
-    if (component.isDirty()) {
-      const popupRef = this.modalService.open(ConfirmExitModalComponent);
-      popupRef.result.then(result => this.confimationSubject.next(result));
-      return this.confimationSubject;
-    } {
-      return true;
+    canDeactivate(component: CanComponentDeactivate) {
+        return component.canDeactivate && component.canDeactivate();
     }
-  }
 }
