@@ -10,8 +10,9 @@
             <div class="filter-group">
                 <h6 class="mb-3">Filter predmeta</h6>
                 <div class="form-group row mb-3">
-                    <label for="StatusPredmeta" class="col-sm-4 col-form-label">Status predmeta <span
-                            class="text-danger">*</span></label>
+                    <label for="StatusPredmeta" class="col-sm-4 col-form-label">
+                        Status predmeta 
+                    </label>
                     <div class="col-sm-4">
                         <ng-select [items]="subjectStatuses" bindLabel="name" bindValue="id" labelForId="state"
                             placeholder="Izaberi..." clearAllText="Clear" formControlName="StatusPredmeta"
@@ -27,9 +28,8 @@
                         od
                     </label>
                     <div class="col-sm-4 input-group">
-                        <input class="form-control" placeholder="dd.mm.yyyy." name="dp2"
+                        <input class="form-control" placeholder="dan.mjesec.godina" name="dp2"
                             formControlName="DatumOtvaranjaOd" ngbDatepicker #d2="ngbDatepicker" [readonly]="true"
-                            [ngClass]="{'is-invalid': DatumOtvaranjaOd.invalid && (DatumOtvaranjaOd.dirty || DatumOtvaranjaOd.touched || myForm.submitted)}"
                             [minDate]="{year: 2000, month: 1, day: 1}" placement="top">
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary calendar-box" (click)="d2.toggle()"
@@ -40,9 +40,8 @@
                         do
                     </label>
                     <div class="col-sm-4 input-group">
-                        <input class="form-control" placeholder="dd.mm.yyyy." name="dp1"
+                        <input class="form-control" placeholder="dan.mjesec.godina" name="dp1"
                             formControlName="DatumOtvaranjaDo" ngbDatepicker #d1="ngbDatepicker" [readonly]="true" placement="top"
-                            [ngClass]="{'is-invalid': DatumOtvaranjaDo.invalid && (DatumOtvaranjaDo.dirty || DatumOtvaranjaDo.touched || myForm.submitted)}"
                             [minDate]="{year: 2000, month: 1, day: 1}">
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary calendar-box" (click)="d1.toggle()"
@@ -64,14 +63,15 @@
             </div>
             <div>
                 <div class="form-group row mb-3">
-                    <label for="StatusPredmeta" class="col-sm-12 col-form-label">Status predmeta <span
-                            class="text-danger">*</span></label>
+                    <label for="Subject" class="col-sm-12 col-form-label">
+                        Odaberite predmet <span class="text-danger">*</span>
+                    </label>
                     <div class="col-sm-12">
                         <ng-select [items]="subjects" bindLabel="name" bindValue="id" labelForId="state"
-                            [isOpen]="!isSubjectSelected" placeholder="Izaberi..." clearAllText="Clear"
-                            formControlName="StatusPredmeta" [virtualScroll]="true"
-                            [ngClass]="{'is-invalid': StatusPredmeta.invalid && (StatusPredmeta.dirty || StatusPredmeta.touched || myForm.submitted)}"
-                            (change)="onSelectSubject($event)">
+                            [isOpen]="!isSubjectSelected" placeholder="Izaberi..." 
+                            formControlName="Subject" [virtualScroll]="true"
+                            [ngClass]="{'is-invalid': Subject.invalid && (Subject.dirty || Subject.touched || myForm.submitted)}"
+                            (click)="onClickSubjectDropdown($event)">
                         </ng-select>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/forms';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 import { SubjectStatusService } from '../../services/subject-status.service';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
@@ -7,6 +7,7 @@ import { NgbActiveModal, NgbDateParserFormatter, NgbDatepickerI18n } from '@ng-b
 import { NgbDateCustomParserFormatter } from 'src/app/shared/utils/ngb-date-custom-parser-formatter';
 import { CustomDatepickerI18n } from 'src/app/shared/utils/custom-date-picker-i18n';
 import { SubjectService } from '../../services/subject.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modal-open-subject',
@@ -22,21 +23,48 @@ export class ModalOpenSubjectComponent implements OnInit, OnDestroy {
   subjectStatuses: ISimpleDropdownItem[] = [];
   existingSubjectGroup: FormGroup = this.formBuilder.group({
     StatusPredmeta: [null],
-    DatumOtvaranjaOd: [''],
-    DatumOtvaranjaDo: [''],
+    DatumOtvaranjaOd: [null],
+    DatumOtvaranjaDo: [null],
+    Subject: [null, Validators.required]
   });
   subjects: ISimpleDropdownItem[] = [];
-
   isSubjectSelected: boolean = false;
+  subjectId: number;
+
   constructor(
     private formBuilder: FormBuilder,
     private subjectStatusService: SubjectStatusService,
     private subjectService: SubjectService,
-    private modal: NgbActiveModal
+    private modal: NgbActiveModal,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.getSubjectStatuses();
+  }
+
+  ngOnDestroy(): void { }
+
+  onSubmit(): void {
+    if (this.existingSubjectGroup.invalid) {
+      return;
+    } else {
+      this.modal.close(this.Subject.value)
+    }
+  }
+
+  clearFilters(): void {
+    this.subjects = [];
+    this.existingSubjectGroup.patchValue({
+      Subject: null
+    });
+  }
+
+  filterSubjects() {
+    this.getSubjects();
+  }
+
+  getSubjects() {
     this.subjectService.getSubjectsDropdown().pipe(untilComponentDestroyed(this)).subscribe(
       response => {
         this.subjects = response;
@@ -44,29 +72,16 @@ export class ModalOpenSubjectComponent implements OnInit, OnDestroy {
     )
   }
 
-  ngOnDestroy(): void {
-
-  }
-
-  onSubmit(): void {
-
-  }
-  
-
-  clearFilters(): void {
-    this.subjects = [];
-  }
-
-  filterSubjects() {
-    
-  }
-
-  onSelectSubject(event) {
-    console.log(event)
+  onClickSubjectDropdown(event: MouseEvent) {
+    if(event && event.target) {
+      this.isSubjectSelected = true;
+    } else {
+      this.isSubjectSelected = false;
+    }
   }
 
   exitModal() {
-    this.modal.close(false)
+    this.modal.dismiss()
   }
 
   getSubjectStatuses(): void {
@@ -85,5 +100,8 @@ export class ModalOpenSubjectComponent implements OnInit, OnDestroy {
   }
   get DatumOtvaranjaDo(): AbstractControl {
     return this.existingSubjectGroup.get('DatumOtvaranjaDo');
+  }
+  get Subject(): AbstractControl {
+    return this.existingSubjectGroup.get('Subject');
   }
 }

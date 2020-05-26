@@ -21,8 +21,8 @@ export class HomepageComponent implements OnInit {
   openSubjectModal(): void {
     const modalRef = this.ngbModalService.open(ModalOpenSubjectComponent, { size: 'lg', backdrop: 'static', keyboard: false });
     modalRef.result.then(result => {
-      if (result == true) {
-
+      if (typeof(result) == 'number') {
+        this.router.navigate(['subject', result]);
       } else {
 
       }

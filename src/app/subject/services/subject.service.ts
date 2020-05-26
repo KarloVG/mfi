@@ -5,8 +5,9 @@ import { Observable } from 'rxjs';
 import { ISubject } from '../models/subject';
 import { map } from 'rxjs/operators';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
+import * as moment from 'moment';
 
-@Injectable({
+@Injectable({ 
   providedIn: 'root'
 })
 export class SubjectService {
@@ -33,7 +34,7 @@ export class SubjectService {
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
     return this.http.get<ISubject[]>(url).pipe(map(response => {
       return response.map(el => {
-        const item: ISimpleDropdownItem = { id: el.PredmetID , name: `Predmet '${el.NazivPredmeta}' (${el.DatumOtvaranja})` }
+        const item: ISimpleDropdownItem = { id: el.PredmetID , name: `Predmet '${el.NazivPredmeta}' (${moment(el.DatumOtvaranja).format('DD.MM.YYYY')})` }
         return item
       })
     }));
