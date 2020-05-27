@@ -141,7 +141,6 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
       modalRef.result.then((result) => {
         if (result == true) {
           if(this.subjectId) {
-            console.log('kak')
             this.toastr.success('Uredili ste predmet', 'Uspjeh', {
               progressBar: true
             });
@@ -169,7 +168,6 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
           this.confimationSubject.next(false);
         }
       }).catch((res) => {
-        console.log(res)
       });
       return this.confimationSubject;
     } else {

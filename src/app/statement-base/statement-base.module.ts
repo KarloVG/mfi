@@ -5,10 +5,11 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StatementBaseRoutingModule } from './statement-base-routing.module';
+import { ModalAddPersonComponent } from './modal-add-person/modal-add-person.component';
 
 
 @NgModule({
-  declarations: [BaseOverviewComponent],
+  declarations: [BaseOverviewComponent, ModalAddPersonComponent],
   imports: [
     CommonModule,
     SharedModule,

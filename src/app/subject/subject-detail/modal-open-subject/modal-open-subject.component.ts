@@ -7,7 +7,6 @@ import { NgbActiveModal, NgbDateParserFormatter, NgbDatepickerI18n } from '@ng-b
 import { NgbDateCustomParserFormatter } from 'src/app/shared/utils/ngb-date-custom-parser-formatter';
 import { CustomDatepickerI18n } from 'src/app/shared/utils/custom-date-picker-i18n';
 import { SubjectService } from '../../services/subject.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modal-open-subject',
@@ -35,8 +34,7 @@ export class ModalOpenSubjectComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private subjectStatusService: SubjectStatusService,
     private subjectService: SubjectService,
-    private modal: NgbActiveModal,
-    private router: Router
+    private modal: NgbActiveModal
   ) { }
 
   ngOnInit(): void {
