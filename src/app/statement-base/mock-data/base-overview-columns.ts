@@ -1,9 +1,6 @@
 export const OVERVIEW_COLUMNS: any[] = [
     {
-        name: 'Br.', prop: 'index', sortable: true, width: 50        
-    },
-    {
-        name: 'Ime / Naziv vlasnika računa', prop: 'Naziv', sortable: true, width: 150        
+        name: 'Ime / Naziv vlasnika računa', prop: 'Osoba.Naziv', sortable: true, width: 150        
     },
     {
         name: 'Broj uvezenih računa', prop: 'UvezeneIzliste', sortable: true, width: 150        

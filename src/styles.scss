@@ -9,6 +9,8 @@
 @import '~@swimlane/ngx-datatable/index.css';
 @import '~@swimlane/ngx-datatable/themes/material.scss';
 @import '~@swimlane/ngx-datatable/assets/icons.css';
+@import '~@fortawesome/fontawesome-free-webfonts/scss/_mixins.scss';
+@import '~@fortawesome/fontawesome-free-webfonts/scss/_variables.scss';
 
 ng-select {
     &.ng-invalid.ng-touched .ng-select-container {
@@ -33,3 +35,13 @@ ng-select {
         min-height: 31px !important;
     }
 }
+
+// ng-select .ng-clear {
+//     // Import mixin from font-awesome/scss/mixins.scss
+//     @include fa-icon();
+//     width: 0;
+//     // Use icon variable from font-awesome/scss/variables.scss
+//     &::before {
+//         content: "Z" //fa-content($fa-var-trash) !important;
+//     }
+// }

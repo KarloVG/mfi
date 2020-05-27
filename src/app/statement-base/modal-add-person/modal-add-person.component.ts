@@ -4,7 +4,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IPerson } from '../models/person';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 import { BaseService } from '../services/base.service';
-import { take } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { ReactiveFormValidatorService } from '../services/reactive-form-validator.service';
 
 @Component({
   selector: 'app-modal-add-person',
@@ -23,29 +24,41 @@ export class ModalAddPersonComponent implements OnInit {
   })
   identificationTypes: ISimpleDropdownItem[] = [];
   personTypes: ISimpleDropdownItem[] = [];
+  $observableJoin: Observable<[ ISimpleDropdownItem[], ISimpleDropdownItem[]  ]>;
 
   constructor(
     private formBuilder: FormBuilder,
     private modal: NgbActiveModal,
-    private baseService: BaseService
+    private baseService: BaseService,
+    private reactiveFormService: ReactiveFormValidatorService
   ) { }
 
   ngOnInit(): void {
-    this.getPersonTypes();
-    this.getIdentificationTypes();
-    if(this.person && this.person.IdBroj) {
-      this.personGroup.patchValue({
-        OsobaID: this.person.OsobaID,
-        Naziv: this.person.Naziv,
-        TipOsobe: this.person.TipOsobe.id,
-        IdBroj: this.person.IdBroj,
-        VrstaIdBroja: this.person.VrstaIdBroja.id
-      });
-    }
+    this.$observableJoin = forkJoin(
+      this.baseService.getPersonTypes(),
+      this.baseService.getIdentificationTypes()
+    );
+
+    this.$observableJoin.subscribe( data => {
+      this.personTypes = data[0];
+      this.identificationTypes = data[1];
+      if(this.person && this.person.IdBroj) {
+        this.personGroup.patchValue({
+          OsobaID: this.person.OsobaID,
+          Naziv: this.person.Naziv,
+          TipOsobe: this.person.TipOsobe.id,
+        });
+        if(this.person.VrstaIdBroja) {
+          this.personGroup.patchValue({ VrstaIdBroja: this.person.VrstaIdBroja.id });
+          this.reactiveFormService.setValidatorAfterViewInit(this.personGroup,this.person.IdBroj, 'IdBroj');
+        }
+      }
+    })
   }
 
   exitModal() {
-    this.modal.close(false)
+    this.modal.close(false);
+    console.log(this.Naziv.validator)
   }
 
   onSubmit() {
@@ -56,16 +69,13 @@ export class ModalAddPersonComponent implements OnInit {
     }
   }
 
-  getPersonTypes() {
-    this.baseService.getPersonTypes().pipe(take(1)).subscribe(data => {
-      this.personTypes = data;
-    });
-  }
-
-  getIdentificationTypes() {
-    this.baseService.getIdentificationTypes().pipe(take(1)).subscribe(data => {
-      this.identificationTypes = data;
-    });
+  onChangeIDType(event) {
+    const idNumber = this.IdBroj.value ? this.IdBroj.value : ''
+    if(event && event.id) {
+      this.reactiveFormService.setValidatorAfterViewInit(this.personGroup, idNumber , 'IdBroj');
+    } else {
+      this.reactiveFormService.removeValidatorAfterViewInit(this.personGroup, '' , 'IdBroj');
+    }
   }
 
   get OsobaID(): AbstractControl {

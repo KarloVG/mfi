@@ -11,6 +11,7 @@ export class ConfirmationModalComponent implements OnInit {
 
   @Input() title: string;
   @Input() description: string;
+  @Input() class: string;
   
   constructor(public modal: NgbActiveModal) {}
 

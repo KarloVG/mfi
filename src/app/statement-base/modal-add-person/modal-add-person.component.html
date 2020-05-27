@@ -20,31 +20,31 @@
                 <div class="invalid-feedback">Polje je obavezno</div>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                <label for="TipOsobe">
+                    Tip osobe <span class="text-danger">*</span>
+                </label>
+                <ng-select [items]="personTypes" bindLabel="name" bindValue="id" labelForId="state" [clearable]="false"
+                    placeholder="Izaberi..." clearAllText="Clear" formControlName="TipOsobe"
+                    [ngClass]="{'is-invalid': TipOsobe.invalid && (TipOsobe.dirty || TipOsobe.touched || myForm.submitted)}">
+                </ng-select>
+                <div class="invalid-feedback">Polje je obavezno</div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
                 <label for="VrstaIdBroja">
                     Vrsta ID broja
                 </label>
                 <ng-select [items]="identificationTypes" bindLabel="name" bindValue="id" labelForId="state"
-                    placeholder="Izaberi..." clearAllText="Clear" formControlName="VrstaIdBroja"
+                    placeholder="Izaberi..." clearAllText="Clear" formControlName="VrstaIdBroja" (change)="onChangeIDType($event)"
                     [ngClass]="{'is-invalid': VrstaIdBroja.invalid && (VrstaIdBroja.dirty || VrstaIdBroja.touched || myForm.submitted)}">
                 </ng-select>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
                 <label for="IdBroj">
-                    ID broj
+                    ID broj <span class="text-danger" *ngIf="IdBroj.validator">*</span>
                 </label>
                 <input type="text" class="form-control" id="IdBroj" name="IdBroj"
                     placeholder="ID broj osobe" formControlName="IdBroj" autocomplete="off"
                     [ngClass]="{'is-invalid': IdBroj.invalid && (IdBroj.dirty || IdBroj.touched || myForm.submitted)}">
-            </div>
-            <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
-                <label for="TipOsobe">
-                    Tip osobe <span class="text-danger">*</span>
-                </label>
-                <ng-select [items]="personTypes" bindLabel="name" bindValue="id" labelForId="state"
-                    placeholder="Izaberi..." clearAllText="Clear" formControlName="TipOsobe"
-                    [ngClass]="{'is-invalid': TipOsobe.invalid && (TipOsobe.dirty || TipOsobe.touched || myForm.submitted)}">
-                </ng-select>
-                <div class="invalid-feedback">Polje je obavezno</div>
             </div>
         </div>
         <div class="modal-footer">
