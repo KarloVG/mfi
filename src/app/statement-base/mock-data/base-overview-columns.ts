@@ -15,30 +15,30 @@ export const OVERVIEW_COLUMNS: any[] = [
  
 export const EXPANDED_COLUMNS: any[] = [
     {
-        name: 'Izvor', prop: 'index', sortable: true, width: 50        
+        name: 'Izvor', prop: 'Izvor', sortable: true, width: 50        
     },
     {
-        name: 'SWIFT/BIC', prop: 'action1', sortable: true, width: 50        
+        name: 'SWIFT/BIC', prop: 'SWIFT', sortable: true, width: 50        
     },
     {
-        name: 'Broj računa', prop: 'action1', sortable: true, width: 150        
+        name: 'Broj računa', prop: 'BrojRacuna', sortable: true, width: 50        
     },
     {
-        name: 'Datum uvoza', prop: 'text', sortable: true, width: 150        
+        name: 'Datum uvoza', prop: 'DatumUvoza', sortable: true, width: 50        
     },
     {
-        name: 'Ime / Naziv vlasnika računa', prop: 'action1', sortable: true, width: 150        
+        name: 'Ime / Naziv vlasnika računa', prop: 'Naziv', sortable: true, width: 50        
     },
     {
-        name: 'Izvod OD', prop: 'link', sortable: true, width: 150
+        name: 'Izvod OD', prop: 'IzvodOd', sortable: true, width: 50
     },
     {
-        name: 'Izvod DO', prop: 'link', sortable: true, width: 150
+        name: 'Izvod DO', prop: 'IzvodDo', sortable: true, width: 50
     },
     {
-        name: 'Br. transakcija (U/I)', prop: 'link', sortable: true, width: 150
+        name: 'Br. transakcija (U/I)', prop: 'BrTransakcija', sortable: true, width: 50
     },
     {
-        name: 'Iznos transakcija (U/I)', prop: 'link', sortable: true, width: 150
+        name: 'Iznos transakcija (U/I)', prop: 'IznosTransakcija', sortable: true, width: 50
     },
 ]
