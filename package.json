@@ -8,8 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build --aot --prod",
-    "heroku-postbuild": "ng build --prod"
+    "postinstall": "ng build --aot --prod"
   },
   "private": true,
   "dependencies": {
@@ -31,7 +30,6 @@
     "@w11k/ngx-componentdestroyed": "^4.1.5",
     "angular-in-memory-web-api": "^0.11.0",
     "bootstrap": "^4.5.0",
-    "express": "^4.17.1",
     "moment": "^2.26.0",
     "ngx-toastr": "^12.0.1",
     "path": "^0.12.7",
