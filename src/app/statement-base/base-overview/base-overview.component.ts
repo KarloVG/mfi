@@ -82,9 +82,15 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
   deletePerson(row) {
     if(row && row.Osoba){
       const modalRef = this.ngbModalService.open(ConfirmationModalComponent, { backdrop: 'static', keyboard: false });
-      modalRef.componentInstance.title = 'Uklanjanje osobe sa predmeta';
-      modalRef.componentInstance.description = `Odabrana fizička osoba "${row.Osoba.Naziv}" će biti uklonjena iz baze izlista
-      i neće biti moguće uvoziti izliste za tu osobu`;
+      if(row.UvezeneIzliste && row.BrojTransakcija) {
+        modalRef.componentInstance.title = 'Brisanje osobe i izlista za osobu';
+        modalRef.componentInstance.description = `Za odabranu fizičku osobu: "${row.Osoba.Naziv}" će biti obrisani SVI uvezeni listi: ukupno, biti će obrisano
+        "${row.UvezeneIzliste}" uvezena izlista na kojima je evidentirano "${row.BrojTransakcija}" financijskih transakcija`;
+      } else {
+        modalRef.componentInstance.title = 'Uklanjanje osobe sa predmeta';
+        modalRef.componentInstance.description = `Odabrana fizička osoba "${row.Osoba.Naziv}" će biti uklonjena iz baze izlista
+        i neće biti moguće uvoziti izliste za tu osobu`;
+      }
       modalRef.componentInstance.class = true; // text danger
       modalRef.result.then((result) => {
         if (result) {
@@ -100,8 +106,7 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleExpandRow(row): void {
-    console.log('Toggled Expand Row!', row);
+  toggleExpandRow(row) {
     this.table.rowDetail.toggleExpandRow(row);
   }
 }

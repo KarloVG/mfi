@@ -6,10 +6,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StatementBaseRoutingModule } from './statement-base-routing.module';
 import { ModalAddPersonComponent } from './modal-add-person/modal-add-person.component';
+import { InnerBaseComponent } from './base-overview/inner-base/inner-base.component';
+import { ModalBaseDetailComponent } from './base-overview/modal-base-detail/modal-base-detail.component';
 
 
 @NgModule({
-  declarations: [BaseOverviewComponent, ModalAddPersonComponent],
+  declarations: [BaseOverviewComponent, ModalAddPersonComponent, InnerBaseComponent, ModalBaseDetailComponent],
   imports: [
     CommonModule,
     SharedModule,

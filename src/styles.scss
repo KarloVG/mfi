@@ -40,6 +40,21 @@ ng-select {
     }
 }
 
+.ngx-datatable.material {
+    .datatable-header {
+        border: 0 !important;
+        .datatable-header-cell {
+            background: #0075C2;
+            color: white !important;
+        }
+    }
+}
+
+/* for extending modal */
+.largeModalClass .modal-dialog {
+    min-width: 90%;
+}
+
 // ng-select .ng-clear {
 //     // Import mixin from font-awesome/scss/mixins.scss
 //     @include fa-icon();
