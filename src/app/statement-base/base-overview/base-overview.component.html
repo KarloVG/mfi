@@ -1,6 +1,6 @@
 <ngb-alert type="primary" [dismissible]="false" class="mb-0" style="color: black; text-align: center;">
     <strong>
-        <i class="fas fa-database"></i> Baza izvoda
+        <span class="fas fa-database"></span> Baza izvoda
     </strong>
 </ngb-alert>
 <ngb-alert type="secondary" [dismissible]="false" style="color: green;">
@@ -9,7 +9,7 @@
             style="display: flex; flex-direction: column;flex-wrap: wrap;align-content: center;">
             <div style="text-align: center;" (click)="addPersonToBase()">
                 <button type="submit" class="button-no-css">
-                    <i class="fas fa-user-plus" style="font-size: 40px;"></i>
+                    <span class="fas fa-user-plus" style="font-size: 40px;"></span>
                 </button>
             </div>
             <span style="font-size: 18px;">
@@ -20,7 +20,7 @@
             style="display: flex; flex-direction: column;flex-wrap: wrap;align-content: center;">
             <div style="text-align: center;">
                 <button type="button" class="button-no-css">
-                    <i class="fas fa-align-justify" style="font-size: 40px;"></i>
+                    <span class="fas fa-align-justify" style="font-size: 40px;"></span>
                 </button>
             </div>
             <span style="font-size: 18px;">
@@ -31,7 +31,7 @@
             style="display: flex; flex-direction: column;flex-wrap: wrap;align-content: center;">
             <div style="text-align: center;">
                 <button type="button" class="button-no-css">
-                    <i class="fas fa-upload" style="font-size: 40px;"></i>
+                    <span class="fas fa-upload" style="font-size: 40px;"></span>
                 </button>
             </div>
             <span style="font-size: 18px;">
@@ -80,9 +80,9 @@
                 </ng-template>
                 <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
                     <a href="javascript:void(0)" title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
-                        <i class="fas fa-minus-square" *ngIf="expanded; else notExpanded"></i>
+                        <span class="fas fa-minus-square" *ngIf="expanded; else notExpanded"></span>
                         <ng-template #notExpanded>
-                            <i class="fas fa-plus-square"></i>
+                            <span class="fas fa-plus-square"></span>
                         </ng-template>
                     </a>
                 </ng-template>
@@ -120,8 +120,8 @@
                 </ng-template>
                 <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
                     <div class="" role="group" aria-label="First group">
-                        <button type="button" class="button-no-css" (click)="editPerson(row)"><i class="fas fa-pencil-alt text-primary mr-5" style="font-size: 22px;"></i></button>
-                        <button type="button" class="button-no-css" (click)="deletePerson(row)"><i class="fas fa-trash-alt text-danger" style="font-size: 22px;"></i></button>
+                        <button type="button" class="button-no-css" (click)="editPerson(row)"><span class="fas fa-pencil-alt text-primary mr-5" style="font-size: 22px;"></span></button>
+                        <button type="button" class="button-no-css" (click)="deletePerson(row)"><span class="fas fa-trash-alt text-danger" style="font-size: 22px;"></span></button>
                     </div>
                 </ng-template>
               </ngx-datatable-column>

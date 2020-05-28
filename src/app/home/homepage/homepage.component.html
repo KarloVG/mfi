@@ -1,11 +1,18 @@
-<div class="col-12">
-    <ngb-alert type="success" [dismissible]="true">
-        <strong>Uspjeh!</strong> NG bootstrap implementiran.
-    </ngb-alert>
-    <button type="button" class="btn btn-outline-info" (click)="navigateToNewSubject()">
-        Novi predmet
-    </button>
-    <button type="button" class="btn btn-outline-info float-right" (click)="openSubjectModal()">
-        Otvori postojeći predmet
-    </button>
+<div class="my-5">
+  <div class="col-12 my-4">
+    <div class="col-4 offset-4 text-center">
+      <button type="button" class="btn btn-outline-primary px-4 py-3" (click)="navigateToNewSubject()">
+          <span class="fas fa-plus-square"></span>
+          <span class="ml-2">Novi predmet</span>
+      </button>
+    </div>
+  </div>
+  <div class="col-12 my-4">
+    <div class="col-4 offset-4 text-center">
+      <button type="button" class="btn btn-outline-primary px-4 py-3" (click)="openSubjectModal()">
+          <span class="fas fa-folder-open"></span>
+          <span class="ml-2">Otvori postojeći predmet</span>
+      </button>
+    </div>
+  </div>
 </div>

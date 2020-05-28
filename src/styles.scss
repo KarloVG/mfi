@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@ng-select/ng-select/themes/default.theme.css";
-// regular style toast 
+// regular style toast
 @import '~ngx-toastr/toastr';
 // colors css
 @import 'assets/styles/globals/color';
@@ -11,6 +11,10 @@
 @import '~@swimlane/ngx-datatable/assets/icons.css';
 @import '~@fortawesome/fontawesome-free-webfonts/scss/_mixins.scss';
 @import '~@fortawesome/fontawesome-free-webfonts/scss/_variables.scss';
+
+* {
+  font-family: 'Source Sans Pro', sans-serif;
+}
 
 ng-select {
     &.ng-invalid.ng-touched .ng-select-container {

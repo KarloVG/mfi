@@ -1,41 +1,15 @@
-<section id="sidebar">
-  <div class="card">
-	  <ul class="list-group list-group-flush">
-	    <li class="list-group-item text-center">
-        <a routerLink="/welcome">
-	    	  <span class="fab fa-angular fa--folder-open fa-2x"></span>
-        </a>
-	    </li>
-	    <li class="list-group-item text-center">
-        <a routerLink="/statement-base/overview">
-	    	  <span class="fab fa-angular fa--database fa-2x"></span>
-        </a>
-	    </li>
-	    <li class="list-group-item text-center">
-        <a routerLink="/statement-base/overview">
-	    	  <span class="fab fa-angular fa--table fa-2x"></span>
-        </a>
-	    </li>
-      <li class="list-group-item text-center">
-        <a routerLink="/welcome">
-          <span class="fab fa-angular fa--sitemap fa-2x"></span>
-        </a>
+<section id="sidebar" class="sidebar-holder">
+  <div>
+    <ul class="sidebar-list list-unstyled px-0">
+      <li class="sidebar-list-item text-center px-0 py-0" *ngFor="let menu of menus" [ngClass]="{'active': menu.active === true}">
+        <button type="button" class="menu-button btn btn-block py-3"
+          routerLink="{{menu.path}}"
+          [title]="menu.descr"
+          [disabled]="menu.disabled">
+          <span class="menu-icon d-block fas fa-2x" [ngClass]="menu.icon"></span>
+          <span class="menu-text d-block " *ngIf="!!menu.descr">{{menu.descr}}</span>
+        </button>
       </li>
-      <li class="list-group-item text-center">
-        <a routerLink="/welcome">
-          <span class="fab fa-angular fa--clock fa-2x"></span>
-        </a>
-      </li>
-      <li class="list-group-item text-center">
-        <a routerLink="/welcome">
-          <span class="fab fa-angular fa--map fa-2x"></span>
-        </a>
-      </li>
-      <li class="list-group-item text-center">
-        <a routerLink="/welcome">
-          <span class="fab fa-angular fa--chart-pie fa-2x"></span>
-        </a>
-      </li>
-	  </ul>
-	</div>
+    </ul>
+  </div>
 </section>
