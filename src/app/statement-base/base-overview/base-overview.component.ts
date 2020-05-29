@@ -17,10 +17,11 @@ import { ModalImportFileComponent } from './modal-import-file/modal-import-file.
 export class BaseOverviewComponent implements OnInit, OnDestroy {
 
   @ViewChild('myTable') table: any;
-  
+  filterValue: string;
   columns: any[] = OVERVIEW_COLUMNS;
   isLoading: boolean = true;
   baseItems: IBaseItem[] = [];
+  staticValue: IBaseItem[] = [];
 
   constructor(
     private baseService: BaseService,
@@ -38,9 +39,38 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
     this.baseService.getBaseItems().pipe(untilComponentDestroyed(this)).subscribe(
       data => {
         this.baseItems = data;
+        this.staticValue = data;
         this.isLoading = false;
       }
     )
+  }
+
+  filterUserTable(){
+    let searchVal = this.filterValue.toLowerCase()
+    let keys = ["Osoba"];
+    let colsAmt = keys.length + 1;
+    this.baseItems = this.staticValue.filter(function(item){
+      for (let i=0; i<colsAmt; i++){
+        if(item[keys[i]]) {
+          if(
+              item[keys[i]] != null &&
+              item[keys[i]].Naziv.toLowerCase().indexOf(searchVal) !== -1) {
+            return true;
+          }
+        } else {
+          if (item[keys[i]] != null && item[keys[i]].toString().toLowerCase().indexOf(searchVal) !== -1){
+           return true;
+          }
+        }
+        return false;
+      }
+    });
+  }
+
+
+  removeFilter() {
+    this.filterValue = '';
+    this.baseItems = this.staticValue;
   }
 
   onDetailToggle(event): void {

@@ -44,13 +44,13 @@
     <div class="container-fluid">
         <div class="row mb-4">
             <div class="col-lg-4 col-md-4 col-sm-4">
-                <input type="text" class="form-control form-rounded" placeholder="Upišite pojam pretrage">
+                <input type="text" class="form-control form-rounded" [(ngModel)]="filterValue" placeholder="Upišite pojam pretrage">
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4">
-                <button type="button" class="mr-3 btn btn-primary">
+                <button type="button" class="mr-3 btn btn-primary" (click)="filterUserTable()">
                     Traži
                 </button>
-                <button type="button" class="btn btn-outline-primary">
+                <button type="button" class="btn btn-outline-primary" (click)="removeFilter()">
                     Poništi pretragu
                 </button>
             </div>
