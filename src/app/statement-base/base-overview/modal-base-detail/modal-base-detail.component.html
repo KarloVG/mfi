@@ -60,13 +60,13 @@
                 Financijske transakcije na izvodu
             </ng-template>
             <ng-template ngbTabContent>
-                <ngx-datatable class="material" columnMode="force" [headerHeight]="'auto'"
+                <ngx-datatable class="material mt-3" columnMode="force" [headerHeight]="'auto'"
                     [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [loadingIndicator]="isLoading"
                     [rows]="baseTransactions" [messages]="{
                         emptyMessage:'Nema rezultata',
                         totalMessage: 'ukupno'
                     }">
-                    <ngx-datatable-column name="Broj računa" prop="BrojRacunaA" [width]="80"></ngx-datatable-column>
+                    <ngx-datatable-column name="Broj računa" prop="BrojRacunaA" [width]="200"></ngx-datatable-column>
                     <ngx-datatable-column name="SWIFT/BIC" prop="SWIFTA" [width]="120"></ngx-datatable-column>
                     <ngx-datatable-column name="Banka računa" prop="BankaA" [width]="100"></ngx-datatable-column>
                     <ngx-datatable-column name="Država računa" prop="DrzavaA" [width]="100"></ngx-datatable-column>

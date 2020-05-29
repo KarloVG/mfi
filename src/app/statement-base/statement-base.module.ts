@@ -8,10 +8,12 @@ import { StatementBaseRoutingModule } from './statement-base-routing.module';
 import { ModalAddPersonComponent } from './modal-add-person/modal-add-person.component';
 import { InnerBaseComponent } from './base-overview/inner-base/inner-base.component';
 import { ModalBaseDetailComponent } from './base-overview/modal-base-detail/modal-base-detail.component';
+import { ModalImportFileComponent } from './base-overview/modal-import-file/modal-import-file.component';
+import { ModalImportTirmComponent } from './base-overview/modal-import-tirm/modal-import-tirm.component';
 
 
 @NgModule({
-  declarations: [BaseOverviewComponent, ModalAddPersonComponent, InnerBaseComponent, ModalBaseDetailComponent],
+  declarations: [BaseOverviewComponent, ModalAddPersonComponent, InnerBaseComponent, ModalBaseDetailComponent, ModalImportFileComponent, ModalImportTirmComponent],
   imports: [
     CommonModule,
     SharedModule,

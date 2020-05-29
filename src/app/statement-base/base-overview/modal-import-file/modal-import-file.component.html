@@ -1,0 +1,53 @@
+<div class="modal-header">
+    <h4 class="modal-title text-primary" id="modal-title">Dodavanje izvoda iz datoteke</h4>
+    <button type="button" class="button-no-css" style="font-size: 25px;" aria-label="Close" (click)="exitModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="importFromFileGroup" (ngSubmit)="onSubmit()" #myForm="ngForm"
+        *ngIf="!isLoadingResponse; else loaderActivated">
+        <div class="col-lg-12 col-md-12 col-sm-6 mt-2 mb-3">
+            <label class="mb-2 font-weight-bold">1.) Odaberi datoteku s izvodom: <span class="text-danger">*</span></label>
+            <div class="custom-file">
+                <input type="file" lang="hr" #fileInput formControlName="file"
+                    [ngClass]="{'is-invalid': file.invalid && (file.dirty || file.touched || myForm.submitted)}">
+                <div class="invalid-feedback">Polje je obavezno</div>
+            </div>
+        </div>
+        <hr>
+        <div class="col-lg-12 col-md-12 col-sm-6 mb-3">
+            <label class="mb-2 font-weight-bold mb-2">2.) Odaberi predložak za validaciju i uvoz podataka: <span class="text-danger">*</span></label>
+            <ng-select [items]="validationTemplates" bindLabel="name" bindValue="id" labelForId="state"
+                placeholder="Izaberi..." clearAllText="Clear" formControlName="template"
+                [ngClass]="{'is-invalid': template.invalid && (template.dirty || template.touched || myForm.submitted)}">
+            </ng-select>
+            <div class="invalid-feedback">Polje je obavezno</div>
+        </div>
+        <hr>
+        <div class="col-lg-12 col-md-12 col-sm-6 mb-3">
+            <label class="mb-2 font-weight-bold mb-2">3.) Odaberi osobu na predmetu za koju se uvozi izlist: <span class="text-danger">*</span></label>
+            <ng-select [items]="peopleOnSubject" bindLabel="name" bindValue="id" labelForId="state"
+                placeholder="Izaberi..." clearAllText="Clear" formControlName="person"
+                [ngClass]="{'is-invalid': person.invalid && (person.dirty || person.touched || myForm.submitted)}">
+            </ng-select>
+            <div class="invalid-feedback">Polje je obavezno</div>
+        </div>
+        <hr>
+        <div class="col-lg-12 col-md-12 col-sm-6 mb-3">
+            <label class="mb-2 font-weight-bold mb-2">4.) Učitaj datoteku: </label>
+            <br>
+            <button type="submit" class="btn btn-outline-info">Učitavanje odabrane datoteke</button>
+        </div>
+    </form>
+    <ng-template #loaderActivated>
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" style="width:3.5rem; height: 3.5rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div class="d-flex flex-column justify-content-center ml-3">
+                <span class="font-weight-bold">Molimo pričekajte obradu datoteke</span>
+            </div>
+        </div>
+    </ng-template>
+</div>

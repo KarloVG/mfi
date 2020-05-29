@@ -206,7 +206,7 @@ export class FakeDataService implements InMemoryDbService {
         let baseDetails: IInnerBaseDetail[] = [
             {
                 ID: 1,
-                BrojRacunaA: 'HR2004',
+                BrojRacunaA: 'GR20043213213213213213213232131321321321',
                 SWIFTA: 'PBZGHR',
                 BankaA: 'PBZ',
                 DrzavaA: 'HR',
@@ -226,7 +226,7 @@ export class FakeDataService implements InMemoryDbService {
             },
             {
                 ID: 2,
-                BrojRacunaA: 'HR2006',
+                BrojRacunaA: 'GR2006312321321321 32132 32132321 3221',
                 SWIFTA: 'PBZGHR',
                 BankaA: 'PBZ',
                 DrzavaA: 'HR',
@@ -246,6 +246,25 @@ export class FakeDataService implements InMemoryDbService {
             }
         ]
 
+        let validationTemplates: ISimpleDropdownItem[] = [
+            {
+                id: 1,
+                name: 'Univerzalni MUP predložak za uvoz podataka (stvoren 2018-11-11)'
+            },
+            {
+                id: 2,
+                name: 'Univerzalni MUP predložak za uvoz podataka (stvoren 2019-11-11)'
+            },
+            {
+                id: 3,
+                name: 'NE-Univerzalni MUP predložak za uvoz podataka (stvoren 2020-11-11)'
+            },
+            {
+                id: 4,
+                name: 'NE-Univerzalni MUP predložak za uvoz podataka (stvoren 2021-11-11)'
+            }
+        ];
+
         return {
             subjects,
             subjectStatuses,
@@ -255,7 +274,8 @@ export class FakeDataService implements InMemoryDbService {
             identificationTypes,
             baseItems,
             innerBaseItems,
-            baseDetails
+            baseDetails,
+            validationTemplates
         };
     }
 }

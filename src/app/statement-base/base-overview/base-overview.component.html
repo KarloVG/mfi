@@ -5,7 +5,7 @@
 </ngb-alert>
 <ngb-alert type="secondary" [dismissible]="false" style="color: green;">
     <div class="row">
-        <div class="col-md-2 col-sm-4"
+        <div class="col-lg-2 col-md-3 col-sm-4"
             style="display: flex; flex-direction: column;flex-wrap: wrap;align-content: center;">
             <div style="text-align: center;" (click)="addPersonToBase()">
                 <button type="submit" class="button-no-css">
@@ -16,18 +16,18 @@
                 Dodaj osobu
             </span>
         </div>
-        <div class="col-md-3 col-sm-4"
+        <div class="col-lg-2 col-md-3 col-sm-4"
             style="display: flex; flex-direction: column;flex-wrap: wrap;align-content: center;">
             <div style="text-align: center;">
                 <button type="button" class="button-no-css">
-                    <span class="fas fa-align-justify" style="font-size: 40px;"></span>
+                    <i class="fas fa-align-justify" style="font-size: 40px;" (click)="getBaseFromFile()"></i>
                 </button>
             </div>
             <span style="font-size: 18px;">
                 Dodaj izvod iz datoteke
             </span>
         </div>
-        <div class="col-md-3 col-sm-4"
+        <div class="col-lg-2 col-md-3 col-sm-4"
             style="display: flex; flex-direction: column;flex-wrap: wrap;align-content: center;">
             <div style="text-align: center;">
                 <button type="button" class="button-no-css">
@@ -44,19 +44,19 @@
     <div class="container-fluid">
         <div class="row mb-4">
             <div class="col-lg-4 col-md-4 col-sm-4">
-                <input type="text" class="form-control form-rounded" placeholder="Upišite pojam pretrage">
+                <input type="text" class="form-control form-rounded" [(ngModel)]="filterValue" placeholder="Upišite pojam pretrage">
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4">
-                <button type="button" class="mr-3 btn btn-primary">
+                <button type="button" class="mr-3 btn btn-primary" (click)="filterUserTable()">
                     Traži
                 </button>
-                <button type="button" class="btn btn-outline-primary">
+                <button type="button" class="btn btn-outline-primary" (click)="removeFilter()">
                     Poništi pretragu
                 </button>
             </div>
         </div>
         <!-- TODO WITH BACKEND PAGINATION AND SORTING -->
-        <ngx-datatable #myTable class="material horizontal-table-scroll" columnMode="force" [headerHeight]="50"
+        <ngx-datatable #myTable class="material horizontal-table-scroll" columnMode="force" [headerHeight]="'auto'"
             [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [loadingIndicator]="isLoading" [rows]="baseItems"
             [messages]="{
                 emptyMessage:'Nema odabranih rezultata',
