@@ -1,121 +1,111 @@
 <form [formGroup]="subjectFormGroup" (ngSubmit)="onSubmit()" #myForm="ngForm">
-    <ngb-alert type="primary" [dismissible]="false" class="mb-0" style="color: black; text-align: center;">
-        <strong *ngIf="subjectId; else noSubjectId">
-            <i class="fas fa-folder-open"></i> Uredi predmet
-        </strong>
-        <ng-template #noSubjectId>
-            <strong>
-                <i class="fas fa-folder-open"></i> Novi predmet
-            </strong>
-        </ng-template>
-    </ngb-alert>
-    <ngb-alert type="secondary" [dismissible]="false" style="color: green;">
-        <div class="row">
-            <div class="col-md-2 col-sm-6" style="display: flex; flex-direction: column;flex-wrap: wrap;">
-                <div>
-                    <button type="submit" class="button-no-css ml-5">
-                        <i class="fas fa-check-square" style="font-size: 40px;"></i>
-                    </button>
-                </div>
-                <span style="font-size: 18px;">
-                    Pohrani promjene
-                </span>
-            </div>
-            <div class="col-md-2 col-sm-6">
-                <div>
-                    <button type="button" class="button-no-css ml-4" (click)="navigateToWelcome()">
-                        <i class="fas fa-times" style="font-size: 40px;"></i>
-                    </button>
-                </div>
-                <span style="font-size: 18px;">
-                    Odustani
-                </span>
-            </div>
-        </div>
-    </ngb-alert>
-    <div class="container">
-        <div class="input-group">
-            <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
-                <label for="BrojPredmeta">
-                    Broj predmeta <span class="text-danger">*</span>
-                </label>
-                <input type="text" class="form-control" id="BrojPredmeta" name="BrojPredmeta"
-                    placeholder="Mjesec, npr. 14. mjesec" formControlName="BrojPredmeta"
-                    [ngClass]="{'is-invalid': BrojPredmeta.invalid && (BrojPredmeta.dirty || BrojPredmeta.touched || myForm.submitted)}">
-                <div class="invalid-feedback">Polje je obavezno</div>
-            </div>
-            <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
-                <label for="DatumOtvaranja">Datum otvaranja predmeta <span class="text-danger">*</span></label>
-                <div class="input-group">
-                    <input class="form-control" placeholder="dd.mm.yyyy." name="dp" formControlName="DatumOtvaranja"
-                        ngbDatepicker #d="ngbDatepicker" [readonly]="true"
-                        [ngClass]="{'is-invalid': DatumOtvaranja.invalid && (DatumOtvaranja.dirty || DatumOtvaranja.touched || myForm.submitted)}"
-                        [minDate]="{year: 2000, month: 1, day: 1}">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary calendar-box" (click)="d.toggle()" type="button"><i
-                                class="fas fa-calendar"></i></button>
-                    </div>
-                    <div class="invalid-feedback">Polje je obavezno</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
-            <label for="NazivPredmeta">Naziv predmeta <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="NazivPredmeta" name="NazivPredmeta"
-                placeholder="Mjesec, npr. 14. mjesec" formControlName="NazivPredmeta"
-                [ngClass]="{'is-invalid': NazivPredmeta.invalid && (NazivPredmeta.dirty || NazivPredmeta.touched || myForm.submitted)}">
-            <div class="invalid-feedback">Polje je obavezno</div>
-        </div>
-        <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
-            <label for="StatusPredmeta">Status predmeta <span class="text-danger">*</span></label>
-            <ng-select [items]="subjectStatuses" bindLabel="name" bindValue="id" labelForId="state"
-                placeholder="Izaberi..." clearAllText="Clear" formControlName="StatusPredmeta" [ngClass]="{'is-invalid': StatusPredmeta.invalid && (StatusPredmeta.dirty || StatusPredmeta.touched || myForm.submitted)}">
-            </ng-select>
-            <div class="invalid-feedback">Polje je obavezno</div>
-        </div>
-        <div class="col-sm-12 col-md-12 col-lg-12 mb-5">
-            <label for="permission">
-                Dozvole za rad na predmetu <span class="text-danger">*</span>
-            </label>
-            <table class="table table-striped" formArrayName="DozvoljeniKorisnici" *ngIf="DozvoljeniKorisnici.controls">
-                <thead>
-                    <tr>
-                        <th scope="col">Broj</th>
-                        <th scope="col">Ime</th>
-                        <th scope="col">Prezime</th>
-                        <th scope="col">E-mail</th>
-                        <th scope="col">Alat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let korisnik of DozvoljeniKorisnici.controls; let userIndex = index"
-                        [formGroupName]="userIndex">
-                        <th scope="row">{{ userIndex + 1 }}</th>
-                        <td>{{ korisnik.get('Ime').value }}</td>
-                        <td>{{ korisnik.get('Prezime').value }}</td>
-                        <td>{{ korisnik.get('Email').value }}</td>
-                        <td>
-                            <button type="button" class="text-danger" (click)="removePermission(korisnik,userIndex)">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr *ngIf="DozvoljeniKorisnici.controls.length == 0">
-                        <td>n/a</td>
-                        <td>n/a</td>
-                        <td>n/a</td>
-                        <td>n/a</td>
-                        <td>n/a</td>
-                    </tr>
-                </tbody>
-            </table>
-            <button type="button" style="float: right;" (click)="openPermissionModal()">Dodaj novu dozvolu</button>
-        </div>
-        <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
-            <label for="Napomena">Napomena</label>
-            <textarea class="form-control" placeholder="Upišite napomenu..." rows="5" formControlName="Napomena"
-                [ngClass]="{'is-invalid': Napomena.invalid && (Napomena.dirty || Napomena.touched || myForm.submitted)}"></textarea>
-            <div class="invalid-feedback">Polje je obavezno</div>
-        </div>
+
+  <div class="col-12 mt-1 mb-2 px-0">
+    <div class="py-2 px-2">
+      <div *ngIf="subjectId; else noSubjectId">
+        <h4>
+          <span class="fas fa-folder-open"></span>
+          <strong class="ml-2">Uredi predmet</strong>
+        </h4>
+      </div>
+      <ng-template #noSubjectId>
+        <h4>
+          <span class="fas fa-folder-open"></span>
+          <strong class="ml-2">Novi predmet</strong>
+        </h4>
+      </ng-template>
     </div>
+  </div>
+
+  <div class="col-12 bg-light border py-3 mb-5">
+    <div class="row">
+      <div class="col-2">
+        <button type="submit" class="btn btn-secondary">
+          <span class="fas fa-check-square"></span>
+          <span class="ml-2">Pohrani promjene</span>
+        </button>
+      </div>
+      <div class="col-2">
+        <button type="button" class="btn btn-secondary" (click)="navigateToWelcome()">
+          <span class="fas fa-times-circle"></span>
+          <span class="ml-2">Odustani</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="input-group">
+      <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+        <label for="BrojPredmeta">
+          Broj predmeta <span class="text-danger">*</span>
+        </label>
+        <input type="text" class="form-control" id="BrojPredmeta" name="BrojPredmeta" placeholder="Mjesec, npr. 14. mjesec" formControlName="BrojPredmeta" [ngClass]="{'is-invalid': BrojPredmeta.invalid && (BrojPredmeta.dirty || BrojPredmeta.touched || myForm.submitted)}">
+        <div class="invalid-feedback">Polje je obavezno</div>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+        <label for="DatumOtvaranja">Datum otvaranja predmeta <span class="text-danger">*</span></label>
+        <div class="input-group">
+          <input class="form-control" placeholder="dd.mm.yyyy." name="dp" formControlName="DatumOtvaranja" ngbDatepicker #d="ngbDatepicker" [readonly]="true" [ngClass]="{'is-invalid': DatumOtvaranja.invalid && (DatumOtvaranja.dirty || DatumOtvaranja.touched || myForm.submitted)}" [minDate]="{year: 2000, month: 1, day: 1}">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar-box" (click)="d.toggle()" type="button"><span class="fas fa-calendar"></span></button>
+          </div>
+          <div class="invalid-feedback">Polje je obavezno</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+      <label for="NazivPredmeta">Naziv predmeta <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="NazivPredmeta" name="NazivPredmeta" placeholder="Mjesec, npr. 14. mjesec" formControlName="NazivPredmeta" [ngClass]="{'is-invalid': NazivPredmeta.invalid && (NazivPredmeta.dirty || NazivPredmeta.touched || myForm.submitted)}">
+      <div class="invalid-feedback">Polje je obavezno</div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+      <label for="StatusPredmeta">Status predmeta <span class="text-danger">*</span></label>
+      <ng-select [items]="subjectStatuses" bindLabel="name" bindValue="id" labelForId="state" placeholder="Izaberi..." clearAllText="Clear" formControlName="StatusPredmeta" [ngClass]="{'is-invalid': StatusPredmeta.invalid && (StatusPredmeta.dirty || StatusPredmeta.touched || myForm.submitted)}">
+      </ng-select>
+      <div class="invalid-feedback">Polje je obavezno</div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-12 mb-5">
+      <label for="permission">
+        Dozvole za rad na predmetu <span class="text-danger">*</span>
+      </label>
+      <table class="table table-striped" formArrayName="DozvoljeniKorisnici" *ngIf="DozvoljeniKorisnici.controls">
+        <thead>
+          <tr>
+            <th scope="col">Broj</th>
+            <th scope="col">Ime</th>
+            <th scope="col">Prezime</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Alat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let korisnik of DozvoljeniKorisnici.controls; let userIndex = index" [formGroupName]="userIndex">
+            <th scope="row">{{ userIndex + 1 }}</th>
+            <td>{{ korisnik.get('Ime').value }}</td>
+            <td>{{ korisnik.get('Prezime').value }}</td>
+            <td>{{ korisnik.get('Email').value }}</td>
+            <td>
+              <button type="button" class="btn btn-outline-danger btn-sm px-3" (click)="removePermission(korisnik,userIndex)">
+                <span class="fas fa-times"></span>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="DozvoljeniKorisnici.controls.length == 0">
+            <td>n/a</td>
+            <td>n/a</td>
+            <td>n/a</td>
+            <td>n/a</td>
+            <td>n/a</td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" class="btn btn-primary float-right" (click)="openPermissionModal()">Dodaj novu dozvolu</button>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+      <label for="Napomena">Napomena</label>
+      <textarea class="form-control" placeholder="Upišite napomenu..." rows="5" formControlName="Napomena" [ngClass]="{'is-invalid': Napomena.invalid && (Napomena.dirty || Napomena.touched || myForm.submitted)}"></textarea>
+      <div class="invalid-feedback">Polje je obavezno</div>
+    </div>
+  </div>
 </form>

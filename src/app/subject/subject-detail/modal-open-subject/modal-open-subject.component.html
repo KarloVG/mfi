@@ -11,7 +11,7 @@
                 <h6 class="mb-3">Filter predmeta</h6>
                 <div class="form-group row mb-3">
                     <label for="StatusPredmeta" class="col-sm-4 col-form-label">
-                        Status predmeta 
+                        Status predmeta
                     </label>
                     <div class="col-sm-4">
                         <ng-select [items]="subjectStatuses" bindLabel="name" bindValue="id" labelForId="state"
@@ -33,7 +33,7 @@
                             [minDate]="{year: 2000, month: 1, day: 1}" placement="top">
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary calendar-box" (click)="d2.toggle()"
-                                type="button"><i class="fas fa-calendar"></i></button>
+                                type="button"><span class="fas fa-calendar"></span></button>
                         </div>
                     </div>
                     <label for="Email" class="col-sm-2 col-form-label text-center">
@@ -45,7 +45,7 @@
                             [minDate]="{year: 2000, month: 1, day: 1}">
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary calendar-box" (click)="d1.toggle()"
-                                type="button"><i class="fas fa-calendar"></i></button>
+                                type="button"><span class="fas fa-calendar"></span></button>
                         </div>
                         <div class="invalid-feedback">Polje je obavezno</div>
                     </div>
@@ -68,7 +68,7 @@
                     </label>
                     <div class="col-sm-12">
                         <ng-select [items]="subjects" bindLabel="name" bindValue="id" labelForId="state"
-                            [isOpen]="!isSubjectSelected" placeholder="Izaberi..." 
+                            [isOpen]="!isSubjectSelected" placeholder="Izaberi..."
                             formControlName="Subject" [virtualScroll]="true"
                             [ngClass]="{'is-invalid': Subject.invalid && (Subject.dirty || Subject.touched || myForm.submitted)}"
                             (click)="onClickSubjectDropdown($event)">
