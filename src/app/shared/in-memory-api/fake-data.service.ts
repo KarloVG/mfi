@@ -206,7 +206,7 @@ export class FakeDataService implements InMemoryDbService {
         let baseDetails: IInnerBaseDetail[] = [
             {
                 ID: 1,
-                BrojRacunaA: 'HR2004321321321321',
+                BrojRacunaA: 'GR20043213213213213213213232131321321321',
                 SWIFTA: 'PBZGHR',
                 BankaA: 'PBZ',
                 DrzavaA: 'HR',
@@ -226,7 +226,7 @@ export class FakeDataService implements InMemoryDbService {
             },
             {
                 ID: 2,
-                BrojRacunaA: 'HR2006312321321321',
+                BrojRacunaA: 'GR2006312321321321 32132 32132321 3221',
                 SWIFTA: 'PBZGHR',
                 BankaA: 'PBZ',
                 DrzavaA: 'HR',
