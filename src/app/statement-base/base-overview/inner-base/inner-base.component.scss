@@ -7,3 +7,13 @@
 	cursor: pointer;
 	outline: inherit;
 }
+
+:host .ngx-datatable.material {
+    .datatable-header {
+        border: 0 !important;
+        .datatable-header-cell {
+            background: #00CED1;
+            color: white !important;
+        }
+    }
+}
