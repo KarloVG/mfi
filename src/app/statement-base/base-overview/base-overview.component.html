@@ -5,7 +5,7 @@
 </ngb-alert>
 <ngb-alert type="secondary" [dismissible]="false" style="color: green;">
     <div class="row">
-        <div class="col-md-2 col-sm-4"
+        <div class="col-lg-2 col-md-3 col-sm-4"
             style="display: flex; flex-direction: column;flex-wrap: wrap;align-content: center;">
             <div style="text-align: center;" (click)="addPersonToBase()">
                 <button type="submit" class="button-no-css">
@@ -16,18 +16,18 @@
                 Dodaj osobu
             </span>
         </div>
-        <div class="col-md-3 col-sm-4"
+        <div class="col-lg-2 col-md-3 col-sm-4"
             style="display: flex; flex-direction: column;flex-wrap: wrap;align-content: center;">
             <div style="text-align: center;">
                 <button type="button" class="button-no-css">
-                    <i class="fas fa-align-justify" style="font-size: 40px;"></i>
+                    <i class="fas fa-align-justify" style="font-size: 40px;" (click)="getBaseFromFile()"></i>
                 </button>
             </div>
             <span style="font-size: 18px;">
                 Dodaj izvod iz datoteke
             </span>
         </div>
-        <div class="col-md-3 col-sm-4"
+        <div class="col-lg-2 col-md-3 col-sm-4"
             style="display: flex; flex-direction: column;flex-wrap: wrap;align-content: center;">
             <div style="text-align: center;">
                 <button type="button" class="button-no-css">

@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ModalAddPersonComponent } from '../modal-add-person/modal-add-person.component';
 import { IBaseItem } from '../models/base-item';
 import { ConfirmationModalComponent } from 'src/app/shared/components/confirmation-modal/confirmation-modal.component';
+import { ModalImportFileComponent } from './modal-import-file/modal-import-file.component';
 
 @Component({
   selector: 'app-base-overview',
@@ -104,6 +105,22 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
         }
       }).catch((res) => { });
     }
+  }
+
+  getBaseFromFile() {
+      const modalRef = this.ngbModalService.open(ModalImportFileComponent, { backdrop: 'static', keyboard: false });
+      modalRef.componentInstance.class = true; // text danger
+      modalRef.result.then((result) => {
+        if (result) {
+          this.toastr.success('Osoba na predmetu je izbrisana', 'Uspjeh', {
+            progressBar: true
+          })
+        } else {
+          this.toastr.warning('Osoba na predmetu nije obrisana', 'Pažnja', {
+            progressBar: true
+          })
+        }
+      }).catch((res) => { });
   }
 
   toggleExpandRow(row) {
