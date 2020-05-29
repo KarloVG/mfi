@@ -6,10 +6,10 @@ export const OVERVIEW_COLUMNS: any[] = [
         name: 'Broj uvezenih računa', prop: 'UvezeneIzliste', sortable: true, width: 150        
     },
     {
-        name: 'Ukupan broj transakcija', prop: 'BrojTransakcija', sortable: true, width: 150
+        name: 'Ukupan broj transakcija (U/I)', prop: 'BrojTransakcija', sortable: true, width: 150
     },
     {
-        name: 'Ukupan iznos transakcija', prop: 'IznosTransakcija', sortable: true, width: 120
+        name: 'Ukupan iznos transakcija (U/I)', prop: 'IznosTransakcija', sortable: true, width: 120
     }
 ];
  

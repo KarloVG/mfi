@@ -1,5 +1,5 @@
 <div class="p-2">
-    <ngx-datatable class="material horizontal-table-scroll" columnMode="force" [headerHeight]="50" [footerHeight]="50"
+    <ngx-datatable class="material horizontal-table-scroll" columnMode="force" [headerHeight]="'auto'" [footerHeight]="50"
         [rowHeight]="'auto'" [limit]="10" [loadingIndicator]="isLoading" [rows]="innerItems" [messages]="{
             emptyMessage:'Nema rezultata',
             totalMessage: 'ukupno',
@@ -17,7 +17,7 @@
         </ngx-datatable-column>
 
         <ngx-datatable-column prop="Izvor" [width]="80"></ngx-datatable-column>
-        <ngx-datatable-column prop="SWIFT" [width]="80"></ngx-datatable-column>
+        <ngx-datatable-column name="SWIFT" prop="SWIFT" [width]="80"></ngx-datatable-column>
         <ngx-datatable-column prop="BrojRacuna" [width]="80"></ngx-datatable-column>
         <ngx-datatable-column prop="DatumUvoza" [width]="100">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
@@ -35,8 +35,8 @@
                 {{ value | date: 'dd.MM.yyyy'}}
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column prop="BrTransakcija" [width]="120"></ngx-datatable-column>
-        <ngx-datatable-column prop="IznosTransakcija" [width]="120"></ngx-datatable-column>
+        <ngx-datatable-column name="Br. transakcija (U/I)" prop="BrTransakcija" [width]="120"></ngx-datatable-column>
+        <ngx-datatable-column name="Iznos transakcija (U/I)" prop="IznosTransakcija" [width]="120"></ngx-datatable-column>
         <ngx-datatable-column name="actions" [width]="130" [resizeable]="false" [sortable]="false" [draggable]="false"
             [canAutoResize]="false">
             <ng-template ngx-datatable-header-template>

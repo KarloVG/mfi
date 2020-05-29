@@ -246,6 +246,25 @@ export class FakeDataService implements InMemoryDbService {
             }
         ]
 
+        let validationTemplates: ISimpleDropdownItem[] = [
+            {
+                id: 1,
+                name: 'Univerzalni MUP predložak za uvoz podataka (stvoren 2018-11-11)'
+            },
+            {
+                id: 2,
+                name: 'Univerzalni MUP predložak za uvoz podataka (stvoren 2019-11-11)'
+            },
+            {
+                id: 3,
+                name: 'NE-Univerzalni MUP predložak za uvoz podataka (stvoren 2020-11-11)'
+            },
+            {
+                id: 4,
+                name: 'NE-Univerzalni MUP predložak za uvoz podataka (stvoren 2021-11-11)'
+            }
+        ];
+
         return {
             subjects,
             subjectStatuses,
@@ -255,7 +274,8 @@ export class FakeDataService implements InMemoryDbService {
             identificationTypes,
             baseItems,
             innerBaseItems,
-            baseDetails
+            baseDetails,
+            validationTemplates
         };
     }
 }
