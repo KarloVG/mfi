@@ -18,22 +18,13 @@ interface menu_item {
 export class SidebarComponent implements OnInit {
   public menus = [
     {
-      name: 'home',
-      path: '/welcome',
-      descr: '',
-      icon: 'fa-bars',
-      active: true,
-      visible: true,
-      disabled: false,
-    },
-    {
       name: 'predmet',
       path: '/predmet',
       descr: 'Predmet',
       icon: 'fa-folder-open',
       active: false,
       visible: true,
-      disabled: true,
+      disabled: false,
     },
     {
       name: 'izvodi',
@@ -42,7 +33,7 @@ export class SidebarComponent implements OnInit {
       icon: 'fa-database',
       active: false,
       visible: true,
-      disabled: true,
+      disabled: false,
     },
     {
       name: 'tablice',
@@ -51,7 +42,7 @@ export class SidebarComponent implements OnInit {
       icon: 'fa-table',
       active: false,
       visible: true,
-      disabled: true,
+      disabled: false,
     },
     {
       name: 'grafovi',
@@ -60,7 +51,7 @@ export class SidebarComponent implements OnInit {
       icon: 'fa-sitemap',
       active: false,
       visible: true,
-      disabled: true,
+      disabled: false,
     },
     {
       name: 'tijek',
@@ -69,7 +60,7 @@ export class SidebarComponent implements OnInit {
       icon: 'fa-clock',
       active: false,
       visible: true,
-      disabled: true,
+      disabled: false,
     },
     {
       name: 'mapa',
@@ -78,7 +69,7 @@ export class SidebarComponent implements OnInit {
       icon: 'fa-map',
       active: false,
       visible: true,
-      disabled: true,
+      disabled: false,
     },
     {
       name: 'graf',
@@ -87,7 +78,7 @@ export class SidebarComponent implements OnInit {
       icon: 'fa-chart-pie',
       active: false,
       visible: true,
-      disabled: true,
+      disabled: false,
     },
   ]
 
