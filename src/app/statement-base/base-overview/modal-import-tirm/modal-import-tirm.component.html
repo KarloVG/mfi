@@ -1,1 +1,125 @@
-<p>modal-import-tirm works!</p>
+<div class="modal-header">
+    <h4 class="modal-title text-primary" id="modal-title">Dodavanje izvoda iz TIRM sustava</h4>
+    <button type="button" class="button-no-css" style="font-size: 25px;" aria-label="Close" (click)="exitModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="importFromTIRMGroup" (ngSubmit)="onSubmit()" #myForm="ngForm"
+        *ngIf="!isLoadingResponse; else loaderActivated">
+        <div class="col-lg-12 col-md-12 col-sm-6 mb-3">
+            <div class="d-flex justify-content-between mb-3">
+                <div class="col-lg-4 col-md-5 col-sm-12 pl-0">
+                    <label class="mt-1 font-weight-bold">
+                        Odaberi datoteku s izvodom (iz TIRM sustava): <span class="text-danger">*</span>
+                    </label>
+                </div>
+                <div class="col-lg-8 col-md-7 col-sm-12 pr-0 input-group">
+                    <input type="text" class="form-control mr-3" id="searchValue" name="searchValue"
+                    placeholder="Pretraži naloge" formControlName="searchValue" autocomplete="off">
+                    <button type="button" class="mr-3 btn btn-primary" (click)="filterTIRMTable()">
+                        Traži
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" (click)="removeFilter()">
+                        Poništi pretragu
+                    </button>
+                </div>
+            </div>
+            
+            <ngx-datatable class="material horizontal-table-scroll" columnMode="force" [headerHeight]="'auto'"
+                [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [loadingIndicator]="isLoadingTable" [rows]="itemsFromTIRM"
+                [messages]="{
+                emptyMessage:'Nema rezultata',
+                totalMessage: 'ukupno',
+                selectedMessage: 'odabran'
+            }">
+                <ngx-datatable-column name="Temelj traženja" prop="TemeljTrazenja" [width]="80"></ngx-datatable-column>
+                <ngx-datatable-column prop="Status" [width]="80"></ngx-datatable-column>
+                <ngx-datatable-column name="Vrsta traženja" prop="VrstaTrazenja" [width]="80"></ngx-datatable-column>
+                <ngx-datatable-column prop="Vrsta" [width]="80"></ngx-datatable-column>
+                <ngx-datatable-column name="Članak" prop="Clanak" [width]="80"></ngx-datatable-column>
+                <ngx-datatable-column name="Razlozi traženja" prop="RazloziTrazenja" [width]="130">
+                    <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                        <button type="button" class="btn button-no-css" [ngbPopover]="row.RazloziTrazenja" triggers="mouseenter:mouseleave" popoverTitle="Razlog traženja">
+                            <i class="fas fa-info-circle text-primary" style="font-size: 22px;"></i>
+                        </button>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Urudžbeni broj" prop="UrudzbeniBroj" [width]="130"></ngx-datatable-column>
+                <ngx-datatable-column name="OPKP ur." prop="OPKP" [width]="130"></ngx-datatable-column>
+                <ngx-datatable-column prop="Podnositelj" [width]="130"></ngx-datatable-column>
+                <ngx-datatable-column name="Ustrojstvena jedinica"prop="UstrojstvenaJedinica" [width]="130"></ngx-datatable-column>
+                <ngx-datatable-column prop="Stvoren" [width]="100">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        {{ value | date: 'dd.MM.yyyy'}}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="actions" [width]="130" [resizeable]="false" [sortable]="false"
+                    [draggable]="false" [canAutoResize]="false">
+                    <ng-template ngx-datatable-header-template>
+                        Akcije
+                    </ng-template>
+                    <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                        <div class="" role="group" aria-label="First group">
+                            <button type="button" class="btn btn-outline-info" (click)="chooseTirmFile(row)">
+                                Odaberi
+                            </button>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+            </ngx-datatable>
+        </div>
+        <div *ngIf="isFirstTableSelected; else tableNotSelected">
+            <hr>
+            <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                <label class="font-weight-bold">
+                    Odaberi datoteke koje su preuzete temeljem odabranog TIRM zahtjeva <span class="text-danger">*</span>
+                </label>
+                <ngx-datatable class="material horizontal-table-scroll" columnMode="force" [headerHeight]="'auto'" [columns]="columns"
+                [footerHeight]="50" [rowHeight]="'auto'" [limit]="5" [loadingIndicator]="isLoadingSecondTable" [rows]="filesFromTirm"
+                [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)='onSelectSecondTable($event)'
+                [messages]="{
+                emptyMessage:'Nema rezultata',
+                totalMessage: 'ukupno',
+                selectedMessage: 'odabran'
+            }">
+            </ngx-datatable>
+            </div>
+            <hr>
+            <div class="col-lg-12 col-md-12 col-sm-6 mb-3">
+                <label class="mb-2 font-weight-bold mb-2">Odaberi predložak za validaciju i uvoz podataka: <span class="text-danger">*</span></label>
+                <ng-select [items]="validationTemplates" bindLabel="name" bindValue="id" labelForId="state"
+                    placeholder="Izaberi..." clearAllText="Clear" formControlName="template"
+                    [ngClass]="{'is-invalid': template.invalid && (template.dirty || template.touched || myForm.submitted)}">
+                </ng-select>
+                <div class="invalid-feedback">Polje je obavezno</div>
+            </div>
+            <hr>
+            <div class="col-lg-12 col-md-12 col-sm-6 mb-3">
+                <label class="mb-2 font-weight-bold mb-2">Odaberi osobu na predmetu za koju se uvozi izlist: <span class="text-danger">*</span></label>
+                <ng-select [items]="peopleOnSubject" bindLabel="name" bindValue="id" labelForId="state"
+                    placeholder="Izaberi..." clearAllText="Clear" formControlName="person"
+                    [ngClass]="{'is-invalid': person.invalid && (person.dirty || person.touched || myForm.submitted)}">
+                </ng-select>
+                <div class="invalid-feedback">Polje je obavezno</div>
+            </div>
+            <hr>
+            <div class="col-lg-12 col-md-12 col-sm-6 mb-3">
+                <label class="mb-2 font-weight-bold mb-2">Učitaj datoteku: </label>
+                <br>
+                <button type="submit" class="btn btn-outline-info">Učitavanje odabrane datoteke</button>
+            </div>
+        </div>
+        <ng-template #tableNotSelected></ng-template>
+    </form>
+    <ng-template #loaderActivated>
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" style="width:3.5rem; height: 3.5rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div class="d-flex flex-column justify-content-center ml-3">
+                <span class="font-weight-bold">Molimo pričekajte obradu datoteke</span>
+            </div>
+        </div>
+    </ng-template>
+</div>

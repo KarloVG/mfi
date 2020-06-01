@@ -9,6 +9,7 @@ import { IBaseItem } from '../models/base-item';
 import { ConfirmationModalComponent } from 'src/app/shared/components/confirmation-modal/confirmation-modal.component';
 import { ModalImportFileComponent } from './modal-import-file/modal-import-file.component';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
+import { ModalImportTirmComponent } from './modal-import-tirm/modal-import-tirm.component';
 
 @Component({
   selector: 'app-base-overview',
@@ -139,7 +140,7 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
     }
   }
 
-  getBaseFromFile() {
+  openBaseImportFromFile() {
     this.peopleOnSubject = [];
     this.baseItems.forEach(
       item => {
@@ -150,7 +151,32 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
       }
     );
     const modalRef = this.ngbModalService.open(ModalImportFileComponent, { size: 'lg', backdrop: 'static', keyboard: false });
-    modalRef.componentInstance.peopleOnSubject = this.peopleOnSubject; // text danger
+    modalRef.componentInstance.peopleOnSubject = this.peopleOnSubject;
+    modalRef.result.then((result) => {
+      if (result) {
+        this.toastr.success('Izvod iz datoteke je dodan', 'Uspjeh', {
+          progressBar: true
+        })
+      } else {
+        this.toastr.warning('Izvod iz datoteke nije dodan', 'Pažnja', {
+          progressBar: true
+        })
+      }
+    }).catch((res) => { });
+  }
+
+  getBaseFromTIRM() {
+    this.peopleOnSubject = [];
+    this.baseItems.forEach(
+      item => {
+        this.peopleOnSubject.push({
+          id: item.Osoba.OsobaID,
+          name: item.Osoba.Naziv
+        })
+      }
+    );
+    const modalRef = this.ngbModalService.open(ModalImportTirmComponent,  { size: 'xl',backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
+    modalRef.componentInstance.peopleOnSubject = this.peopleOnSubject; 
     modalRef.result.then((result) => {
       if (result) {
         this.toastr.success('Izvod iz datoteke je dodan', 'Uspjeh', {
