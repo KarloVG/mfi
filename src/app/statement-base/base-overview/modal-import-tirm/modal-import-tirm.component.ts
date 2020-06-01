@@ -46,7 +46,7 @@ export class ModalImportTirmComponent implements OnInit, OnDestroy {
       { name: 'Datoteka', prop: 'Datoteka' },
       { name: 'Izvor', prop: 'Izvor' },
       { name: 'Broj računa', prop: 'BrojRacuna' },
-      { name: 'Datum uvoza', prop: 'Datum uvoza' },
+      { name: 'Datum uvoza', prop: 'DatumUvoza' },
       { name: 'Ime / Naziv vlasnika', prop: 'Osoba' },
       { name: 'Ukupan broj transakcija', prop: 'UkupanBrTansakcija' },
       { name: 'Ukupan iznos transakcija', prop: 'UkupanIznosTransakcija' },

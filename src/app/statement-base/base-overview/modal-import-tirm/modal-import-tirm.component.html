@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-lg-8 col-md-7 col-sm-12 pr-0 input-group">
                     <input type="text" class="form-control mr-3" id="searchValue" name="searchValue"
-                    placeholder="Pretraži naloge" formControlName="searchValue" autocomplete="off">
+                        placeholder="Pretraži naloge" formControlName="searchValue" autocomplete="off">
                     <button type="button" class="mr-3 btn btn-primary" (click)="filterTIRMTable()">
                         Traži
                     </button>
@@ -25,10 +25,10 @@
                     </button>
                 </div>
             </div>
-            
+
             <ngx-datatable class="material horizontal-table-scroll" columnMode="force" [headerHeight]="'auto'"
-                [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [loadingIndicator]="isLoadingTable" [rows]="itemsFromTIRM"
-                [messages]="{
+                [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [loadingIndicator]="isLoadingTable"
+                [rows]="itemsFromTIRM" [messages]="{
                 emptyMessage:'Nema rezultata',
                 totalMessage: 'ukupno',
                 selectedMessage: 'odabran'
@@ -40,7 +40,8 @@
                 <ngx-datatable-column name="Članak" prop="Clanak" [width]="80"></ngx-datatable-column>
                 <ngx-datatable-column name="Razlozi traženja" prop="RazloziTrazenja" [width]="130">
                     <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-                        <button type="button" class="btn button-no-css" [ngbPopover]="row.RazloziTrazenja" triggers="mouseenter:mouseleave" popoverTitle="Razlog traženja">
+                        <button type="button" class="btn button-no-css" [ngbPopover]="row.RazloziTrazenja"
+                            triggers="mouseenter:mouseleave" popoverTitle="Razlog traženja">
                             <i class="fas fa-info-circle text-primary" style="font-size: 22px;"></i>
                         </button>
                     </ng-template>
@@ -48,7 +49,8 @@
                 <ngx-datatable-column name="Urudžbeni broj" prop="UrudzbeniBroj" [width]="130"></ngx-datatable-column>
                 <ngx-datatable-column name="OPKP ur." prop="OPKP" [width]="130"></ngx-datatable-column>
                 <ngx-datatable-column prop="Podnositelj" [width]="130"></ngx-datatable-column>
-                <ngx-datatable-column name="Ustrojstvena jedinica"prop="UstrojstvenaJedinica" [width]="130"></ngx-datatable-column>
+                <ngx-datatable-column name="Ustrojstvena jedinica" prop="UstrojstvenaJedinica" [width]="130">
+                </ngx-datatable-column>
                 <ngx-datatable-column prop="Stvoren" [width]="100">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                         {{ value | date: 'dd.MM.yyyy'}}
@@ -73,21 +75,24 @@
             <hr>
             <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
                 <label class="font-weight-bold">
-                    Odaberi datoteke koje su preuzete temeljem odabranog TIRM zahtjeva <span class="text-danger">*</span>
+                    Odaberi datoteke koje su preuzete temeljem odabranog TIRM zahtjeva <span
+                        class="text-danger">*</span>
                 </label>
-                <ngx-datatable class="material horizontal-table-scroll" columnMode="force" [headerHeight]="'auto'" [columns]="columns"
-                [footerHeight]="50" [rowHeight]="'auto'" [limit]="5" [loadingIndicator]="isLoadingSecondTable" [rows]="filesFromTirm"
-                [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)='onSelectSecondTable($event)'
-                [messages]="{
+                <ngx-datatable class="material horizontal-table-scroll" columnMode="force" [headerHeight]="'auto'"
+                    [columns]="columns" [footerHeight]="50" [rowHeight]="'auto'" [limit]="5"
+                    [loadingIndicator]="isLoadingSecondTable" [rows]="filesFromTirm" [selected]="selected"
+                    [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)='onSelectSecondTable($event)'
+                    [messages]="{
                 emptyMessage:'Nema rezultata',
                 totalMessage: 'ukupno',
                 selectedMessage: 'odabran'
             }">
-            </ngx-datatable>
+                </ngx-datatable>
             </div>
             <hr>
             <div class="col-lg-12 col-md-12 col-sm-6 mb-3">
-                <label class="mb-2 font-weight-bold mb-2">Odaberi predložak za validaciju i uvoz podataka: <span class="text-danger">*</span></label>
+                <label class="mb-2 font-weight-bold mb-2">Odaberi predložak za validaciju i uvoz podataka: <span
+                        class="text-danger">*</span></label>
                 <ng-select [items]="validationTemplates" bindLabel="name" bindValue="id" labelForId="state"
                     placeholder="Izaberi..." clearAllText="Clear" formControlName="template"
                     [ngClass]="{'is-invalid': template.invalid && (template.dirty || template.touched || myForm.submitted)}">
@@ -96,7 +101,8 @@
             </div>
             <hr>
             <div class="col-lg-12 col-md-12 col-sm-6 mb-3">
-                <label class="mb-2 font-weight-bold mb-2">Odaberi osobu na predmetu za koju se uvozi izlist: <span class="text-danger">*</span></label>
+                <label class="mb-2 font-weight-bold mb-2">Odaberi osobu na predmetu za koju se uvozi izlist: <span
+                        class="text-danger">*</span></label>
                 <ng-select [items]="peopleOnSubject" bindLabel="name" bindValue="id" labelForId="state"
                     placeholder="Izaberi..." clearAllText="Clear" formControlName="person"
                     [ngClass]="{'is-invalid': person.invalid && (person.dirty || person.touched || myForm.submitted)}">
