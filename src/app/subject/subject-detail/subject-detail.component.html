@@ -1,0 +1,112 @@
+<ngb-alert type="primary" [dismissible]="false" class="mb-0" style="color: black; text-align: center;">
+    <strong>
+        <span class="fas fa-folder-open"></span> Detalji predmeta
+    </strong>
+</ngb-alert>
+<ngb-alert type="secondary" [dismissible]="false" style="color: green;">
+    <div class="row">
+        <div class="col-md-2 col-sm-6" style="display: flex; flex-direction: column;flex-wrap: wrap;">
+            <div class="text-center">
+                <button type="submit" class="button-no-css" (click)="navigateToEdit()">
+                    <span class="fas fa-check-square" style="font-size: 40px;"></span>
+                </button>
+            </div>
+            <span class="text-center" style="font-size: 18px;">
+                Uredi predmet
+            </span>
+        </div>
+        <div class="col-md-2 col-sm-6" style="display: flex; flex-direction: column;flex-wrap: wrap;">
+            <div class="text-center">
+                <button type="button" class="button-no-css" (click)="navigateToHome()">
+                    <span class="fas fa-times-circle" style="font-size: 40px;"></span>
+                </button>
+            </div>
+            <span class="text-center" style="font-size: 18px;">
+                Zatvori predmet
+            </span>
+        </div>
+        <div class="col-md-2 col-sm-6" style="display: flex; flex-direction: column;flex-wrap: wrap;">
+            <div class="text-center">
+                <button type="button" class="button-no-css" (click)="deleteSubject()">
+                    <span class="fas fa-trash-alt" style="font-size: 40px;"></span>
+                </button>
+            </div>
+            <span class="text-center" style="font-size: 18px;">
+                Obriši predmet
+            </span>
+        </div>
+    </div>
+</ngb-alert>
+<div class="container" *ngIf="subject">
+    <div class="input-group">
+        <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+            <label for="BrojPredmeta" style="font-size: 18px;">
+                Broj predmeta:
+            </label>
+            <strong class="ml-3">
+                {{ subject.BrojPredmeta }}
+            </strong>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+            <label for="DatumOtvaranja" style="font-size: 18px;">
+                Datum otvaranja predmeta:
+            </label>
+            <strong class="ml-3">
+                {{ subject.DatumOtvaranja | date: 'dd.MM.yyyy' }}
+            </strong>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+        <label for="BrojPredmeta" style="font-size: 18px;">
+            Naziv predmeta:
+        </label>
+        <strong class="ml-3">
+            {{ subject.NazivPredmeta }}
+        </strong>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+        <label for="BrojPredmeta" style="font-size: 18px;">
+            Status predmeta:
+        </label>
+        <strong class="ml-3">
+            {{ subjectStatus.name }}
+        </strong>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-12 mb-5">
+        <label for="permission" style="font-size: 18px;">
+            Dozvole za rad na predmetu
+        </label>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Broj</th>
+                    <th scope="col">Ime</th>
+                    <th scope="col">Prezime</th>
+                    <th scope="col">E-mail</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let korisnik of subject.DozvoljeniKorisnici; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ korisnik.Ime }}</td>
+                    <td>{{ korisnik.Prezime }}</td>
+                    <td>{{ korisnik.Email }}</td>
+                </tr>
+                <tr *ngIf="subject.DozvoljeniKorisnici.length == 0">
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+        <label for="BrojPredmeta" style="font-size: 18px;">
+            Napomena:
+        </label>
+        <strong class="ml-3">
+            {{ subject.Napomena }}
+        </strong>
+    </div>
+</div>

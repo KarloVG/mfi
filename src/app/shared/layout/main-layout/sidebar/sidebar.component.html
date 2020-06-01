@@ -1,0 +1,40 @@
+<section id="sidebar" class="sidebar-holder">
+  <div>
+    <ul class="sidebar-list list-unstyled px-0">
+      <li class="sidebar-list-item text-center px-0 py-0">
+        <div class="dropdown">
+          <button type="button" class="menu-button btn btn-block py-3" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="menu-icon d-block fas fa-bars fa-2x"></span>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" routerLink="">
+              <span class="fas fa-chart-line"></span>
+              <span class="ml-2">Stvori novi predmet</span>
+            </a>
+            <a class="dropdown-item" routerLink="">
+              <span class="fas fa-folder-open"></span>
+              <span class="ml-2">Otvori postojeći predmet</span>
+            </a>
+            <a class="dropdown-item" routerLink="">
+              <span class="fas fa-save"></span>
+              <span class="ml-2">Pohrani stanje predmeta</span>
+            </a>
+            <a class="dropdown-item" routerLink="">
+              <span class="fas fa-times-circle"></span>
+              <span class="ml-2">Zatvori predmet</span>
+            </a>
+          </div>
+        </div>
+      </li>
+      <li class="sidebar-list-item text-center px-0 py-0" *ngFor="let menu of menus" [ngClass]="{'active': menu.active === true}">
+        <button type="button" class="menu-button btn btn-block py-3"
+          routerLink="{{menu.path}}"
+          [title]="menu.descr"
+          [disabled]="menu.disabled">
+          <span class="menu-icon d-block fas fa-2x" [ngClass]="menu.icon"></span>
+          <span class="menu-text d-block " *ngIf="!!menu.descr">{{menu.descr}}</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+</section>

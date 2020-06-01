@@ -1,0 +1,55 @@
+<div class="p-2">
+    <ngx-datatable class="material horizontal-table-scroll" columnMode="force" [headerHeight]="'auto'" [footerHeight]="50"
+        [rowHeight]="'auto'" [limit]="10" [loadingIndicator]="isLoading" [rows]="innerItems" [messages]="{
+            emptyMessage:'Nema rezultata',
+            totalMessage: 'ukupno',
+            selectedMessage: 'odabran'
+        }">
+
+        <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
+            [canAutoResize]="false">
+            <ng-template ngx-datatable-header-template>
+                Br.
+            </ng-template>
+            <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                {{ rowIndex + 1 }}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column prop="Izvor" [width]="80"></ngx-datatable-column>
+        <ngx-datatable-column name="SWIFT" prop="SWIFT" [width]="80"></ngx-datatable-column>
+        <ngx-datatable-column prop="BrojRacuna" [width]="80"></ngx-datatable-column>
+        <ngx-datatable-column prop="DatumUvoza" [width]="100">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{ value | date: 'dd.MM.yyyy'}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="Naziv" [width]="130"></ngx-datatable-column>
+        <ngx-datatable-column prop="IzvodOd" [width]="100">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{ value | date: 'dd.MM.yyyy'}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="IzvodDo" [width]="100">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{ value | date: 'dd.MM.yyyy'}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Br. transakcija (U/I)" prop="BrTransakcija" [width]="120"></ngx-datatable-column>
+        <ngx-datatable-column name="Iznos transakcija (U/I)" prop="IznosTransakcija" [width]="120"></ngx-datatable-column>
+        <ngx-datatable-column name="actions" [width]="130" [resizeable]="false" [sortable]="false" [draggable]="false"
+            [canAutoResize]="false">
+            <ng-template ngx-datatable-header-template>
+                Akcije
+            </ng-template>
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                <div class="" role="group" aria-label="First group">
+                    <button type="button" class="button-no-css" (click)="showInnerBaseDetail(row)"><i
+                            class="fas fa-info-circle text-primary mr-5" style="font-size: 22px;"></i></button>
+                    <button type="button" class="button-no-css" (click)="deleteInnerBaseItem(row)"><i
+                            class="fas fa-trash-alt text-danger" style="font-size: 22px;"></i></button>
+                </div>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>

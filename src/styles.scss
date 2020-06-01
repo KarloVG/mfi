@@ -1,0 +1,66 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/themes/default.theme.css";
+// regular style toast
+@import '~ngx-toastr/toastr';
+// colors css
+@import 'assets/styles/globals/color';
+
+//ngx datatable
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/material.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+@import '~@fortawesome/fontawesome-free-webfonts/scss/_mixins.scss';
+@import '~@fortawesome/fontawesome-free-webfonts/scss/_variables.scss';
+
+* {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+ng-select {
+    &.ng-invalid.ng-touched .ng-select-container {
+        border-color: red;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px lightcoral;
+    }
+
+    &.ng-invalid.is-invalid .ng-select-container {
+        border-color: red;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px lightcoral;
+    }
+
+    &.ng-select-disabled.is-disabled .ng-select-container {
+        background-color: #FFD700;
+    }
+
+    &.is-invalid + .invalid-feedback{
+        display: block;
+    }
+
+    &.ng-select-container{
+        min-height: 31px !important;
+    }
+}
+
+.ngx-datatable.material {
+    .datatable-header {
+        border: 0 !important;
+        .datatable-header-cell {
+            background: #0075C2;
+            color: white !important;
+        }
+    }
+}
+
+/* for extending modal */
+.largeModalClass .modal-dialog {
+    min-width: 90%;
+}
+
+// ng-select .ng-clear {
+//     // Import mixin from font-awesome/scss/mixins.scss
+//     @include fa-icon();
+//     width: 0;
+//     // Use icon variable from font-awesome/scss/variables.scss
+//     &::before {
+//         content: "Z" //fa-content($fa-var-trash) !important;
+//     }
+// }

@@ -1,0 +1,20 @@
+<div class="modal-header" style="background: rgb(220, 53, 69); color: white;">
+    <h4 class="modal-title" id="modal-title">Zatvaranje predmeta</h4>
+</div>
+<div class="modal-body" *ngIf="subjectName; else newEntry">
+    <p>
+        U predmetu <strong>"{{ subjectName }}" </strong> napravljene su određene promjene. <br>
+        Molimo vas odaberite želite li pohraniti stanje predmeta prije zatvaranja.
+    </p>
+</div>
+<ng-template #newEntry>
+    <div class="modal-body">
+        <p>
+            <strong>Predmet nije pohranjen.</strong> Molimo vas odaberite želite li pohraniti stanje predmeta prije zatvaranja.
+        </p>
+    </div>
+</ng-template>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger mr-auto" (click)="modal.close(false)">Zatvori bez spremanja</button>
+    <button type="button" ngbAutofocus class="btn btn-primary" (click)="modal.close(true)">Spremi i zatvori</button>
+</div>
