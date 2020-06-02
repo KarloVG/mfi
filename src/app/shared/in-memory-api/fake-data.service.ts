@@ -6,6 +6,8 @@ import { IBaseExtract } from 'src/app/statement-base/models/base-extract';
 import { IBaseItem } from 'src/app/statement-base/models/base-item';
 import { IInnerbaseItem } from 'src/app/statement-base/models/inner-base-item';
 import { IInnerBaseDetail } from 'src/app/statement-base/models/inner-base-detail';
+import { ITirmItem } from 'src/app/statement-base/models/tirm-item';
+import { ITirmFile } from 'src/app/statement-base/models/tirm-file';
 
 export class FakeDataService implements InMemoryDbService {
     createDb() {
@@ -265,6 +267,58 @@ export class FakeDataService implements InMemoryDbService {
             }
         ];
 
+        let tirmItems: ITirmItem[] = [
+            {
+                ID: 1,
+                TemeljTrazenja: '332. KZP',
+                Status: 'Otpremljen',
+                VrstaTrazenja: 'Financijske',
+                Vrsta: 'Račun',
+                Clanak: '',
+                RazloziTrazenja: 'Razlog traženja 123',
+                UrudzbeniBroj: 'URBR2345/2019-4',
+                OPKP: '987-654',
+                Podnositelj: 'Djelatnik',
+                UstrojstvenaJedinica: 'SLUŽBA POS. KRIM',
+                Stvoren: new Date(),
+            },
+            {
+                ID: 2,
+                TemeljTrazenja: '68 ZPPO',
+                Status: 'Otpremljen',
+                VrstaTrazenja: 'Izlisti',
+                Vrsta: 'KOMInt',
+                Clanak: 'Članak 92',
+                RazloziTrazenja: 'Razlog traženja 321',
+                UrudzbeniBroj: 'URBR2345/2019-3',
+                OPKP: '654-321',
+                Podnositelj: 'Djelatnik',
+                UstrojstvenaJedinica: 'SLUŽBA POS. KRIM',
+                Stvoren: new Date(),
+            },
+        ];
+
+        let tirmFiles: ITirmFile[] = [
+            {
+                Datoteka: 'Racun_HR300123_2019-09-01_2020-12-31.csv',
+                Izvor: 'ZABA',
+                BrojRacuna: 'HR300123321321321321321',
+                DatumUvoza: new Date(),
+                Osoba: 'Marko Marković',
+                UkupanBrTansakcija: 123,
+                UkupanIznosTransakcija: '115.413 HRK'
+            },
+            {
+                Datoteka: 'Racun_SRB321_2020-10-13_2021-10-28.csv',
+                Izvor: 'ZABA',
+                BrojRacuna: 'GR3213123432423423423423423432423',
+                DatumUvoza: new Date(),
+                Osoba: 'Marko Marković',
+                UkupanBrTansakcija: 321,
+                UkupanIznosTransakcija: '551.989 HRK'
+            }
+        ];
+
         return {
             subjects,
             subjectStatuses,
@@ -275,7 +329,9 @@ export class FakeDataService implements InMemoryDbService {
             baseItems,
             innerBaseItems,
             baseDetails,
-            validationTemplates
+            validationTemplates,
+            tirmItems,
+            tirmFiles
         };
     }
 }

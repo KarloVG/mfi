@@ -19,7 +19,7 @@ export class SidebarComponent implements OnInit {
   public menus = [
     {
       name: 'predmet',
-      path: '/predmet',
+      path: '/subject/edit/1',
       descr: 'Predmet',
       icon: 'fa-folder-open',
       active: false,
