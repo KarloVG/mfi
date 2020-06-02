@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
 import { ISimpleDropdownItem } from '../../models/simple-dropdown-item';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-modal-filter',
@@ -18,7 +19,13 @@ export class ModalFilterComponent implements OnInit {
     Banka: null,
     BankaB: null,
     Drzava: null,
-    DrzavaB: null
+    DrzavaB: null,
+    DatumTrasakcijeOd: null,
+    DatumTrasakcijeDo: null,
+    IznosOd: '',
+    IznosDo: '',
+    Smjer: null,
+    VrstaTransakcije: null
   });
 
   banks: ISimpleDropdownItem[] = [];
@@ -26,13 +33,62 @@ export class ModalFilterComponent implements OnInit {
   
   constructor(
     public modal: NgbActiveModal,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
     ) {}
 
   ngOnInit(): void {
   }
 
   onSubmit(): void {
+    if(!this.Naziv.value && !this.NazivB.value && !this.BrojRacuna.value && !this.BrojRacunaB.value && !this.Banka.value && !this.BankaB.value && !this.Drzava.value
+      && !this.DrzavaB.value && !this.DatumTrasakcijeDo.value && !this.DatumTrasakcijeOd.value && !this.VrstaTransakcije.value && !this.Smjer.value && !this.IznosDo.value && !this.IznosOd.value) {
+        this.toastr.warning('Filter mora sadržavati minimalno 1 polje', 'Pogreška', { progressBar: true })
+    } else {
+      this.modal.close(true)
+    }
   }
 
+  get Naziv(): AbstractControl {
+    return this.filterFormGroup.get('Naziv');
+  }
+  get NazivB(): AbstractControl {
+    return this.filterFormGroup.get('NazivB');
+  }
+  get BrojRacuna(): AbstractControl {
+    return this.filterFormGroup.get('BrojRacuna');
+  }
+  get BrojRacunaB(): AbstractControl {
+    return this.filterFormGroup.get('BrojRacunaB');
+  }
+  get Banka(): AbstractControl {
+    return this.filterFormGroup.get('Banka');
+  }
+  get BankaB(): AbstractControl {
+    return this.filterFormGroup.get('BankaB');
+  }
+  get Drzava(): AbstractControl {
+    return this.filterFormGroup.get('Drzava');
+  }
+  get DrzavaB(): AbstractControl {
+    return this.filterFormGroup.get('DrzavaB');
+  }
+  get DatumTrasakcijeOd(): AbstractControl {
+    return this.filterFormGroup.get('DatumTrasakcijeOd');
+  }
+  get DatumTrasakcijeDo(): AbstractControl {
+    return this.filterFormGroup.get('DatumTrasakcijeDo');
+  }
+  get IznosOd(): AbstractControl {
+    return this.filterFormGroup.get('IznosOd');
+  }
+  get IznosDo(): AbstractControl {
+    return this.filterFormGroup.get('IznosDo');
+  }
+  get Smjer(): AbstractControl {
+    return this.filterFormGroup.get('Smjer');
+  }
+  get VrstaTransakcije(): AbstractControl {
+    return this.filterFormGroup.get('VrstaTransakcije');
+  }
 }
