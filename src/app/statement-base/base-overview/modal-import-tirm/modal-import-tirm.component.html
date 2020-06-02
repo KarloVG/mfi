@@ -4,6 +4,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
+
 <div class="modal-body">
     <form [formGroup]="importFromTIRMGroup" (ngSubmit)="onSubmit()" #myForm="ngForm"
         *ngIf="!isLoadingResponse; else loaderActivated">
@@ -25,7 +26,7 @@
                     </button>
                 </div>
             </div>
-            
+
             <ngx-datatable class="material horizontal-table-scroll" columnMode="force" [headerHeight]="'auto'"
                 [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [loadingIndicator]="isLoadingTable" [rows]="itemsFromTIRM"
                 [messages]="{
