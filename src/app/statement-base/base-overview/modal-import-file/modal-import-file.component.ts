@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
@@ -11,9 +11,10 @@ import { take } from 'rxjs/operators';
   templateUrl: './modal-import-file.component.html',
   styleUrls: ['./modal-import-file.component.scss']
 })
-export class ModalImportFileComponent implements OnInit {
+export class ModalImportFileComponent implements OnInit, OnDestroy {
 
   isLoadingResponse: boolean = false;
+  importSuccess: boolean = true;
   fileName: string;
   validationTemplates: ISimpleDropdownItem[] = [];
   @Input() peopleOnSubject: ISimpleDropdownItem[] = [];
@@ -35,6 +36,8 @@ export class ModalImportFileComponent implements OnInit {
     this.getValidationTemplates();
   }
 
+  ngOnDestroy(): void { }
+
   exitModal(): void {
     this.modal.close(false);
   }
@@ -44,7 +47,7 @@ export class ModalImportFileComponent implements OnInit {
   }
 
   getValidationTemplates() {
-    this.validationTemplateService.getTemplates().pipe(take(1)).subscribe(
+    this.validationTemplateService.getTemplates().pipe(untilComponentDestroyed(this)).subscribe(
       data => {
         this.validationTemplates = data;
       }
@@ -57,6 +60,7 @@ export class ModalImportFileComponent implements OnInit {
     } else {
       const a = this.fileInput.nativeElement.files[0];
       this.isLoadingResponse = true;
+       // u error() od observabla nedostaje importSuccess = false!!!
     }
   }
 

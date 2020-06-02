@@ -7,11 +7,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ModalFilterComponent } from './modal-filter/modal-filter.component';
 
 
 const components = [
   ConfirmationModalComponent,
-  ModalOpenSubjectComponent
+  ModalOpenSubjectComponent,
+  ModalFilterComponent
 ];
 
 @NgModule({

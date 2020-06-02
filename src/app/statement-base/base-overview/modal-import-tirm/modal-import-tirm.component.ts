@@ -8,6 +8,7 @@ import { TirmService } from '../../services/tirm.service';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { ITirmFile } from '../../models/tirm-file';
 import { ToastrService } from 'ngx-toastr';
+import { DateOnlyPipe } from 'src/app/shared/utils/date-pipe';
 
 @Component({
   selector: 'app-modal-import-tirm',
@@ -20,6 +21,7 @@ export class ModalImportTirmComponent implements OnInit, OnDestroy {
   isLoadingTable: boolean = true;
   isLoadingSecondTable: boolean = true; 
   isFirstTableSelected: boolean = false;
+  importSuccess: boolean = true;
   columns = [];
   selected = [];
 
@@ -46,7 +48,11 @@ export class ModalImportTirmComponent implements OnInit, OnDestroy {
       { name: 'Datoteka', prop: 'Datoteka' },
       { name: 'Izvor', prop: 'Izvor' },
       { name: 'Broj računa', prop: 'BrojRacuna' },
-      { name: 'Datum uvoza', prop: 'Datum uvoza' },
+      { 
+        name: 'Datum uvoza', 
+        prop: 'DatumUvoza',
+        pipe: new DateOnlyPipe('en-US')
+      },
       { name: 'Ime / Naziv vlasnika', prop: 'Osoba' },
       { name: 'Ukupan broj transakcija', prop: 'UkupanBrTansakcija' },
       { name: 'Ukupan iznos transakcija', prop: 'UkupanIznosTransakcija' },
@@ -131,6 +137,7 @@ export class ModalImportTirmComponent implements OnInit, OnDestroy {
       return;
     } else {
       this.isLoadingResponse = true;
+      // u error() od observabla nedostaje importSuccess = false!!!
     }
   }
 

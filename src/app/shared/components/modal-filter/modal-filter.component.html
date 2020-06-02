@@ -1,0 +1,120 @@
+<div class="modal-header modal-gray">
+    <h4 class="modal-title" id="modal-title">Filtriranje podataka</h4>
+</div>
+<form [formGroup]="filterFormGroup" (ngSubmit)="onSubmit()">
+    <div class="modal-body">
+        <h5 class="font-weight-bold">1. Filter transakcija za osobu A (s naloga)</h5>
+        <div class="input-group">
+            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <label for="Naziv">Ime / naziv</label>
+                <input type="text" class="form-control" id="Naziv" name="Naziv"
+                    placeholder="Ime / naziv osobe" formControlName="Naziv">
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <label for="BrojRacuna">Račun</label>
+                <input type="text" class="form-control" id="BrojRacuna" name="BrojRacuna"
+                    placeholder="Broj računa" formControlName="BrojRacuna">
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <label for="Banka">Banka</label>
+                <ng-select [items]="banks" bindLabel="name" bindValue="id" labelForId="state" placeholder="Izaberi..."
+                    clearAllText="Clear" formControlName="Banka">
+                </ng-select>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <label for="Drzava">Država</label>
+                <ng-select [items]="countries" bindLabel="name" bindValue="id" labelForId="state" placeholder="Izaberi..."
+                    clearAllText="Clear" formControlName="Drzava">
+                </ng-select>
+            </div>
+        </div>
+        <hr>
+        <h5 class="font-weight-bold">2. Filter transakcija za osobu B (ostale osobe)</h5>
+        <div class="input-group">
+            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <label for="NazivB">Ime / naziv</label>
+                <input type="text" class="form-control" id="NazivB" name="NazivB"
+                    placeholder="Mjesec, npr. 14. mjesec" formControlName="NazivB">
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <label for="BrojRacunaB">Račun</label>
+                <input type="text" class="form-control" id="BrojRacunaB" name="BrojRacunaB"
+                    placeholder="Mjesec, npr. 14. mjesec" formControlName="BrojRacunaB">
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <label for="BankaB">Banka</label>
+                <ng-select [items]="banks" bindLabel="name" bindValue="id" labelForId="state" placeholder="Izaberi..."
+                    clearAllText="Clear" formControlName="BankaB">
+                </ng-select>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <label for="DrzavaB">Država</label>
+                <ng-select [items]="countries" bindLabel="name" bindValue="id" labelForId="state" placeholder="Izaberi..."
+                    clearAllText="Clear" formControlName="DrzavaB">
+                </ng-select>
+            </div>
+        </div>
+        <hr>
+        <h5 class="font-weight-bold">3.Filtriranje transakcija</h5>
+        <div class="input-group">
+            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <label for="Smjer">Smjer transakcije</label>
+                <ng-select [items]="countries" bindLabel="name" bindValue="id" labelForId="state" placeholder="Izaberi..."
+                    clearAllText="Clear" formControlName="Smjer">
+                </ng-select>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <label for="VrstaTransakcije">Vrsta transakcije</label>
+                <ng-select [items]="countries" bindLabel="name" bindValue="id" labelForId="state" placeholder="Izaberi..."
+                    clearAllText="Clear" formControlName="VrstaTransakcije">
+                </ng-select>
+            </div>
+            <div class="input-group mb-4">
+                <label class="col-sm-12 mb-2">
+                    Datum transakcije
+                </label>
+                <div class="col-sm-5 input-group">
+                    <input class="form-control" placeholder="dan.mjesec.godina" name="dp2"
+                        formControlName="DatumTrasakcijeOd" ngbDatepicker #d2="ngbDatepicker" [readonly]="true"
+                        [minDate]="{year: 2000, month: 1, day: 1}" placement="top">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar-box" (click)="d2.toggle()"
+                            type="button"><span class="fas fa-calendar"></span></button>
+                    </div>
+                </div>
+                <label class="col-sm-2 text-center">
+                    do
+                </label>
+                <div class="col-sm-5 input-group">
+                    <input class="form-control" placeholder="dan.mjesec.godina" name="dp1"
+                        formControlName="DatumTrasakcijeOd" ngbDatepicker #d1="ngbDatepicker" [readonly]="true" placement="top"
+                        [minDate]="{year: 2000, month: 1, day: 1}">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar-box" (click)="d1.toggle()"
+                            type="button"><span class="fas fa-calendar"></span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-4">
+                <label class="col-sm-12 mb-2">
+                    Iznos transakcije (HRK)
+                </label>
+                <div class="col-sm-5 input-group">
+                    <input type="number" class="form-control" id="IznosOd" name="IznosOd"
+                    placeholder="10000" formControlName="IznosOd">
+                </div>
+                <label class="col-sm-2 text-center">
+                    do
+                </label>
+                <div class="col-sm-5 input-group">
+                    <input type="number" class="form-control" id="IznosDo" name="IznosDo"
+                    placeholder="100000" formControlName="IznosDo">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-info mr-auto" (click)="modal.close(false)">Odustani</button>
+        <button type="submit" class="btn btn-info">Potvrdi</button>
+    </div>
+</form>
