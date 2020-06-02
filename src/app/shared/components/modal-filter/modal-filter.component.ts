@@ -1,13 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbDateParserFormatter, NgbDatepickerI18n} from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
 import { ISimpleDropdownItem } from '../../models/simple-dropdown-item';
 import { ToastrService } from 'ngx-toastr';
+import { CustomDatepickerI18n } from '../../utils/custom-date-picker-i18n';
+import { NgbDateCustomParserFormatter } from '../../utils/ngb-date-custom-parser-formatter';
 
 @Component({
   selector: 'app-modal-filter',
   templateUrl: './modal-filter.component.html',
-  styleUrls: ['./modal-filter.component.scss']
+  styleUrls: ['./modal-filter.component.scss'],
+  providers: [
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n }
+  ]
 })
 export class ModalFilterComponent implements OnInit {
 
