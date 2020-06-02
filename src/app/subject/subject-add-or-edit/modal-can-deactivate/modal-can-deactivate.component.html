@@ -15,6 +15,12 @@
     </div>
 </ng-template>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-danger mr-auto" (click)="modal.close(false)">Zatvori bez spremanja</button>
-    <button type="button" ngbAutofocus class="btn btn-primary" (click)="modal.close(true)">Spremi i zatvori</button>
+    <button type="button" class="btn btn-outline-danger mr-auto" (click)="modal.close(false)">
+        <span class="fas fa-times"></span>
+        <span class="ml-2">Zatvori bez spremanja</span>
+    </button>
+    <button type="button" ngbAutofocus class="btn btn-primary" (click)="modal.close(true)">
+        <span class="fas fa-save"></span>
+        <span class="ml-2">Spremi i zatvori</span>
+    </button>
 </div>

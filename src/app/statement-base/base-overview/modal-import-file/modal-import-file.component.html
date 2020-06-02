@@ -9,8 +9,10 @@
         <form [formGroup]="importFromFileGroup" (ngSubmit)="onSubmit()" #myForm="ngForm"
             *ngIf="!isLoadingResponse; else loaderActivated">
             <div class="col-lg-12 col-md-12 col-sm-6 mt-2 mb-3">
-                <label class="mb-2 font-weight-bold">1.) Odaberi datoteku s izvodom: <span
-                        class="text-danger">*</span></label>
+                <label class="mb-2 font-weight-bold">
+                  <span class="badge badge-pill badge-dark mr-2">1</span>
+                    Odaberi datoteku s izvodom: <span class="text-danger">*</span>
+                </label>
                 <div class="custom-file">
                     <input type="file" lang="hr" #fileInput formControlName="file"
                         [ngClass]="{'is-invalid': file.invalid && (file.dirty || file.touched || myForm.submitted)}">
@@ -19,8 +21,10 @@
             </div>
             <hr>
             <div class="col-lg-12 col-md-12 col-sm-6 mb-3">
-                <label class="mb-2 font-weight-bold mb-2">2.) Odaberi predložak za validaciju i uvoz podataka: <span
-                        class="text-danger">*</span></label>
+                <label class="mb-2 font-weight-bold mb-2">
+                  <span class="badge badge-pill badge-dark mr-2">2</span>
+                    Odaberi predložak za validaciju i uvoz podataka: <span class="text-danger">*</span>
+                </label>
                 <ng-select [items]="validationTemplates" bindLabel="name" bindValue="id" labelForId="state"
                     placeholder="Izaberi..." clearAllText="Clear" formControlName="template"
                     [ngClass]="{'is-invalid': template.invalid && (template.dirty || template.touched || myForm.submitted)}">
@@ -29,8 +33,10 @@
             </div>
             <hr>
             <div class="col-lg-12 col-md-12 col-sm-6 mb-3">
-                <label class="mb-2 font-weight-bold mb-2">3.) Odaberi osobu na predmetu za koju se uvozi izlist: <span
-                        class="text-danger">*</span></label>
+                <label class="mb-2 font-weight-bold mb-2">
+                  <span class="badge badge-pill badge-dark mr-2">3</span>
+                    Odaberi osobu na predmetu za koju se uvozi izlist: <span class="text-danger">*</span>
+                </label>
                 <ng-select [items]="peopleOnSubject" bindLabel="name" bindValue="id" labelForId="state"
                     placeholder="Izaberi..." clearAllText="Clear" formControlName="person"
                     [ngClass]="{'is-invalid': person.invalid && (person.dirty || person.touched || myForm.submitted)}">
@@ -39,9 +45,14 @@
             </div>
             <hr>
             <div class="col-lg-12 col-md-12 col-sm-6 mb-3">
-                <label class="mb-2 font-weight-bold mb-2">4.) Učitaj datoteku: </label>
+                <label class="mb-2 font-weight-bold mb-2">
+                  <span class="badge badge-pill badge-dark mr-2">4</span> Učitaj datoteku:
+                </label>
                 <br>
-                <button type="submit" class="btn btn-outline-info">Učitavanje odabrane datoteke</button>
+                <button type="submit" class="btn btn-info">
+                  <span class="fas fa-file-upload"></span>
+                  <span class="ml-2">Učitavanje odabrane datoteke</span>
+                </button>
             </div>
         </form>
         <ng-template #loaderActivated>
@@ -59,30 +70,30 @@
 <ng-template #importDenied>
     <div class="modal-header" style="background: rgb(220, 53, 69); color: white;">
         <h4 class="modal-title" id="modal-title">Pogreška pri učitavanju datoteke</h4>
-        <button type="button" class="button-no-css" style="font-size: 25px;" aria-label="Close" (click)="exitModal()">
-            <span aria-hidden="true">&times;</span>
+        <button type="button" class="close;" aria-label="Close" (click)="exitModal()">
+            <span class="fas fa-times"></span>
         </button>
     </div>
     <div class="modal-body">
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
                 Redak 123, atribut "Račun 1":
-                <span class="text-danger">neispravan IBAN broj</span> 
+                <span class="text-danger">neispravan IBAN broj</span>
             </li>
             <li class="list-group-item">
-                Redak 145, atribut "Datum/Vrijeme transakcije": 
-                <span class="text-danger">neispravan podatak</span> 
+                Redak 145, atribut "Datum/Vrijeme transakcije":
+                <span class="text-danger">neispravan podatak</span>
             </li>
             <li class="list-group-item">
                 Redak 321, atribut "Račun 2":
-                <span class="text-danger">neispravan IBAN broj</span> 
+                <span class="text-danger">neispravan IBAN broj</span>
             </li>
             <li class="list-group-item">
-                Redak 378, atribut "Vrsta transakcije": 
-                <span class="text-danger">nepoznat broj</span> 
+                Redak 378, atribut "Vrsta transakcije":
+                <span class="text-danger">nepoznat broj</span>
             </li>
             <li class="list-group-item">Redak 432, atribut "Iznos transakcije":
-                <span class="text-danger">nepoznat broj</span> 
+                <span class="text-danger">nepoznat broj</span>
             </li>
         </ul>
     </div>
