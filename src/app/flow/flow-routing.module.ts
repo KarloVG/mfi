@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-
-const routes: Routes = [];
+import { RouterModule } from '@angular/router';
+import { FlowOverviewComponent } from './flow-overview/flow-overview.component';
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild([
+    {
+      path: 'overview',
+      component: FlowOverviewComponent
+    }
+  ])],
   exports: [RouterModule]
 })
 export class FlowRoutingModule { }

@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-
-const routes: Routes = [];
+import { RouterModule } from '@angular/router';
+import { DiagramOverviewComponent } from './diagram-overview/diagram-overview.component';
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild([
+    {
+      path: 'overview',
+      component: DiagramOverviewComponent
+    }
+  ])],
   exports: [RouterModule]
 })
 export class DiagramRoutingModule { }

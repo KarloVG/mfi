@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DiagramRoutingModule } from './diagram-routing.module';
+import { DiagramOverviewComponent } from './diagram-overview/diagram-overview.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [DiagramOverviewComponent],
   imports: [
     CommonModule,
     DiagramRoutingModule

@@ -37,7 +37,7 @@ export class SidebarComponent implements OnInit {
     },
     {
       name: 'tablice',
-      path: '/statement-base/overview',
+      path: '/table/overview',
       descr: 'Tablica',
       icon: 'fa-table',
       active: false,
@@ -46,7 +46,7 @@ export class SidebarComponent implements OnInit {
     },
     {
       name: 'grafovi',
-      path: '/graphs',
+      path: '/diagram/overview',
       descr: 'Dijagram',
       icon: 'fa-sitemap',
       active: false,
@@ -55,7 +55,7 @@ export class SidebarComponent implements OnInit {
     },
     {
       name: 'tijek',
-      path: '/flow',
+      path: '/flow/overview',
       descr: 'Tijek',
       icon: 'fa-clock',
       active: false,
@@ -64,7 +64,7 @@ export class SidebarComponent implements OnInit {
     },
     {
       name: 'mapa',
-      path: '/map',
+      path: '/map/overview',
       descr: 'Mapa',
       icon: 'fa-map',
       active: false,
@@ -73,7 +73,7 @@ export class SidebarComponent implements OnInit {
     },
     {
       name: 'graf',
-      path: '/chart',
+      path: '/chart/overview',
       descr: 'Graf',
       icon: 'fa-chart-pie',
       active: false,
