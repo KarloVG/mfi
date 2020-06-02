@@ -1,16 +1,17 @@
 <div class="modal-header">
     <h4 class="modal-title text-primary" *ngIf="person; else addEntry">Uređivanje osobe na predmetu</h4>
     <ng-template #addEntry>
-        <h4 class="modal-title text-primary" >Dodavanje osobe na predmet</h4>
+        <h4 class="modal-title text-primary">Dodavanje osobe na predmet</h4>
     </ng-template>
     <button type="button" class="close" aria-label="Close" (click)="exitModal()">
-        <span aria-hidden="true">&times;</span>
+        <span class="fas fa-times"></span>
     </button>
 </div>
+
 <div class="modal-body pb-0">
     <form [formGroup]="personGroup" (ngSubmit)="onSubmit()" #myForm="ngForm">
-        <div class="card-body">
-            <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+        <div class="card-body px-0 pt-0">
+            <div class="col-12 mb-3">
                 <label for="Naziv">
                     Naziv <span class="text-danger">*</span>
                 </label>
@@ -19,7 +20,7 @@
                     [ngClass]="{'is-invalid': Naziv.invalid && (Naziv.dirty || Naziv.touched || myForm.submitted)}">
                 <div class="invalid-feedback">Polje je obavezno</div>
             </div>
-            <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+            <div class="col-12 mb-3">
                 <label for="TipOsobe">
                     Tip osobe <span class="text-danger">*</span>
                 </label>
@@ -29,7 +30,7 @@
                 </ng-select>
                 <div class="invalid-feedback">Polje je obavezno</div>
             </div>
-            <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+            <div class="col-12 mb-3">
                 <label for="VrstaIdBroja">
                     Vrsta ID broja
                 </label>
@@ -38,7 +39,7 @@
                     [ngClass]="{'is-invalid': VrstaIdBroja.invalid && (VrstaIdBroja.dirty || VrstaIdBroja.touched || myForm.submitted)}">
                 </ng-select>
             </div>
-            <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+            <div class="col-12 mb-3">
                 <label for="IdBroj">
                     ID broj <span class="text-danger" *ngIf="IdBroj.validator">*</span>
                 </label>
@@ -47,10 +48,15 @@
                     [ngClass]="{'is-invalid': IdBroj.invalid && (IdBroj.dirty || IdBroj.touched || myForm.submitted)}">
             </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary btn-rounded mr-auto"
-                (click)="exitModal()">Odustani</button>
-            <button type="submit" ngbAutofocus class="btn btn-primary btn-rounded mr-2">Dodaj osobu</button>
+        <div class="modal-footer px-0">
+            <button type="button" class="btn btn-outline-secondary mr-auto" (click)="exitModal()">
+              <span class="fas fa-times"></span>
+              <span class="ml-2">Odustani</span>
+            </button>
+            <button type="submit" ngbAutofocus class="btn btn-primary btn-rounded">
+              <span class="fas fa-user-plus"></span>
+              <span class="ml-2">Dodaj osobu</span>
+            </button>
         </div>
     </form>
 </div>
