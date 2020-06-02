@@ -1,8 +1,8 @@
 <div class="modal-header">
     <h4 class="modal-title text-primary" id="modal-title">Otvori postojeći predmet</h4>
-    <button type="button" class="close" aria-label="Close" (click)="exitModal()">
-        <span aria-hidden="true">&times;</span>
-    </button>
+    <a class="close" aria-label="Close" (click)="exitModal()">
+      <span class="fas fa-times"></span>
+    </a>
 </div>
 <div class="modal-body pb-0">
     <form [formGroup]="existingSubjectGroup" (ngSubmit)="onSubmit()" #myForm="ngForm">
@@ -52,11 +52,13 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-4 offset-8">
-                        <button type="button" class="btn btn-outline-info" (click)="clearFilters()">
-                            Poništi
+                        <button type="button" class="btn btn-outline-secondary" (click)="clearFilters()">
+                          <span class="fas fa-times"></span>
+                          <span class="ml-2">Poništi</span>
                         </button>
                         <button type="button" class="btn btn-info float-right" (click)="filterSubjects()">
-                            Filtriraj
+                          <span class="fas fa-filter"></span>
+                          <span class="ml-2">Filtriraj</span>
                         </button>
                     </div>
                 </div>
@@ -78,10 +80,14 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary btn-rounded mr-auto"
-                (click)="exitModal()">Odustani</button>
-            <button type="submit" ngbAutofocus [disabled]="subjects.length === 0"
-                class="btn btn-primary btn-rounded mr-2">Otvori</button>
+            <button type="button" class="btn btn-outline-secondary btn-rounded mr-auto" (click)="exitModal()">
+              <span class="fas fa-times"></span>
+              <span class="ml-2">Odustani</span>
+            </button>
+            <button type="submit" ngbAutofocus [disabled]="subjects.length === 0" class="btn btn-primary btn-rounded mr-2">
+              <span class="fas fa-folder-open"></span>
+              <span class="ml-2">Otvori</span>
+            </button>
         </div>
     </form>
 </div>

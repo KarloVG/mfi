@@ -44,10 +44,12 @@
             </ng-template>
             <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
                 <div class="" role="group" aria-label="First group">
-                    <button type="button" class="button-no-css" (click)="showInnerBaseDetail(row)"><i
-                            class="fas fa-info-circle text-primary mr-5" style="font-size: 22px;"></i></button>
-                    <button type="button" class="button-no-css" (click)="deleteInnerBaseItem(row)"><i
-                            class="fas fa-trash-alt text-danger" style="font-size: 22px;"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline-primary mr-2 px-2 py-0" (click)="showInnerBaseDetail(row)">
+                      <span class="fas fa-info px-1"></span>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-danger px-2 py-0" (click)="deleteInnerBaseItem(row)">
+                      <span class="fas fa-trash-alt"></span>
+                    </button>
                 </div>
             </ng-template>
         </ngx-datatable-column>

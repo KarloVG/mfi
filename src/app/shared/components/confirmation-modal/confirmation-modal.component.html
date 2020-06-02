@@ -7,7 +7,12 @@
     </p>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary mr-auto"  (click)="modal.close(false)">Odustani</button>
-    <button type="button" ngbAutofocus class="btn"  [ngClass]="{'btn-primary': !class , 'btn-danger': class}" (click)="modal.close(true)">Potvrdi</button>
+    <button type="button" class="btn btn-outline-secondary mr-auto" (click)="modal.close(false)">
+      <span class="fas fa-times"></span>
+      <span class="ml-2">Odustani</span>
+    </button>
+    <button type="button" ngbAutofocus class="btn"  [ngClass]="{'btn-primary': !class , 'btn-danger': class}" (click)="modal.close(true)">
+      <span class="fas fa-check"></span>
+      <span class="ml-2">Potvrdi</span>
+    </button>
 </div>
-  

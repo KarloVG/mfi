@@ -1,9 +1,10 @@
 <div class="modal-header">
     <h4 class="modal-title text-primary" id="modal-title">Prikaz detalja transakcija</h4>
-    <button type="button" class="button-no-css" style="font-size: 25px;" aria-label="Close" (click)="exitModal()">
-        <span aria-hidden="true">&times;</span>
-    </button>
+    <a class="close" aria-label="Close" (click)="exitModal()">
+        <span class="fas fa-times"></span>
+    </a>
 </div>
+
 <div class="modal-body">
     <ngb-tabset #t="ngbTabset" class="nav-tabss">
         <ngb-tab id="tab-selectbyid1" title="Detalji o izvodu">

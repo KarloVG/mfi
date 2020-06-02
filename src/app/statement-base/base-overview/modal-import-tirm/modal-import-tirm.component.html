@@ -1,8 +1,8 @@
 <div class="modal-header">
     <h4 class="modal-title text-primary" id="modal-title">Dodavanje izvoda iz TIRM sustava</h4>
-    <button type="button" class="close" aria-label="Close" (click)="exitModal()">
+    <a class="close" aria-label="Close" (click)="exitModal()">
         <span class="fas fa-times"></span>
-    </button>
+    </a>
 </div>
 
 <div class="modal-body">
@@ -44,7 +44,7 @@
                 <ngx-datatable-column name="Razlozi traženja" prop="RazloziTrazenja" [width]="130">
                     <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
                         <button type="button" class="btn button-no-css" [ngbPopover]="row.RazloziTrazenja" triggers="mouseenter:mouseleave" popoverTitle="Razlog traženja">
-                            <i class="fas fa-info-circle text-primary" style="font-size: 22px;"></i>
+                            <span class="fas fa-info-circle text-primary"></span>
                         </button>
                     </ng-template>
                 </ngx-datatable-column>
