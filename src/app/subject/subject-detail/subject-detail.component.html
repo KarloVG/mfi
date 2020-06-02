@@ -1,43 +1,31 @@
-<ngb-alert type="primary" [dismissible]="false" class="mb-0" style="color: black; text-align: center;">
-    <strong>
-        <span class="fas fa-folder-open"></span> Detalji predmeta
-    </strong>
-</ngb-alert>
+<div class="col-12 mt-1 mb-2 px-0">
+  <div class="py-2 px-2">
+      <h4>
+        <span class="fas fa-folder-open"></span>
+        <strong class="ml-2">Detalji predmeta</strong>
+      </h4>
+  </div>
+</div>
 
-<ngb-alert type="secondary" [dismissible]="false" style="color: green;">
-    <div class="row">
-        <div class="col-md-2 col-sm-6" style="display: flex; flex-direction: column;flex-wrap: wrap;">
-            <div class="text-center">
-                <button type="submit" class="button-no-css" (click)="navigateToEdit()">
-                    <span class="fas fa-check-square" style="font-size: 40px;"></span>
-                </button>
-            </div>
-            <span class="text-center" style="font-size: 18px;">
-                Uredi predmet
-            </span>
-        </div>
-        <div class="col-md-2 col-sm-6" style="display: flex; flex-direction: column;flex-wrap: wrap;">
-            <div class="text-center">
-                <button type="button" class="button-no-css" (click)="navigateToHome()">
-                    <span class="fas fa-times-circle" style="font-size: 40px;"></span>
-                </button>
-            </div>
-            <span class="text-center" style="font-size: 18px;">
-                Zatvori predmet
-            </span>
-        </div>
-        <div class="col-md-2 col-sm-6" style="display: flex; flex-direction: column;flex-wrap: wrap;">
-            <div class="text-center">
-                <button type="button" class="button-no-css" (click)="deleteSubject()">
-                    <span class="fas fa-trash-alt" style="font-size: 40px;"></span>
-                </button>
-            </div>
-            <span class="text-center" style="font-size: 18px;">
-                Obriši predmet
-            </span>
-        </div>
+<div class="col-12 bg-light border py-3 mb-5">
+  <div class="row">
+    <div class="col-10">
+      <button type="button" class="btn btn-secondary mr-3" (click)="navigateToEdit()">
+        <span class="fas fa-check-square"></span>
+        <span class="ml-2">Uredi predmet</span>
+      </button>
+      <button type="button" class="btn btn-secondary mr-3" (click)="navigateToHome()">
+        <span class="fas fa-times-circle"></span>
+        <span class="ml-2">Zatvori predmet</span>
+      </button>
+      <button type="button" class="btn btn-secondary mr-3" (click)="deleteSubject()">
+        <span class="fas fa-trash-alt"></span>
+        <span class="ml-2">Obriši predmet</span>
+      </button>
     </div>
-</ngb-alert>
+  </div>
+</div>
+
 <div class="container" *ngIf="subject">
     <div class="input-group">
         <div class="col-sm-12 col-md-12 col-lg-6 mb-3">

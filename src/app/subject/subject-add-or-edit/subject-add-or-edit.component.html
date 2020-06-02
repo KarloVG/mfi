@@ -25,7 +25,7 @@
           <span class="ml-2">Pohrani promjene</span>
         </button>
         <button type="button" class="btn btn-secondary mr-3" (click)="navigateToWelcome()">
-          <span class="fas fa-times-circle"></span>
+          <span class="fas fa-times"></span>
           <span class="ml-2">Odustani</span>
         </button>
       </div>
@@ -74,7 +74,7 @@
             <th scope="col">Ime</th>
             <th scope="col">Prezime</th>
             <th scope="col">E-mail</th>
-            <th scope="col">Alat</th>
+            <th scope="col">Radnje</th>
           </tr>
         </thead>
         <tbody>
@@ -84,8 +84,8 @@
             <td>{{ korisnik.get('Prezime').value }}</td>
             <td>{{ korisnik.get('Email').value }}</td>
             <td>
-              <button type="button" class="btn btn-outline-danger btn-sm px-3" (click)="removePermission(korisnik,userIndex)">
-                <span class="fas fa-times"></span>
+              <button type="button" class="btn btn-outline-danger btn-sm px-3 py-1" (click)="removePermission(korisnik,userIndex)">
+                <small class="fas fa-trash-alt"></small>
               </button>
             </td>
           </tr>
@@ -98,7 +98,10 @@
           </tr>
         </tbody>
       </table>
-      <button type="button" class="btn btn-primary float-right" (click)="openPermissionModal()">Dodaj novu dozvolu</button>
+      <button type="button" class="btn btn-primary float-right" (click)="openPermissionModal()">
+        <span class="fas fa-plus-square"></span>
+        <span class="ml-2">Dodaj novu dozvolu</span>
+      </button>
     </div>
     <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
       <label for="Napomena">Napomena</label>

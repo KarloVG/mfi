@@ -43,9 +43,9 @@
                     <ngx-datatable-column name="Članak" prop="Clanak" [width]="80"></ngx-datatable-column>
                     <ngx-datatable-column name="Razlozi traženja" prop="RazloziTrazenja" [width]="130">
                         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-                            <button type="button" class="btn button-no-css" [ngbPopover]="row.RazloziTrazenja"
+                            <button type="button" class="btn btn-sm btn-outline-primary px-2" [ngbPopover]="row.RazloziTrazenja"
                                 triggers="mouseenter:mouseleave" popoverTitle="Razlog traženja">
-                                <i class="fas fa-info-circle text-primary" style="font-size: 22px;"></i>
+                                <span class="fas fa-info"></span>
                             </button>
                         </ng-template>
                     </ngx-datatable-column>
@@ -62,12 +62,13 @@
                     <ngx-datatable-column name="actions" [width]="130" [resizeable]="false" [sortable]="false"
                         [draggable]="false" [canAutoResize]="false">
                         <ng-template ngx-datatable-header-template>
-                            Akcije
+                            Radnje
                         </ng-template>
                         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
                             <div class="" role="group" aria-label="First group">
                                 <button type="button" class="btn btn-outline-info" (click)="chooseTirmFile(row)">
-                                    Odaberi
+                                    <span class="fas fa-check"></span>
+                                    <span class="ml-2">Odaberi</span>
                                 </button>
                             </div>
                         </ng-template>

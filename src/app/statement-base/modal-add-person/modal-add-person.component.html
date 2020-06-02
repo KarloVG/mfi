@@ -53,9 +53,11 @@
               <span class="fas fa-times"></span>
               <span class="ml-2">Odustani</span>
             </button>
-            <button type="submit" ngbAutofocus class="btn btn-primary btn-rounded">
-              <span class="fas fa-user-plus"></span>
-              <span class="ml-2">Dodaj osobu</span>
+            <button type="submit" ngbAutofocus class="btn btn-primary">
+              <span class="fas fa-user-plus" *ngIf="!person"></span>
+              <span class="fas fa-user-check" *ngIf="person"></span>
+              <span class="ml-2" *ngIf="!person">Dodaj osobu</span>
+              <span class="ml-2" *ngIf="person">Spremi osobu</span>
             </button>
         </div>
     </form>
