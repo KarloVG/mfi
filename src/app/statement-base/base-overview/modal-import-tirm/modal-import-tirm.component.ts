@@ -21,6 +21,7 @@ export class ModalImportTirmComponent implements OnInit, OnDestroy {
   isLoadingTable: boolean = true;
   isLoadingSecondTable: boolean = true; 
   isFirstTableSelected: boolean = false;
+  importSuccess: boolean = true;
   columns = [];
   selected = [];
 
@@ -136,6 +137,7 @@ export class ModalImportTirmComponent implements OnInit, OnDestroy {
       return;
     } else {
       this.isLoadingResponse = true;
+      // u error() od observabla nedostaje importSuccess = false!!!
     }
   }
 
