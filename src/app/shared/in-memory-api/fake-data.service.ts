@@ -8,28 +8,30 @@ import { IInnerbaseItem } from 'src/app/statement-base/models/inner-base-item';
 import { IInnerBaseDetail } from 'src/app/statement-base/models/inner-base-detail';
 import { ITirmItem } from 'src/app/statement-base/models/tirm-item';
 import { ITirmFile } from 'src/app/statement-base/models/tirm-file';
+import { Subject } from 'rxjs';
 
 export class FakeDataService implements InMemoryDbService {
     createDb() {
         let subjects: ISubject[] = [
-            {
-                PredmetID: 1,
-                BrojPredmeta: '1234-567-8910',
-                NazivPredmeta: 'Test predmet 1',
-                DatumOtvaranja: new Date(),
-                StatusPredmeta: 1,
-                Napomena: 'Nema napomene za navedeni predmet',
-                DozvoljeniKorisnici: [
-                    {
-                        ID: 15,
-                        Ime: 'David',
-                        Prezime: 'Corona',
-                        Flag: false,
-                        Email: 'david.corona@gmail.com',
-                        isAdalUser: true
-                    }
-                ]
-            }
+            // {
+            //     id: 1,
+            //     PredmetID: 1,
+            //     BrojPredmeta: '1234-567-8910',
+            //     NazivPredmeta: 'Test predmet 1',
+            //     DatumOtvaranja: new Date(),
+            //     StatusPredmeta: 1,
+            //     Napomena: 'Nema napomene za navedeni predmet',
+            //     DozvoljeniKorisnici: [
+            //         {
+            //             ID: 15,
+            //             Ime: 'David',
+            //             Prezime: 'Corona',
+            //             Flag: false,
+            //             Email: 'david.corona@gmail.com',
+            //             isAdalUser: true
+            //         }
+            //     ]
+            // }
         ];
         let subjectStatuses: ISimpleDropdownItem[] = [
             {
@@ -333,5 +335,8 @@ export class FakeDataService implements InMemoryDbService {
             tirmItems,
             tirmFiles
         };
+    }
+    genId<T extends ISubject | ISubjectPermission>(item: T[]): number {
+        return item.length > 0 ? Math.max(...item.map(hero => hero.id)) + 1 : 1;
     }
 }

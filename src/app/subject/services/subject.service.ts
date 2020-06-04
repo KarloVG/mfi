@@ -22,21 +22,46 @@ export class SubjectService {
   }
 
   getSubjectById(id: number): Observable<ISubject> {
-    const url = this.urlHelper.getUrl(this.CONTROLER_NAME + '?PredmetID=' + id.toString());
-    console.log(url)
-    return this.http.get<ISubject>(url).pipe(
-      // hacking due to in memory fake web api
-      map( value => value[0])
-    );
+    const url = this.urlHelper.getUrl(this.CONTROLER_NAME, id.toString());
+    return this.http.get<ISubject>(url);
   }
 
   getSubjectsDropdown(): Observable<ISimpleDropdownItem[]> {
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
     return this.http.get<ISubject[]>(url).pipe(map(response => {
       return response.map(el => {
-        const item: ISimpleDropdownItem = { id: el.PredmetID , name: `Predmet '${el.NazivPredmeta}' (${moment(el.DatumOtvaranja).format('DD.MM.YYYY')})` }
+        const item: ISimpleDropdownItem = { id: el.id , name: `Predmet '${el.NazivPredmeta}' (${moment(el.DatumOtvaranja).format('DD.MM.YYYY')})` }
         return item
       })
     }));
+  }
+
+  addSubject(formData: ISubject): Observable<ISubject> {
+    const requestData = {
+      BrojPredmeta: formData.BrojPredmeta,
+      DatumOtvaranja: formData.DatumOtvaranja,
+      DozvoljeniKorisnici: formData.DozvoljeniKorisnici,
+      Napomena: formData.Napomena,
+      NazivPredmeta: formData.NazivPredmeta,
+      StatusPredmeta: formData.StatusPredmeta
+    }
+
+    const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
+    return this.http.post<ISubject>(url, requestData);
+  }
+
+  editSubject(subjectId: number, formData:ISubject): Observable<ISubject> {
+    const requestData = {
+      id: subjectId,
+      BrojPredmeta: formData.BrojPredmeta,
+      DatumOtvaranja: formData.DatumOtvaranja,
+      DozvoljeniKorisnici: formData.DozvoljeniKorisnici,
+      Napomena: formData.Napomena,
+      NazivPredmeta: formData.NazivPredmeta,
+      StatusPredmeta: formData.StatusPredmeta
+    }
+
+    const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
+    return this.http.put<ISubject>(url, requestData);
   }
 }

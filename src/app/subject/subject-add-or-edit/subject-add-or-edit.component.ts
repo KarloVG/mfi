@@ -16,6 +16,8 @@ import { NgbDateCustomParserFormatter } from 'src/app/shared/utils/ngb-date-cust
 import { Observable, Subject } from 'rxjs';
 import { ModalCanDeactivateComponent } from './modal-can-deactivate/modal-can-deactivate.component';
 import { CanComponentDeactivate } from 'src/app/shared/services/confirm-exit-popup-guard';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { NavigationService } from 'src/app/shared/services/navigation.service';
 
 @Component({
   selector: 'app-subject-add-or-edit',
@@ -26,10 +28,10 @@ import { CanComponentDeactivate } from 'src/app/shared/services/confirm-exit-pop
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n }
   ]
 })
-export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate{
-  @ViewChild('myForm') myForm: FormGroupDirective; 
+export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate {
+  @ViewChild('myForm') myForm: FormGroupDirective;
   @Input() passEntry;
-  
+
   private confimationSubject = new Subject<boolean>();
   subjectStatuses: ISimpleDropdownItem[] = [];
   subjectFormGroup: FormGroup = this.formBuilder.group({
@@ -65,7 +67,8 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
     private subjectService: SubjectService,
-    private router: Router
+    private router: Router,
+    private navigationService: NavigationService
   ) { }
 
   ngOnInit(): void {
@@ -140,13 +143,14 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
       modalRef.componentInstance.subjectName = this.subjectId ? this.NazivPredmeta.value : '';
       modalRef.result.then((result) => {
         if (result == true) {
-          if(this.subjectId) {
+          if (this.subjectId) {
             this.toastr.success('Uredili ste predmet', 'Uspjeh', {
               progressBar: true
             });
             this.confimationSubject.next(true);
+            this.navigationService.publishNavigationChange();
           } else {
-            if(this.subjectFormGroup.invalid) {
+            if (this.subjectFormGroup.invalid) {
               this.subjectFormGroup.markAllAsTouched();
               this.toastr.error('Nisu ispunjena sva obavezna polja', 'Greška', {
                 progressBar: true
@@ -157,9 +161,10 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
                 progressBar: true
               });
               this.confimationSubject.next(true);
+              this.navigationService.publishNavigationChange();
             }
           }
-        } else if(result == false) {
+        } else if (result == false) {
           this.toastr.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
             progressBar: true
           });
@@ -208,27 +213,35 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   }
 
   onSubmit() {
-    if (this.subjectId) {
-      this.subjectFormGroup.markAsPristine();
-      this.toastr.success('Uredili ste predmet', 'Uspjeh', {
-        progressBar: true
-      })
-      this.router.navigate(['subject', 1]);
+    if (this.subjectFormGroup.invalid) {
+      // triggers contitional for myForm.submitted on html
+      return;
     } else {
-      if (this.subjectFormGroup.invalid) {
-        // triggers contitional for myForm.submitted on html
-        return;
+      if (this.subjectId) {
+        this.subjectService.editSubject(this.subjectId, this.subjectFormGroup.value).pipe(untilComponentDestroyed(this))
+          .subscribe(responseData => {
+            console.log(responseData)
+            this.subjectFormGroup.markAsPristine();
+            this.toastr.success('Uredili ste predmet', 'Uspjeh', {
+              progressBar: true
+            });
+            this.navigationService.publishNavigationChange();
+            this.router.navigate(['subject', this.subjectId]);
+          })
       } else {
-        this.subjectFormGroup.markAsPristine();
-        this.toastr.success('Pohranili ste novi predmet', 'Uspjeh', {
-          progressBar: true
-        });
-        this.router.navigate(['subject', 1])
+        this.subjectService.addSubject(this.subjectFormGroup.value).pipe(untilComponentDestroyed(this))
+          .subscribe(response => {
+            localStorage.setItem('subject_id', response.id.toString());
+            this.subjectFormGroup.markAsPristine();
+            this.toastr.success('Pohranili ste novi predmet', 'Uspjeh', {
+              progressBar: true
+            });
+            this.navigationService.publishNavigationChange();
+            this.router.navigate(['subject', response.id]);
+          })
       }
     }
   }
-
-  
 
   get BrojPredmeta(): AbstractControl {
     return this.subjectFormGroup.get('BrojPredmeta');

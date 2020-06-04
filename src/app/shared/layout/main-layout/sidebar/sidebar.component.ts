@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalStoreSubjectService } from 'src/app/shared/services/local-store-subject.service';
+import { NavigationService, IMenuItem } from 'src/app/shared/services/navigation.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalOpenSubjectComponent } from 'src/app/subject/subject-detail/modal-open-subject/modal-open-subject.component';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
-interface menu_item {
-  name: string
-  path: string
-  descr: string
-  icon: string
-  active?: boolean
-  visible?: boolean
-  disabled: boolean
-}
+
 
 @Component({
   selector: 'app-sidebar',
@@ -16,73 +14,41 @@ interface menu_item {
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  public menus = [
-    {
-      name: 'predmet',
-      path: '/subject/edit/1',
-      descr: 'Predmet',
-      icon: 'fa-folder-open',
-      active: false,
-      visible: true,
-      disabled: false,
-    },
-    {
-      name: 'izvodi',
-      path: '/statement-base/overview',
-      descr: 'Baza izvoda',
-      icon: 'fa-database',
-      active: false,
-      visible: true,
-      disabled: false,
-    },
-    {
-      name: 'tablice',
-      path: '/table/overview',
-      descr: 'Tablica',
-      icon: 'fa-table',
-      active: false,
-      visible: true,
-      disabled: false,
-    },
-    {
-      name: 'grafovi',
-      path: '/diagram/overview',
-      descr: 'Dijagram',
-      icon: 'fa-sitemap',
-      active: false,
-      visible: true,
-      disabled: false,
-    },
-    {
-      name: 'tijek',
-      path: '/flow/overview',
-      descr: 'Tijek',
-      icon: 'fa-clock',
-      active: false,
-      visible: true,
-      disabled: false,
-    },
-    {
-      name: 'mapa',
-      path: '/map/overview',
-      descr: 'Mapa',
-      icon: 'fa-map',
-      active: false,
-      visible: true,
-      disabled: false,
-    },
-    {
-      name: 'graf',
-      path: '/chart/overview',
-      descr: 'Graf',
-      icon: 'fa-chart-pie',
-      active: false,
-      visible: true,
-      disabled: false,
-    },
-  ]
 
-  constructor() {}
+  menus: IMenuItem[] = []
 
-  ngOnInit(): void {}
+  constructor(
+    private navService: NavigationService,
+    private ngbModalService: NgbModal,
+    private router: Router,
+    private toastrService: ToastrService
+  ) { }
+
+  ngOnInit(): void {
+    this.navService.publishNavigationChange();
+    this.navService.menuItems$
+      .subscribe((items) => {
+        console.log(items)
+        this.menus = items;
+      });
+  }
+
+  openSubjectModal(): void {
+    const modalRef = this.ngbModalService.open(ModalOpenSubjectComponent, { size: 'lg', backdrop: 'static', keyboard: false });
+    modalRef.result.then(result => {
+      if (typeof(result) == 'number') {
+        console.log('rezultat', result)
+        localStorage.setItem('subject_id', result.toString());
+        this.navService.publishNavigationChange();
+        this.router.navigate(['subject', result.toString()]);
+      }
+    }).catch((res) => { });
+  }
+
+  exitSubject(): void {
+    this.toastrService.info('Predmet je zatvoren')
+    localStorage.removeItem('subject_id');
+    this.navService.publishNavigationChange();
+    this.router.navigate(['welcome']);
+  }
 }
