@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalOpenSubjectComponent } from 'src/app/subject/subject-detail/modal-open-subject/modal-open-subject.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { NavigationService } from 'src/app/shared/services/navigation.service';
 
 @Component({
   selector: 'app-homepage',
@@ -12,7 +13,8 @@ export class HomepageComponent implements OnInit {
 
   constructor(
     private ngbModalService: NgbModal,
-    private router: Router
+    private router: Router,
+    private navService: NavigationService
   ) { }
 
   ngOnInit(): void {
@@ -22,11 +24,10 @@ export class HomepageComponent implements OnInit {
     const modalRef = this.ngbModalService.open(ModalOpenSubjectComponent, { size: 'lg', backdrop: 'static', keyboard: false });
     modalRef.result.then(result => {
       if (typeof(result) == 'number') {
-        this.router.navigate(['subject', result]);
-      } else {
-
+        localStorage.setItem('subject_id', result.toString());
+        this.navService.publishNavigationChange();
+        this.router.navigate(['subject', result.toString()]);
       }
-      // u slucaju da trebamo neki handle
     }).catch((res) => { });
   }
 

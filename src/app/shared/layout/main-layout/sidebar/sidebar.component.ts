@@ -37,7 +37,6 @@ export class SidebarComponent implements OnInit {
     const modalRef = this.ngbModalService.open(ModalOpenSubjectComponent, { size: 'lg', backdrop: 'static', keyboard: false });
     modalRef.result.then(result => {
       if (typeof(result) == 'number') {
-        console.log('rezultat', result)
         localStorage.setItem('subject_id', result.toString());
         this.navService.publishNavigationChange();
         this.router.navigate(['subject', result.toString()]);
