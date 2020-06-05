@@ -64,4 +64,9 @@ export class SubjectService {
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
     return this.http.put<ISubject>(url, requestData);
   }
+
+  deleteSubject(id: number): Observable<any> {
+    const url = this.urlHelper.getUrl(this.CONTROLER_NAME, id.toString());
+    return this.http.delete<any>(url);
+  }
 }

@@ -8,12 +8,14 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalFilterComponent } from './modal-filter/modal-filter.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 const components = [
   ConfirmationModalComponent,
   ModalOpenSubjectComponent,
-  ModalFilterComponent
+  ModalFilterComponent,
+  PageNotFoundComponent
 ];
 
 @NgModule({

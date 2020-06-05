@@ -8,7 +8,6 @@ import { ISubject } from '../models/subject';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'src/app/shared/components/confirmation-modal/confirmation-modal.component';
 import { ToastrService } from 'ngx-toastr';
-import { LocalStoreSubjectService } from 'src/app/shared/services/local-store-subject.service';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
 
 @Component({
@@ -32,18 +31,15 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
     private ngbModalService: NgbModal,
     private toastrService: ToastrService,
     private router: Router,
-    private localStore: LocalStoreSubjectService,
     private navigationService: NavigationService
   ) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       if(params && params.id) {
-        if(this.localStore.hasToken()) {
-          this.subjectId = this.localStore.hasToken();
-          if(this.subjectId) {
-            this.getSubjectStatuses();
-          }
+        this.subjectId = params.id;
+        if(this.subjectId) {
+          this.getSubjectStatuses();
         }
       }
     });
@@ -63,8 +59,14 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.description = `Jeste li sigurni da želite izbrisati predmet: '${this.subject.NazivPredmeta}' sa brojem predmeta '${this.subject.BrojPredmeta}'`
     modalRef.result.then((result) => {
       if (result) {
-        this.toastrService.success('Obrisali ste predmet', 'Uspjeh');
-        this.exitSubject();
+        this.subjectService.deleteSubject(this.subjectId).subscribe(
+          data => {
+            this.toastrService.success('Obrisali ste predmet', 'Uspjeh');
+            localStorage.removeItem('subject_id');
+            this.navigationService.publishNavigationChange();
+            this.router.navigate(['welcome']);
+          }
+        );
       } else {
         this.toastrService.warning('Niste izbrisali predmet', 'Pažnja');
       }
@@ -87,7 +89,13 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
         this.subject = data;
         this.subjectStatus = this.subjectStatuses.find(x => x.id == this.subject.StatusPredmeta);
       },
-      err => {  console.log(err); this.router.navigate(['welcome']);  }
+      err => {  
+        console.log(err);
+        /* ovo maknuti kad stigne backend */
+        localStorage.removeItem('subject_id');
+        this.navigationService.publishNavigationChange();
+        this.router.navigate(['welcome']);  
+      }
     )
   }
 
