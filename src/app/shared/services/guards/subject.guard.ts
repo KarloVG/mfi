@@ -24,7 +24,7 @@ export class SubjectGuard implements CanActivate {
         return true;
       }
       else{
-        this.toastrService.info("Ne postoji aktivan predmet");
+        this.toastrService.info("Morate otvoriti predmet putem 'Otvori postojeći predmet' akcije");
         this.navigationService.publishNavigationChange();
         return this.router.parseUrl("welcome");
       }
