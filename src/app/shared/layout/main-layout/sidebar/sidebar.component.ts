@@ -57,7 +57,7 @@ export class SidebarComponent implements OnInit {
         }
       })
     } else {
-      this.openFilterModal();
+      this.router.navigate(['subject/add']);
     }
   }
 
