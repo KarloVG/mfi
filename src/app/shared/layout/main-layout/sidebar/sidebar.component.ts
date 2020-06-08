@@ -35,20 +35,50 @@ export class SidebarComponent implements OnInit {
       });
   }
 
+  navigateToNewSubject() {
+    const subjectToken = this.localstoreService.hasToken();
+    if (subjectToken) {
+      const modalRef = this.ngbModalService.open(ModalCanDeactivateComponent, { backdrop: 'static', keyboard: false });
+      modalRef.result.then((result) => {
+        if (result == true) {
+          this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
+            progressBar: true
+          });
+          localStorage.removeItem('subject_id');
+          this.navService.publishNavigationChange();
+          this.router.navigate(['subject/add']);
+        } else if (result == false) {
+          this.toastrService.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
+            progressBar: true
+          });
+          localStorage.removeItem('subject_id');
+          this.navService.publishNavigationChange();
+          this.router.navigate(['subject/add']);
+        }
+      })
+    } else {
+      this.openFilterModal();
+    }
+  }
+
   openSubjectModal(): void {
     const subjectToken = this.localstoreService.hasToken();
     if (subjectToken) {
       const modalRef = this.ngbModalService.open(ModalCanDeactivateComponent, { backdrop: 'static', keyboard: false });
       modalRef.result.then((result) => {
         if (result == true) {
-            this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
-              progressBar: true
-            });
-            this.openFilterModal();
+          this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
+            progressBar: true
+          });
+          localStorage.removeItem('subject_id');
+          this.navService.publishNavigationChange();
+          this.openFilterModal();
         } else if (result == false) {
           this.toastrService.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
             progressBar: true
           });
+          localStorage.removeItem('subject_id');
+          this.navService.publishNavigationChange();
           this.openFilterModal();
         }
       })
@@ -69,9 +99,39 @@ export class SidebarComponent implements OnInit {
   }
 
   exitSubject(): void {
-    this.toastrService.info('Predmet je zatvoren')
-    localStorage.removeItem('subject_id');
-    this.navService.publishNavigationChange();
-    this.router.navigate(['welcome']);
+    const subjectToken = this.localstoreService.hasToken();
+    if (subjectToken) {
+      const modalRef = this.ngbModalService.open(ModalCanDeactivateComponent, { backdrop: 'static', keyboard: false });
+      modalRef.result.then((result) => {
+        if (result == true) {
+          this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
+            progressBar: true
+          });
+          localStorage.removeItem('subject_id');
+          this.navService.publishNavigationChange();
+          this.router.navigate(['welcome']);
+        } else if (result == false) {
+          this.toastrService.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
+            progressBar: true
+          });
+          localStorage.removeItem('subject_id');
+          this.navService.publishNavigationChange();
+          this.router.navigate(['welcome']);
+        }
+      })
+    } else {
+      this.toastrService.warning('Ne postoji aktivan predmet','Pažnja');
+    }
+  }
+
+  saveSubject() {
+    const subjectToken = this.localstoreService.hasToken();
+    if (subjectToken) {
+      this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
+        progressBar: true
+      });
+    } else {
+      this.toastrService.warning('Ne postoji aktivan predmet','Pažnja');
+    }
   }
 }

@@ -86,11 +86,12 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
       if (result) {
         this.toastr.success('Osoba je dodana na predmet', 'Uspjeh', {
           progressBar: true
-        })
+        });
+        this.getBaseItems();
       } else {
         this.toastr.warning('Osoba nije dodana na predmet', 'Pažnja', {
           progressBar: true
-        })
+        });
       }
     }).catch((res) => { });
   }
@@ -98,16 +99,17 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
   editPerson(row: IBaseItem) {
     if (row && row.Osoba) {
       const modalRef = this.ngbModalService.open(ModalAddPersonComponent, { backdrop: 'static', keyboard: false });
-      modalRef.componentInstance.person = row.Osoba;
+      modalRef.componentInstance.baseItem = row;
       modalRef.result.then((result) => {
         if (result) {
           this.toastr.success('Osoba na predmetu je uređena', 'Uspjeh', {
             progressBar: true
-          })
+          });
+          this.getBaseItems();
         } else {
           this.toastr.warning('Osoba na predmetu nije uređena', 'Pažnja', {
             progressBar: true
-          })
+          });
         }
       }).catch((res) => { });
     }
@@ -175,8 +177,8 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
         })
       }
     );
-    const modalRef = this.ngbModalService.open(ModalImportTirmComponent,  { size: 'xl',backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
-    modalRef.componentInstance.peopleOnSubject = this.peopleOnSubject; 
+    const modalRef = this.ngbModalService.open(ModalImportTirmComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
+    modalRef.componentInstance.peopleOnSubject = this.peopleOnSubject;
     modalRef.result.then((result) => {
       if (result) {
         this.toastr.success('Izvod iz datoteke je dodan', 'Uspjeh', {

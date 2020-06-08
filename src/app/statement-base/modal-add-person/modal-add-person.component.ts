@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { IPerson } from '../models/person';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 import { BaseService } from '../services/base.service';
 import { forkJoin, Observable } from 'rxjs';
 import { ReactiveFormValidatorService } from '../services/reactive-form-validator.service';
+import { IBaseItem } from '../models/base-item';
 
 @Component({
   selector: 'app-modal-add-person',
@@ -14,7 +14,7 @@ import { ReactiveFormValidatorService } from '../services/reactive-form-validato
 })
 export class ModalAddPersonComponent implements OnInit {
 
-  @Input() person: IPerson;
+  @Input() baseItem: IBaseItem;
   personGroup: FormGroup = this.formBuilder.group({
     OsobaID: [''],
     Naziv: ['', Validators.required],
@@ -42,15 +42,17 @@ export class ModalAddPersonComponent implements OnInit {
     this.$observableJoin.subscribe( data => {
       this.personTypes = data[0];
       this.identificationTypes = data[1];
-      if(this.person && this.person.IdBroj) {
+      console.log(this.baseItem)
+      if(this.baseItem && this.baseItem.Osoba.IdBroj) {
         this.personGroup.patchValue({
-          OsobaID: this.person.OsobaID,
-          Naziv: this.person.Naziv,
-          TipOsobe: this.person.TipOsobe.id,
+          OsobaID: this.baseItem.Osoba.OsobaID,
+          Naziv: this.baseItem.Osoba.Naziv,
+          TipOsobe: this.baseItem.Osoba.TipOsobeId,
+          IdBroj: this.baseItem.Osoba.IdBroj
         });
-        if(this.person.VrstaIdBroja) {
-          this.personGroup.patchValue({ VrstaIdBroja: this.person.VrstaIdBroja.id });
-          this.reactiveFormService.setValidatorAfterViewInit(this.personGroup,this.person.IdBroj, 'IdBroj');
+        if(this.baseItem.Osoba.VrstaId) {
+          this.personGroup.patchValue({ VrstaIdBroja: this.baseItem.Osoba.VrstaId });
+          this.reactiveFormService.setValidatorAfterViewInit(this.personGroup,this.baseItem.Osoba.IdBroj, 'IdBroj');
         }
       }
     })
@@ -58,19 +60,26 @@ export class ModalAddPersonComponent implements OnInit {
 
   exitModal() {
     this.modal.close(false);
-    console.log(this.Naziv.validator)
   }
 
   onSubmit() {
     if(this.personGroup.invalid) {
       return;
     } else {
-      this.modal.close(this.personGroup);
+      if(this.OsobaID.value) {
+        this.baseService.editPersonOnBase(this.baseItem,this.personGroup.value, this.personTypes, this.identificationTypes).subscribe(data=> {
+          this.modal.close(true);
+        })
+      } else {
+        this.baseService.addPersonOnBase(this.personGroup.value).subscribe(data=> {
+          this.modal.close(true);
+        })
+      }
     }
   }
 
   onChangeIDType(event) {
-    const idNumber = this.IdBroj.value ? this.IdBroj.value : ''
+    const idNumber = this.IdBroj.value ? this.IdBroj.value : '';
     if(event && event.id) {
       this.reactiveFormService.setValidatorAfterViewInit(this.personGroup, idNumber , 'IdBroj');
     } else {

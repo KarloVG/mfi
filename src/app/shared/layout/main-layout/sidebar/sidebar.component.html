@@ -7,7 +7,7 @@
             <span class="menu-icon d-block fas fa-bars fa-2x"></span>
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" routerLink="/subject/add" [routerLinkActive]="['is-active']">
+            <a class="dropdown-item" (click)="navigateToNewSubject()" [routerLinkActive]="['is-active']">
               <span class="fas fa-chart-line"></span>
               <span class="ml-2">Stvori novi predmet</span>
             </a>
@@ -15,7 +15,7 @@
               <span class="fas fa-folder-open"></span>
               <span class="ml-2">Otvori postojeći predmet</span>
             </a>
-            <a class="dropdown-item" routerLink="">
+            <a class="dropdown-item" (click)="saveSubject()">
               <span class="fas fa-save"></span>
               <span class="ml-2">Pohrani stanje predmeta</span>
             </a>

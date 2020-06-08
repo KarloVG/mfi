@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title text-primary" *ngIf="person; else addEntry">Uređivanje osobe na predmetu</h4>
+    <h4 class="modal-title text-primary" *ngIf="baseItem; else addEntry">Uređivanje osobe na predmetu</h4>
     <ng-template #addEntry>
         <h4 class="modal-title text-primary">Dodavanje osobe na predmet</h4>
     </ng-template>
@@ -54,10 +54,10 @@
               <span class="ml-2">Odustani</span>
             </button>
             <button type="submit" ngbAutofocus class="btn btn-primary">
-              <span class="fas fa-user-plus" *ngIf="!person"></span>
-              <span class="fas fa-user-check" *ngIf="person"></span>
-              <span class="ml-2" *ngIf="!person">Dodaj osobu</span>
-              <span class="ml-2" *ngIf="person">Spremi osobu</span>
+              <span class="fas fa-user-plus" *ngIf="!baseItem"></span>
+              <span class="fas fa-user-check" *ngIf="baseItem"></span>
+              <span class="ml-2" *ngIf="!baseItem">Dodaj osobu</span>
+              <span class="ml-2" *ngIf="baseItem">Spremi osobu</span>
             </button>
         </div>
     </form>

@@ -131,38 +131,26 @@ export class FakeDataService implements InMemoryDbService {
 
         let baseItems: IBaseItem[] = [
             {
-                ID: 1,
+                id: 1,
                 Osoba: {
                     OsobaID: 1,
                     Naziv: 'Matija Matijić',
-                    TipOsobe: {
-                        id: 1,
-                        name: 'Fizička osoba'
-                    },
+                    TipOsobeId: 1,
                     IdBroj: 45311924532,
-                    VrstaIdBroja: {
-                        id: 1,
-                        name: 'OIB'
-                    }
+                    VrstaId: 1
                 },
                 UvezeneIzliste: 2,
                 BrojTransakcija: '355 (210/150)',
                 IznosTransakcija: '225 550 412 HRK (200.000 HRK/55.432 HRK)'
             },
             {
-                ID: 2,
+                id: 2,
                 Osoba: {
                     OsobaID: 2,
                     Naziv: 'Ivica Ivić',
-                    TipOsobe: {
-                        id: 2,
-                        name: 'Pravna osoba'
-                    },
+                    TipOsobeId: 2,
                     IdBroj: 23291391293,
-                    VrstaIdBroja: {
-                        id: 2,
-                        name: 'JMBAG'
-                    }
+                    VrstaId: 2
                 },
                 UvezeneIzliste: 0,
                 BrojTransakcija: '155 (109/89)',
