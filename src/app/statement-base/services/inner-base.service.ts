@@ -24,4 +24,8 @@ export class InnerBaseService {
     return this.http.get<IInnerbaseItem[]>(url)
   }
 
+  deleteInnerBaseItem(id: number): Observable<any> {
+    const url = this.urlHelper.getUrl(this.BASE_ITEMS, id.toString());
+    return this.http.delete<any>(url)
+  }
 }

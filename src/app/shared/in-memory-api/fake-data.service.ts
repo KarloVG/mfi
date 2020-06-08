@@ -160,7 +160,7 @@ export class FakeDataService implements InMemoryDbService {
 
         let innerBaseItems: IInnerbaseItem[] = [
             {
-                ID: 1,
+                id: 1,
                 Izvor: 'ZABA',
                 SWIFT: 'ZABAHR2X',
                 BrojRacuna: 'HR300123',
@@ -177,7 +177,7 @@ export class FakeDataService implements InMemoryDbService {
                 IznosIsplata: '9.000,00 HRK'
             },
             {
-                ID: 2,
+                id: 2,
                 Izvor: 'PBZ',
                 SWIFT: 'PBZHR2X',
                 BrojRacuna: 'HR54545',

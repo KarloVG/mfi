@@ -1,5 +1,5 @@
 export interface IInnerbaseItem {
-    ID: number;
+    id: number;
     Izvor: string;
     SWIFT: string;
     BrojRacuna: string;

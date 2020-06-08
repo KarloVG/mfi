@@ -30,49 +30,51 @@
     </div>
 </div>
 
-<div>
-    <div class="row mb-4">
-        <div class="offset-5 col-lg-4 col-md-4 col-sm-4">
-            <input type="text" class="form-control form-rounded" [(ngModel)]="filterValue"
-                placeholder="Upišite pojam pretrage">
+<div class="col-12 py-2 px-0">
+    <div class="container-fluid px-0">
+        <div class="row mb-4">
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <input type="text" class="form-control form-rounded" [(ngModel)]="filterValue"
+                    placeholder="Upišite pojam pretrage">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <button type="button" class="mr-3 btn btn-primary" (click)="filterUserTable()">
+                    <span class="fas fa-search"></span>
+                    <span class="ml-2">Traži</span>
+                </button>
+                <button type="button" class="btn btn-outline-secondary" (click)="removeFilter()">
+                    <span class="fas fa-times"></span>
+                    <span class="ml-2">Poništi pretragu</span>
+                </button>
+            </div>
         </div>
-        <div class="col-lg-3 col-md-4 col-sm-4 d-flex justify-content-between">
-            <button type="button" class="mr-3 btn btn-primary" (click)="filterUserTable()">
-                <span class="fas fa-search"></span>
-                <span class="ml-2">Traži</span>
-            </button>
-            <button type="button" class="btn btn-outline-secondary" (click)="removeFilter()">
-                <span class="fas fa-times"></span>
-                <span class="ml-2">Poništi pretragu</span>
-            </button>
-        </div>
-    </div>
-    <ngx-datatable class="material mt-3" columnMode="force" [headerHeight]="'auto'" [footerHeight]="50"
-        [rowHeight]="'auto'" [limit]="10" [loadingIndicator]="isLoading" [rows]="tableItems" [messages]="{
+        <ngx-datatable class="material mt-3" columnMode="force" [headerHeight]="'auto'" [footerHeight]="50"
+            [rowHeight]="'auto'" [limit]="10" [loadingIndicator]="isLoading" [rows]="tableItems" [messages]="{
             emptyMessage:'Nema rezultata',
             totalMessage: 'ukupno'
         }">
-        <ngx-datatable-column name="Broj računa" prop="BrojRacunaA" [width]="200"></ngx-datatable-column>
-        <ngx-datatable-column name="SWIFT/BIC" prop="SWIFTA" [width]="120"></ngx-datatable-column>
-        <ngx-datatable-column name="Banka računa" prop="BankaA" [width]="100"></ngx-datatable-column>
-        <ngx-datatable-column name="Država računa" prop="DrzavaA" [width]="100"></ngx-datatable-column>
-        <ngx-datatable-column name="Naziv vlasnika rač. A" name="Naziv vl. rač. A" prop="NazivA" [width]="130">
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Datum / vrijeme" prop="DatumTransakcije" [width]="100">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                {{ value | date: 'dd.MM.yyyy'}}
-            </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Referentni broj" prop="ReferentniBroj" [width]="130"></ngx-datatable-column>
-        <ngx-datatable-column name="Vrsta" prop="VrstaTransakcije" [width]="120"></ngx-datatable-column>
-        <ngx-datatable-column name="Iznos" prop="IznosTransakcije" [width]="120"></ngx-datatable-column>
-        <ngx-datatable-column name="Valuta" prop="Valuta" [width]="120"></ngx-datatable-column>
-        <ngx-datatable-column name="Količina" prop="CijenaKn" [width]="120"></ngx-datatable-column>
-        <ngx-datatable-column name="Smjer" prop="Smjer" [width]="120"></ngx-datatable-column>
-        <ngx-datatable-column name="Broj računa" prop="BrojRacunaB" [width]="120"></ngx-datatable-column>
-        <ngx-datatable-column name="SWIFT/BIC" prop="SWIFTB" [width]="120"></ngx-datatable-column>
-        <ngx-datatable-column name="Banka računa" prop="BankaB" [width]="100"></ngx-datatable-column>
-        <ngx-datatable-column name="Država računa" prop="DrzavaB" [width]="100"></ngx-datatable-column>
-        <ngx-datatable-column name="Naziv vlasnika rač. B" prop="NazivB" [width]="120"></ngx-datatable-column>
-    </ngx-datatable>
+            <ngx-datatable-column name="Broj računa" prop="BrojRacunaA" [width]="200"></ngx-datatable-column>
+            <ngx-datatable-column name="SWIFT/BIC" prop="SWIFTA" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Banka računa" prop="BankaA" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Država računa" prop="DrzavaA" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Naziv vlasnika rač. A" name="Naziv vl. rač. A" prop="NazivA" [width]="130">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Datum / vrijeme" prop="DatumTransakcije" [width]="100">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ value | date: 'dd.MM.yyyy'}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Referentni broj" prop="ReferentniBroj" [width]="130"></ngx-datatable-column>
+            <ngx-datatable-column name="Vrsta" prop="VrstaTransakcije" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Iznos" prop="IznosTransakcije" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Valuta" prop="Valuta" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Količina" prop="CijenaKn" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Smjer" prop="Smjer" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Broj računa" prop="BrojRacunaB" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="SWIFT/BIC" prop="SWIFTB" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Banka računa" prop="BankaB" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Država računa" prop="DrzavaB" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Naziv vlasnika rač. B" prop="NazivB" [width]="120"></ngx-datatable-column>
+        </ngx-datatable>
+    </div>
 </div>
