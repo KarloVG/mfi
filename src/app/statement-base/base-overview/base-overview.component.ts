@@ -39,8 +39,10 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
   }
 
   getBaseItems(): void {
+    this.isLoading = true;
     this.baseService.getBaseItems().pipe(untilComponentDestroyed(this)).subscribe(
       data => {
+        console.log(data)
         this.baseItems = data;
         this.staticValue = data;
         this.isLoading = false;
@@ -130,15 +132,18 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.class = true; // text danger
       modalRef.result.then((result) => {
         if (result) {
-          this.toastr.success('Osoba na predmetu je izbrisana', 'Uspjeh', {
-            progressBar: true
+          this.baseService.deletePersonOnTable(row.id).subscribe(data => {
+            this.toastr.success('Osoba na predmetu je izbrisana', 'Uspjeh', {
+              progressBar: true
+            });
+            this.getBaseItems();
           })
         } else {
           this.toastr.warning('Osoba na predmetu nije obrisana', 'Pažnja', {
             progressBar: true
-          })
+          });
         }
-      }).catch((res) => { });
+      })
     }
   }
 

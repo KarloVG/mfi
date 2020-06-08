@@ -47,11 +47,11 @@ export class ModalAddPersonComponent implements OnInit {
         this.personGroup.patchValue({
           OsobaID: this.baseItem.Osoba.OsobaID,
           Naziv: this.baseItem.Osoba.Naziv,
-          TipOsobe: this.baseItem.Osoba.TipOsobeId,
-          IdBroj: this.baseItem.Osoba.IdBroj
+          TipOsobe: this.baseItem.Osoba.TipOsobeId ? this.baseItem.Osoba.TipOsobeId : this.baseItem.Osoba.TipOsobe.id,
         });
-        if(this.baseItem.Osoba.VrstaId) {
-          this.personGroup.patchValue({ VrstaIdBroja: this.baseItem.Osoba.VrstaId });
+        if(this.baseItem.Osoba.VrstaId || this.baseItem.Osoba.VrstaIdBroja) {
+          const vrsta = this.baseItem.Osoba.VrstaId ? this.baseItem.Osoba.VrstaId : this.baseItem.Osoba.VrstaIdBroja.id;
+          this.personGroup.patchValue({ VrstaIdBroja: vrsta });
           this.reactiveFormService.setValidatorAfterViewInit(this.personGroup,this.baseItem.Osoba.IdBroj, 'IdBroj');
         }
       }
@@ -66,12 +66,12 @@ export class ModalAddPersonComponent implements OnInit {
     if(this.personGroup.invalid) {
       return;
     } else {
-      if(this.OsobaID.value) {
+      if(this.baseItem) {
         this.baseService.editPersonOnBase(this.baseItem,this.personGroup.value, this.personTypes, this.identificationTypes).subscribe(data=> {
           this.modal.close(true);
         })
       } else {
-        this.baseService.addPersonOnBase(this.personGroup.value).subscribe(data=> {
+        this.baseService.addPersonOnBase(this.personGroup.value, this.personTypes, this.identificationTypes).subscribe(data=> {
           this.modal.close(true);
         })
       }

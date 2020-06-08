@@ -28,11 +28,13 @@ export class InnerBaseComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.columns)
+    console.log(this.baseItemID)
     if(this.baseItemID) {
       this.InnerBaseService.getInnerBaseItemsById(this.baseItemID).pipe(take(1)).subscribe(
         data => {
           this.isLoading = false;
           this.innerItems = data;
+          console.log(data)
         }
       );
     }

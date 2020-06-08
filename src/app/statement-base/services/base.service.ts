@@ -40,13 +40,16 @@ export class BaseService {
   }
 
 
-  addPersonOnBase(formData: IPerson) {
+  addPersonOnBase(formData: IPerson,types, iTypes) {
+    // needs refatoring - this is due to web api workaround
+    const personType = types.find(x=>x.id == formData.TipOsobe);
+    const indentityType = iTypes.find(x=>x.id == formData.VrstaIdBroja);
     const requestData = {
       Osoba: {
         Naziv: formData.Naziv,
-        TipOsobe: formData.TipOsobeId,
+        TipOsobe: personType,
         IdBroj: formData.IdBroj,
-        VrstaIdBroja: formData.VrstaId
+        VrstaIdBroja: indentityType
       },
       UvezeneIzliste: 0,
       BrojTransakcija: '0 HRK',
@@ -59,10 +62,8 @@ export class BaseService {
 
   editPersonOnBase(item: IBaseItem, form: IPerson,types, iTypes) {
     // needs refatoring - this is due to web api workaround
-    console.log(types,iTypes)
-    const personType = types.find(x=>x.id == form.TipOsobeId);
-    const indentityType = iTypes.find(x=>x.id == form.VrstaId);
-    console.log(personType,indentityType)
+    const personType = types.find(x=>x.id == form.TipOsobe);
+    const indentityType = iTypes.find(x=>x.id == form.VrstaIdBroja);
     const requestData = {
       id: item.id,
       Osoba: {
@@ -76,9 +77,14 @@ export class BaseService {
       BrojTransakcija: item.BrojTransakcija,
       IznosTransakcija: item.IznosTransakcija
     }
-    console.log(requestData)
+    console.log('request',requestData)
 
     const url = this.urlHelper.getUrl(this.BASE_ITEMS);
     return this.http.put<any>(url, requestData);
+  }
+
+  deletePersonOnTable(id: number): Observable<any> {
+      const url = this.urlHelper.getUrl(this.BASE_ITEMS, id.toString());
+      return this.http.delete<any>(url);
   }
 }
