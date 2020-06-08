@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { IBaseExtract } from '../models/base-extract';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 import { IBaseItem } from '../models/base-item';
+import { IPerson } from '../models/person';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,54 @@ export class BaseService {
   getIdentificationTypes() {
     const url = this.urlHelper.getUrl(this.IDENTIFICATION_CONTROLLER);
     return this.http.get<ISimpleDropdownItem[]>(url);
+  }
+
+
+  addPersonOnBase(formData: IPerson,types, iTypes) {
+    // needs refatoring - this is due to web api workaround
+    const personType = types.find(x=>x.id == formData.TipOsobe);
+    const indentityType = iTypes.find(x=>x.id == formData.VrstaIdBroja);
+    const requestData = {
+      Osoba: {
+        Naziv: formData.Naziv,
+        TipOsobe: personType,
+        IdBroj: formData.IdBroj,
+        VrstaIdBroja: indentityType
+      },
+      UvezeneIzliste: 0,
+      BrojTransakcija: '0 HRK',
+      IznosTransakcija: '0 HRK'
+    }
+
+    const url = this.urlHelper.getUrl(this.BASE_ITEMS);
+    return this.http.post<IBaseItem>(url, requestData);
+  }
+
+  editPersonOnBase(item: IBaseItem, form: IPerson,types, iTypes) {
+    // needs refatoring - this is due to web api workaround
+    const personType = types.find(x=>x.id == form.TipOsobe);
+    const indentityType = iTypes.find(x=>x.id == form.VrstaIdBroja);
+    const requestData = {
+      id: item.id,
+      Osoba: {
+        OsobaID: form.OsobaID,
+        Naziv:form.Naziv,
+        TipOsobe:personType,
+        IdBroj:form.IdBroj,
+        VrstaIdBroja:indentityType
+      },
+      UvezeneIzliste: item.UvezeneIzliste,
+      BrojTransakcija: item.BrojTransakcija,
+      IznosTransakcija: item.IznosTransakcija
+    }
+    console.log('request',requestData)
+
+    const url = this.urlHelper.getUrl(this.BASE_ITEMS);
+    return this.http.put<any>(url, requestData);
+  }
+
+  deletePersonOnTable(id: number): Observable<any> {
+      const url = this.urlHelper.getUrl(this.BASE_ITEMS, id.toString());
+      return this.http.delete<any>(url);
   }
 }

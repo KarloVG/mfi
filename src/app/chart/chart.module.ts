@@ -10,6 +10,7 @@ import { ChartOverviewComponent } from './chart-overview/chart-overview.componen
   imports: [
     CommonModule,
     ChartRoutingModule
-  ]
+  ],
+  exports: [ChartRoutingModule]
 })
 export class ChartModule { }

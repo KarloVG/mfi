@@ -5,6 +5,8 @@ import { take } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalFilterComponent } from 'src/app/shared/components/modal-filter/modal-filter.component';
 import { ToastrService } from 'ngx-toastr';
+import { ExcelService } from 'src/app/shared/services/fake-excel.service';
+import { DateOnlyPipe } from 'src/app/shared/utils/date-pipe';
 
 @Component({
   selector: 'app-table-overview',
@@ -21,7 +23,8 @@ export class TableOverviewComponent implements OnInit {
   constructor(
     private baseDetailService: BaseDetailService,
     private ngbModalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private excelService: ExcelService
   ) { }
 
   ngOnInit(): void {
@@ -56,7 +59,7 @@ export class TableOverviewComponent implements OnInit {
   openFilterModal() {
     const modalRef = this.ngbModalService.open(ModalFilterComponent, { size: 'xl', backdrop: 'static', keyboard: false });
     modalRef.result.then((result) => {
-      if(result) {
+      if (result) {
         this.toastr.success('Polja filtera spremljena', 'Uspjeh', {
           progressBar: true
         })
@@ -66,6 +69,59 @@ export class TableOverviewComponent implements OnInit {
         })
       }
     }).catch((res) => { });
+  }
+
+  exportAsXLSX(): void {
+
+    if (this.tableItems && this.tableItems.length > 0) {
+      let excelRows = [];
+      let columnWidth = [];
+      this.tableItems.forEach(row => {
+        excelRows.push({
+          'Broj računa A': row.BrojRacunaA,
+          'SWIFT A': row.SWIFTA,
+          'Banka A': row.BankaA,
+          'Država': row.DrzavaA,
+          'NazivA': row.NazivA,
+          'Datum transakcije': new DateOnlyPipe('en-US').transform(row.DatumTransakcije),
+          'Referentni broj': row.ReferentniBroj,
+          'Vrsta transakcije': row.VrstaTransakcije,
+          'Valuta': row.Valuta,
+          'Cijena u kn': row.CijenaKn,
+          'Smjer': row.Smjer,
+          'Broj računa B': row.BrojRacunaB,
+          'SWIFT B': row.SWIFTB,
+          'Banka B': row.BankaB,
+          'Država B': row.DrzavaB,
+          'Naziv B': row.NazivB
+        });
+
+        columnWidth.push(
+          { wch: 50 },//A
+          { wch: 15 },//B
+          { wch: 15 },//C
+          { wch: 10 },//D
+          { wch: 25 },//E
+          { wch: 20 },//F
+          { wch: 15 },//G
+          { wch: 20 },//H
+          { wch: 15 },//I
+          { wch: 15 },//J
+          { wch: 15 },//K
+          { wch: 50 },//L
+          { wch: 15 },//M
+          { wch: 15 },//N
+          { wch: 10 },//O
+          { wch: 25 },//P
+        )
+      })
+      this.excelService.exportAsExcelFile(excelRows, 'popis_A_liste', columnWidth);
+    } else {
+      this.toastr.error('Morate imati barem 1 redak u tablici kako bi se excel mogao popuniti!', 'Pogreška!', {
+        progressBar: true,
+        timeOut: 6000
+      });
+    }
   }
 
 }

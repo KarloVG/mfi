@@ -5,6 +5,7 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TableOverviewComponent } from './table-overview/table-overview.component';
+import { ExcelService } from '../shared/services/fake-excel.service';
 
 
 @NgModule({
@@ -18,6 +19,8 @@ import { TableOverviewComponent } from './table-overview/table-overview.componen
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule
-  ]
+  ],
+  exports: [TableRoutingModule],
+  providers: [ExcelService]
 })
 export class TableModule { }

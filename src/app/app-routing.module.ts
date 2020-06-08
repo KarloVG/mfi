@@ -9,6 +9,7 @@ import { DiagramModule } from './diagram/diagram.module';
 import { FlowModule } from './flow/flow.module';
 import { MapModule } from './map/map.module';
 import { TableModule } from './table/table.module';
+import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -53,6 +54,10 @@ const routes: Routes = [
     loadChildren: () => MapModule
   },
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
+  { 
+    path:'**', 
+    component: PageNotFoundComponent
+  }
 ];
 
 @NgModule({

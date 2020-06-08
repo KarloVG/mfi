@@ -1,4 +1,5 @@
 export interface ISubjectPermission {
+    id?: number,
     ID: number,
     Ime: string,
     Prezime: string,

@@ -6,7 +6,9 @@
     <app-sidebar></app-sidebar>
   </div>
   <div class="col-10 py-2 pr-0">
-    <router-outlet></router-outlet>
+    <div [@fadeInOut]="o.isActivated ? o.activatedRoute : ''">
+      <router-outlet #o="outlet"></router-outlet>
+  </div>
   </div>
   <footer class="col-12 pr-0">
     <app-footer></app-footer>

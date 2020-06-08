@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalStoreSubjectService } from 'src/app/shared/services/local-store-subject.service';
+import { NavigationService, IMenuItem } from 'src/app/shared/services/navigation.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalOpenSubjectComponent } from 'src/app/subject/subject-detail/modal-open-subject/modal-open-subject.component';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { ModalCanDeactivateComponent } from 'src/app/subject/subject-add-or-edit/modal-can-deactivate/modal-can-deactivate.component';
 
-interface menu_item {
-  name: string
-  path: string
-  descr: string
-  icon: string
-  active?: boolean
-  visible?: boolean
-  disabled: boolean
-}
+
 
 @Component({
   selector: 'app-sidebar',
@@ -16,73 +15,123 @@ interface menu_item {
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  public menus = [
-    {
-      name: 'predmet',
-      path: '/subject/edit/1',
-      descr: 'Predmet',
-      icon: 'fa-folder-open',
-      active: false,
-      visible: true,
-      disabled: false,
-    },
-    {
-      name: 'izvodi',
-      path: '/statement-base/overview',
-      descr: 'Baza izvoda',
-      icon: 'fa-database',
-      active: false,
-      visible: true,
-      disabled: false,
-    },
-    {
-      name: 'tablice',
-      path: '/table/overview',
-      descr: 'Tablica',
-      icon: 'fa-table',
-      active: false,
-      visible: true,
-      disabled: false,
-    },
-    {
-      name: 'grafovi',
-      path: '/diagram/overview',
-      descr: 'Dijagram',
-      icon: 'fa-sitemap',
-      active: false,
-      visible: true,
-      disabled: false,
-    },
-    {
-      name: 'tijek',
-      path: '/flow/overview',
-      descr: 'Tijek',
-      icon: 'fa-clock',
-      active: false,
-      visible: true,
-      disabled: false,
-    },
-    {
-      name: 'mapa',
-      path: '/map/overview',
-      descr: 'Mapa',
-      icon: 'fa-map',
-      active: false,
-      visible: true,
-      disabled: false,
-    },
-    {
-      name: 'graf',
-      path: '/chart/overview',
-      descr: 'Graf',
-      icon: 'fa-chart-pie',
-      active: false,
-      visible: true,
-      disabled: false,
-    },
-  ]
 
-  constructor() {}
+  menus: IMenuItem[] = []
 
-  ngOnInit(): void {}
+  constructor(
+    private navService: NavigationService,
+    private ngbModalService: NgbModal,
+    private router: Router,
+    private toastrService: ToastrService,
+    private localstoreService: LocalStoreSubjectService
+  ) { }
+
+  ngOnInit(): void {
+    this.navService.publishNavigationChange();
+    this.navService.menuItems$
+      .subscribe((items) => {
+        console.log(items)
+        this.menus = items;
+      });
+  }
+
+  navigateToNewSubject() {
+    const subjectToken = this.localstoreService.hasToken();
+    if (subjectToken) {
+      const modalRef = this.ngbModalService.open(ModalCanDeactivateComponent, { backdrop: 'static', keyboard: false });
+      modalRef.result.then((result) => {
+        if (result == true) {
+          this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
+            progressBar: true
+          });
+          localStorage.removeItem('subject_id');
+          this.navService.publishNavigationChange();
+          this.router.navigate(['subject/add']);
+        } else if (result == false) {
+          this.toastrService.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
+            progressBar: true
+          });
+          localStorage.removeItem('subject_id');
+          this.navService.publishNavigationChange();
+          this.router.navigate(['subject/add']);
+        }
+      })
+    } else {
+      this.router.navigate(['subject/add']);
+    }
+  }
+
+  openSubjectModal(): void {
+    const subjectToken = this.localstoreService.hasToken();
+    if (subjectToken) {
+      const modalRef = this.ngbModalService.open(ModalCanDeactivateComponent, { backdrop: 'static', keyboard: false });
+      modalRef.result.then((result) => {
+        if (result == true) {
+          this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
+            progressBar: true
+          });
+          localStorage.removeItem('subject_id');
+          this.navService.publishNavigationChange();
+          this.openFilterModal();
+        } else if (result == false) {
+          this.toastrService.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
+            progressBar: true
+          });
+          localStorage.removeItem('subject_id');
+          this.navService.publishNavigationChange();
+          this.openFilterModal();
+        }
+      })
+    } else {
+      this.openFilterModal();
+    }
+  }
+
+  openFilterModal() {
+    const modal = this.ngbModalService.open(ModalOpenSubjectComponent, { size: 'lg', backdrop: 'static', keyboard: false });
+    modal.result.then(result => {
+      if (typeof (result) == 'number') {
+        localStorage.setItem('subject_id', result.toString());
+        this.navService.publishNavigationChange();
+        this.router.navigate(['subject', result.toString()]);
+      }
+    })
+  }
+
+  exitSubject(): void {
+    const subjectToken = this.localstoreService.hasToken();
+    if (subjectToken) {
+      const modalRef = this.ngbModalService.open(ModalCanDeactivateComponent, { backdrop: 'static', keyboard: false });
+      modalRef.result.then((result) => {
+        if (result == true) {
+          this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
+            progressBar: true
+          });
+          localStorage.removeItem('subject_id');
+          this.navService.publishNavigationChange();
+          this.router.navigate(['welcome']);
+        } else if (result == false) {
+          this.toastrService.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
+            progressBar: true
+          });
+          localStorage.removeItem('subject_id');
+          this.navService.publishNavigationChange();
+          this.router.navigate(['welcome']);
+        }
+      })
+    } else {
+      this.toastrService.warning('Ne postoji aktivan predmet','Pažnja');
+    }
+  }
+
+  saveSubject() {
+    const subjectToken = this.localstoreService.hasToken();
+    if (subjectToken) {
+      this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
+        progressBar: true
+      });
+    } else {
+      this.toastrService.warning('Ne postoji aktivan predmet','Pažnja');
+    }
+  }
 }

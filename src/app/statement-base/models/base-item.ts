@@ -1,7 +1,7 @@
 import { IPerson } from './person';
 
 export interface IBaseItem {
-    ID: number,
+    id: number,
     Osoba: IPerson,
     UvezeneIzliste: number,
     BrojTransakcija: string,

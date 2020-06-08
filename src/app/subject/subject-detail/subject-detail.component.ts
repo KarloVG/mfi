@@ -8,12 +8,12 @@ import { ISubject } from '../models/subject';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'src/app/shared/components/confirmation-modal/confirmation-modal.component';
 import { ToastrService } from 'ngx-toastr';
+import { NavigationService } from 'src/app/shared/services/navigation.service';
 
 @Component({
   selector: 'app-subject-detail',
   templateUrl: './subject-detail.component.html',
-  styleUrls: ['./subject-detail.component.scss'],
-  
+  styleUrls: ['./subject-detail.component.scss']
 })
 export class SubjectDetailComponent implements OnInit, OnDestroy {
 
@@ -30,21 +30,19 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
     private subjectService: SubjectService,
     private ngbModalService: NgbModal,
     private toastrService: ToastrService,
-    private router: Router
+    private router: Router,
+    private navigationService: NavigationService
   ) { }
 
   ngOnInit(): void {
-    this.getSubjectStatuses();
-    
-    this.subjectId = +this.activatedRoute.snapshot.paramMap.get('id') || null;
-    if(this.subjectId) {
-      this.subjectService.getSubjectById(this.subjectId).pipe(untilComponentDestroyed(this)).subscribe(
-        data => {
-          this.subject = data;
-          this.subjectStatus = this.subjectStatuses.find(x => x.id == this.subject.StatusPredmeta);
+    this.activatedRoute.params.subscribe(params => {
+      if(params && params.id) {
+        this.subjectId = params.id;
+        if(this.subjectId) {
+          this.getSubjectStatuses();
         }
-      )
-    }
+      }
+    });
   }
 
   // moramo imati zbog untilComponentDestroyed
@@ -55,18 +53,20 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
     this.router.navigate(['subject/edit', this.subjectId]);
   }
 
-  navigateToHome() {
-    this.router.navigate(['welcome']);
-  }
-
   deleteSubject() {
     const modalRef = this.ngbModalService.open(ConfirmationModalComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.title = 'Brisanje predmeta';
     modalRef.componentInstance.description = `Jeste li sigurni da želite izbrisati predmet: '${this.subject.NazivPredmeta}' sa brojem predmeta '${this.subject.BrojPredmeta}'`
     modalRef.result.then((result) => {
       if (result) {
-        this.toastrService.success('Obrisali ste predmet', 'Uspjeh');
-        this.navigateToHome();
+        this.subjectService.deleteSubject(this.subjectId).subscribe(
+          data => {
+            this.toastrService.success('Obrisali ste predmet', 'Uspjeh');
+            localStorage.removeItem('subject_id');
+            this.navigationService.publishNavigationChange();
+            this.router.navigate(['welcome']);
+          }
+        );
       } else {
         this.toastrService.warning('Niste izbrisali predmet', 'Pažnja');
       }
@@ -77,7 +77,32 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
     this.subjectStatusService.getSubjectStatuses().pipe(untilComponentDestroyed(this)).subscribe(
       data => {
         this.subjectStatuses = data;
+        this.getSubjectById();
       }
     )
+  }
+
+  getSubjectById() {
+    this.subjectService.getSubjectById(this.subjectId).pipe(untilComponentDestroyed(this)).subscribe(
+      data => {
+        console.log(data)
+        this.subject = data;
+        this.subjectStatus = this.subjectStatuses.find(x => x.id == this.subject.StatusPredmeta);
+      },
+      err => {  
+        console.log(err);
+        /* ovo maknuti kad stigne backend */
+        localStorage.removeItem('subject_id');
+        this.navigationService.publishNavigationChange();
+        this.router.navigate(['welcome']);  
+      }
+    )
+  }
+
+  exitSubject(): void {
+    this.toastrService.info('Predmet je zatvoren')
+    localStorage.removeItem('subject_id');
+    this.navigationService.publishNavigationChange();
+    this.router.navigate(['welcome']);
   }
 }

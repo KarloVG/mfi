@@ -8,28 +8,30 @@ import { IInnerbaseItem } from 'src/app/statement-base/models/inner-base-item';
 import { IInnerBaseDetail } from 'src/app/statement-base/models/inner-base-detail';
 import { ITirmItem } from 'src/app/statement-base/models/tirm-item';
 import { ITirmFile } from 'src/app/statement-base/models/tirm-file';
+import { Subject } from 'rxjs';
 
 export class FakeDataService implements InMemoryDbService {
     createDb() {
         let subjects: ISubject[] = [
-            {
-                PredmetID: 1,
-                BrojPredmeta: '1234-567-8910',
-                NazivPredmeta: 'Test predmet 1',
-                DatumOtvaranja: new Date(),
-                StatusPredmeta: 1,
-                Napomena: 'Nema napomene za navedeni predmet',
-                DozvoljeniKorisnici: [
-                    {
-                        ID: 15,
-                        Ime: 'David',
-                        Prezime: 'Corona',
-                        Flag: false,
-                        Email: 'david.corona@gmail.com',
-                        isAdalUser: true
-                    }
-                ]
-            }
+            // {
+            //     id: 1,
+            //     PredmetID: 1,
+            //     BrojPredmeta: '1234-567-8910',
+            //     NazivPredmeta: 'Test predmet 1',
+            //     DatumOtvaranja: new Date(),
+            //     StatusPredmeta: 1,
+            //     Napomena: 'Nema napomene za navedeni predmet',
+            //     DozvoljeniKorisnici: [
+            //         {
+            //             ID: 15,
+            //             Ime: 'David',
+            //             Prezime: 'Corona',
+            //             Flag: false,
+            //             Email: 'david.corona@gmail.com',
+            //             isAdalUser: true
+            //         }
+            //     ]
+            // }
         ];
         let subjectStatuses: ISimpleDropdownItem[] = [
             {
@@ -129,38 +131,26 @@ export class FakeDataService implements InMemoryDbService {
 
         let baseItems: IBaseItem[] = [
             {
-                ID: 1,
+                id: 1,
                 Osoba: {
                     OsobaID: 1,
                     Naziv: 'Matija Matijić',
-                    TipOsobe: {
-                        id: 1,
-                        name: 'Fizička osoba'
-                    },
+                    TipOsobeId: 1,
                     IdBroj: 45311924532,
-                    VrstaIdBroja: {
-                        id: 1,
-                        name: 'OIB'
-                    }
+                    VrstaId: 1
                 },
                 UvezeneIzliste: 2,
                 BrojTransakcija: '355 (210/150)',
                 IznosTransakcija: '225 550 412 HRK (200.000 HRK/55.432 HRK)'
             },
             {
-                ID: 2,
+                id: 2,
                 Osoba: {
                     OsobaID: 2,
                     Naziv: 'Ivica Ivić',
-                    TipOsobe: {
-                        id: 2,
-                        name: 'Pravna osoba'
-                    },
+                    TipOsobeId: 2,
                     IdBroj: 23291391293,
-                    VrstaIdBroja: {
-                        id: 2,
-                        name: 'JMBAG'
-                    }
+                    VrstaId: 2
                 },
                 UvezeneIzliste: 0,
                 BrojTransakcija: '155 (109/89)',
@@ -170,7 +160,7 @@ export class FakeDataService implements InMemoryDbService {
 
         let innerBaseItems: IInnerbaseItem[] = [
             {
-                ID: 1,
+                id: 1,
                 Izvor: 'ZABA',
                 SWIFT: 'ZABAHR2X',
                 BrojRacuna: 'HR300123',
@@ -187,7 +177,7 @@ export class FakeDataService implements InMemoryDbService {
                 IznosIsplata: '9.000,00 HRK'
             },
             {
-                ID: 2,
+                id: 2,
                 Izvor: 'PBZ',
                 SWIFT: 'PBZHR2X',
                 BrojRacuna: 'HR54545',
@@ -333,5 +323,8 @@ export class FakeDataService implements InMemoryDbService {
             tirmItems,
             tirmFiles
         };
+    }
+    genId<T extends ISubject | ISubjectPermission>(item: T[]): number {
+        return item.length > 0 ? Math.max(...item.map(hero => hero.id)) + 1 : 1;
     }
 }
