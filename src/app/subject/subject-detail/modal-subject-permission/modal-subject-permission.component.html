@@ -69,15 +69,13 @@
                           <th scope="col">Ime</th>
                           <th scope="col">Prezime</th>
                           <th scope="col">E-mail</th>
-                          <th scope="col"><span class="fas fa-check-circle"></span></th>
                       </tr>
                   </thead>
                   <tbody>
-                      <tr *ngFor="let permission of filteredSubjectPermissions; index as i"  (click)="selectPermissionUser($event, permission);" [class.selected]="permission.Flag === true">
+                      <tr *ngFor="let permission of filteredSubjectPermissions; index as i" style="cursor: pointer;" (dblclick)="method2($event, permission)" (click)="selectPermissionUser($event, permission);" [class.selected]="permission.Flag === true">
                           <td>{{ permission.Ime }}</td>
                           <td>{{ permission.Prezime }}</td>
                           <td>{{ permission.Email }}</td>
-                          <td><input type="radio" name="dummy"></td>
                       </tr>
                       <tr *ngIf="filteredSubjectPermissions.length == 0">
                           <td>n/a</td>

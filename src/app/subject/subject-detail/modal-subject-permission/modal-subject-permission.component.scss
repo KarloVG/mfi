@@ -1,4 +1,7 @@
-.selected{background-color:rgb(137, 164, 216)}
+.selected{
+    background-color:rgb(137, 164, 216);
+    border-bottom: 3px solid #0069D9;
+}
 .table-overflow-y {
     max-height: 200px;
     overflow-y: auto;

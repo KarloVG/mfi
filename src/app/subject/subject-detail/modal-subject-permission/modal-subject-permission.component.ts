@@ -50,8 +50,8 @@ export class ModalSubjectPermissionComponent implements OnInit {
     this.filteredSubjectPermissions.forEach(
       element => {
         if(element.ID == permission.ID) {
-          element.Flag = !element.Flag;
-          this.dataBindingObject = element
+          element.Flag = true;
+          this.dataBindingObject = element;
         } else {
           element.Flag = false;
         }
@@ -64,6 +64,11 @@ export class ModalSubjectPermissionComponent implements OnInit {
       const htmlCheckbox = event.target as HTMLInputElement;
       this.isAdalSearchActive = htmlCheckbox.checked;
     }
+  }
+
+  method2(event: MouseEvent, permission: ISubjectPermission) {
+    this.dataBindingObject = permission;
+    this.onSubmit();
   }
 
   ngOnInit(): void {
