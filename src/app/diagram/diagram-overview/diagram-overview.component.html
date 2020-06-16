@@ -1,4 +1,29 @@
 <div class="p-0 m-0">
+  <div class="infobox float-left" *ngIf="nodeActive !== null">
+    <div class="card">
+      <div class="card-body">
+        <dl class="row">
+          <dt class="col-5">Name</dt>
+          <dd class="col-7">{{nodeActive.label}}</dd>
+          <dt class="col-5">Connections</dt>
+          <dd class="col-7">{{nodeActive.connections}}</dd>
+        </dl>
+      </div>
+      <div class="card-body">
+        <button type="button" class="btn btn-danger mr-2" [disabled]="nodeActive === null" (click)="removeNode()">
+          <span class="fas fa-trash"></span>
+          <span class="ml-2">Remove</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div id="network" class="network-canvas p-0 m-0"></div>
-  <button type="button" class="btn btn-outline-dark btn-sm" (click)="addNode()">ADD</button>
+
+  <div id="controls" class="col-12">
+    <button type="button" class="btn btn-primary mr-2" (click)="addNode()">
+      <span class="fas fa-plus-square"></span>
+      <span class="ml-2">Add</span>
+    </button>
+  </div>
 </div>

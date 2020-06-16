@@ -30,7 +30,6 @@ export class SidebarComponent implements OnInit {
     this.navService.publishNavigationChange();
     this.navService.menuItems$
       .subscribe((items) => {
-        console.log(items)
         this.menus = items;
       });
   }
