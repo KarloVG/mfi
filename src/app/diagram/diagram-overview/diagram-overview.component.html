@@ -1,18 +1,68 @@
 <div class="p-0 m-0">
+  <section class="infobar row">
+    <header class="bg-primary col-sm-12 text-center text-light p-1">
+      <span class="fas fa-sitemap"></span>
+      <strong class="ml-2">
+        Dijagram financijskih transakcija: Prikaz po uplati - podaci za razdoblje od 10.1.2019. do 17.11.2019. (ukupno mjeseci: 10)
+      </strong>
+    </header>
+
+    <div class="col-sm-12 py-2 row bg-light border-bottom">
+      <form class="col-sm-9 row">
+        <div class="col-sm-6">
+          <div class="form-group row mb-1">
+            <label for="osobazavizualizaciju" class="col-sm-5 col-form-label">Osoba za vizualizaciju</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="osobazavizualizaciju" value="Marko Marković (OIB: 12345)">
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-5">
+          <div class="form-group row mb-1">
+            <label for="racunizavizualizaciju" class="col-sm-5 col-form-label">Račun za vizualizaciju</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="racunizavizualizaciju" value="Svi računi odabrane osobe">
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-1">
+          <button type="button" class="btn btn-secondary mr-3" title="Dodaj na dijagram" data-click="addPersonToBase()">
+            <span class="fas fa-user-plus"></span>
+          </button>
+        </div>
+      </form>
+      <div class="col-sm-3 text-right">
+        <button type="button" class="btn btn-secondary mr-3" title="Prikaži +1" data-click="addPersonToBase()">
+          <span class="fas fa-expand-arrows-alt"></span>
+        </button>
+        <button type="button" class="btn btn-secondary mr-3" disabled title="Alarmiranje" data-click="addPersonToBase()">
+          <span class="fas fa-bell"></span>
+        </button>
+        <button type="button" class="btn btn-secondary mr-3" disabled title="Izvoz slike" data-click="addPersonToBase()">
+          <span class="fas fa-image"></span>
+        </button>
+        <button type="button" class="btn btn-secondary mr-3" title="Filtriranje" data-click="addPersonToBase()">
+          <span class="fas fa-filter"></span>
+        </button>
+      </div>
+    </div>
+
+  </section>
+
   <div class="infobox float-left" *ngIf="nodeActive !== null">
     <div class="card">
       <div class="card-body">
         <dl class="row">
-          <dt class="col-5">Name</dt>
-          <dd class="col-7">{{nodeActive.label}}</dd>
-          <dt class="col-5">Connections</dt>
-          <dd class="col-7">{{nodeActive.connections}}</dd>
+          <dt class="col-sm-5">Ime</dt>
+          <dd class="col-sm-7">{{nodeActive.label}}</dd>
+          <dt class="col-sm-5">Konekcije</dt>
+          <dd class="col-sm-7">{{nodeActive.connections}}</dd>
         </dl>
       </div>
       <div class="card-body">
         <button type="button" class="btn btn-danger mr-2" [disabled]="nodeActive === null" (click)="removeNode()">
           <span class="fas fa-trash"></span>
-          <span class="ml-2">Remove</span>
+          <span class="ml-2">Obriši</span>
         </button>
       </div>
     </div>
@@ -21,9 +71,8 @@
   <div id="network" class="network-canvas p-0 m-0"></div>
 
   <div id="controls" class="col-12">
-    <button type="button" class="btn btn-primary mr-2" (click)="addNode()">
+    <button type="button" class="btn btn-primary mr-2" title="Dodaj" (click)="addNode()">
       <span class="fas fa-plus-square"></span>
-      <span class="ml-2">Add</span>
     </button>
   </div>
 </div>
