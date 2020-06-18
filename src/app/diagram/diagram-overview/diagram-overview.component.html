@@ -1,5 +1,5 @@
-<div class="p-0 m-0">
-  <section class="infobar row">
+<div class="">
+  <section class="infobar row no-gutters mb-2">
     <header class="bg-primary col-sm-12 text-center text-light p-1">
       <span class="fas fa-sitemap"></span>
       <strong class="ml-2">
@@ -7,7 +7,7 @@
       </strong>
     </header>
 
-    <div class="col-sm-12 py-2 row bg-light border-bottom">
+    <div class="col-sm-12 py-2 row ml-0 bg-light border-bottom">
       <form class="col-sm-9 row">
         <div class="col-sm-6">
           <div class="form-group row mb-1">
@@ -34,6 +34,7 @@
       <div class="col-sm-3 text-right">
         <button type="button" class="btn btn-secondary mr-3" title="Prikaži +1" data-click="addPersonToBase()">
           <span class="fas fa-expand-arrows-alt"></span>
+          <span class="ml-2 d-none">Prikaži +1</span>
         </button>
         <button type="button" class="btn btn-secondary mr-3" disabled title="Alarmiranje" data-click="addPersonToBase()">
           <span class="fas fa-bell"></span>
@@ -43,10 +44,10 @@
         </button>
         <button type="button" class="btn btn-secondary mr-3" title="Filtriranje" data-click="addPersonToBase()">
           <span class="fas fa-filter"></span>
+          <span class="ml-2 d-none">Filtriranje</span>
         </button>
       </div>
     </div>
-
   </section>
 
   <div class="infobox float-left" *ngIf="nodeActive !== null">

@@ -7,8 +7,6 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ModalCanDeactivateComponent } from 'src/app/subject/subject-add-or-edit/modal-can-deactivate/modal-can-deactivate.component';
 
-
-
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',

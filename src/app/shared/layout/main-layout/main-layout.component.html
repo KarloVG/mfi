@@ -1,16 +1,18 @@
-<div class="row px-0">
-  <header class="col-12 pr-0">
+<div class="row">
+  <header class="col-sm-12 px-0">
     <app-header></app-header>
   </header>
-  <div class="col-1">
-    <app-sidebar></app-sidebar>
+  <div class="col-sm-12 px-0 mx-0 row">
+    <div class="sidebar-holder col px-0">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div id="main-holder" class="col px-0">
+      <div [@fadeInOut]="o.isActivated ? o.activatedRoute : ''">
+        <router-outlet #o="outlet"></router-outlet>
+      </div>
+    </div>
   </div>
-  <div id="main-holder" class="col-10 py-2 pr-0">
-    <div [@fadeInOut]="o.isActivated ? o.activatedRoute : ''">
-      <router-outlet #o="outlet"></router-outlet>
-  </div>
-  </div>
-  <footer class="col-12 pr-0">
+  <footer class="col-sm-12 px-0">
     <app-footer></app-footer>
   </footer>
 </div>

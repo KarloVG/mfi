@@ -44,26 +44,34 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
         edges: this.edges
       }
       this.network = new Network(container, this.data, this.options)
-      this.network.on('selectNode', ctx => {
-        let idx = ctx.nodes[0]
-        let linksTo = this.edges.get({
-          filter: (itm) => { return itm.to === idx }
-        })
-        let linksFrom = this.edges.get({
-          filter: (itm) => { return itm.from === idx }
-        })
-        this.nodeActive = this.nodes.get(idx)
-        this.nodeActive.connections = linksTo.length + linksFrom.length
-        console.log('Selected Node', idx, this.nodeActive)
-        console.log('Connects to', linksTo.length, linksTo)
-        console.log('Connects from', linksFrom.length, linksFrom)
-      })
-      this.network.on('deselectNode', ctx => {
-        this.nodeActive = null
-        console.log('Deselected Node')
-      })
+
+      this.network.on('selectNode', ctx => { this.selectNode(ctx) })
+      this.network.on('deselectNode', ctx => { this.deselectNode(ctx) })
+      this.network.on('dragEnd', ctx => { this.selectNode(ctx) })
     }
     public ngOnDestroy(): void {}
+
+    selectNode(ctx) {
+      let idx = ctx.nodes[0]
+      let linksTo = this.edges.get({
+        filter: (itm) => { return itm.to === idx }
+      })
+      let linksFrom = this.edges.get({
+        filter: (itm) => { return itm.from === idx }
+      })
+      this.nodeActive = this.nodes.get(idx)
+      this.nodeActive.connections = linksTo.length + linksFrom.length
+      console.log('Selected Node', idx, this.nodeActive)
+      console.log('Connects to', linksTo.length, linksTo)
+      console.log('Connects from', linksFrom.length, linksFrom)
+    }
+    deselectNode(ctx) {
+      this.nodeActive = null
+      console.log('Deselected Node')
+    }
+    controlNodeDragEnd(ctx) {
+      console.log('dragStart', ctx)
+    }
 
     addNode() {
       const rnd = this.rndmm(20, 100)

@@ -1,4 +1,4 @@
-<section id="sidebar" class="sidebar-holder">
+<section id="sidebar" class="sidebar-holder bg-light border-right">
   <div>
     <ul class="sidebar-list list-unstyled px-0">
       <li class="sidebar-list-item text-center px-0 py-0">
@@ -28,9 +28,9 @@
       </li>
       <li class="sidebar-list-item text-center px-0 py-0" *ngFor="let menu of menus">
           <a routerLinkActive="is-active" type="button" class="menu-button btn btn-block py-3"
-          routerLink="{{menu.path}}"
-          [title]="menu.descr"
-          [attr.disabled]="menu.disabled ? true : null">
+            routerLink="{{menu.path}}"
+            [title]="menu.descr"
+            [attr.disabled]="menu.disabled ? true : null">
           <span class="menu-icon d-block fas fa-2x" [ngClass]="menu.icon"></span>
           <span class="menu-text d-block " *ngIf="!!menu.descr">{{menu.descr}}</span>
         </a>
