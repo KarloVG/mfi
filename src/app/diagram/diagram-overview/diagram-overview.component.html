@@ -8,7 +8,7 @@
     </header>
 
     <div class="col-sm-12 py-2 row ml-0 bg-light border-bottom">
-      <form class="col-sm-9 row">
+      <form class="col-sm-7 row">
         <div class="col-sm-6">
           <div class="form-group row mb-1">
             <label for="osobazavizualizaciju" class="col-sm-5 col-form-label">Osoba za vizualizaciju</label>
@@ -26,25 +26,27 @@
           </div>
         </div>
         <div class="col-sm-1">
-          <button type="button" class="btn btn-secondary mr-3" title="Dodaj na dijagram" data-click="addPersonToBase()">
+          <button type="button" class="btn btn-secondary mr-3" title="Dodaj na dijagram" (click)="addUser()">
             <span class="fas fa-user-plus"></span>
           </button>
         </div>
       </form>
-      <div class="col-sm-3 text-right">
-        <button type="button" class="btn btn-secondary mr-3" title="Prikaži +1" data-click="addPersonToBase()">
+      <div class="col-sm-5 text-right">
+        <button type="button" class="btn btn-secondary mr-3" title="Prikaži +1" data-click="expandView()">
           <span class="fas fa-expand-arrows-alt"></span>
-          <span class="ml-2 d-none">Prikaži +1</span>
+          <span class="ml-2 d--none">Prikaži +1</span>
         </button>
-        <button type="button" class="btn btn-secondary mr-3" disabled title="Alarmiranje" data-click="addPersonToBase()">
+        <button type="button" class="btn btn-secondary mr-3" disabled title="Alarmiranje" data-click="notifications()">
           <span class="fas fa-bell"></span>
+          <span class="ml-2 d--none">Alarmiranje</span>
         </button>
-        <button type="button" class="btn btn-secondary mr-3" disabled title="Izvoz slike" data-click="addPersonToBase()">
+        <button type="button" class="btn btn-secondary mr-3" disabled title="Izvoz slike" data-click="export()">
           <span class="fas fa-image"></span>
+          <span class="ml-2 d--none">Izvoz slike</span>
         </button>
-        <button type="button" class="btn btn-secondary mr-3" title="Filtriranje" data-click="addPersonToBase()">
+        <button type="button" class="btn btn-secondary mr-3" title="Filtriranje" data-click="filter()">
           <span class="fas fa-filter"></span>
-          <span class="ml-2 d-none">Filtriranje</span>
+          <span class="ml-2 d--none">Filtriranje</span>
         </button>
       </div>
     </div>
@@ -52,28 +54,26 @@
 
   <div class="infobox float-left" *ngIf="nodeActive !== null">
     <div class="card">
-      <div class="card-body">
-        <dl class="row">
-          <dt class="col-sm-5">Ime</dt>
-          <dd class="col-sm-7">{{nodeActive.label}}</dd>
-          <dt class="col-sm-5">Konekcije</dt>
-          <dd class="col-sm-7">{{nodeActive.connections}}</dd>
-        </dl>
+      <div class="card-body" *ngIf="nodeActive.type === 'user'">
+        <div>Osoba u fokusu</div>
+        <div class="h5"><strong>{{nodeActive.user.name}}, OIB: {{nodeActive.user.oib}}</strong></div>
+        <div>Ukupan iznos uplata: {{nodeActive.user.totalIn|number}} HRK</div>
+        <div>Ukupan iznos isplata: {{nodeActive.user.totalOut|number}} HRK</div>
       </div>
-      <div class="card-body">
-        <button type="button" class="btn btn-danger mr-2" [disabled]="nodeActive === null" (click)="removeNode()">
-          <span class="fas fa-trash"></span>
-          <span class="ml-2">Obriši</span>
-        </button>
+      <div class="card-body" *ngIf="nodeActive.type === 'user'">
+        Računi
+        <pre>{{nodeActive.accounts|json}}</pre>
+      </div>
+
+      <div class="card-body" *ngIf="nodeActive.type === 'account'">
+        <div class="h5"><strong>Račun: {{nodeActive.account.accNo}}</strong></div>
+      </div>
+      <div class="card-body" *ngIf="nodeActive.type === 'account'">
+        Transakcije
+        <pre>{{nodeActive.account.transactions|json}}</pre>
       </div>
     </div>
   </div>
 
   <div id="network" class="network-canvas p-0 m-0"></div>
-
-  <div id="controls" class="col-12">
-    <button type="button" class="btn btn-primary mr-2" title="Dodaj" (click)="addNode()">
-      <span class="fas fa-plus-square"></span>
-    </button>
-  </div>
 </div>
