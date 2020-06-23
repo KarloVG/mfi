@@ -9,6 +9,11 @@
   right: 1px;
 }
 
+.card {
+  max-height: 78vh;
+  overflow: auto;
+}
+
 pre {
   max-height: 55vh;
   outline: 1px dotted silver;

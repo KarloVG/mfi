@@ -52,21 +52,50 @@
     </div>
   </section>
 
-  <div class="infobox float-left" *ngIf="nodeActive !== null">
+  <div class="infobox float-left col-sm-3" *ngIf="nodeActive !== null">
     <div class="card">
+
       <div class="card-body" *ngIf="nodeActive.type === 'user'">
-        <div>Osoba u fokusu</div>
-        <div class="h5"><strong>{{nodeActive.user.name}}, OIB: {{nodeActive.user.oib}}</strong></div>
-        <div>Ukupan iznos uplata: {{nodeActive.user.totalIn|number}} HRK</div>
-        <div>Ukupan iznos isplata: {{nodeActive.user.totalOut|number}} HRK</div>
+        <span class="text-right pull-right">
+          <a class="close" aria-label="Close" (click)="closeInfobox()">
+            <small class="fas fa-times"></small>
+          </a>
+        </span>
+        <section>
+          <div>Osoba u fokusu</div>
+          <div class="h5 text-info"><strong>{{nodeActive.user.name}}, OIB: {{nodeActive.user.oib}}</strong></div>
+          <div>Ukupan iznos uplata: <strong>{{nodeActive.user.totalIn|number}} HRK</strong></div>
+          <div>Ukupan iznos isplata: <strong>{{nodeActive.user.totalOut|number}} HRK</strong></div>
+        </section>
       </div>
       <div class="card-body" *ngIf="nodeActive.type === 'user'">
-        Računi
-        <pre>{{nodeActive.accounts|json}}</pre>
+        <section *ngFor="let account of nodeActive.accounts; let i = index">
+          <div class="text-info">Račun {{i+1}}</div>
+          <div class="card mb-2">
+            <div class="card-body">
+              <div>Broj računa: <strong>{{account.accNo}}</strong></div>
+              <div>SWIFT/BIC banke: <span>{{account.swift}}</span></div>
+              <div>Naziv banke: <span>{{account.bank}}</span>, Država: <span>{{account.country}}</span></div>
+              <hr>
+              <div>Uplate na račun: <span>x</span></div>
+              <div>Ukupan iznos uplata: <span>x</span></div>
+              <hr>
+              <div>Isplate s računa: <span>x</span></div>
+              <div>Ukupan iznos isplata: <span>x</span></div>
+            </div>
+          </div>
+        </section>
       </div>
 
       <div class="card-body" *ngIf="nodeActive.type === 'account'">
-        <div class="h5"><strong>Račun: {{nodeActive.account.accNo}}</strong></div>
+        <span class="text-right pull-right">
+          <a class="close" aria-label="Close" (click)="closeInfobox()">
+            <small class="fas fa-times"></small>
+          </a>
+        </span>
+        <section>
+          <div class="h5"><strong>Račun: {{nodeActive.account.accNo}}</strong></div>
+        </section>
       </div>
       <div class="card-body" *ngIf="nodeActive.type === 'account'">
         Transakcije

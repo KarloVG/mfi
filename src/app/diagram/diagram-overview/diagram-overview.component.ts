@@ -48,7 +48,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     }
     this.network = new Network(container, this.data, this.options)
 
-    console.log('ALLACCS', this.allAccs)
+    console.log('AllAccs', this.allAccs)
 
     this.network.on('selectNode', ctx => { this.selectNode(ctx) })
     this.network.on('deselectNode', ctx => { this.deselectNode(ctx) })
@@ -111,6 +111,12 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
 
   removeNode() {
     console.log('Remove Node', this.nodeActive)
+  }
+
+  closeInfobox() {
+    this.nodeActive = null
+    this.network.releaseNode()
+    console.log('Closed infobox')
   }
 
   rndmm(min, max) {
