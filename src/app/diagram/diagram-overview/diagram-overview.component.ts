@@ -68,6 +68,22 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
       this.nodeActive.accounts.forEach(aitm => {
         this.nodeActive.accounts[ai].transactions = []
         this.nodeActive.accounts[ai].transactions.push(...this.allTrans.filter(titm => { return titm.accId === aitm.id }))
+        this.nodeActive.accounts[ai].totalIn = null
+        this.nodeActive.accounts[ai].totalOut = null
+        this.nodeActive.accounts[ai].totalInCount = null
+        this.nodeActive.accounts[ai].totalOutCount = null
+        if (this.nodeActive.accounts[ai].transactions.length > 1) {
+          this.nodeActive.accounts[ai].totalIn = this.nodeActive.accounts[ai].transactions.filter(itm => { return itm.direction == 1}).reduce((pval, cval) => {  return (pval.amount? pval.amount : pval) + cval.amount})
+          this.nodeActive.accounts[ai].totalOut = this.nodeActive.accounts[ai].transactions.filter(itm => { return itm.direction == -1}).reduce((pval, cval) => { return (pval.amount? pval.amount : pval) + cval.amount})
+          if (typeof this.nodeActive.accounts[ai].totalIn === 'object' && 'amount' in this.nodeActive.accounts[ai].totalIn) { this.nodeActive.accounts[ai].totalIn = this.nodeActive.accounts[ai].totalIn.amount }
+          if (typeof this.nodeActive.accounts[ai].totalOut === 'object' && 'amount' in this.nodeActive.accounts[ai].totalOut) { this.nodeActive.accounts[ai].totalOut = this.nodeActive.accounts[ai].totalOut.amount }
+        } else if (this.nodeActive.accounts[ai].transactions.length == 1) {
+          if (this.nodeActive.accounts[ai].transactions.filter(itm => { return itm.direction == 1}).length === 1) { this.nodeActive.accounts[ai].totalIn = this.nodeActive.accounts[ai].transactions.filter(itm => { return itm.direction == 1})[0].amount }
+          if (this.nodeActive.accounts[ai].transactions.filter(itm => { return itm.direction == -1}).length === 1) { this.nodeActive.accounts[ai].totalOut = this.nodeActive.accounts[ai].transactions.filter(itm => { return itm.direction == -1})[0].amount }
+        }
+        this.nodeActive.accounts[ai].totalInCount = this.nodeActive.accounts[ai].transactions.filter(itm => { return itm.direction == 1}).length
+        this.nodeActive.accounts[ai].totalOutCount = this.nodeActive.accounts[ai].transactions.filter(itm => { return itm.direction == -1}).length
+        console.log('TRX-%d', ai, this.nodeActive.accounts[ai])
         ai++
       })
     } else if (this.nodeActive.type === 'account') {

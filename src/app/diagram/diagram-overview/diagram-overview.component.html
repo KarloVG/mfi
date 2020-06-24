@@ -61,14 +61,14 @@
             <small class="fas fa-times"></small>
           </a>
         </span>
-        <section>
+        <section class="pb-4 mb-4">
           <div>Osoba u fokusu</div>
           <div class="h5 text-info"><strong>{{nodeActive.user.name}}, OIB: {{nodeActive.user.oib}}</strong></div>
           <div>Ukupan iznos uplata: <strong>{{nodeActive.user.totalIn|number}} HRK</strong></div>
           <div>Ukupan iznos isplata: <strong>{{nodeActive.user.totalOut|number}} HRK</strong></div>
         </section>
       </div>
-      <div class="card-body" *ngIf="nodeActive.type === 'user'">
+      <div class="card-body mt-3" *ngIf="nodeActive.type === 'user'">
         <section *ngFor="let account of nodeActive.accounts; let i = index">
           <div class="text-info">Račun {{i+1}}</div>
           <div class="card mb-2">
@@ -77,11 +77,11 @@
               <div>SWIFT/BIC banke: <span>{{account.swift}}</span></div>
               <div>Naziv banke: <span>{{account.bank}}</span>, Država: <span>{{account.country}}</span></div>
               <hr>
-              <div>Uplate na račun: <span>x</span></div>
-              <div>Ukupan iznos uplata: <span>x</span></div>
+              <div>Uplate na račun: <span>{{account.totalInCount !== 0? account.totalInCount : 'n/a'}}</span></div>
+              <div>Ukupan iznos uplata: <span>{{account.totalIn? account.totalIn + ' HRK' : 'n/a'}}</span></div>
               <hr>
-              <div>Isplate s računa: <span>x</span></div>
-              <div>Ukupan iznos isplata: <span>x</span></div>
+              <div>Isplate s računa: <span>{{account.totalOutCount !== 0? account.totalOutCount : 'n/a'}}</span></div>
+              <div>Ukupan iznos isplata: <span>{{account.totalOut? account.totalOut + ' HRK' : 'n/a'}}</span></div>
             </div>
           </div>
         </section>
