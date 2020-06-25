@@ -1,6 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Network, DataSet, Node, Edge, IdType } from 'vis'
 
+import { registerLocaleData } from '@angular/common';
+import localeHr from '@angular/common/locales/hr';
+registerLocaleData(localeHr, 'hr');
+
 @Component({
   selector: 'app-diagram-overview',
   templateUrl: './diagram-overview.component.html',
@@ -59,19 +63,18 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   selectNode(ctx) {
     let idx = ctx.nodes[0]
     this.nodeActive = this.nodes.get(idx)
-    console.log('Selected Node', idx, this.nodeActive)
     if (this.nodeActive.type === 'user') {
       this.nodeActive.user = this.allUsers.find(itm => { return itm.id === this.nodeActive.id })
       this.nodeActive.accounts = []
       this.nodeActive.accounts.push(...this.allAccs.filter(itm => { return itm.userId === this.nodeActive.user.id }))
       let ai = 0
       this.nodeActive.accounts.forEach(aitm => {
-        this.nodeActive.accounts[ai].transactions = []
-        this.nodeActive.accounts[ai].transactions.push(...this.allTrans.filter(titm => { return titm.accId === aitm.id }))
         this.nodeActive.accounts[ai].totalIn = null
         this.nodeActive.accounts[ai].totalOut = null
         this.nodeActive.accounts[ai].totalInCount = null
         this.nodeActive.accounts[ai].totalOutCount = null
+        this.nodeActive.accounts[ai].transactions = []
+        this.nodeActive.accounts[ai].transactions.push(...this.allTrans.filter(titm => { return titm.accId === aitm.id }))
         if (this.nodeActive.accounts[ai].transactions.length > 1) {
           this.nodeActive.accounts[ai].totalIn = this.nodeActive.accounts[ai].transactions.filter(itm => { return itm.direction == 1}).reduce((pval, cval) => {  return (pval.amount? pval.amount : pval) + cval.amount})
           this.nodeActive.accounts[ai].totalOut = this.nodeActive.accounts[ai].transactions.filter(itm => { return itm.direction == -1}).reduce((pval, cval) => { return (pval.amount? pval.amount : pval) + cval.amount})
@@ -83,15 +86,31 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
         }
         this.nodeActive.accounts[ai].totalInCount = this.nodeActive.accounts[ai].transactions.filter(itm => { return itm.direction == 1}).length
         this.nodeActive.accounts[ai].totalOutCount = this.nodeActive.accounts[ai].transactions.filter(itm => { return itm.direction == -1}).length
-        console.log('TRX-%d', ai, this.nodeActive.accounts[ai])
         ai++
       })
     } else if (this.nodeActive.type === 'account') {
       let acc = this.allAccs.find(itm => { return itm.id === this.nodeActive.id })
       this.nodeActive.user = this.allUsers.find(itm => { return itm.id === acc.userId })
       this.nodeActive.account = acc
+
+      this.nodeActive.account.totalIn = null
+      this.nodeActive.account.totalOut = null
+      this.nodeActive.account.totalInCount = null
+      this.nodeActive.account.totalOutCount = null
       this.nodeActive.account.transactions = []
       this.nodeActive.account.transactions.push(...this.allTrans.filter(titm => { return titm.accId === acc.id }))
+
+      if (this.nodeActive.account.transactions.length > 1) {
+        this.nodeActive.account.totalIn = this.nodeActive.account.transactions.filter(itm => { return itm.direction == 1}).reduce((pval, cval) => {  return (pval.amount? pval.amount : pval) + cval.amount})
+        this.nodeActive.account.totalOut = this.nodeActive.account.transactions.filter(itm => { return itm.direction == -1}).reduce((pval, cval) => { return (pval.amount? pval.amount : pval) + cval.amount})
+        if (typeof this.nodeActive.account.totalIn === 'object' && 'amount' in this.nodeActive.account.totalIn) { this.nodeActive.account.totalIn = this.nodeActive.account.totalIn.amount }
+        if (typeof this.nodeActive.account.totalOut === 'object' && 'amount' in this.nodeActive.account.totalOut) { this.nodeActive.account.totalOut = this.nodeActive.account.totalOut.amount }
+      } else if (this.nodeActive.account.transactions.length == 1) {
+        if (this.nodeActive.account.transactions.filter(itm => { return itm.direction == 1}).length === 1) { this.nodeActive.account.totalIn = this.nodeActive.account.transactions.filter(itm => { return itm.direction == 1})[0].amount }
+        if (this.nodeActive.account.transactions.filter(itm => { return itm.direction == -1}).length === 1) { this.nodeActive.account.totalOut = this.nodeActive.account.transactions.filter(itm => { return itm.direction == -1})[0].amount }
+      }
+      this.nodeActive.account.totalInCount = this.nodeActive.account.transactions.filter(itm => { return itm.direction == 1}).length
+      this.nodeActive.account.totalOutCount = this.nodeActive.account.transactions.filter(itm => { return itm.direction == -1}).length
     }
     console.log('Selected Node', idx, this.nodeActive)
   }
@@ -129,7 +148,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     console.log('Remove Node', this.nodeActive)
   }
 
-  closeInfobox() {
+  onClosed() {
     this.nodeActive = null
     this.network.releaseNode()
     console.log('Closed infobox')

@@ -1,0 +1,48 @@
+<div class="card">
+  <div class="card-body pb-4 mb-4">
+    <span class="text-right pull-right">
+      <a class="close" aria-label="Close" (click)="closeInfobox()">
+        <small class="fas fa-times"></small>
+      </a>
+    </span>
+    <section>
+      <div>Osoba u fokusu</div>
+      <div class="h5 text-info"><strong>{{node.user.name}}, OIB: {{node.user.oib}}</strong></div>
+      <div>Ukupan iznos uplata: <strong>{{node.user.totalIn|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong></div>
+      <div>Ukupan iznos isplata: <strong>{{node.user.totalOut|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong></div>
+    </section>
+  </div>
+  <div class="card-body mt-3">
+    <section *ngFor="let account of node.accounts; let i = index">
+      <div class="text-info">Račun {{i+1}}</div>
+      <div class="card mb-2">
+        <div class="card-body">
+          <div>Broj računa: <strong>{{account.accNo}}</strong></div>
+          <div>SWIFT/BIC banke: <span>{{account.swift}}</span></div>
+          <div>Naziv banke: <span>{{account.bank}}</span>, Država: <span>{{account.country}}</span></div>
+          <hr>
+          <div>
+            <span class="mr-1">Uplate na račun:</span>
+            <strong *ngIf="account.totalInCount !== 0">{{account.totalInCount}}</strong>
+            <span *ngIf="account.totalInCount == 0">n/a</span></div>
+          <div>
+            <span class="mr-1">Ukupan iznos uplata:</span>
+            <strong *ngIf="account.totalIn">{{account.totalIn|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+            <span *ngIf="!account.totalIn">n/a</span>
+          </div>
+          <hr>
+          <div>
+            <span class="mr-1">Isplate s računa:</span>
+            <strong *ngIf="account.totalOutCount !== 0">{{account.totalOutCount}}</strong>
+            <span *ngIf="account.totalOutCount == 0">n/a</span>
+          </div>
+          <div>
+            <span class="mr-1">Ukupan iznos isplata:</span>
+            <strong *ngIf="account.totalOut">{{account.totalOut|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+            <span *ngIf="!account.totalOut">n/a</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

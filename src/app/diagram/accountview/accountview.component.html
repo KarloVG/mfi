@@ -1,0 +1,35 @@
+<div class="card">
+  <div class="card-body">
+    <span class="text-right pull-right">
+      <a class="close" aria-label="Close" (click)="closeInfobox()">
+        <small class="fas fa-times"></small>
+      </a>
+    </span>
+    <section>
+      <div>Broj računa: <strong>{{node.account.accNo}}</strong></div>
+      <div>SWIFT/BIC banke: <span>{{node.account.swift}}</span></div>
+      <div>Naziv banke: <span>{{node.account.bank}}</span>, Država: <span>{{node.account.country}}</span></div>
+    </section>
+  </div>
+  <div class="card-body" *ngIf="node.type === 'account'">
+    <div class="card mb-2">
+      <div class="card-body">
+        <div>
+          <span class="mr-1">Isplate s računa:</span>
+          <strong *ngIf="node.account.totalOutCount !== 0">{{node.account.totalOutCount}}</strong>
+          <span *ngIf="node.account.totalOutCount == 0">n/a</span>
+        </div>
+        <div>
+          <span class="mr-1">Ukupan iznos isplata:</span>
+          <strong *ngIf="node.account.totalOut">{{node.account.totalOut|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+          <span *ngIf="!node.account.totalOut">n/a</span>
+        </div>
+      </div>
+    </div>
+    <div class="text-right">
+      <button type="button" class="btn btn-secondary" title="Prikaz detalja računa i transakcija" (click)="expandAccountDetails()">
+        <span class="fas fa-binoculars"></span>
+      </button>
+    </div>
+  </div>
+</div>
