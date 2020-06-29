@@ -22,8 +22,7 @@ export class ModalImportFileComponent implements OnInit, OnDestroy {
   extracts: any[] = [];
   errorName: string = '';
 
-  // @Input() peopleOnSubject: ISimpleDropdownItem[] = [];
-  peopleOnSubject: ISimpleDropdownItem[] = [];
+  @Input() peopleOnSubject: ISimpleDropdownItem[] = [];
 
   importFromFileGroup: FormGroup = this.formBuilder.group({
     template: [null],
@@ -47,16 +46,6 @@ export class ModalImportFileComponent implements OnInit, OnDestroy {
     this.importService.tryoutGet(1).subscribe(data=>{
       console.log(data)
     })
-    this.peopleOnSubject = [
-      {
-        id: 1,
-        name: 'Zvonimir Levačić Ševa'
-      },
-      {
-        id: 2,
-        name: 'Ivan Lacković Laki'
-      }
-    ];
 
     this.validationTemplates = [
       {
