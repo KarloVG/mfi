@@ -23,23 +23,24 @@
           <hr>
           <div>
             <span class="mr-1">Uplate na račun:</span>
-            <strong *ngIf="account.totalInCount !== 0">{{account.totalInCount}}</strong>
-            <span *ngIf="account.totalInCount == 0">n/a</span></div>
+            <strong *ngIf="account.transactions.totals.inbound.count != 0">{{account.transactions.totals.inbound.count}}</strong>
+            <span *ngIf="account.transactions.totals.inbound.count == 0">n/a</span>
+          </div>
           <div>
             <span class="mr-1">Ukupan iznos uplata:</span>
-            <strong *ngIf="account.totalIn">{{account.totalIn|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
-            <span *ngIf="!account.totalIn">n/a</span>
+            <strong *ngIf="account.transactions.totals.inbound.amount">{{account.transactions.totals.inbound.amount|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+            <span *ngIf="!account.transactions.totals.inbound.amount">n/a</span>
           </div>
           <hr>
           <div>
             <span class="mr-1">Isplate s računa:</span>
-            <strong *ngIf="account.totalOutCount !== 0">{{account.totalOutCount}}</strong>
-            <span *ngIf="account.totalOutCount == 0">n/a</span>
+            <strong *ngIf="account.transactions.totals.outbound.count != 0">{{account.transactions.totals.outbound.count}}</strong>
+            <span *ngIf="account.transactions.totals.outbound.count == 0">n/a</span>
           </div>
           <div>
             <span class="mr-1">Ukupan iznos isplata:</span>
-            <strong *ngIf="account.totalOut">{{account.totalOut|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
-            <span *ngIf="!account.totalOut">n/a</span>
+            <strong *ngIf="account.transactions.totals.outbound.amount">{{account.transactions.totals.outbound.amount|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+            <span *ngIf="!account.transactions.totals.outbound.amount">n/a</span>
           </div>
         </div>
       </div>

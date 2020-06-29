@@ -1,5 +1,5 @@
 <div>
-  <app-topbar [addUserAction]="addUser.bind(this)"></app-topbar>
+  <app-topbar [usersList]="usersList" [addUserAction]="addUser.bind(this)"></app-topbar>
 
   <div class="infobox float-left col-sm-3" *ngIf="nodeActive !== null">
     <app-userview [node]="nodeActive" (close)="onClosed()" *ngIf="nodeActive.type === 'user'"></app-userview>

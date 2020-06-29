@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { DiagramRoutingModule } from './diagram-routing.module';
 import { DiagramOverviewComponent } from './diagram-overview/diagram-overview.component';
@@ -12,7 +13,8 @@ import { AccountviewComponent } from './accountview/accountview.component';
   declarations: [DiagramOverviewComponent, TopbarComponent, UserviewComponent, AccountviewComponent],
   imports: [
     CommonModule,
-    DiagramRoutingModule
+    DiagramRoutingModule,
+    FormsModule,
   ]
 })
 export class DiagramModule { }

@@ -12,7 +12,9 @@
           <div class="form-group row mb-1">
             <label for="osobazavizualizaciju" class="col-sm-5 col-form-label">Osoba za vizualizaciju</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" id="osobazavizualizaciju" value="Marko Marković (OIB: 12345)">
+              <select class="form-control" id="selectedUser" [(ngModel)]="selectedUser.id" name="user">
+                <option *ngFor="let user of usersList" value="{{user.id}}">{{user.name}} (OIB: {{user.oib}})</option>
+              </select>
             </div>
           </div>
         </div>
@@ -20,12 +22,14 @@
           <div class="form-group row mb-1">
             <label for="racunizavizualizaciju" class="col-sm-5 col-form-label">Račun za vizualizaciju</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" id="racunizavizualizaciju" value="Svi računi odabrane osobe">
+              <select class="form-control" id="selectedType" [(ngModel)]="selectedType.id" name="type">
+                <option *ngFor="let type of typesList" value="{{type.id}}">{{type.title}}</option>
+              </select>
             </div>
           </div>
         </div>
         <div class="col-sm-1">
-          <button type="button" class="btn btn-secondary mr-3" title="Dodaj na dijagram" (click)="addUserAction()">
+          <button type="button" class="btn btn-secondary mr-3" title="Dodaj na dijagram" (click)="addUser()">
             <span class="fas fa-user-plus"></span>
           </button>
         </div>
