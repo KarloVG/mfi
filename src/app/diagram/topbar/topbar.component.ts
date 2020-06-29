@@ -6,7 +6,11 @@ import {Component, OnInit, Input} from '@angular/core';
   styleUrls: ['./topbar.component.scss']
 })
 export class TopbarComponent implements OnInit {
+  
   @Input() addUserAction: any
+
+  moduleName: string = 'Diagram financijskih transakcija';
+  moduleFontIcon = 'fas fa-sitemap';
 
   constructor() {}
   ngOnInit(): void {}

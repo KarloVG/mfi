@@ -6,13 +6,15 @@ import { DiagramOverviewComponent } from './diagram-overview/diagram-overview.co
 import { TopbarComponent } from './topbar/topbar.component';
 import { UserviewComponent } from './userview/userview.component';
 import { AccountviewComponent } from './accountview/accountview.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
   declarations: [DiagramOverviewComponent, TopbarComponent, UserviewComponent, AccountviewComponent],
   imports: [
     CommonModule,
-    DiagramRoutingModule
+    DiagramRoutingModule,
+    SharedModule
   ]
 })
 export class DiagramModule { }

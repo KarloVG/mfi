@@ -23,6 +23,8 @@ export class TableOverviewComponent implements OnInit {
   filterValue: string;
   isActiveFilter: boolean = false;
   modalFilterValues: IFilterCriteria;
+  moduleName: string = 'Tablica financijskih transakcija';
+  moduleFontIcon = 'fas fa-table';
 
   constructor(
     private baseDetailService: BaseDetailService,
