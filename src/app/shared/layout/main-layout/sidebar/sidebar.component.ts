@@ -30,6 +30,8 @@ export class SidebarComponent implements OnInit {
         if(withNoDigits == '/subject/edit/') {
           this.isDisabledDropdown = true;
           console.log(this.isDisabledDropdown)
+        } else {
+          this.isDisabledDropdown = false;
         }
       }
     });
