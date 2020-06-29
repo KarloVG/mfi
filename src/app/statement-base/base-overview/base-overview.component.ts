@@ -163,7 +163,7 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
       if (result) {
         this.toastr.success('Izvod iz datoteke je dodan', 'Uspjeh', {
           progressBar: true
-        })
+        });
       } else {
         this.toastr.warning('Izvod iz datoteke nije dodan', 'Pažnja', {
           progressBar: true

@@ -1,0 +1,50 @@
+<section class="infobar row no-gutters mb-2">
+    <header class="bg-blue col-sm-12 text-center text-light p-1">
+      <span class="fas fa-filter"></span>
+      <strong class="ml-2">
+        <u>FILTRIRANI PODACI:</u>
+        <span *ngIf="storageData.Naziv">
+          Ime/Naziv A: "{{ storageData.Naziv }}"
+        </span>
+        <span *ngIf="storageData.BrojRacuna">
+          Broj računa A: "{{ storageData.BrojRacuna }}"
+        </span>
+        <span *ngIf="storageData.Banka">
+          Banka A: "{{ storageData.Banka }}"
+        </span>
+        <span *ngIf="storageData.Drzava">
+          Drzava A: "{{ storageData.Drzava }}"
+        </span>
+        <span *ngIf="storageData.Smjer">
+          Smjer: "{{ storageData.Smjer }}"
+        </span>
+        <span *ngIf="storageData.VrstaTransakcije">
+          Vrsta transakcije: "{{ storageData.VrstaTransakcije }}"
+        </span>
+        <span *ngIf="storageData.NazivB">
+          Ime/Naziv B: "{{ storageData.NazivB }}"
+        </span>
+        <span *ngIf="storageData.BrojRacunaB">
+          Broj računa B: "{{ storageData.BrojRacunaB }}"
+        </span>
+        <span *ngIf="storageData.BankaB">
+          Banka B: "{{ storageData.BankaB }}"
+        </span>
+        <span *ngIf="storageData.DrzavaB">
+          Drzava B: "{{ storageData.DrzavaB }}"
+        </span>
+        <span *ngIf="storageData.DatumTrasakcijeOd">
+          Datum transakcije: "od {{ storageData.DatumTrasakcijeOd | date: 'dd.MM.yyyy' }}"
+        </span>
+        <span *ngIf="storageData.DatumTrasakcijeDo">
+          Datum transakcije: "do {{ storageData.DatumTrasakcijeDo | date: 'dd.MM.yyyy' }}"
+        </span>
+        <span *ngIf="storageData.IznosOd">
+          Iznos od: "{{ storageData.IznosOd }}"
+        </span>
+        <span *ngIf="storageData.IznosDo">
+          Iznos do: "{{ storageData.IznosDo }}"
+        </span>
+      </strong>
+    </header>
+  </section>

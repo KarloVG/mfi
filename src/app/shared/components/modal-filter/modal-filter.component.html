@@ -1,5 +1,8 @@
 <div class="modal-header modal-gray">
     <h4 class="modal-title" id="modal-title">Filtriranje podataka</h4>
+    <a class="close" aria-label="Close" (click)="modal.close(null)">
+        <span class="fas fa-times"></span>
+    </a>
 </div>
 <form [formGroup]="filterFormGroup" (ngSubmit)="onSubmit()">
     <div class="modal-body">
@@ -17,13 +20,13 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="Banka">Banka</label>
-                <ng-select [items]="banks" bindLabel="name" bindValue="id" labelForId="state" placeholder="Izaberi..."
+                <ng-select [items]="banks" bindLabel="name" bindValue="name" labelForId="state" placeholder="Izaberi..."
                     clearAllText="Clear" formControlName="Banka">
                 </ng-select>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="Drzava">Država</label>
-                <ng-select [items]="countries" bindLabel="name" bindValue="id" labelForId="state" placeholder="Izaberi..."
+                <ng-select [items]="countries" bindLabel="name" bindValue="name" labelForId="state" placeholder="Izaberi..."
                     clearAllText="Clear" formControlName="Drzava">
                 </ng-select>
             </div>
@@ -43,29 +46,29 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="BankaB">Banka</label>
-                <ng-select [items]="banks" bindLabel="name" bindValue="id" labelForId="state" placeholder="Izaberi..."
+                <ng-select [items]="banks" bindLabel="name" bindValue="name" labelForId="state" placeholder="Izaberi..."
                     clearAllText="Clear" formControlName="BankaB">
                 </ng-select>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="DrzavaB">Država</label>
-                <ng-select [items]="countries" bindLabel="name" bindValue="id" labelForId="state" placeholder="Izaberi..."
+                <ng-select [items]="countries" bindLabel="name" bindValue="name" labelForId="state" placeholder="Izaberi..."
                     clearAllText="Clear" formControlName="DrzavaB">
                 </ng-select>
             </div>
         </div>
         <hr>
-        <h5 class="font-weight-bold">3.Filtriranje transakcija</h5>
+        <h5 class="font-weight-bold">3. Filtriranje transakcija</h5>
         <div class="input-group">
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="Smjer">Smjer transakcije</label>
-                <ng-select [items]="countries" bindLabel="name" bindValue="id" labelForId="state" placeholder="Izaberi..."
+                <ng-select [items]="directions" bindLabel="name" bindValue="name" labelForId="state" placeholder="Izaberi..."
                     clearAllText="Clear" formControlName="Smjer">
                 </ng-select>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="VrstaTransakcije">Vrsta transakcije</label>
-                <ng-select [items]="countries" bindLabel="name" bindValue="id" labelForId="state" placeholder="Izaberi..."
+                <ng-select [items]="transactionTypes" bindLabel="name" bindValue="name" labelForId="state" placeholder="Izaberi..."
                     clearAllText="Clear" formControlName="VrstaTransakcije">
                 </ng-select>
             </div>
@@ -87,7 +90,7 @@
                 </label>
                 <div class="col-sm-5 input-group">
                     <input class="form-control" placeholder="dan.mjesec.godina" name="dp1"
-                        formControlName="DatumTrasakcijeOd" ngbDatepicker #d1="ngbDatepicker" [readonly]="true" placement="top"
+                        formControlName="DatumTrasakcijeDo" ngbDatepicker #d1="ngbDatepicker" [readonly]="true" placement="top"
                         [minDate]="{year: 2000, month: 1, day: 1}">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary calendar-box" (click)="d1.toggle()"
@@ -114,7 +117,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-info mr-auto" (click)="modal.close(false)">Odustani</button>
+        <button type="button" class="btn btn-outline-info mr-auto" (click)="modal.close(false)">Poništi filter</button>
         <button type="submit" class="btn btn-info">Potvrdi</button>
     </div>
 </form>

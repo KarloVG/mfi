@@ -53,10 +53,10 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
 
   adalUser: ISubjectPermission = {
     ID: 15,
-    Ime: 'David',
-    Prezime: 'Corona',
+    Ime: 'Željko',
+    Prezime: 'Malnar',
     Flag: false,
-    Email: 'david.corona@gmail.com',
+    Email: 'zeljko.malnar@gmail.com',
     isAdalUser: true
   }
 

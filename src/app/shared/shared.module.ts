@@ -15,6 +15,6 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     ToastrModule.forRoot(),
     NgxDatatableModule
   ],
-  exports: [CommonModule,NgbModule, LayoutModule, NgxDatatableModule]
+  exports: [CommonModule,NgbModule, LayoutModule, NgxDatatableModule, SharedComponentsModule]
 })
 export class SharedModule { }

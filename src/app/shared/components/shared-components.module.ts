@@ -9,13 +9,15 @@ import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalFilterComponent } from './modal-filter/modal-filter.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { FilterAlertComponent } from './filter-alert/filter-alert.component';
 
 
 const components = [
   ConfirmationModalComponent,
   ModalOpenSubjectComponent,
   ModalFilterComponent,
-  PageNotFoundComponent
+  PageNotFoundComponent,
+  FilterAlertComponent
 ];
 
 @NgModule({

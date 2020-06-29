@@ -7,6 +7,8 @@ import { ModalFilterComponent } from 'src/app/shared/components/modal-filter/mod
 import { ToastrService } from 'ngx-toastr';
 import { ExcelService } from 'src/app/shared/services/fake-excel.service';
 import { DateOnlyPipe } from 'src/app/shared/utils/date-pipe';
+import { LocalStoreFilterService } from 'src/app/shared/services/local-store-filter.service';
+import { IFilterCriteria } from 'src/app/shared/models/filter-criteria';
 
 @Component({
   selector: 'app-table-overview',
@@ -19,16 +21,20 @@ export class TableOverviewComponent implements OnInit {
   staticValue: IInnerBaseDetail[] = [];
   isLoading: boolean = true;
   filterValue: string;
+  isActiveFilter: boolean = false;
+  modalFilterValues: IFilterCriteria;
 
   constructor(
     private baseDetailService: BaseDetailService,
     private ngbModalService: NgbModal,
     private toastr: ToastrService,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private localStorageFilterService: LocalStoreFilterService
   ) { }
 
   ngOnInit(): void {
     this.getTableItems();
+    this.hasActiveFilter();
   }
 
   getTableItems(): void {
@@ -63,12 +69,29 @@ export class TableOverviewComponent implements OnInit {
         this.toastr.success('Polja filtera spremljena', 'Uspjeh', {
           progressBar: true
         })
+        this.isActiveFilter = true;
+      } else if(result == false) {
+        this.toastr.warning('Polja filtera su obrisana', 'Pažnja', {
+          progressBar: true
+        });
+        this.isActiveFilter = false;
       } else {
-        this.toastr.warning('Polja filtera nisu spremljena', 'Pažnja', {
+        this.toastr.warning('Polja filtera nisu spremljena/uređena', 'Pažnja', {
           progressBar: true
         })
       }
-    }).catch((res) => { });
+      this.hasActiveFilter();
+    });
+  }
+
+  hasActiveFilter() {
+    if(this.localStorageFilterService.hasToken()) {
+      this.modalFilterValues = JSON.parse(localStorage['filter_fields']);
+      this.isActiveFilter = true;
+    } else {
+      this.modalFilterValues = null;
+      this.isActiveFilter = false;  
+    }
   }
 
   exportAsXLSX(): void {

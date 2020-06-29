@@ -41,14 +41,14 @@ export class SidebarComponent implements OnInit {
           this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
             progressBar: true
           });
-          localStorage.removeItem('subject_id');
+          localStorage.clear();
           this.navService.publishNavigationChange();
           this.router.navigate(['subject/add']);
         } else if (result == false) {
           this.toastrService.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
             progressBar: true
           });
-          localStorage.removeItem('subject_id');
+          localStorage.clear();
           this.navService.publishNavigationChange();
           this.router.navigate(['subject/add']);
         }
@@ -67,14 +67,14 @@ export class SidebarComponent implements OnInit {
           this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
             progressBar: true
           });
-          localStorage.removeItem('subject_id');
+          localStorage.clear();
           this.navService.publishNavigationChange();
           this.openFilterModal();
         } else if (result == false) {
           this.toastrService.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
             progressBar: true
           });
-          localStorage.removeItem('subject_id');
+          localStorage.clear();
           this.navService.publishNavigationChange();
           this.openFilterModal();
         }
@@ -104,14 +104,14 @@ export class SidebarComponent implements OnInit {
           this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
             progressBar: true
           });
-          localStorage.removeItem('subject_id');
+          localStorage.clear();
           this.navService.publishNavigationChange();
           this.router.navigate(['welcome']);
         } else if (result == false) {
           this.toastrService.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
             progressBar: true
           });
-          localStorage.removeItem('subject_id');
+          localStorage.clear();
           this.navService.publishNavigationChange();
           this.router.navigate(['welcome']);
         }
