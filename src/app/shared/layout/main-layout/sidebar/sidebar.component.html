@@ -1,9 +1,9 @@
 <section id="sidebar" class="sidebar-holder bg-light border-right">
   <div>
     <ul class="sidebar-list list-unstyled px-0">
-      <li class="sidebar-list-item text-center px-0 py-0">
+      <a class="sidebar-list-item text-center px-0 py-0">
         <div class="dropdown">
-          <button type="button" class="menu-button btn btn-block py-3" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" class="menu-button btn btn-block py-3" id="dropdownMenuButton" [attr.disabled]="isDisabledDropdown ? true : null" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="menu-icon d-block fas fa-bars fa-2x"></span>
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -25,7 +25,7 @@
             </a>
           </div>
         </div>
-      </li>
+      </a>
       <li class="sidebar-list-item text-center px-0 py-0" *ngFor="let menu of menus">
           <a routerLinkActive="is-active" type="button" class="menu-button btn btn-block py-3"
             routerLink="{{menu.path}}"
