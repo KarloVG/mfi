@@ -118,6 +118,8 @@ export class ModalFilterComponent implements OnInit {
   }
 
   exitModal() {
+    localStorage.removeItem('is_filter_active');
+    localStorage.removeItem('filter_fields');
     this.modal.close(false)
   }
 

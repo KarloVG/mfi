@@ -85,6 +85,7 @@ export class TableOverviewComponent implements OnInit {
   }
 
   hasActiveFilter() {
+    console.log(this.localStorageFilterService.hasToken())
     if(this.localStorageFilterService.hasToken()) {
       this.modalFilterValues = JSON.parse(localStorage['filter_fields']);
       this.isActiveFilter = true;
