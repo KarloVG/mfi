@@ -8,8 +8,16 @@
     <section>
       <div>Osoba u fokusu</div>
       <div class="h5 text-info"><strong>{{node.user.name}}, OIB: {{node.user.oib}}</strong></div>
-      <div>Ukupan iznos uplata: <strong>{{node.user.totalIn|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong></div>
-      <div>Ukupan iznos isplata: <strong>{{node.user.totalOut|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong></div>
+      <div>
+        <span class="mr-2">Ukupan iznos uplata:</span>
+        <strong *ngIf="node.user.totalIn">{{node.user.totalIn|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+        <span *ngIf="!node.user.totalIn">n/a</span>
+      </div>
+      <div>
+        <span class="mr-2">Ukupan iznos isplata:</span>
+        <strong *ngIf="node.user.totalOut">{{node.user.totalOut|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+        <span *ngIf="!node.user.totalOut">n/a</span>
+      </div>
     </section>
   </div>
   <div class="card-body mt-3">
