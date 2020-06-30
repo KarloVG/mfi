@@ -12,7 +12,6 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { FilterAlertComponent } from './filter-alert/filter-alert.component';
 import { TopbarInfoComponent } from './topbar-info/topbar-info.component';
 
-
 const components = [
   ConfirmationModalComponent,
   ModalOpenSubjectComponent,

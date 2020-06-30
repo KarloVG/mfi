@@ -8,6 +8,7 @@ export interface IInnerBaseDetail {
     DatumTransakcije: Date;
     ReferentniBroj: string;
     VrstaTransakcije: string;
+    Opis: string;
     IznosTransakcije: number;
     Valuta: string;
     CijenaKn: number;
