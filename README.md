@@ -1,6 +1,10 @@
 ## TechedFrontend project README.md
 
-## Basic deployment to a remote server ##
+## BEFORE DEPLOYMENT ##
+
+In order to install Angular dependencies run `npm install`.
+
+## BASIC DEPLOYMENT ##
 
 For the simplest deployment, create a production build and copy the output directory to a web server.
 Start with the production build:
