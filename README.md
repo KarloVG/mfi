@@ -11,6 +11,7 @@ Start with the production build:
 
 3.) Configure the server to redirect requests for missing files to index.html. Learn more about server-side redirects https://angular.io/guide/deployment#fallback.
 
+## THE REST IS OPTIONAL!!! ##
 
 ## Enable runtime production mode ##
 
