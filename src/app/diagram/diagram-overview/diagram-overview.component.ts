@@ -30,6 +30,8 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   edgeActive: any = null
 
   usersList: Users[]
+  activeUser: Users
+  expanded = new Set([])
 
   public constructor(
     private diaSvc: DiagramService
@@ -45,9 +47,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     }
     this.network = new Network(container, this.data, this.options)
 
-    //this.network.on('selectNode', ctx => { this.selectNode(ctx) })
     this.network.on('deselectNode', ctx => { this.deselectNode(ctx) })
-    //this.network.on('selectEdge', ctx => { this.selectEdge(ctx) })
     this.network.on('deselectEdge', ctx => { this.deselectEdge(ctx) })
     this.network.on('dragEnd', ctx => { this.selectNode(ctx) })
     this.network.on('click', ctx => { this.inspectNode(ctx) })
@@ -58,7 +58,6 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {}
 
   selectNode(ctx) {
-    //console.log('N-CTX', ctx)
     let idx = ctx.nodes[0]
     this.edgeActive = null
     this.nodeActive = this.nodes.get(idx)
@@ -70,51 +69,39 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
       this.nodeActive.account = this.diaSvc.getAccounts(this.nodeActive.id)
       delete this.nodeActive.account.transactions
     }
-    console.log('Selected Node', idx, this.nodeActive)
   }
   deselectNode(ctx) {
     this.nodeActive = null
     this.edgeActive = null
-    //console.log('Deselected Node')
-  }
-  controlNodeDragEnd(ctx) {
-    //console.log('dragStart', ctx)
-  }
+ }
+  controlNodeDragEnd(ctx) {}
 
   selectEdge(ctx) {
     let idx = ctx.edges[0]
     this.nodeActive = null
-    console.log('E-CTX', idx)
-    console.log('EDGX', this.edges.get(idx))
-    /*
-    let idx = ctx.nodes[0]
-    this.nodeActive = this.nodes.get(idx)
-    if (this.nodeActive.type === 'user') {
-      this.nodeActive.user = this.diaSvc.getPerson(this.nodeActive.id)
-      this.nodeActive.accounts = this.nodeActive.user.accounts.map(itm => { return this.diaSvc.getAccounts(itm) })
-
-    } else if (this.nodeActive.type === 'account') {
-      this.nodeActive.account = this.diaSvc.getAccounts(this.nodeActive.id)
-      delete this.nodeActive.account.transactions
+    this.edgeActive = null
+    if (idx) {
+      let edge = this.edges.get(idx)
+      this.edgeActive = this.diaSvc.getTransactions(edge)
     }
-    console.log('Selected Node', idx, this.nodeActive)
-    */
   }
   deselectEdge(ctx) {
     this.nodeActive = null
     this.edgeActive = null
-    //console.log('Deselected Edge')
   }
 
   addUser(userId, typeId) {
+    if (this.nodes.length > 0 || this.edges.length > 0) { this.clearNetwork() }
     const person = this.diaSvc.getPerson(userId)
     const accounts = this.diaSvc.getUserAccounts(userId)
     this.diaSvc.addNode(person)
     this.diaSvc.addNodes(accounts)
+    this.activeUser = person
   }
 
-  removeNode() {
-    console.log('Remove Node', this.nodeActive)
+  clearNetwork() {
+    this.edges.remove(this.edges.get())
+    this.nodes.remove(this.nodes.get())
   }
 
   inspectNode(ctx) {
@@ -131,13 +118,16 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
       const nidx = ctx.nodes[0]
       const node = this.nodes.get(nidx)
       if (node.type === 'account') {
-        const edges = ctx.edges.length
-        const trans = node.transactions.totals.inbound.count + node.transactions.totals.outbound.count
-        console.log('--->', edges, trans)
-        if (edges !== trans) {
-          this.diaSvc.findConnectedNodes(node)
+        if (!this.expanded.has(node.id)) {
+          let nodes = this.diaSvc.findConnectedNodes(node)
+          this.diaSvc.addNodes(nodes)
+          this.expanded.add(node.id)
+          nodes.nodes.forEach(itm => {
+            this.expanded.add(itm.id)
+          })
         } else {
-          this.diaSvc.findParentUser(node)
+          let nodes = this.diaSvc.findParentUser(node)
+          this.diaSvc.addNodes(nodes)
         }
       } else if (node.type === 'user') {
         console.log('USRx', node, ctx)

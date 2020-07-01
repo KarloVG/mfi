@@ -20,8 +20,9 @@ interface Users {
 export class TopbarComponent implements OnInit {
   @Input() addUserAction: any
 
-  @Input() usersList: Users[]
+  @Input() usersImportList: Users[]
   typesList: Types[]
+  usersList: Users[]
 
   selectedUser: Users = <Users>{}
   selectedType: Types = <Types>{}
@@ -37,6 +38,7 @@ export class TopbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.usersList = this.usersImportList.map(obj => ({...obj}))
     this.selectedUser = this.usersList[0]
   }
 

@@ -10,7 +10,6 @@ export class UserviewComponent implements OnInit {
   @Output() close = new EventEmitter<boolean>()
 
   constructor() {}
-
   ngOnInit(): void {}
 
   closeInfobox() {

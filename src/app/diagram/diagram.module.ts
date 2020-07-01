@@ -7,10 +7,11 @@ import { DiagramOverviewComponent } from './diagram-overview/diagram-overview.co
 import { TopbarComponent } from './topbar/topbar.component';
 import { UserviewComponent } from './userview/userview.component';
 import { AccountviewComponent } from './accountview/accountview.component';
+import { TransactionviewComponent } from './transactionview/transactionview.component';
 
 
 @NgModule({
-  declarations: [DiagramOverviewComponent, TopbarComponent, UserviewComponent, AccountviewComponent],
+  declarations: [DiagramOverviewComponent, TopbarComponent, UserviewComponent, AccountviewComponent, TransactionviewComponent],
   imports: [
     CommonModule,
     DiagramRoutingModule,

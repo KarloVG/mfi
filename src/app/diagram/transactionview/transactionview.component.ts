@@ -1,11 +1,11 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
 @Component({
-  selector: 'app-accountview',
-  templateUrl: './accountview.component.html',
-  styleUrls: ['./accountview.component.scss']
+  selector: 'app-transactionview',
+  templateUrl: './transactionview.component.html',
+  styleUrls: ['./transactionview.component.scss']
 })
-export class AccountviewComponent implements OnInit {
+export class TransactionviewComponent implements OnInit {
   @Input() node: any
   @Output() close = new EventEmitter<boolean>()
 
@@ -14,9 +14,5 @@ export class AccountviewComponent implements OnInit {
 
   closeInfobox() {
     this.close.emit(true)
-  }
-
-  expandAccountDetails() {
-    console.log('Account details', this.node)
   }
 }

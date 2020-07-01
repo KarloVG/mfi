@@ -21,26 +21,26 @@ export class DiagramService {
     {id: 2007, userId: 103, accNo: 'HR200678', swift: 'ZABAHR2X', bank: 'ZABA', country: 'HR'}, // Dobra tvrtka d.o.o.
   ]
   public allTrans = [
-    {id: 30001, accId: 2001, transaction: 'Uplata',  amount: 3500,  dest: null, direction: 1},
-    {id: 30002, accId: 2001, transaction: 'Isplata', amount: 5000,  dest: null, direction: -1},
-    {id: 30003, accId: 2001, transaction: 'Isplata', amount: 3250,  dest: null, direction: -1},
-    {id: 30004, accId: 2002, transaction: 'Isplata', amount: 25000, dest: null, direction: -1},
+    {id: 30001, transactionId: 30001, accId: 2001, transaction: 'Uplata',  amount: 3500,  dest: null, direction: 1},
+    {id: 30002, transactionId: 30002, accId: 2001, transaction: 'Isplata', amount: 5000,  dest: null, direction: -1},
+    {id: 30003, transactionId: 30003, accId: 2001, transaction: 'Isplata', amount: 3250,  dest: null, direction: -1},
+    {id: 30004, transactionId: 30004, accId: 2002, transaction: 'Isplata', amount: 25000, dest: null, direction: -1},
 
-    {id: 30005, accId: 2003, transaction: 'Uplata',  amount: 10000, dest: 2006, direction: 1}, // HR200456 PBZ <- HR100246 ZABA, Marko <- Petar
-    {id: 30006, accId: 2003, transaction: 'Uplata',  amount: 7000,  dest: 2007, direction: 1}, // HR200456 PBZ <- HR200678 ZABA, Marko <- Tvrtka
-    {id: 30007, accId: 2003, transaction: 'Uplata',  amount: 1500,  dest: 2007, direction: 1}, // HR200456 PBZ <- HR200678 ZABA, Marko <- Tvrtka
-    {id: 30008, accId: 2003, transaction: 'Uplata',  amount: 1250,  dest: 2007, direction: 1}, // HR200456 PBZ <- HR200678 ZABA, Marko <- Tvrtka
-    {id: 30009, accId: 2003, transaction: 'Isplata', amount: 74100, dest: 2005, direction: -1}, // HR200456 PBZ -> BOFA123456, Marko -> Petar
-    {id: 30009, accId: 2003, transaction: 'Uplata',  amount: 100,   dest: 2005, direction: 1}, // HR200456 PBZ <- BOFA123456, Marko <- Petar
+    {id: 30005, transactionId: 30005, accId: 2003, transaction: 'Uplata',  amount: 10000, dest: 2006, direction: 1}, // HR200456 PBZ <- HR100246 ZABA, Marko <- Petar
+    {id: 30006, transactionId: 30006, accId: 2003, transaction: 'Uplata',  amount: 7000,  dest: 2007, direction: 1}, // HR200456 PBZ <- HR200678 ZABA, Marko <- Tvrtka
+    {id: 30007, transactionId: 30007, accId: 2003, transaction: 'Uplata',  amount: 1500,  dest: 2007, direction: 1}, // HR200456 PBZ <- HR200678 ZABA, Marko <- Tvrtka
+    {id: 30008, transactionId: 30008, accId: 2003, transaction: 'Uplata',  amount: 1250,  dest: 2007, direction: 1}, // HR200456 PBZ <- HR200678 ZABA, Marko <- Tvrtka
+    {id: 30009, transactionId: 30009, accId: 2003, transaction: 'Isplata', amount: 74100, dest: 2005, direction: -1}, // HR200456 PBZ -> BOFA123456, Marko -> Petar
+    {id: 30009, transactionId: 30009, accId: 2003, transaction: 'Uplata',  amount: 100,   dest: 2005, direction: 1}, // HR200456 PBZ <- BOFA123456, Marko <- Petar
 
-    {id: 30010, accId: 2005, transaction: 'Uplata',  amount: 74100, dest: 2003, direction: 1}, // BOFA123456 <- HR200456 PBZ, Petar <- Marko
-    {id: 30010, accId: 2005, transaction: 'Isplata', amount: 100,   dest: 2003, direction: -1}, // BOFA123456 -> HR200456 PBZ, Petar -> Marko
+    {id: 30010, transactionId: 30010, accId: 2005, transaction: 'Uplata',  amount: 74100, dest: 2003, direction: 1}, // BOFA123456 <- HR200456 PBZ, Petar <- Marko
+    {id: 30010, transactionId: 30010, accId: 2005, transaction: 'Isplata', amount: 100,   dest: 2003, direction: -1}, // BOFA123456 -> HR200456 PBZ, Petar -> Marko
 
-    {id: 30011, accId: 2006, transaction: 'Isplata', amount: 10000, dest: 2003, direction: -1}, // HR100246 -> HR200456, Petar -> Marko
+    {id: 30011, transactionId: 30011, accId: 2006, transaction: 'Isplata', amount: 10000, dest: 2003, direction: -1}, // HR100246 -> HR200456, Petar -> Marko
 
-    {id: 30012, accId: 2007, transaction: 'Isplata', amount: 7000, dest: 2003, direction: -1}, // HR200678 -> HR200456, Tvrtka -> Marko
-    {id: 30013, accId: 2007, transaction: 'Isplata', amount: 1500, dest: 2003, direction: -1}, // HR200678 -> HR200456, Tvrtka -> Marko
-    {id: 30014, accId: 2007, transaction: 'Isplata', amount: 1250, dest: 2003, direction: -1}, // HR200678 -> HR200456, Tvrtka -> Marko
+    {id: 30012, transactionId: 30012, accId: 2007, transaction: 'Isplata', amount: 7000, dest: 2003, direction: -1}, // HR200678 -> HR200456, Tvrtka -> Marko
+    {id: 30013, transactionId: 30013, accId: 2007, transaction: 'Isplata', amount: 1500, dest: 2003, direction: -1}, // HR200678 -> HR200456, Tvrtka -> Marko
+    {id: 30014, transactionId: 30014, accId: 2007, transaction: 'Isplata', amount: 1250, dest: 2003, direction: -1}, // HR200678 -> HR200456, Tvrtka -> Marko
   ]
   network: Network
   nodes: Node = new DataSet([])
@@ -93,7 +93,7 @@ export class DiagramService {
     return this.allUsers
   }
 
-  getPerson(id: any) {
+  getPerson(id) {
     const person = this.allUsers.find(itm => { return itm.id === id })
     const accountIdList = this.allAccs.filter(itm => { return itm.userId === id }).map(itm => { return itm.id })
     return {
@@ -251,10 +251,10 @@ export class DiagramService {
       })
     })
 
-    this.addNodes({
+    return {
       nodes: nodes,
       edges: edges
-    })
+    }
   }
 
   findParentUser(node) {
@@ -274,10 +274,22 @@ export class DiagramService {
       })
     })
 
-    this.addNodes({
+    return {
       nodes: nodes,
       edges: edges
-    })
+    }
+  }
+
+  getTransactions(edge) {
+    let accFrom = this.getAccounts(edge.from)
+    let accTo = this.getAccounts(edge.to)
+    return {
+      connection: edge,
+      accounts: {
+        from: accFrom,
+        to: accTo
+      }
+    }
   }
 
   addNode(node: any) {

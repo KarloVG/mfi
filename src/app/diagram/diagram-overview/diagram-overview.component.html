@@ -1,9 +1,12 @@
 <div>
-  <app-topbar [usersList]="usersList" [addUserAction]="addUser.bind(this)"></app-topbar>
+  <app-topbar [usersImportList]="usersList" [addUserAction]="addUser.bind(this)"></app-topbar>
 
   <div class="infobox float-left col-sm-3" *ngIf="nodeActive !== null">
     <app-userview [node]="nodeActive" (close)="onClosed()" *ngIf="nodeActive.type === 'user'"></app-userview>
     <app-accountview [node]="nodeActive" (close)="onClosed()" *ngIf="nodeActive.type === 'account'"></app-accountview>
+  </div>
+  <div class="infobox float-left col-sm-3" *ngIf="edgeActive !== null">
+    <app-transactionview [node]="edgeActive" (close)="onClosed()"></app-transactionview>
   </div>
 
   <div id="network" class="network-canvas p-0 m-0"></div>
