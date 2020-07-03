@@ -1,5 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { DiagramService } from 'src/app/shared/services/diagram.service'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalAccountviewDetailComponent } from './modal-accountview-detail/modal-accountview-detail.component';
 
 @Component({
   selector: 'app-accountview',
@@ -21,7 +23,11 @@ export class AccountviewComponent implements OnInit {
 
   showMoreData: boolean = false
 
-  constructor(private diaSvc: DiagramService) {}
+  constructor(
+    private diaSvc: DiagramService,
+    private ngbModalService: NgbModal
+    ) {}
+
   ngOnInit(): void {
     this.focusAccounts = this.activeUser.accounts
     console.log('NX', this.node)
@@ -29,12 +35,14 @@ export class AccountviewComponent implements OnInit {
     console.log('BX', this.isSelectedActiveUser)
   }
 
-  closeInfobox() {
+  closeInfobox(): void {
     this.close.emit(true)
   }
 
-  expandAccountDetails() {
-    console.log('Account details', this.node)
-    this.showMoreData = !this.showMoreData
+  expandAccountDetails(): void {
+    const modalRef = this.ngbModalService.open(ModalAccountviewDetailComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
+    modalRef.componentInstance.inputUser = this.node.accounts.to.user = this.diaSvc.getPerson(this.node.accounts.to.userId);
+    modalRef.componentInstance.outputUser = this.diaSvc.getPerson(this.node.accounts.from.userId);
+    modalRef.componentInstance.node = this.node;
   }
 }

@@ -38,9 +38,7 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.subscribe(params => {
       if(params && params.id) {
         this.subjectId = params.id;
-        if(this.subjectId) {
           this.getSubjectStatuses();
-        }
       }
     });
   }

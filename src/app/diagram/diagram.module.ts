@@ -9,14 +9,25 @@ import { UserviewComponent } from './userview/userview.component';
 import { AccountviewComponent } from './accountview/accountview.component';
 import { TransactionviewComponent } from './transactionview/transactionview.component';
 import { SharedModule } from '../shared/shared.module';
+import { ModalTransactionviewDetailComponent } from './transactionview/modal-transactionview-detail/modal-transactionview-detail.component';
+import { ModalAccountviewDetailComponent } from './accountview/modal-accountview-detail/modal-accountview-detail.component';
 
 @NgModule({
-  declarations: [DiagramOverviewComponent, TopbarComponent, UserviewComponent, AccountviewComponent, TransactionviewComponent],
+  declarations: [
+    DiagramOverviewComponent, 
+    TopbarComponent, 
+    UserviewComponent,
+    AccountviewComponent,
+    TransactionviewComponent,
+    ModalTransactionviewDetailComponent,
+    ModalAccountviewDetailComponent
+  ],
   imports: [
     CommonModule,
     DiagramRoutingModule,
     FormsModule,
     SharedModule,
-  ]
+  ],
+  entryComponents: [ ModalTransactionviewDetailComponent, ModalAccountviewDetailComponent ]
 })
 export class DiagramModule { }
