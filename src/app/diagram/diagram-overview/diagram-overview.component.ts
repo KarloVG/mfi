@@ -29,9 +29,10 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   nodeActive: any = null
   edgeActive: any = null
 
-  usersList: Users[]
   activeUser: Users
+  usersList: Users[]
   expanded = new Set([])
+  isSelectedActiveUser: boolean = false
 
   public constructor(
     private diaSvc: DiagramService
@@ -58,28 +59,33 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {}
 
   selectNode(ctx) {
+    this.nodeActive = null
     let idx = ctx.nodes[0]
     this.edgeActive = null
     this.nodeActive = this.nodes.get(idx)
     if (this.nodeActive.type === 'user') {
+      this.isSelectedActiveUser = this.nodeActive.id === this.activeUser.id
       this.nodeActive.user = this.diaSvc.getPerson(this.nodeActive.id)
       this.nodeActive.accounts = this.nodeActive.user.accounts.map(itm => { return this.diaSvc.getAccounts(itm) })
-
     } else if (this.nodeActive.type === 'account') {
       this.nodeActive.account = this.diaSvc.getAccounts(this.nodeActive.id)
+      this.nodeActive.account.user = this.diaSvc.getPerson(this.nodeActive.account.userId)
+      this.isSelectedActiveUser = this.activeUser.id === this.nodeActive.account.userId
       delete this.nodeActive.account.transactions
     }
   }
   deselectNode(ctx) {
     this.nodeActive = null
     this.edgeActive = null
- }
+    this.isSelectedActiveUser = false
+  }
   controlNodeDragEnd(ctx) {}
 
   selectEdge(ctx) {
     let idx = ctx.edges[0]
     this.nodeActive = null
     this.edgeActive = null
+    this.isSelectedActiveUser = false
     if (idx) {
       let edge = this.edges.get(idx)
       this.edgeActive = this.diaSvc.getTransactions(edge)
@@ -88,6 +94,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   deselectEdge(ctx) {
     this.nodeActive = null
     this.edgeActive = null
+    this.isSelectedActiveUser = false
   }
 
   addUser(userId, typeId) {
@@ -97,11 +104,13 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     this.diaSvc.addNode(person)
     this.diaSvc.addNodes(accounts)
     this.activeUser = person
+    this.isSelectedActiveUser = false
   }
 
   clearNetwork() {
     this.edges.remove(this.edges.get())
     this.nodes.remove(this.nodes.get())
+    this.isSelectedActiveUser = false
   }
 
   inspectNode(ctx) {
@@ -119,18 +128,18 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
       const node = this.nodes.get(nidx)
       if (node.type === 'account') {
         if (!this.expanded.has(node.id)) {
-          let nodes = this.diaSvc.findConnectedNodes(node)
+          let nodes = this.diaSvc.findConnectedNodes(node, this.activeUser.id)
           this.diaSvc.addNodes(nodes)
           this.expanded.add(node.id)
           nodes.nodes.forEach(itm => {
             this.expanded.add(itm.id)
           })
         } else {
-          let nodes = this.diaSvc.findParentUser(node)
-          this.diaSvc.addNodes(nodes)
+          const nx = this.diaSvc.findParentUser(node, this.activeUser.id)
+          this.diaSvc.addNodes(nx)
         }
       } else if (node.type === 'user') {
-        console.log('USRx', node, ctx)
+        console.log('USRx', node, node.id, this.activeUser.id)
       }
     }
   }
@@ -138,6 +147,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   onClosed() {
     this.nodeActive = null
     this.edgeActive = null
+    this.isSelectedActiveUser = false
     this.network.unselectAll()
     console.log('Closed infobox')
   }

@@ -11,6 +11,10 @@ interface Users {
   totalIn?: number
   totalOut?: number
 }
+interface UsersSelection {
+  id: string
+  name: string
+}
 
 @Component({
   selector: 'app-topbar',
@@ -24,22 +28,19 @@ export class TopbarComponent implements OnInit {
   typesList: Types[]
   usersList: Users[]
 
-  selectedUser: Users = <Users>{}
+  selectedUser: UsersSelection = <UsersSelection>{}
   selectedType: Types = <Types>{}
 
   constructor() {
     this.typesList = [
-      {
-        id: 'sviracuni',
-        title: 'Svi računi odabrane osobe'
-      }
+      { id: 'sviracuni', title: 'Svi računi odabrane osobe' }
     ]
     this.selectedType = this.typesList[0]
   }
 
   ngOnInit(): void {
     this.usersList = this.usersImportList.map(obj => ({...obj}))
-    this.selectedUser = this.usersList[0]
+    this.selectedUser = this.usersList.map(usr => { return { id: usr.id, name: usr.name + ' (OIB: ' + usr.oib + ')' }})[0]
   }
 
   addUser() {

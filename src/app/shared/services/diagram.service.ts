@@ -49,6 +49,27 @@ export class DiagramService {
     account: {
       shape: 'box'
     },
+    connectedAccount: {
+      shape: 'box',
+      color: {
+        border: '#372',
+        background: '#6c5',
+        highlight: {
+          border: '#372',
+          background: '#7e5'
+        }
+      }
+    },
+    connectedUser: {
+      color: {
+        border: '#372',
+        background: '#6c5',
+        highlight: {
+          border: '#372',
+          background: '#7e5'
+        }
+      }
+    },
     accountOwner: {
       dashes: true,
       color: {
@@ -191,7 +212,7 @@ export class DiagramService {
     }
   }
 
-  findConnectedNodes(node) {
+  findConnectedNodes(node, activeUserId?) {
     const acc = this.getAccounts(node.id)
     let trIn = acc.transactions.transactions.inbound
     let trOut = acc.transactions.transactions.outbound
@@ -203,6 +224,10 @@ export class DiagramService {
     accsInList.forEach(itm => {
       let itmAcc = this.getAccounts(itm)
       const trans = this.getAccountTransactions(itm)
+      let type = 'account'
+      if (activeUserId) {
+        type = itmAcc.userId === activeUserId? 'account' : 'connectedAccount'
+      }
       nodes.push({
         ...{
           id: itmAcc.id,
@@ -212,7 +237,7 @@ export class DiagramService {
           account: itmAcc,
           transactions: trans,
         },
-        ...this.options.account
+        ...this.options[type]
       })
       edges.push({
         ...{
@@ -228,6 +253,10 @@ export class DiagramService {
     accsOutList.forEach(itm => {
       let itmAcc = this.getAccounts(itm)
       const trans = this.getAccountTransactions(itm)
+      let type = 'account'
+      if (activeUserId) {
+        type = itmAcc.userId === activeUserId? 'account' : 'connectedAccount'
+      }
       nodes.push({
         ...{
           id: itmAcc.id,
@@ -237,7 +266,7 @@ export class DiagramService {
           account: itmAcc,
           transactions: trans,
         },
-        ...this.options.account
+        ...this.options[type]
       })
       edges.push({
         ...{
@@ -257,18 +286,22 @@ export class DiagramService {
     }
   }
 
-  findParentUser(node) {
-    const user = this.getPerson(node.account.userId)
+  findParentUser(node, activeUserId?) {
+    let user = this.getPerson(node.account.userId)
     let accounts = this.intersect(this.nodes.getIds(), user.accounts)
     let nodes = []
     let edges = []
+    if (activeUserId) {
+      let type = user.id === activeUserId? 'accountOwner' : 'connectedUser'
+      user = {...user, ...this.options[type]}
+    }
     nodes.push(user)
     accounts.forEach(acc => {
       edges.push({
         ...{
           from: user.id,
           to: acc,
-          type: 'accountOwner'
+          type: 'accountOwner',
         },
         ...this.options.accountOwner
       })

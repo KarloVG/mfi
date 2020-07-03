@@ -5,8 +5,10 @@
         <small class="fas fa-times"></small>
       </a>
     </span>
-    <section>
-      <div>Osoba u fokusu</div>
+    <section *ngIf="isSelectedActiveUser">
+      <div>
+        <strong class="text-dark">Osoba u fokusu</strong>
+      </div>
       <div class="h5 text-info"><strong>{{node.user.name}}, OIB: {{node.user.oib}}</strong></div>
       <div>
         <span class="mr-2">Ukupan iznos uplata:</span>
@@ -19,9 +21,23 @@
         <span *ngIf="!node.user.totalOut">n/a</span>
       </div>
     </section>
+    <section *ngIf="!isSelectedActiveUser">
+      <div>
+        <strong class="text-dark">Transakcije prema osobi u fokusu</strong>
+      </div>
+      <div class="h5 text-info"><strong>{{node.user.name}}, OIB: {{node.user.oib}}</strong></div>
+      <div>
+        <span class="mr-2">Transakcije prema osobi u fokusu:</span>
+        <strong>{{focusTransactionCount}}</strong>
+      </div>
+      <div>
+        <span class="mr-2">Iznos prema osobi u fokusu:</span>
+        <strong>{{focusTransactionAmount|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+      </div>
+    </section>
   </div>
   <div class="card-body mt-3">
-    <section *ngFor="let account of node.accounts; let i = index">
+    <section *ngFor="let account of accounts; let i = index">
       <div class="text-info">Račun {{i+1}}</div>
       <div class="card mb-2">
         <div class="card-body">

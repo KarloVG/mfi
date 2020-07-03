@@ -2,8 +2,20 @@
   <app-topbar [usersImportList]="usersList" [addUserAction]="addUser.bind(this)"></app-topbar>
 
   <div class="infobox float-left col-sm-3" *ngIf="nodeActive !== null">
-    <app-userview [node]="nodeActive" (close)="onClosed()" *ngIf="nodeActive.type === 'user'"></app-userview>
-    <app-accountview [node]="nodeActive" (close)="onClosed()" *ngIf="nodeActive.type === 'account'"></app-accountview>
+    <app-userview
+      [node]="nodeActive"
+      [isSelectedActiveUser]="isSelectedActiveUser"
+      [activeUser]="activeUser"
+      (close)="onClosed()"
+      *ngIf="nodeActive.type === 'user'">
+    </app-userview>
+    <app-accountview
+      [node]="nodeActive"
+      [isSelectedActiveUser]="isSelectedActiveUser"
+      [activeUser]="activeUser"
+      (close)="onClosed()"
+      *ngIf="nodeActive.type === 'account'">
+    </app-accountview>
   </div>
   <div class="infobox float-left col-sm-3" *ngIf="edgeActive !== null">
     <app-transactionview [node]="edgeActive" (close)="onClosed()"></app-transactionview>
