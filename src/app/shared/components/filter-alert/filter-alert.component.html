@@ -1,0 +1,109 @@
+<section class="infobar row no-gutters mb-2">
+    <header class="bg-blue col-sm-12 text-center text-light p-1">
+      <span class="fas fa-filter"></span>
+      Filter podataka je aktivan, za više informacija pritisnite
+      <ng-template #popContent class="ml-2">
+        <span *ngIf="storageData.Naziv">
+          Ime/Naziv A: 
+          <strong>
+            "{{ storageData.Naziv }}"
+          </strong>
+          <br>
+        </span>
+        <span *ngIf="storageData.BrojRacuna">
+          Broj računa A: 
+          <strong>
+            "{{ storageData.BrojRacuna }}"
+          </strong>
+          <br>
+        </span>
+        <span *ngIf="storageData.Banka">
+          Banka A: 
+          <strong>
+            "{{ storageData.Banka }}"
+          </strong>
+          <br>
+        </span>
+        <span *ngIf="storageData.Drzava">
+          Drzava A: 
+          <strong>
+            "{{ storageData.Drzava }}"
+          </strong>
+          <br>
+        </span>
+        <span *ngIf="storageData.Smjer">
+          Smjer: 
+          <strong>
+            "{{ storageData.Smjer }}"
+          </strong>
+          <br>
+        </span>
+        <span *ngIf="storageData.VrstaTransakcije">
+          Vrsta transakcije: 
+          <strong>
+            "{{ storageData.VrstaTransakcije }}"
+          </strong>
+          <br>
+        </span>
+        <span *ngIf="storageData.NazivB">
+          Ime/Naziv B: 
+          <strong>
+            "{{ storageData.NazivB }}"
+          </strong>
+          <br>
+        </span>
+        <span *ngIf="storageData.BrojRacunaB">
+          Broj računa B: 
+          <strong>
+            "{{ storageData.BrojRacunaB }}"
+          </strong>
+          <br>
+        </span>
+        <span *ngIf="storageData.BankaB">
+          Banka B: 
+          <strong>
+            "{{ storageData.BankaB }}"
+          </strong>
+          <br>
+        </span>
+        <span *ngIf="storageData.DrzavaB">
+          Drzava B: 
+          <strong>
+            "{{ storageData.DrzavaB }}"
+          </strong>
+          <br>
+        </span>
+        <span *ngIf="storageData.DatumTrasakcijeOd">
+          Datum transakcije: 
+          <strong>
+            "od {{ storageData.DatumTrasakcijeOd | date: 'dd.MM.yyyy' }}"
+          </strong>
+          <br>
+        </span>
+        <span *ngIf="storageData.DatumTrasakcijeDo">
+          Datum transakcije: 
+          <strong>
+            "do {{ storageData.DatumTrasakcijeDo | date: 'dd.MM.yyyy' }}"
+          </strong>
+          <br>
+        </span>
+        <span *ngIf="storageData.IznosOd">
+          Iznos od: 
+          <strong>
+            "{{ storageData.IznosOd }}"
+          </strong>
+          <br>
+        </span>
+        <span *ngIf="storageData.IznosDo">
+          Iznos do: 
+          <strong>
+            "{{ storageData.IznosDo }}"
+          </strong>
+        </span>
+      </ng-template>
+      <button type="button" class="btn btn-sm btn-outline-light px-2" [ngbPopover]="popContent"
+          triggers="click" popoverTitle="Polja aktivnog filtera">
+          <span class="fas fa-info"></span>
+      </button>
+    </header>
+  </section>

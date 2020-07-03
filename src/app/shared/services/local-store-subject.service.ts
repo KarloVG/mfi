@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class LocalStoreSubjectService {
-    public readonly identifire = 'subject_id';
+    public readonly subjectIdentifier = 'subject_id';
 
     public applicationActions: string;
     constructor() {
@@ -11,12 +11,12 @@ export class LocalStoreSubjectService {
 
     checkSubject() {
         if (!this.hasToken()) {
-            localStorage[this.identifire] = null;
+            localStorage[this.subjectIdentifier] = null;
         }
     }
 
     hasToken() {
-        const token = localStorage[this.identifire];
+        const token = localStorage[this.subjectIdentifier];
         if (token == 'null' || token == null) {
             return null;
         }
@@ -24,6 +24,6 @@ export class LocalStoreSubjectService {
     }
 
     setToken(authData) {
-        localStorage[this.identifire] = authData;
+        localStorage[this.subjectIdentifier] = authData;
     }
 }

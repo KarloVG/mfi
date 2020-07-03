@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FlowOverviewComponent implements OnInit {
 
+  moduleName: string = 'Vremenski tijek transakcija';
+  moduleFontIcon = 'fas fa-clock';
+
   constructor() { }
 
   ngOnInit(): void {

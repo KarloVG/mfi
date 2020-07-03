@@ -23,10 +23,12 @@ interface UsersSelection {
 })
 export class TopbarComponent implements OnInit {
   @Input() addUserAction: any
-
   @Input() usersImportList: Users[]
   typesList: Types[]
   usersList: Users[]
+
+  moduleName: string = 'Diagram financijskih transakcija';
+  moduleFontIcon = 'fas fa-sitemap';
 
   selectedUser: UsersSelection = <UsersSelection>{}
   selectedType: Types = <Types>{}

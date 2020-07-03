@@ -11,6 +11,7 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { FakeDataService } from './shared/in-memory-api/fake-data.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocalStoreSubjectService } from './shared/services/local-store-subject.service';
+import { LocalStoreFilterService } from './shared/services/local-store-filter.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { LocalStoreSubjectService } from './shared/services/local-store-subject.
     [] : HttpClientInMemoryWebApiModule.forRoot(FakeDataService, { delay: 300 })
   ],
   providers: [
-    LocalStoreSubjectService
+    LocalStoreSubjectService,
+    LocalStoreFilterService
   ],
   bootstrap: [AppComponent],
   exports: [ RouterModule ]

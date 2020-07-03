@@ -8,7 +8,7 @@ import { TopbarComponent } from './topbar/topbar.component';
 import { UserviewComponent } from './userview/userview.component';
 import { AccountviewComponent } from './accountview/accountview.component';
 import { TransactionviewComponent } from './transactionview/transactionview.component';
-
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [DiagramOverviewComponent, TopbarComponent, UserviewComponent, AccountviewComponent, TransactionviewComponent],
@@ -16,6 +16,7 @@ import { TransactionviewComponent } from './transactionview/transactionview.comp
     CommonModule,
     DiagramRoutingModule,
     FormsModule,
+    SharedModule,
   ]
 })
 export class DiagramModule { }

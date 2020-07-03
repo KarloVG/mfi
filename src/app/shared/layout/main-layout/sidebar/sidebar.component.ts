@@ -3,7 +3,7 @@ import { LocalStoreSubjectService } from 'src/app/shared/services/local-store-su
 import { NavigationService, IMenuItem } from 'src/app/shared/services/navigation.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOpenSubjectComponent } from 'src/app/subject/subject-detail/modal-open-subject/modal-open-subject.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ModalCanDeactivateComponent } from 'src/app/subject/subject-add-or-edit/modal-can-deactivate/modal-can-deactivate.component';
 
@@ -15,14 +15,27 @@ import { ModalCanDeactivateComponent } from 'src/app/subject/subject-add-or-edit
 export class SidebarComponent implements OnInit {
 
   menus: IMenuItem[] = []
-
+  isDisabledDropdown: boolean = false;
   constructor(
     private navService: NavigationService,
     private ngbModalService: NgbModal,
     private router: Router,
     private toastrService: ToastrService,
-    private localstoreService: LocalStoreSubjectService
-  ) { }
+    private localstoreService: LocalStoreSubjectService,
+    private aRoute: ActivatedRoute
+  ) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        var withNoDigits = event.url.replace(/[0-9]/g, '');
+        if(withNoDigits == '/subject/edit/') {
+          this.isDisabledDropdown = true;
+          console.log(this.isDisabledDropdown)
+        } else {
+          this.isDisabledDropdown = false;
+        }
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.navService.publishNavigationChange();
@@ -30,6 +43,12 @@ export class SidebarComponent implements OnInit {
       .subscribe((items) => {
         this.menus = items;
       });
+
+  }
+
+  checkForSubject() {
+    console.log(this.aRoute.routeConfig);
+    console.log(this.router.url)
   }
 
   navigateToNewSubject() {
@@ -41,14 +60,14 @@ export class SidebarComponent implements OnInit {
           this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
             progressBar: true
           });
-          localStorage.removeItem('subject_id');
+          localStorage.clear();
           this.navService.publishNavigationChange();
           this.router.navigate(['subject/add']);
         } else if (result == false) {
           this.toastrService.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
             progressBar: true
           });
-          localStorage.removeItem('subject_id');
+          localStorage.clear();
           this.navService.publishNavigationChange();
           this.router.navigate(['subject/add']);
         }
@@ -67,14 +86,14 @@ export class SidebarComponent implements OnInit {
           this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
             progressBar: true
           });
-          localStorage.removeItem('subject_id');
+          localStorage.clear();
           this.navService.publishNavigationChange();
           this.openFilterModal();
         } else if (result == false) {
           this.toastrService.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
             progressBar: true
           });
-          localStorage.removeItem('subject_id');
+          localStorage.clear();
           this.navService.publishNavigationChange();
           this.openFilterModal();
         }
@@ -104,20 +123,20 @@ export class SidebarComponent implements OnInit {
           this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
             progressBar: true
           });
-          localStorage.removeItem('subject_id');
+          localStorage.clear();
           this.navService.publishNavigationChange();
           this.router.navigate(['welcome']);
         } else if (result == false) {
           this.toastrService.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
             progressBar: true
           });
-          localStorage.removeItem('subject_id');
+          localStorage.clear();
           this.navService.publishNavigationChange();
           this.router.navigate(['welcome']);
         }
       })
     } else {
-      this.toastrService.warning('Ne postoji aktivan predmet','Pažnja');
+      this.toastrService.warning('Ne postoji aktivan predmet', 'Pažnja');
     }
   }
 
@@ -128,7 +147,7 @@ export class SidebarComponent implements OnInit {
         progressBar: true
       });
     } else {
-      this.toastrService.warning('Ne postoji aktivan predmet','Pažnja');
+      this.toastrService.warning('Ne postoji aktivan predmet', 'Pažnja');
     }
   }
 }

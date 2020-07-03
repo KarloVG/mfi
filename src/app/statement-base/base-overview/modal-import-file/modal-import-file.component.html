@@ -14,8 +14,8 @@
                     Odaberi datoteku s izvodom: <span class="text-danger">*</span>
                 </label>
                 <div class="custom-file">
-                    <input type="file" lang="hr" #fileInput formControlName="file"
-                        [ngClass]="{'is-invalid': file.invalid && (file.dirty || file.touched || myForm.submitted)}">
+                    <input type="file" lang="hr"
+                        [ngClass]="{'is-invalid':  myForm.submitted}">
                     <div class="invalid-feedback">Polje je obavezno</div>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                   <span class="badge badge-pill badge-dark mr-2">2</span>
                     Odaberi predložak za validaciju i uvoz podataka: <span class="text-danger">*</span>
                 </label>
-                <ng-select [items]="validationTemplates" bindLabel="name" bindValue="id" labelForId="state"
+                <ng-select [items]="validationTemplates" bindLabel="name" bindValue="name" labelForId="state"
                     placeholder="Izaberi..." clearAllText="Clear" formControlName="template"
                     [ngClass]="{'is-invalid': template.invalid && (template.dirty || template.touched || myForm.submitted)}">
                 </ng-select>
@@ -75,26 +75,14 @@
         </button>
     </div>
     <div class="modal-body">
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                Redak 123, atribut "Račun 1":
-                <span class="text-danger">neispravan IBAN broj</span>
-            </li>
-            <li class="list-group-item">
-                Redak 145, atribut "Datum/Vrijeme transakcije":
-                <span class="text-danger">neispravan podatak</span>
-            </li>
-            <li class="list-group-item">
-                Redak 321, atribut "Račun 2":
-                <span class="text-danger">neispravan IBAN broj</span>
-            </li>
-            <li class="list-group-item">
-                Redak 378, atribut "Vrsta transakcije":
-                <span class="text-danger">nepoznat broj</span>
-            </li>
-            <li class="list-group-item">Redak 432, atribut "Iznos transakcije":
-                <span class="text-danger">nepoznat broj</span>
-            </li>
+        <ul class="row">
+            <div class="col-md-6" *ngFor="let error of errors; let i = index" style="white-space: break-spaces;">
+                <strong>
+                    Redak {{ error.rowId }}.
+                </strong>
+                <br>
+                <span class="text-danger ml-1">{{ error.name }}</span>
+            </div>
         </ul>
     </div>
 </ng-template>

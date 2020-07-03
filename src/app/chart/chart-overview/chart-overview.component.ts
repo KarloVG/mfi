@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChartOverviewComponent implements OnInit {
 
+  moduleName: string = 'Prikaz informacija na mapi';
+  moduleFontIcon = 'fas fa-chart-pie';
+
   constructor() { }
 
   ngOnInit(): void {

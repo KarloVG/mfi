@@ -53,10 +53,10 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
 
   adalUser: ISubjectPermission = {
     ID: 15,
-    Ime: 'David',
-    Prezime: 'Corona',
+    Ime: 'Željko',
+    Prezime: 'Malnar',
     Flag: false,
-    Email: 'david.corona@gmail.com',
+    Email: 'zeljko.malnar@gmail.com',
     isAdalUser: true
   }
 
@@ -151,11 +151,8 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
       modalRef.result.then((result) => {
         if (result == true) {
           if (this.subjectId) {
-            this.toastr.success('Uredili ste predmet', 'Uspjeh', {
-              progressBar: true
-            });
             this.confimationSubject.next(true);
-            this.editSubject();
+            this.editSubjectWithoutNavigating();
           } else {
             if (this.subjectFormGroup.invalid) {
               this.subjectFormGroup.markAllAsTouched();
@@ -242,6 +239,17 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
         });
         this.navigationService.publishNavigationChange();
         this.router.navigate(['subject', this.subjectId]);
+      })
+  }
+
+  editSubjectWithoutNavigating() {
+    this.subjectService.editSubject(this.subjectId, this.subjectFormGroup.value).pipe(untilComponentDestroyed(this))
+      .subscribe(responseData => {
+        console.log(responseData)
+        this.subjectFormGroup.markAsPristine();
+        this.toastr.success('Uredili ste predmet', 'Uspjeh', {
+          progressBar: true
+        });
       })
   }
 
