@@ -31,9 +31,13 @@
         </div>
       </form>
       <div class="col-sm-5 text-right">
-        <button type="button" class="btn btn-secondary mr-3" title="Prikaži +1" data-click="expandView()">
-          <span class="fas fa-expand-arrows-alt"></span>
+        <button type="button" class="btn btn-secondary mr-3" title="Prikaži +1" (click)="expandViewAction()">
+          <span class="fas fa-arrow-circle-up"></span>
           <span class="ml-2 d--none">Prikaži +1</span>
+        </button>
+        <button type="button" class="btn btn-secondary mr-3" title="Prikaži +1" (click)="contractViewAction()">
+          <span class="fas fa-arrow-circle-down"></span>
+          <span class="ml-2 d--none">Prikaži -1</span>
         </button>
         <!--
         <button type="button" class="btn btn-secondary mr-3" disabled title="Alarmiranje" data-click="notifications()">
@@ -44,11 +48,11 @@
           <span class="fas fa-image"></span>
           <span class="ml-2 d--none">Izvoz slike</span>
         </button>
-        -->
         <button type="button" class="btn btn-secondary mr-3" title="Filtriranje" data-click="filter()">
           <span class="fas fa-filter"></span>
           <span class="ml-2 d--none">Filtriranje</span>
         </button>
+        -->
       </div>
     </div>
   </section>

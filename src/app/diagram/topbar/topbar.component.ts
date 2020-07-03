@@ -23,6 +23,8 @@ interface UsersSelection {
 })
 export class TopbarComponent implements OnInit {
   @Input() addUserAction: any
+  @Input() expandViewAction: any
+  @Input() contractViewAction: any
   @Input() usersImportList: Users[]
   typesList: Types[]
   usersList: Users[]

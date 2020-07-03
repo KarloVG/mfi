@@ -1,5 +1,10 @@
 <div>
-  <app-topbar [usersImportList]="usersList" [addUserAction]="addUser.bind(this)"></app-topbar>
+  <app-topbar
+    [usersImportList]="usersList"
+    [addUserAction]="addUser.bind(this)"
+    [expandViewAction]="expandView.bind(this)"
+    [contractViewAction]="contractView.bind(this)">
+  </app-topbar>
 
   <div class="infobox float-left col-sm-3" *ngIf="nodeActive !== null">
     <app-userview
@@ -18,7 +23,10 @@
     </app-accountview>
   </div>
   <div class="infobox float-left col-sm-3" *ngIf="edgeActive !== null">
-    <app-transactionview [node]="edgeActive" (close)="onClosed()"></app-transactionview>
+    <app-transactionview
+      [node]="edgeActive"
+      (close)="onClosed()">
+    </app-transactionview>
   </div>
 
   <div id="network" class="network-canvas p-0 m-0"></div>

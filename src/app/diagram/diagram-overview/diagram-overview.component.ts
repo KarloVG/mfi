@@ -34,6 +34,8 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   expanded = new Set([])
   isSelectedActiveUser: boolean = false
 
+  viewLevel = 1
+
   public constructor(
     private diaSvc: DiagramService
   ) {
@@ -135,8 +137,13 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
             this.expanded.add(itm.id)
           })
         } else {
-          const nx = this.diaSvc.findParentUser(node, this.activeUser.id)
-          this.diaSvc.addNodes(nx)
+          let nx
+          try {
+            nx = this.diaSvc.findParentUser(node, this.activeUser.id)
+          } catch(e) {}
+          if (nx) {
+            this.diaSvc.addNodes(nx)
+          }
         }
       } else if (node.type === 'user') {
         console.log('USRx', node, node.id, this.activeUser.id)
@@ -150,6 +157,18 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     this.isSelectedActiveUser = false
     this.network.unselectAll()
     console.log('Closed infobox')
+  }
+
+  expandView() {
+    this.viewLevel++
+    console.log('EXPAND', this.viewLevel)
+    console.log('TXX', this.nodes, this.edges)
+  }
+  contractView() {
+    this.viewLevel--
+    if (this.viewLevel < 0) { this.viewLevel = 0}
+    console.log('CONTRACT', this.viewLevel)
+    console.log('TXX', this.nodes, this.edges)
   }
 
   rndmm(min, max) {

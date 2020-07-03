@@ -221,64 +221,79 @@ export class DiagramService {
 
     let nodes = []
     let edges = []
-    accsInList.forEach(itm => {
-      let itmAcc = this.getAccounts(itm)
-      const trans = this.getAccountTransactions(itm)
-      let type = 'account'
-      if (activeUserId) {
-        type = itmAcc.userId === activeUserId? 'account' : 'connectedAccount'
-      }
-      nodes.push({
-        ...{
-          id: itmAcc.id,
-          label: itmAcc.accNo + '\r\n' + itmAcc.swift,
-          type: 'account',
-          mass: 1,
-          account: itmAcc,
-          transactions: trans,
-        },
-        ...this.options[type]
+    if (accsInList[0] === null) { accsInList = [] }
+    if (accsInList.length > 1) {
+      accsInList.forEach(itm => {
+        let itmAcc = this.getAccounts(itm)
+        const trans = this.getAccountTransactions(itm)
+        let type = 'account'
+        if (activeUserId) {
+          try {
+            type = itmAcc.userId === activeUserId? 'account' : 'connectedAccount'
+          } catch(e) {
+            type = 'account'
+          }
+        }
+        nodes.push({
+          ...{
+            id: itmAcc.id, // HERE
+            label: itmAcc.accNo + '\r\n' + itmAcc.swift,
+            type: 'account',
+            mass: 1,
+            account: itmAcc,
+            transactions: trans,
+          },
+          ...this.options[type]
+        })
+        edges.push({
+          ...{
+            from: node.id,
+            to: itmAcc.id,
+            title: accsInList.length,
+            label: accsInList.length,
+            type: 'transactionInbound'
+          },
+          ...this.options.transactionInbound
+        })
       })
-      edges.push({
-        ...{
-          from: node.id,
-          to: itmAcc.id,
-          title: accsInList.length,
-          label: accsInList.length,
-          type: 'transactionInbound'
-        },
-        ...this.options.transactionInbound
+    }
+    if (accsOutList[0] === null) { accsOutList = [] }
+    if (accsOutList.length > 1) {
+      accsOutList.forEach(itm => {
+        let itmAcc = this.getAccounts(itm)
+        const trans = this.getAccountTransactions(itm)
+        console.log('HLOx', itm, itmAcc, trans)
+        let type = 'account'
+        if (activeUserId) {
+          try {
+            type = itmAcc.userId === activeUserId? 'account' : 'connectedAccount'
+          } catch(e) {
+            type = 'account'
+          }
+        }
+        nodes.push({
+          ...{
+            id: itmAcc.id, // HERE
+            label: itmAcc.accNo + '\r\n' + itmAcc.swift,
+            type: 'account',
+            mass: 1,
+            account: itmAcc,
+            transactions: trans,
+          },
+          ...this.options[type]
+        })
+        edges.push({
+          ...{
+            from: node.id,
+            to: itmAcc.id,
+            title: accsOutList.length,
+            label: accsOutList.length,
+            type: 'transactionOutbound'
+          },
+          ...this.options.transactionOutbound
+        })
       })
-    })
-    accsOutList.forEach(itm => {
-      let itmAcc = this.getAccounts(itm)
-      const trans = this.getAccountTransactions(itm)
-      let type = 'account'
-      if (activeUserId) {
-        type = itmAcc.userId === activeUserId? 'account' : 'connectedAccount'
-      }
-      nodes.push({
-        ...{
-          id: itmAcc.id,
-          label: itmAcc.accNo + '\r\n' + itmAcc.swift,
-          type: 'account',
-          mass: 1,
-          account: itmAcc,
-          transactions: trans,
-        },
-        ...this.options[type]
-      })
-      edges.push({
-        ...{
-          from: node.id,
-          to: itmAcc.id,
-          title: accsOutList.length,
-          label: accsOutList.length,
-          type: 'transactionOutbound'
-        },
-        ...this.options.transactionOutbound
-      })
-    })
+    }
 
     return {
       nodes: nodes,

@@ -31,8 +31,8 @@ export class AccountviewComponent implements OnInit {
   ngOnInit(): void {
     this.focusAccounts = this.activeUser.accounts
     console.log('NX', this.node)
-    console.log('XX', this.activeUser)
-    console.log('BX', this.isSelectedActiveUser)
+    //console.log('XX', this.activeUser)
+    //console.log('BX', this.isSelectedActiveUser)
   }
 
   closeInfobox(): void {
@@ -41,8 +41,7 @@ export class AccountviewComponent implements OnInit {
 
   expandAccountDetails(): void {
     const modalRef = this.ngbModalService.open(ModalAccountviewDetailComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
-    modalRef.componentInstance.inputUser = this.node.accounts.to.user = this.diaSvc.getPerson(this.node.accounts.to.userId);
-    modalRef.componentInstance.outputUser = this.diaSvc.getPerson(this.node.accounts.from.userId);
+    modalRef.componentInstance.inputUser = this.node.account.user;
     modalRef.componentInstance.node = this.node;
   }
 }
