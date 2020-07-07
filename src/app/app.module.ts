@@ -24,8 +24,7 @@ import { LocalStoreFilterService } from './shared/services/local-store-filter.se
     SharedModule,
     AppRoutingModule,
     HttpClientModule,
-    environment.production ?
-    [] : HttpClientInMemoryWebApiModule.forRoot(FakeDataService, { delay: 300 })
+    HttpClientInMemoryWebApiModule.forRoot(FakeDataService, { delay: 300 })
   ],
   providers: [
     LocalStoreSubjectService,
