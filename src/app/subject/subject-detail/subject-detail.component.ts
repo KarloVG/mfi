@@ -38,7 +38,7 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.subscribe(params => {
       if(params && params.id) {
         this.subjectId = params.id;
-          this.getSubjectStatuses();
+        this.getSubjectById();
       }
     });
   }
@@ -54,7 +54,7 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
   deleteSubject() {
     const modalRef = this.ngbModalService.open(ConfirmationModalComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.title = 'Brisanje predmeta';
-    modalRef.componentInstance.description = `Jeste li sigurni da želite izbrisati predmet: '${this.subject.NazivPredmeta}' sa brojem predmeta '${this.subject.BrojPredmeta}'`
+    modalRef.componentInstance.description = `Jeste li sigurni da želite izbrisati predmet: '${this.subject.nazivPredmeta}' sa brojem predmeta '${this.subject.brojPredmeta}'`
     modalRef.result.then((result) => {
       if (result) {
         this.subjectService.deleteSubject(this.subjectId).subscribe(
@@ -85,7 +85,6 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
       data => {
         console.log(data)
         this.subject = data;
-        this.subjectStatus = this.subjectStatuses.find(x => x.id == this.subject.StatusPredmeta);
       },
       err => {  
         console.log(err);

@@ -47,12 +47,12 @@ export class ModalImportFileComponent implements OnInit, OnDestroy {
       console.log(data)
     })
 
-    this.validationTemplates = [
-      {
-        id: 1,
-        name: 'template_example.jsonc'
-      }
-    ];
+    // this.validationTemplates = [
+    //   {
+    //     id: 1,
+    //     name: 'template_example.jsonc'
+    //   }
+    // ];
     // this.getValidationTemplates();
   }
 

@@ -1,29 +1,29 @@
 <div class="col-12 mt-1 mb-2 px-0">
-  <div class="py-2 px-2">
-      <h4>
-        <span class="fas fa-database"></span>
-        <strong class="ml-2">Baza izvoda</strong>
-      </h4>
-  </div>
+    <div class="py-2 px-2">
+        <h4>
+            <span class="fas fa-database"></span>
+            <strong class="ml-2">Baza izvoda</strong>
+        </h4>
+    </div>
 </div>
 
 <div class="col-12 bg-light border py-3 mb-5">
-  <div class="row">
-    <div class="col-10">
-      <button type="button" class="btn btn-secondary mr-3" (click)="addPersonToBase()">
-        <span class="fas fa-user-plus"></span>
-        <span class="ml-2">Dodaj osobu</span>
-      </button>
-      <button type="button" class="btn btn-secondary mr-3" (click)="openBaseImportFromFile()">
-        <span class="fas fa-align-justify"></span>
-        <span class="ml-2">Dodaj izvod iz datoteke</span>
-      </button>
-      <button type="button" class="btn btn-secondary mr-3" (click)="getBaseFromTIRM()">
-        <span class="fas fa-upload"></span>
-        <span class="ml-2">Dodaj izvod iz TIRM-a</span>
-      </button>
+    <div class="row">
+        <div class="col-10">
+            <button type="button" class="btn btn-secondary mr-3" (click)="addPersonToBase()">
+                <span class="fas fa-user-plus"></span>
+                <span class="ml-2">Dodaj osobu</span>
+            </button>
+            <button type="button" class="btn btn-secondary mr-3" (click)="openBaseImportFromFile()">
+                <span class="fas fa-align-justify"></span>
+                <span class="ml-2">Dodaj izvod iz datoteke</span>
+            </button>
+            <button type="button" class="btn btn-secondary mr-3" (click)="getBaseFromTIRM()">
+                <span class="fas fa-upload"></span>
+                <span class="ml-2">Dodaj izvod iz TIRM-a</span>
+            </button>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="col-12 py-2 px-0">
@@ -78,33 +78,34 @@
                 <ng-template ngx-datatable-header-template>
                     Br.
                 </ng-template>
-                <ng-template  let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
                     {{ rowIndex + 1 }}
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column *ngFor="let col of columns; let i = index" [name]="col.name" [prop]="col.prop"
-                [resizeable]="true" [sortable]="true" [flexGrow]="1" [width]="col.width ? col.width : false">
-
-                <ng-template ngx-datatable-header-template let-sort="sortFn">
-                    <span (click)="sort()">
-                        {{ col.name }}
-                    </span>
+            <ngx-datatable-column name="Ime / Naziv vlasnika računa" prop="naziv" [width]="150"></ngx-datatable-column>
+            <ngx-datatable-column name="Broj uvezenih računa" prop="uvezeneIzliste" [width]="150"></ngx-datatable-column>
+            <ngx-datatable-column name="Ukupan broj transakcija (U/I)" prop="brojTransakcija" [width]="150"></ngx-datatable-column>
+            <ngx-datatable-column name="Ukupan iznos transakcija (U/I)" prop="iznosTransakcija" [width]="150">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                    <span>{{ value }} HRK</span>
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column name="actions" [width]="130" [resizeable]="false" [sortable]="false" [draggable]="false"
-            [canAutoResize]="false">
+            <ngx-datatable-column name="actions" [width]="130" [resizeable]="false" [sortable]="false"
+                [draggable]="false" [canAutoResize]="false">
                 <ng-template ngx-datatable-header-template>
-                  Radnje
+                    Akcije
                 </ng-template>
                 <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
                     <div class="" role="group" aria-label="First group">
-                        <button type="button" class="btn btn-sm btn-outline-primary mr-2 px-2 py-0" (click)="editPerson(row)"><small class="fas fa-pencil-alt"></small></button>
-                        <button type="button" class="btn btn-sm btn-outline-danger px-2 py-0" (click)="deletePerson(row)"><small class="fas fa-trash"></small></button>
+                        <button type="button" class="btn btn-sm btn-outline-primary mr-2 px-2 py-0"
+                            (click)="editPerson(row)"><small class="fas fa-pencil-alt"></small></button>
+                        <button type="button" class="btn btn-sm btn-outline-danger px-2 py-0"
+                            (click)="deletePerson(row)"><small class="fas fa-trash"></small></button>
                     </div>
                 </ng-template>
-              </ngx-datatable-column>
+            </ngx-datatable-column>
         </ngx-datatable>
     </div>
 </div>

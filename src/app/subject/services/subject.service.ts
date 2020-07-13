@@ -6,6 +6,7 @@ import { ISubject } from '../models/subject';
 import { map } from 'rxjs/operators';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 import * as moment from 'moment';
+import { CreateSubjektRequest } from '../models/create-subjekt-request';
 
 @Injectable({ 
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class SubjectService {
 
   constructor(private http: HttpClient, private urlHelper: UrlHelperService) { }
 
-  private readonly CONTROLER_NAME = 'subjects';
+  private readonly CONTROLER_NAME = 'Predmet';
 
   getSubjects(): Observable<ISubject[]> {
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
@@ -28,40 +29,38 @@ export class SubjectService {
 
   getSubjectsDropdown(): Observable<ISimpleDropdownItem[]> {
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
-    return this.http.get<ISubject[]>(url).pipe(map(response => {
-      return response.map(el => {
-        const item: ISimpleDropdownItem = { id: el.id , name: `Predmet '${el.NazivPredmeta}' (${moment(el.DatumOtvaranja).format('DD.MM.YYYY')})` }
-        return item
-      })
+    return this.http.get<ISimpleDropdownItem[]>(url).pipe(map(response => {
+      return response
     }));
   }
 
   addSubject(formData: ISubject): Observable<ISubject> {
-    const requestData = {
-      BrojPredmeta: formData.BrojPredmeta,
-      DatumOtvaranja: formData.DatumOtvaranja,
-      DozvoljeniKorisnici: formData.DozvoljeniKorisnici,
-      Napomena: formData.Napomena,
-      NazivPredmeta: formData.NazivPredmeta,
-      StatusPredmeta: formData.StatusPredmeta
+    const requestData: CreateSubjektRequest = {
+      brojPredmeta: formData.brojPredmeta,
+      datumOtvaranja: formData.datumOtvaranja,
+      predmetKorisnici: formData.predmetKorisnici,
+      napomena: formData.napomena,
+      nazivPredmeta: formData.nazivPredmeta,
+      statusPredmetaID: formData.statusPredmetaID
     }
-
+    console.log('create request', requestData)
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
     return this.http.post<ISubject>(url, requestData);
   }
 
   editSubject(subjectId: number, formData:ISubject): Observable<ISubject> {
     const requestData = {
-      id: subjectId,
-      BrojPredmeta: formData.BrojPredmeta,
-      DatumOtvaranja: formData.DatumOtvaranja,
-      DozvoljeniKorisnici: formData.DozvoljeniKorisnici,
-      Napomena: formData.Napomena,
-      NazivPredmeta: formData.NazivPredmeta,
-      StatusPredmeta: formData.StatusPredmeta
+      predmetID: subjectId,
+      brojPredmeta: formData.brojPredmeta,
+      datumOtvaranja: formData.datumOtvaranja,
+      predmetKorisnici: formData.predmetKorisnici,
+      napomena: formData.napomena,
+      nazivPredmeta: formData.nazivPredmeta,
+      statusPredmetaID: formData.statusPredmetaID
     }
+    console.log('update request', requestData)
 
-    const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
+    const url = this.urlHelper.getUrl(this.CONTROLER_NAME, subjectId.toString());
     return this.http.put<ISubject>(url, requestData);
   }
 

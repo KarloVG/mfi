@@ -1,9 +1,11 @@
-import { IPerson } from './person';
+import { IInnerBaseDetail } from './inner-base-detail';
+import { IBaseExtract } from './base-extract';
 
 export interface IBaseItem {
-    id: number,
-    Osoba: IPerson,
-    UvezeneIzliste: number,
-    BrojTransakcija: string,
-    IznosTransakcija: string
+    osobaID: number,
+    naziv: string,
+    izvodi: IBaseExtract[],
+    uvezeneIzliste?: number,
+    brojTransakcija?: number,
+    iznosTransakcija?: number,
 }

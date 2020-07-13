@@ -37,44 +37,44 @@ export class ModalFilterComponent implements OnInit {
     VrstaTransakcije: null
   });
 
-  banks: ISimpleDropdownItem[] = [{
-    id: 1,
-    name: 'PRIVREDNA BANKA ZAGREB d.d.'
-  },
-  {
-    id: 2,
-    name: 'HRVATSKA POŠTANSKA BANKA d.d.'
-  },{
-    id: 3,
-    name: 'J&T banka d.d. Varaždin'
-  }];
+  // banks: ISimpleDropdownItem[] = [{
+  //   id: 1,
+  //   name: 'PRIVREDNA BANKA ZAGREB d.d.'
+  // },
+  // {
+  //   id: 2,
+  //   name: 'HRVATSKA POŠTANSKA BANKA d.d.'
+  // },{
+  //   id: 3,
+  //   name: 'J&T banka d.d. Varaždin'
+  // }];
 
-  countries: ISimpleDropdownItem[] = [{
-    id: 1,
-    name: 'Hrvatska'
-  },{
-    id: 2,
-    name: 'Kosovo'
-  },{
-    id: 3,
-    name: 'Tažikistan'
-  }];
+  // countries: ISimpleDropdownItem[] = [{
+  //   id: 1,
+  //   name: 'Hrvatska'
+  // },{
+  //   id: 2,
+  //   name: 'Kosovo'
+  // },{
+  //   id: 3,
+  //   name: 'Tažikistan'
+  // }];
 
-  directions: ISimpleDropdownItem[] = [{
-    id: 1,
-    name: 'Ulazni'
-  },{
-    id: 2,
-    name: 'Izlazni'
-  }]
+  // directions: ISimpleDropdownItem[] = [{
+  //   id: 1,
+  //   name: 'Ulazni'
+  // },{
+  //   id: 2,
+  //   name: 'Izlazni'
+  // }]
 
-  transactionTypes: ISimpleDropdownItem[] = [{
-    id: 1,
-    name: 'Bankovna'
-  },{
-    id: 1,
-    name: 'Novčana'
-  }]
+  // transactionTypes: ISimpleDropdownItem[] = [{
+  //   id: 1,
+  //   name: 'Bankovna'
+  // },{
+  //   id: 1,
+  //   name: 'Novčana'
+  // }]
   
   constructor(
     public modal: NgbActiveModal,

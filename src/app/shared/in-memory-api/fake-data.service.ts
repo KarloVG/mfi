@@ -33,24 +33,24 @@ export class FakeDataService implements InMemoryDbService {
             //     ]
             // }
         ];
-        let subjectStatuses: ISimpleDropdownItem[] = [
-            {
-                id: 1,
-                name: 'Priprema'
-            },
-            {
-                id: 2,
-                name: 'Otvoren'
-            },
-            {
-                id: 3,
-                name: 'Zatvoren'
-            },
-            {
-                id: 4,
-                name: 'Arhiviran'
-            }
-        ];
+        // let subjectStatuses: ISimpleDropdownItem[] = [
+        //     {
+        //         id: 1,
+        //         name: 'Priprema'
+        //     },
+        //     {
+        //         id: 2,
+        //         name: 'Otvoren'
+        //     },
+        //     {
+        //         id: 3,
+        //         name: 'Zatvoren'
+        //     },
+        //     {
+        //         id: 4,
+        //         name: 'Arhiviran'
+        //     }
+        // ];
 
         let subjectPermissions: ISubjectPermission[] = [
             {
@@ -103,59 +103,59 @@ export class FakeDataService implements InMemoryDbService {
             }
         ];
 
-        let personTypes: ISimpleDropdownItem[] = [
-            {
-                id: 1,
-                name: 'Fizička osoba'
-            },
-            {
-                id: 2,
-                name: 'Pravna osoba'
-            }
-        ];
+        // let personTypes: ISimpleDropdownItem[] = [
+        //     {
+        //         id: 1,
+        //         name: 'Fizička osoba'
+        //     },
+        //     {
+        //         id: 2,
+        //         name: 'Pravna osoba'
+        //     }
+        // ];
 
-        let identificationTypes: ISimpleDropdownItem[] = [
-            {
-                id: 1,
-                name: 'OIB'
-            },
-            {
-                id: 2,
-                name: 'JMBAG'
-            },
-            {
-                id: 3,
-                name: 'MBS'
-            }
-        ];
+        // let identificationTypes: ISimpleDropdownItem[] = [
+        //     {
+        //         id: 1,
+        //         name: 'OIB'
+        //     },
+        //     {
+        //         id: 2,
+        //         name: 'JMBAG'
+        //     },
+        //     {
+        //         id: 3,
+        //         name: 'MBS'
+        //     }
+        // ];
 
         let baseItems: IBaseItem[] = [
-            {
-                id: 1,
-                Osoba: {
-                    OsobaID: 1,
-                    Naziv: 'Matija Matijić',
-                    TipOsobeId: 1,
-                    IdBroj: 45311924532,
-                    VrstaId: 1
-                },
-                UvezeneIzliste: 2,
-                BrojTransakcija: '355 (210/150)',
-                IznosTransakcija: '225 550 412 HRK (200.000 HRK/55.432 HRK)'
-            },
-            {
-                id: 2,
-                Osoba: {
-                    OsobaID: 2,
-                    Naziv: 'Ivica Ivić',
-                    TipOsobeId: 2,
-                    IdBroj: 23291391293,
-                    VrstaId: 2
-                },
-                UvezeneIzliste: 0,
-                BrojTransakcija: '155 (109/89)',
-                IznosTransakcija: '87 550 412 HRK (123.000 HRK/40.432 HRK)'
-            }
+            // {
+            //     id: 1,
+            //     Osoba: {
+            //         OsobaID: 1,
+            //         Naziv: 'Matija Matijić',
+            //         TipOsobeId: 1,
+            //         IdBroj: 45311924532,
+            //         VrstaId: 1
+            //     },
+            //     UvezeneIzliste: 2,
+            //     BrojTransakcija: '355 (210/150)',
+            //     IznosTransakcija: '225 550 412 HRK (200.000 HRK/55.432 HRK)'
+            // },
+            // {
+            //     id: 2,
+            //     Osoba: {
+            //         OsobaID: 2,
+            //         Naziv: 'Ivica Ivić',
+            //         TipOsobeId: 2,
+            //         IdBroj: 23291391293,
+            //         VrstaId: 2
+            //     },
+            //     UvezeneIzliste: 0,
+            //     BrojTransakcija: '155 (109/89)',
+            //     IznosTransakcija: '87 550 412 HRK (123.000 HRK/40.432 HRK)'
+            // }
         ];
 
         let innerBaseItems: IInnerbaseItem[] = [
@@ -240,24 +240,24 @@ export class FakeDataService implements InMemoryDbService {
             }
         ]
 
-        let validationTemplates: ISimpleDropdownItem[] = [
-            {
-                id: 1,
-                name: 'Univerzalni MUP predložak za uvoz podataka (stvoren 2018-11-11)'
-            },
-            {
-                id: 2,
-                name: 'Univerzalni MUP predložak za uvoz podataka (stvoren 2019-11-11)'
-            },
-            {
-                id: 3,
-                name: 'NE-Univerzalni MUP predložak za uvoz podataka (stvoren 2020-11-11)'
-            },
-            {
-                id: 4,
-                name: 'NE-Univerzalni MUP predložak za uvoz podataka (stvoren 2021-11-11)'
-            }
-        ];
+        // let validationTemplates: ISimpleDropdownItem[] = [
+        //     {
+        //         id: 1,
+        //         name: 'Univerzalni MUP predložak za uvoz podataka (stvoren 2018-11-11)'
+        //     },
+        //     {
+        //         id: 2,
+        //         name: 'Univerzalni MUP predložak za uvoz podataka (stvoren 2019-11-11)'
+        //     },
+        //     {
+        //         id: 3,
+        //         name: 'NE-Univerzalni MUP predložak za uvoz podataka (stvoren 2020-11-11)'
+        //     },
+        //     {
+        //         id: 4,
+        //         name: 'NE-Univerzalni MUP predložak za uvoz podataka (stvoren 2021-11-11)'
+        //     }
+        // ];
 
         let tirmItems: ITirmItem[] = [
             {
@@ -313,15 +313,15 @@ export class FakeDataService implements InMemoryDbService {
 
         return {
             subjects,
-            subjectStatuses,
+            // subjectStatuses,
             subjectPermissions,
             baseExtracts,
-            personTypes,
-            identificationTypes,
+            // personTypes,
+            // identificationTypes,
             baseItems,
             innerBaseItems,
             baseDetails,
-            validationTemplates,
+            // validationTemplates,
             tirmItems,
             tirmFiles
         };

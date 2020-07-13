@@ -35,16 +35,16 @@
   <div class="container">
     <div class="input-group">
       <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
-        <label for="BrojPredmeta">
+        <label for="brojPredmeta">
           Broj predmeta <span class="text-danger">*</span>
         </label>
-        <input type="text" class="form-control" id="BrojPredmeta" name="BrojPredmeta" placeholder="Mjesec, npr. 14. mjesec" formControlName="BrojPredmeta" [ngClass]="{'is-invalid': BrojPredmeta.invalid && (BrojPredmeta.dirty || BrojPredmeta.touched || myForm.submitted)}">
+        <input type="text" class="form-control" id="brojPredmeta" name="brojPredmeta" placeholder="Mjesec, npr. 14. mjesec" formControlName="brojPredmeta" [ngClass]="{'is-invalid': brojPredmeta.invalid && (brojPredmeta.dirty || brojPredmeta.touched || myForm.submitted)}">
         <div class="invalid-feedback">Polje je obavezno</div>
       </div>
       <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
-        <label for="DatumOtvaranja">Datum otvaranja predmeta <span class="text-danger">*</span></label>
+        <label for="datumOtvaranja">Datum otvaranja predmeta <span class="text-danger">*</span></label>
         <div class="input-group">
-          <input class="form-control" placeholder="dd.mm.yyyy." name="dp" formControlName="DatumOtvaranja" ngbDatepicker #d="ngbDatepicker" [readonly]="true" [ngClass]="{'is-invalid': DatumOtvaranja.invalid && (DatumOtvaranja.dirty || DatumOtvaranja.touched || myForm.submitted)}" [minDate]="{year: 2000, month: 1, day: 1}">
+          <input class="form-control" placeholder="dd.mm.yyyy." name="dp" formControlName="datumOtvaranja" ngbDatepicker #d="ngbDatepicker" [readonly]="true" [ngClass]="{'is-invalid': datumOtvaranja.invalid && (datumOtvaranja.dirty || datumOtvaranja.touched || myForm.submitted)}" [minDate]="{year: 2000, month: 1, day: 1}" [maxDate]="dynamicToday">
           <div class="input-group-append">
             <button class="btn btn-outline-secondary calendar-box" (click)="d.toggle()" type="button"><span class="fas fa-calendar"></span></button>
           </div>
@@ -53,13 +53,13 @@
       </div>
     </div>
     <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
-      <label for="NazivPredmeta">Naziv predmeta <span class="text-danger">*</span></label>
-      <input type="text" class="form-control" id="NazivPredmeta" name="NazivPredmeta" placeholder="Mjesec, npr. 14. mjesec" formControlName="NazivPredmeta" [ngClass]="{'is-invalid': NazivPredmeta.invalid && (NazivPredmeta.dirty || NazivPredmeta.touched || myForm.submitted)}">
+      <label for="nazivPredmeta">Naziv predmeta <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="nazivPredmeta" name="nazivPredmeta" placeholder="Mjesec, npr. 14. mjesec" formControlName="nazivPredmeta" [ngClass]="{'is-invalid': nazivPredmeta.invalid && (nazivPredmeta.dirty || nazivPredmeta.touched || myForm.submitted)}">
       <div class="invalid-feedback">Polje je obavezno</div>
     </div>
     <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
-      <label for="StatusPredmeta">Status predmeta <span class="text-danger">*</span></label>
-      <ng-select [items]="subjectStatuses" bindLabel="name" bindValue="id" labelForId="state" placeholder="Izaberi..." clearAllText="Clear" formControlName="StatusPredmeta" [ngClass]="{'is-invalid': StatusPredmeta.invalid && (StatusPredmeta.dirty || StatusPredmeta.touched || myForm.submitted)}">
+      <label for="statusPredmetaID">Status predmeta <span class="text-danger">*</span></label>
+      <ng-select [items]="subjectStatuses" bindLabel="name" bindValue="statusPredmetaID" labelForId="state" placeholder="Izaberi..." clearAllText="Clear" formControlName="statusPredmetaID" [ngClass]="{'is-invalid': statusPredmetaID.invalid && (statusPredmetaID.dirty || statusPredmetaID.touched || myForm.submitted)}">
       </ng-select>
       <div class="invalid-feedback">Polje je obavezno</div>
     </div>
@@ -67,7 +67,7 @@
       <label for="permission">
         Dozvole za rad na predmetu <span class="text-danger">*</span>
       </label>
-      <table class="table table-striped" formArrayName="DozvoljeniKorisnici" *ngIf="DozvoljeniKorisnici.controls">
+      <table class="table table-striped" formArrayName="predmetKorisnici" *ngIf="predmetKorisnici.controls">
         <thead>
           <tr>
             <th scope="col">Broj</th>
@@ -78,7 +78,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let korisnik of DozvoljeniKorisnici.controls; let userIndex = index" [formGroupName]="userIndex">
+          <tr *ngFor="let korisnik of predmetKorisnici.controls; let userIndex = index" [formGroupName]="userIndex">
             <th scope="row">{{ userIndex + 1 }}</th>
             <td>{{ korisnik.get('Ime').value }}</td>
             <td>{{ korisnik.get('Prezime').value }}</td>
@@ -89,7 +89,7 @@
               </button>
             </td>
           </tr>
-          <tr *ngIf="DozvoljeniKorisnici.controls.length == 0">
+          <tr *ngIf="predmetKorisnici.controls.length == 0">
             <td>n/a</td>
             <td>n/a</td>
             <td>n/a</td>
@@ -104,8 +104,8 @@
       </button>
     </div>
     <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
-      <label for="Napomena">Napomena</label>
-      <textarea class="form-control" placeholder="Upišite napomenu..." rows="5" formControlName="Napomena" [ngClass]="{'is-invalid': Napomena.invalid && (Napomena.dirty || Napomena.touched || myForm.submitted)}"></textarea>
+      <label for="napomena">Napomena</label>
+      <textarea class="form-control" placeholder="Upišite napomenu..." rows="5" formControlName="napomena" [ngClass]="{'is-invalid': napomena.invalid && (napomena.dirty || napomena.touched || myForm.submitted)}"></textarea>
       <div class="invalid-feedback">Polje je obavezno</div>
     </div>
   </div>

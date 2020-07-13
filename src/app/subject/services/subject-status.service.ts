@@ -11,7 +11,7 @@ export class SubjectStatusService {
 
   constructor(private http: HttpClient, private urlHelper: UrlHelperService) { }
 
-  private readonly CONTROLER_NAME = 'subjectStatuses';
+  private readonly CONTROLER_NAME = 'StatusPredmeta';
 
   getSubjectStatuses(): Observable<ISimpleDropdownItem[]> {
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME);

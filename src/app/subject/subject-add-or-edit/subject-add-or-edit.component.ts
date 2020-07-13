@@ -35,16 +35,23 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   private confimationSubject = new Subject<boolean>();
   subjectStatuses: ISimpleDropdownItem[] = [];
   subjectFormGroup: FormGroup = this.formBuilder.group({
-    PredmetID: null,
-    BrojPredmeta: ['', Validators.required],
-    NazivPredmeta: ['', Validators.required],
-    DatumOtvaranja: ['', Validators.required],
-    StatusPredmeta: [null, Validators.required],
-    Napomena: [''],
-    DozvoljeniKorisnici: this.formBuilder.array([])
+    predmetID: null,
+    brojPredmeta: ['', Validators.required],
+    nazivPredmeta: ['', Validators.required],
+    datumOtvaranja: ['', Validators.required],
+    statusPredmetaID: [null, Validators.required],
+    napomena: [''],
+    predmetKorisnici: this.formBuilder.array([])
   });
   subjectId: number;
   subject: ISubject;
+  
+  private dynamicDate = new Date();
+  dynamicToday = {
+    year: this.dynamicDate.getFullYear(),
+    month: this.dynamicDate.getMonth() + 1,
+    day: this.dynamicDate.getDate()
+  }
 
   isReadOnly: boolean = false;
   //deativation guard
@@ -73,7 +80,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
 
   ngOnInit(): void {
     this.getSubjectStatuses();
-    this.NazivPredmeta.valueChanges.pipe(untilComponentDestroyed(this)).subscribe(
+    this.nazivPredmeta.valueChanges.pipe(untilComponentDestroyed(this)).subscribe(
       data => {
         this.subjectName = data ? data : '';
       }
@@ -83,17 +90,18 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
       this.subjectService.getSubjectById(this.subjectId).pipe(untilComponentDestroyed(this)).subscribe(
         data => {
           this.subject = data;
+          console.log(this.subject)
           this.subjectFormGroup.patchValue({
-            PredmetID: this.subject.PredmetID,
-            BrojPredmeta: this.subject.BrojPredmeta,
-            NazivPredmeta: this.subject.NazivPredmeta,
-            DatumOtvaranja: new Date(this.subject.DatumOtvaranja),
-            StatusPredmeta: this.subject.StatusPredmeta,
-            Napomena: this.subject.Napomena,
+            predmetID: this.subject.predmetID,
+            brojPredmeta: this.subject.brojPredmeta,
+            nazivPredmeta: this.subject.nazivPredmeta,
+            datumOtvaranja: new Date(this.subject.datumOtvaranja),
+            statusPredmetaID: this.subject.statusPredmetaID,
+            napomena: this.subject.napomena,
           })
-          this.subject.DozvoljeniKorisnici.forEach(
+          this.subject.predmetKorisnici.forEach(
             korisnik => {
-              this.DozvoljeniKorisnici.push(this.formBuilder.group({
+              this.predmetKorisnici.push(this.formBuilder.group({
                 ID: korisnik.ID,
                 Ime: korisnik.Ime,
                 Prezime: korisnik.Prezime,
@@ -103,6 +111,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
               }))
             }
           );
+          console.log(this.subjectFormGroup)
         },
         err => {
           console.log(err);
@@ -113,7 +122,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
         }
       )
     } else {
-      this.DozvoljeniKorisnici.push(this.formBuilder.group({
+      this.predmetKorisnici.push(this.formBuilder.group({
         ID: this.adalUser.ID,
         Ime: this.adalUser.Ime,
         Prezime: this.adalUser.Prezime,
@@ -147,7 +156,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
     if (this.subjectFormGroup.dirty) {
       const modalRef = this.ngbModalService.open(ModalCanDeactivateComponent, { backdrop: 'static', keyboard: false });
-      modalRef.componentInstance.subjectName = this.subjectId ? this.NazivPredmeta.value : '';
+      modalRef.componentInstance.subjectName = this.subjectId ? this.nazivPredmeta.value : '';
       modalRef.result.then((result) => {
         if (result == true) {
           if (this.subjectId) {
@@ -188,7 +197,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
     const modalRef = this.ngbModalService.open(ModalSubjectPermissionComponent, { backdrop: 'static', keyboard: false });
     modalRef.result.then((result) => {
       if (result) {
-        this.DozvoljeniKorisnici.push(this.formBuilder.group({
+        this.predmetKorisnici.push(this.formBuilder.group({
           ID: result.ID,
           Ime: result.Ime,
           Prezime: result.Prezime,
@@ -212,7 +221,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
       this.toastr.warning('Izbrisana je dozvola za rad', 'Uspjeh', {
         progressBar: true
       })
-      this.DozvoljeniKorisnici.removeAt(item)
+      this.predmetKorisnici.removeAt(item)
     }
   }
 
@@ -254,34 +263,35 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   }
 
   addSubject() {
+    console.log(this.subjectFormGroup.value)
     this.subjectService.addSubject(this.subjectFormGroup.value).pipe(untilComponentDestroyed(this))
       .subscribe(response => {
-        localStorage.setItem('subject_id', response.id.toString());
+        localStorage.setItem('subject_id', response.predmetID.toString());
         this.subjectFormGroup.markAsPristine();
         this.toastr.success('Pohranili ste novi predmet', 'Uspjeh', {
           progressBar: true
         });
         this.navigationService.publishNavigationChange();
-        this.router.navigate(['subject', response.id]);
+        this.router.navigate(['subject', response.predmetID]);
       })
   }
 
-  get BrojPredmeta(): AbstractControl {
-    return this.subjectFormGroup.get('BrojPredmeta');
+  get brojPredmeta(): AbstractControl {
+    return this.subjectFormGroup.get('brojPredmeta');
   }
-  get DatumOtvaranja(): AbstractControl {
-    return this.subjectFormGroup.get('DatumOtvaranja');
+  get datumOtvaranja(): AbstractControl {
+    return this.subjectFormGroup.get('datumOtvaranja');
   }
-  get NazivPredmeta(): AbstractControl {
-    return this.subjectFormGroup.get('NazivPredmeta');
+  get nazivPredmeta(): AbstractControl {
+    return this.subjectFormGroup.get('nazivPredmeta');
   }
-  get StatusPredmeta(): AbstractControl {
-    return this.subjectFormGroup.get('StatusPredmeta');
+  get statusPredmetaID(): AbstractControl {
+    return this.subjectFormGroup.get('statusPredmetaID');
   }
-  get Napomena(): AbstractControl {
-    return this.subjectFormGroup.get('Napomena');
+  get napomena(): AbstractControl {
+    return this.subjectFormGroup.get('napomena');
   }
-  get DozvoljeniKorisnici(): FormArray {
-    return this.subjectFormGroup.get('DozvoljeniKorisnici') as FormArray;
+  get predmetKorisnici(): FormArray {
+    return this.subjectFormGroup.get('predmetKorisnici') as FormArray;
   }
 }

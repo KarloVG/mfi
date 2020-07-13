@@ -5,7 +5,8 @@ import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item'
 import { BaseService } from '../services/base.service';
 import { forkJoin, Observable } from 'rxjs';
 import { ReactiveFormValidatorService } from '../services/reactive-form-validator.service';
-import { IBaseItem } from '../models/base-item';
+import { ITipOsobe } from '../models/tip-osobe';
+import { IOsoba } from '../models/osoba';
 
 @Component({
   selector: 'app-modal-add-person',
@@ -14,17 +15,26 @@ import { IBaseItem } from '../models/base-item';
 })
 export class ModalAddPersonComponent implements OnInit {
 
-  @Input() baseItem: IBaseItem;
+  @Input() osoba: IOsoba;
   personGroup: FormGroup = this.formBuilder.group({
-    OsobaID: [''],
-    Naziv: ['', Validators.required],
-    TipOsobe: [null, Validators.required],
-    IdBroj: [''],
-    VrstaIdBroja: [null]
+    osobaID: [''],
+    naziv: ['', Validators.required],
+    tipOsobe: [null, Validators.required],
+    idBroj: [''],
+    vrstaIdBroja: [null]
   })
   identificationTypes: ISimpleDropdownItem[] = [];
-  personTypes: ISimpleDropdownItem[] = [];
-  $observableJoin: Observable<[ ISimpleDropdownItem[], ISimpleDropdownItem[]  ]>;
+  personTypes: ITipOsobe[] = [
+    {
+      ID: 1,
+      naziv: 'Fizička'
+    },
+    {
+      ID: 2,
+      naziv: 'Pravna'
+    }
+  ];
+  $observableJoin: Observable<[ISimpleDropdownItem[]]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,24 +45,24 @@ export class ModalAddPersonComponent implements OnInit {
 
   ngOnInit(): void {
     this.$observableJoin = forkJoin(
-      this.baseService.getPersonTypes(),
+      // this.baseService.getPersonTypes(),
       this.baseService.getIdentificationTypes()
     );
 
-    this.$observableJoin.subscribe( data => {
-      this.personTypes = data[0];
-      this.identificationTypes = data[1];
-      console.log(this.baseItem)
-      if(this.baseItem && this.baseItem.Osoba.IdBroj) {
+    this.$observableJoin.subscribe(data => {
+      this.identificationTypes = data[0];
+      if (this.osoba) {
         this.personGroup.patchValue({
-          OsobaID: this.baseItem.Osoba.OsobaID,
-          Naziv: this.baseItem.Osoba.Naziv,
-          TipOsobe: this.baseItem.Osoba.TipOsobeId ? this.baseItem.Osoba.TipOsobeId : this.baseItem.Osoba.TipOsobe.id,
+          osobaID: this.osoba.osobaID,
+          naziv: this.osoba.naziv,
+          tipOsobe: this.osoba.tipOsobe,
         });
-        if(this.baseItem.Osoba.VrstaId || this.baseItem.Osoba.VrstaIdBroja) {
-          const vrsta = this.baseItem.Osoba.VrstaId ? this.baseItem.Osoba.VrstaId : this.baseItem.Osoba.VrstaIdBroja.id;
-          this.personGroup.patchValue({ VrstaIdBroja: vrsta });
-          this.reactiveFormService.setValidatorAfterViewInit(this.personGroup,this.baseItem.Osoba.IdBroj, 'IdBroj');
+        if (this.osoba.vrstaIdBroja) {
+          const vrsta = this.osoba.vrstaIdBroja;
+          this.personGroup.patchValue({ vrstaIdBroja: vrsta });
+          this.reactiveFormService.setValidatorAfterViewInit(this.personGroup, this.osoba.idBroj, 'idBroj');
+        } else if (this.osoba.idBroj) {
+          this.personGroup.patchValue({ idBroj: this.osoba.idBroj });
         }
       }
     })
@@ -63,15 +73,15 @@ export class ModalAddPersonComponent implements OnInit {
   }
 
   onSubmit() {
-    if(this.personGroup.invalid) {
+    if (this.personGroup.invalid) {
       return;
     } else {
-      if(this.baseItem) {
-        this.baseService.editPersonOnBase(this.baseItem,this.personGroup.value, this.personTypes, this.identificationTypes).subscribe(data=> {
+      if (this.osoba) {
+        this.baseService.editPersonOnBase(this.personGroup.value).subscribe(data => {
           this.modal.close(true);
         })
       } else {
-        this.baseService.addPersonOnBase(this.personGroup.value, this.personTypes, this.identificationTypes).subscribe(data=> {
+        this.baseService.addPersonOnBase(this.personGroup.value).subscribe(data => {
           this.modal.close(true);
         })
       }
@@ -79,27 +89,27 @@ export class ModalAddPersonComponent implements OnInit {
   }
 
   onChangeIDType(event) {
-    const idNumber = this.IdBroj.value ? this.IdBroj.value : '';
-    if(event && event.id) {
-      this.reactiveFormService.setValidatorAfterViewInit(this.personGroup, idNumber , 'IdBroj');
+    const idNumber = this.idBroj.value ? this.idBroj.value : '';
+    if (event && event.id) {
+      this.reactiveFormService.setValidatorAfterViewInit(this.personGroup, idNumber, 'idBroj');
     } else {
-      this.reactiveFormService.removeValidatorAfterViewInit(this.personGroup, '' , 'IdBroj');
+      this.reactiveFormService.removeValidatorAfterViewInit(this.personGroup, '', 'idBroj');
     }
   }
 
-  get OsobaID(): AbstractControl {
-    return this.personGroup.get('OsobaID');
+  get osobaID(): AbstractControl {
+    return this.personGroup.get('osobaID');
   }
-  get Naziv(): AbstractControl {
-    return this.personGroup.get('Naziv');
+  get naziv(): AbstractControl {
+    return this.personGroup.get('naziv');
   }
-  get TipOsobe(): AbstractControl {
-    return this.personGroup.get('TipOsobe');
+  get tipOsobe(): AbstractControl {
+    return this.personGroup.get('tipOsobe');
   }
-  get IdBroj(): AbstractControl {
-    return this.personGroup.get('IdBroj');
+  get idBroj(): AbstractControl {
+    return this.personGroup.get('idBroj');
   }
-  get VrstaIdBroja(): AbstractControl {
-    return this.personGroup.get('VrstaIdBroja');
+  get vrstaIdBroja(): AbstractControl {
+    return this.personGroup.get('vrstaIdBroja');
   }
 }
