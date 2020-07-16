@@ -8,6 +8,7 @@ import { IBaseItem } from '../models/base-item';
 import { ICreateOsobaRequest } from '../models/create-osoba-request';
 import { LocalStoreSubjectService } from 'src/app/shared/services/local-store-subject.service';
 import { IEditOsobaRequest } from '../models/edit-osoba-request';
+import { IOsobaDropdown } from '../models/osoba-dropdown';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,14 @@ export class BaseService {
     if(token) {
       const url = this.urlHelper.getUrl(this.BASE_ITEMS, 'predmet', token);
       return this.http.get<IBaseItem[]>(url);
+    }
+  }
+
+  getOsobeDropdown(): Observable<IOsobaDropdown[]> {
+    const token = this.subjectLocalService.hasToken();
+    if(token) {
+      const url = this.urlHelper.getUrl(this.BASE_ITEMS, 'odabirOsobe', token);
+      return this.http.get<IOsobaDropdown[]>(url);
     }
   }
 

@@ -2,9 +2,10 @@ import { Component, OnInit, Input, ViewChild, OnDestroy, HostListener, ElementRe
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { ValidationTemplateService } from '../../services/validation-template.service';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { ImportFileService } from '../../services/import-file.service';
+import { IOsobaDropdown } from '../../models/osoba-dropdown';
+import { BaseService } from '../../services/base.service';
+import { FinancijskaTransakcijaService } from '../../services/financijska-transakcija.service';
 
 @Component({
   selector: 'app-modal-import-file',
@@ -22,11 +23,11 @@ export class ModalImportFileComponent implements OnInit, OnDestroy {
   extracts: any[] = [];
   errorName: string = '';
 
-  @Input() peopleOnSubject: ISimpleDropdownItem[] = [];
+  osobeNaPredmetu: IOsobaDropdown[] = [];
 
   importFromFileGroup: FormGroup = this.formBuilder.group({
     template: [null],
-    person: [null, Validators.required]
+    osoba: [null, Validators.required]
   })
 
   @HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
@@ -38,22 +39,20 @@ export class ModalImportFileComponent implements OnInit, OnDestroy {
     private host: ElementRef<HTMLInputElement>,
     private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private validationTemplateService: ValidationTemplateService,
-    private importService: ImportFileService
+    private financijskaTransakcijaService: FinancijskaTransakcijaService,
+    private baseService: BaseService
   ) { }
 
   ngOnInit(): void {
-    this.importService.tryoutGet(1).subscribe(data=>{
-      console.log(data)
-    })
-
+    this.dohvatiOsobeNaPredmetu();
+    this.dohvatiTemplate();
     // this.validationTemplates = [
     //   {
     //     id: 1,
     //     name: 'template_example.jsonc'
     //   }
     // ];
-    // this.getValidationTemplates();
+    
   }
 
   ngOnDestroy(): void { }
@@ -66,23 +65,29 @@ export class ModalImportFileComponent implements OnInit, OnDestroy {
     console.log('tutu', evt)
   }
 
-  getValidationTemplates() {
-    this.validationTemplateService.getTemplates().pipe(untilComponentDestroyed(this)).subscribe(
+  dohvatiTemplate() {
+    this.financijskaTransakcijaService.getTemplates().pipe(untilComponentDestroyed(this)).subscribe(
       data => {
         this.validationTemplates = data;
+        console.log(this.validationTemplates)
       }
     )
   }
 
+  dohvatiOsobeNaPredmetu() {
+    this.baseService.getOsobeDropdown().subscribe( data=>{
+      this.osobeNaPredmetu = data;
+    });
+  }
+
   onSubmit() {
+    console.log(this.importFromFileGroup.value)
     if (this.fileInput) {
       if (this.importFromFileGroup.invalid) {
         return;
       } else {
         this.isLoadingResponse = true;
-        console.log('usao')
-        this.importService.validateFile(this.fileInput, this.template.value).subscribe(data => {
-          console.log(data)
+        this.financijskaTransakcijaService.validateFile(this.osoba.value,this.fileInput, this.template.value).subscribe(data => {
           data.forEach(
             (element, index,array) => {
               if (element.errors && element.errors.length) {
@@ -106,7 +111,7 @@ export class ModalImportFileComponent implements OnInit, OnDestroy {
                 if(this.errors.length == 0) {
                   console.log(this.importSuccess)
                   const modalResponse = {
-                    personId: this.person.value,
+                    personId: this.osoba.value,
                     extracts: this.extracts}
                   this.modal.close(modalResponse)
                 }
@@ -114,7 +119,6 @@ export class ModalImportFileComponent implements OnInit, OnDestroy {
             }
           );
         })
-        // u error() od observabla nedostaje importSuccess = false!!!
       }
     } else {
       return;
@@ -130,7 +134,7 @@ export class ModalImportFileComponent implements OnInit, OnDestroy {
   get template(): AbstractControl {
     return this.importFromFileGroup.get('template');
   }
-  get person(): AbstractControl {
-    return this.importFromFileGroup.get('person');
+  get osoba(): AbstractControl {
+    return this.importFromFileGroup.get('osoba');
   }
 }

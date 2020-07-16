@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
-import { ValidationTemplateService } from '../../services/validation-template.service';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ITirmItem } from '../../models/tirm-item';
@@ -40,7 +39,6 @@ export class ModalImportTirmComponent implements OnInit, OnDestroy {
   constructor(
     private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private validationTemplateService: ValidationTemplateService,
     private tirmService: TirmService,
     private toastrService: ToastrService
   ) {
@@ -81,11 +79,11 @@ export class ModalImportTirmComponent implements OnInit, OnDestroy {
   }
 
   getValidationTemplates() {
-    this.validationTemplateService.getTemplates().pipe(untilComponentDestroyed(this)).subscribe(
-      data => {
-        this.validationTemplates = data;
-      }
-    )
+    // this.validationTemplateService.getTemplates().pipe(untilComponentDestroyed(this)).subscribe(
+    //   data => {
+    //     this.validationTemplates = data;
+    //   }
+    // )
   }
 
   getItemsFromTirm() {
