@@ -9,6 +9,8 @@ import { ICreateOsobaRequest } from '../models/create-osoba-request';
 import { LocalStoreSubjectService } from 'src/app/shared/services/local-store-subject.service';
 import { IEditOsobaRequest } from '../models/edit-osoba-request';
 import { IOsobaDropdown } from '../models/osoba-dropdown';
+import { IGetIzvodRequest } from '../models/get-izvod-request';
+import { ITablicaIzvod } from 'src/app/table/models/tablica-izvod';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +20,7 @@ export class BaseService {
   private readonly BASE_ITEMS = 'Osoba';
   private readonly OSOBA_CONTROLLER = 'Osoba';
   private readonly BASE_CONTROLLER = 'baseExtracts';
+  private readonly IZVOD_CONTROLLER = 'izvod';
   private readonly IDENTIFICATION_CONTROLLER = 'VrstaIdBroja';
 
   constructor(
@@ -31,6 +34,14 @@ export class BaseService {
     if(token) {
       const url = this.urlHelper.getUrl(this.BASE_ITEMS, 'predmet', token);
       return this.http.get<IBaseItem[]>(url);
+    }
+  }
+
+  getIzvodiWithTransakcije(): Observable<ITablicaIzvod[]> {
+    const token = this.subjectLocalService.hasToken();
+    if(token) {
+      const url = this.urlHelper.getUrl(this.IZVOD_CONTROLLER, token);
+      return this.http.get<ITablicaIzvod[]>(url);
     }
   }
 
