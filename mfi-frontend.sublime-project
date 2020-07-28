@@ -4,7 +4,7 @@
     {
       "path": ".",
       "name": "MFI Frontend",
-      "folder_exclude_patterns": ["node_modules", "dist", "e2e"],
+      "folder_exclude_patterns": ["node_modules", "dist", "e2e", ".vs"],
       "file_exclude_patterns": ["npm-debug.log", "*.bak", "*.min.js", "*.sublime-workspace"]
     }
   ]
