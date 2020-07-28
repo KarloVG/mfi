@@ -44,7 +44,6 @@ export class ModalOpenSubjectComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void { }
 
   onSubmit(): void {
-    console.log(this.existingSubjectGroup)
     if (this.existingSubjectGroup.invalid) {
       return;
     } else {

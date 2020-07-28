@@ -27,13 +27,14 @@
 </div>
 
 <div class="container" *ngIf="subject">
+    <pre class="d-none">{{subject|json}}</pre>
     <div class="input-group">
         <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
             <label for="BrojPredmeta" style="font-size: 18px;">
                 Broj predmeta:
             </label>
             <strong class="ml-3">
-                {{ subject.BrojPredmeta }}
+                {{ subject.brojPredmeta }}
             </strong>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
@@ -41,7 +42,7 @@
                 Datum otvaranja predmeta:
             </label>
             <strong class="ml-3">
-                {{ subject.DatumOtvaranja | date: 'dd.MM.yyyy' }}
+                {{ subject.datumOtvaranja | date: 'dd.MM.yyyy' }}
             </strong>
         </div>
     </div>
@@ -50,7 +51,7 @@
             Naziv predmeta:
         </label>
         <strong class="ml-3">
-            {{ subject.NazivPredmeta }}
+            {{ subject.nazivPredmeta }}
         </strong>
     </div>
     <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
@@ -58,7 +59,7 @@
             Status predmeta:
         </label>
         <strong class="ml-3">
-            {{ subjectStatus.name }}
+            {{ subject.statusPredmeta.naziv }}
         </strong>
     </div>
     <div class="col-sm-12 col-md-12 col-lg-12 mb-5">
@@ -75,13 +76,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let korisnik of subject.DozvoljeniKorisnici; let i = index">
-                    <th scope="row">{{ i + 1 }}</th>
+                <tr *ngFor="let korisnik of subject.predmetKorisnici; let i = index">
+                    <th scope="row">{{ korisnikID }}</th>
                     <td>{{ korisnik.Ime }}</td>
                     <td>{{ korisnik.Prezime }}</td>
                     <td>{{ korisnik.Email }}</td>
                 </tr>
-                <tr *ngIf="subject.DozvoljeniKorisnici.length == 0">
+                <tr *ngIf="subject.predmetKorisnici.length == 0">
                     <td>n/a</td>
                     <td>n/a</td>
                     <td>n/a</td>
@@ -95,7 +96,7 @@
             Napomena:
         </label>
         <strong class="ml-3">
-            {{ subject.Napomena }}
+            {{ subject.napomena }}
         </strong>
     </div>
 </div>

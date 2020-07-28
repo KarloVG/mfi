@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlTree } from '@angular/router';
-import { LocalStoreSubjectService } from '../local-store-subject.service';
+import { SubjectService } from '../subject.service';
 import { ToastrService } from 'ngx-toastr';
 import { NavigationService } from '../navigation.service';
 
@@ -11,8 +11,8 @@ import { NavigationService } from '../navigation.service';
 export class SubjectGuard implements CanActivate {
 
   constructor(
-    private router: Router, 
-    private localStoreService: LocalStoreSubjectService,
+    private router: Router,
+    private storeService: SubjectService,
     private toastrService: ToastrService,
     private navigationService: NavigationService
   ) { }
@@ -20,7 +20,7 @@ export class SubjectGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(this.localStoreService.hasToken()){
+      if(this.storeService.hasToken()){
         return true;
       }
       else{

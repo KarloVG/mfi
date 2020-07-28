@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStoreSubjectService } from 'src/app/shared/services/local-store-subject.service';
+import { SubjectService } from 'src/app/shared/services/subject.service';
 import { NavigationService, IMenuItem } from 'src/app/shared/services/navigation.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOpenSubjectComponent } from 'src/app/subject/subject-detail/modal-open-subject/modal-open-subject.component';
@@ -21,7 +21,7 @@ export class SidebarComponent implements OnInit {
     private ngbModalService: NgbModal,
     private router: Router,
     private toastrService: ToastrService,
-    private localstoreService: LocalStoreSubjectService,
+    private storeService: SubjectService,
     private aRoute: ActivatedRoute
   ) {
     this.router.events.subscribe((event) => {
@@ -52,7 +52,7 @@ export class SidebarComponent implements OnInit {
   }
 
   navigateToNewSubject() {
-    const subjectToken = this.localstoreService.hasToken();
+    const subjectToken = this.storeService.hasToken();
     if (subjectToken) {
       const modalRef = this.ngbModalService.open(ModalCanDeactivateComponent, { backdrop: 'static', keyboard: false });
       modalRef.result.then((result) => {
@@ -78,7 +78,7 @@ export class SidebarComponent implements OnInit {
   }
 
   openSubjectModal(): void {
-    const subjectToken = this.localstoreService.hasToken();
+    const subjectToken = this.storeService.hasToken();
     if (subjectToken) {
       const modalRef = this.ngbModalService.open(ModalCanDeactivateComponent, { backdrop: 'static', keyboard: false });
       modalRef.result.then((result) => {
@@ -115,7 +115,7 @@ export class SidebarComponent implements OnInit {
   }
 
   exitSubject(): void {
-    const subjectToken = this.localstoreService.hasToken();
+    const subjectToken = this.storeService.hasToken();
     if (subjectToken) {
       const modalRef = this.ngbModalService.open(ModalCanDeactivateComponent, { backdrop: 'static', keyboard: false });
       modalRef.result.then((result) => {
@@ -141,7 +141,7 @@ export class SidebarComponent implements OnInit {
   }
 
   saveSubject() {
-    const subjectToken = this.localstoreService.hasToken();
+    const subjectToken = this.storeService.hasToken();
     if (subjectToken) {
       this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
         progressBar: true

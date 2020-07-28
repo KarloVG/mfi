@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { ToastrService } from 'ngx-toastr';
 import { ModalCanDeactivateComponent } from 'src/app/subject/subject-add-or-edit/modal-can-deactivate/modal-can-deactivate.component';
-import { LocalStoreSubjectService } from 'src/app/shared/services/local-store-subject.service';
+import { SubjectService } from 'src/app/shared/services/subject.service';
 
 @Component({
   selector: 'app-homepage',
@@ -18,7 +18,7 @@ export class HomepageComponent implements OnInit {
     private ngbModalService: NgbModal,
     private router: Router,
     private navService: NavigationService,
-    private localstoreService: LocalStoreSubjectService,
+    private storeService: SubjectService,
     private toastrService : ToastrService
   ) { }
 
@@ -26,7 +26,7 @@ export class HomepageComponent implements OnInit {
   }
 
   openSubjectModal(): void {
-    const subjectToken = this.localstoreService.hasToken();
+    const subjectToken = this.storeService.hasToken();
     if (subjectToken) {
       const modalRef = this.ngbModalService.open(ModalCanDeactivateComponent, { backdrop: 'static', keyboard: false });
       modalRef.result.then((result) => {

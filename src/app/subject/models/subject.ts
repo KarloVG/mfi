@@ -1,12 +1,26 @@
 import { ISubjectPermission } from './subject-permission';
 
 export interface ISubject {
-    id: number,
-    PredmetID: number,
-    BrojPredmeta: string,
-    NazivPredmeta: string,
-    DatumOtvaranja: string | Date,
-    StatusPredmeta: number,
-    Napomena: string,
-    DozvoljeniKorisnici: ISubjectPermission[];
+    id?: number,
+    predmetID: number,
+    brojPredmeta: string,
+    nazivPredmeta: string,
+    datumOtvaranja: string | Date,
+    statusPredmetaID: number,
+    statusPredmeta?: string,
+    dijagramPredmetaID?: number,
+    napomena: string,
+    predmetKorisnici: ISubjectPermission[];
 }
+/*
+export interface ISubject {
+    id: number,
+    predmetID: number,
+    brojPredmeta: string,
+    nazivPredmeta: string,
+    datumOtvaranja: string | Date,
+    statusPredmeta: number,
+    napomena: string,
+    predmetKorisnici: ISubjectPermission[];
+}
+*/

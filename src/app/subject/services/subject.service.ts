@@ -7,14 +7,14 @@ import { map } from 'rxjs/operators';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 import * as moment from 'moment';
 
-@Injectable({ 
+@Injectable({
   providedIn: 'root'
 })
 export class SubjectService {
 
   constructor(private http: HttpClient, private urlHelper: UrlHelperService) { }
 
-  private readonly CONTROLER_NAME = 'subjects';
+  private readonly CONTROLER_NAME = 'Predmet';
 
   getSubjects(): Observable<ISubject[]> {
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
@@ -30,7 +30,7 @@ export class SubjectService {
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
     return this.http.get<ISubject[]>(url).pipe(map(response => {
       return response.map(el => {
-        const item: ISimpleDropdownItem = { id: el.id , name: `Predmet '${el.NazivPredmeta}' (${moment(el.DatumOtvaranja).format('DD.MM.YYYY')})` }
+        const item: ISimpleDropdownItem = { id: el.predmetID , name: `Predmet '${el.nazivPredmeta}' (${moment(el.datumOtvaranja).format('DD.MM.YYYY')})` }
         return item
       })
     }));
@@ -38,12 +38,12 @@ export class SubjectService {
 
   addSubject(formData: ISubject): Observable<ISubject> {
     const requestData = {
-      BrojPredmeta: formData.BrojPredmeta,
-      DatumOtvaranja: formData.DatumOtvaranja,
-      DozvoljeniKorisnici: formData.DozvoljeniKorisnici,
-      Napomena: formData.Napomena,
-      NazivPredmeta: formData.NazivPredmeta,
-      StatusPredmeta: formData.StatusPredmeta
+      brojPredmeta: formData.brojPredmeta,
+      datumOtvaranja: formData.datumOtvaranja,
+      dozvoljeniKorisnici: formData.predmetKorisnici,
+      napomena: formData.napomena,
+      nazivPredmeta: formData.nazivPredmeta,
+      statusPredmetaID: formData.statusPredmetaID
     }
 
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
@@ -52,13 +52,13 @@ export class SubjectService {
 
   editSubject(subjectId: number, formData:ISubject): Observable<ISubject> {
     const requestData = {
-      id: subjectId,
-      BrojPredmeta: formData.BrojPredmeta,
-      DatumOtvaranja: formData.DatumOtvaranja,
-      DozvoljeniKorisnici: formData.DozvoljeniKorisnici,
-      Napomena: formData.Napomena,
-      NazivPredmeta: formData.NazivPredmeta,
-      StatusPredmeta: formData.StatusPredmeta
+      predmetID: subjectId,
+      brojPredmeta: formData.brojPredmeta,
+      datumOtvaranja: formData.datumOtvaranja,
+      dozvoljeniKorisnici: formData.predmetKorisnici,
+      napomena: formData.napomena,
+      nazivPredmeta: formData.nazivPredmeta,
+      statusPredmetaID: formData.statusPredmetaID
     }
 
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME);

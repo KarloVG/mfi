@@ -11,8 +11,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SubjectService } from './shared/services/subject.service';
 import { LocalStoreFilterService } from './shared/services/local-store-filter.service';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { ChartsModule } from '@rinminase/ng-charts';
-import { ChartModule } from '@syncfusion/ej2-angular-charts';
 
 @NgModule({
   declarations: [
@@ -26,8 +24,6 @@ import { ChartModule } from '@syncfusion/ej2-angular-charts';
     AppRoutingModule,
     HttpClientModule,
     NgxChartsModule,
-    ChartsModule,
-    ChartModule,
   ],
   providers: [
     SubjectService,
