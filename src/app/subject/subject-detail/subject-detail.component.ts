@@ -44,8 +44,7 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
   }
 
   // moramo imati zbog untilComponentDestroyed
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   navigateToEdit(): void {
     this.router.navigate(['subject/edit', this.subjectId]);

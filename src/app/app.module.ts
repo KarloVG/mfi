@@ -30,6 +30,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     LocalStoreFilterService
   ],
   bootstrap: [AppComponent],
-  exports: [ RouterModule ]
+  exports: [
+    RouterModule,
+  ]
 })
 export class AppModule { }

@@ -7,20 +7,8 @@ export interface ISubject {
     nazivPredmeta: string,
     datumOtvaranja: string | Date,
     statusPredmetaID: number,
-    statusPredmeta?: string,
+    statusPredmeta?: any,
     dijagramPredmetaID?: number,
     napomena: string,
     predmetKorisnici: ISubjectPermission[];
 }
-/*
-export interface ISubject {
-    id: number,
-    predmetID: number,
-    brojPredmeta: string,
-    nazivPredmeta: string,
-    datumOtvaranja: string | Date,
-    statusPredmeta: number,
-    napomena: string,
-    predmetKorisnici: ISubjectPermission[];
-}
-*/

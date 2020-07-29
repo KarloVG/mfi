@@ -18,7 +18,7 @@
         <span class="fas fa-times-circle"></span>
         <span class="ml-2">Zatvori predmet</span>
       </button>
-      <button type="button" class="btn btn-secondary mr-3" (click)="deleteSubject()">
+      <button type="button" class="btn btn-danger mr-3" (click)="deleteSubject()">
         <span class="fas fa-trash"></span>
         <span class="ml-2">Obriši predmet</span>
       </button>
@@ -27,7 +27,6 @@
 </div>
 
 <div class="container" *ngIf="subject">
-    <pre class="d-none">{{subject|json}}</pre>
     <div class="input-group">
         <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
             <label for="BrojPredmeta" style="font-size: 18px;">
@@ -77,7 +76,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let korisnik of subject.predmetKorisnici; let i = index">
-                    <th scope="row">{{ korisnikID }}</th>
+                    <th scope="row">{{ i + 1 }}</th>
                     <td>{{ korisnik.Ime }}</td>
                     <td>{{ korisnik.Prezime }}</td>
                     <td>{{ korisnik.Email }}</td>
