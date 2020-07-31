@@ -34,7 +34,7 @@ export class ModalSubjectPermissionComponent implements OnInit {
 
   //future backend filtering - will be refactored when backend comes
   filterUserTable() {
-      let searchVal = this.Ime.value.toLowerCase();
+      let searchVal = this.ime.value.toLowerCase();
       let colsAmt = 10;
       let keys = Object.keys(this.subjectPermissions[0]);
 
@@ -94,13 +94,13 @@ export class ModalSubjectPermissionComponent implements OnInit {
     }
   }
 
-  get Ime() {
-    return this.subjectPermisionGroup.get('Ime');
+  get ime() {
+    return this.subjectPermisionGroup.get('ime');
   }
-  get Prezime() {
-    return this.subjectPermisionGroup.get('Prezime');
+  get prezime() {
+    return this.subjectPermisionGroup.get('prezime');
   }
-  get Email() {
-    return this.subjectPermisionGroup.get('Email');
+  get loginName() {
+    return this.subjectPermisionGroup.get('loginName');
   }
 }
