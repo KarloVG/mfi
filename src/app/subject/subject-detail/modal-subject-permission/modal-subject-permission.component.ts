@@ -14,29 +14,30 @@ import { ToastrService } from 'ngx-toastr';
 export class ModalSubjectPermissionComponent implements OnInit {
 
   subjectPermisionGroup: FormGroup = this.formBuilder.group({
-    Ime: [''],
-    Prezime: [''],
-    Email: [''],
+    ime: [''],
+    prezime: [''],
+    loginName: [''],
+    isFromAd: [false],
   });
 
   isAdalSearchActive: boolean = false;
   dataBindingObject: ISubjectPermission;
   filteredSubjectPermissions: ISubjectPermission[] = [];
   subjectPermissions: ISubjectPermission[] = [];
-  
+
   constructor(
     private formBuilder: FormBuilder,
     public modal: NgbActiveModal,
     private subjectPermisssionService: SubjectPermissionervice,
     private toastr: ToastrService
-  ) { }
+  ) {}
 
   //future backend filtering - will be refactored when backend comes
   filterUserTable() {
       let searchVal = this.Ime.value.toLowerCase();
       let colsAmt = 10;
       let keys = Object.keys(this.subjectPermissions[0]);
-  
+
       this.filteredSubjectPermissions = this.subjectPermissions.filter(function (item) {
         for (let i = 0; i < colsAmt; i++) {
           if (item[keys[i]] != null && item[keys[i]].toString().toLowerCase().indexOf(searchVal) !== -1 || !searchVal) {
@@ -49,7 +50,7 @@ export class ModalSubjectPermissionComponent implements OnInit {
   selectPermissionUser(event: MouseEvent, permission: ISubjectPermission) {
     this.filteredSubjectPermissions.forEach(
       element => {
-        if(element.ID == permission.ID) {
+        if(element.korisnikID == permission.korisnikID) {
           element.Flag = true;
           this.dataBindingObject = element;
         } else {
@@ -82,7 +83,7 @@ export class ModalSubjectPermissionComponent implements OnInit {
       }
     )
   }
-  
+
   onSubmit() {
     if(this.dataBindingObject) {
       this.modal.close(this.dataBindingObject);

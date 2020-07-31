@@ -11,11 +11,11 @@ export class SubjectPermissionervice {
 
   constructor(private http: HttpClient, private urlHelper: UrlHelperService) { }
 
-  private readonly CONTROLER_NAME = 'subjectPermissions';
+  private readonly CONTROLER_NAME = 'Korisnik';
 
   getPermissions(): Observable<ISubjectPermission[]> {
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
-    console.log(url)
+    console.log('SPSx', url)
     return this.http.get<ISubjectPermission[]>(url);
   }
 }

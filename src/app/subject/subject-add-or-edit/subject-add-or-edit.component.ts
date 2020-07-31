@@ -52,12 +52,12 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   subjectName: string = '';
 
   adalUser: ISubjectPermission = {
-    ID: 15,
-    Ime: 'Željko',
-    Prezime: 'Malnar',
+    korisnikID: 15,
+    ime: 'Željko',
+    prezime: 'Malnar',
     Flag: false,
-    Email: 'zeljko.malnar@gmail.com',
-    isAdalUser: true
+    loginName: 'zeljko.malnar@gmailloginName',
+    isFromAd: true
   }
 
   constructor(
@@ -94,18 +94,17 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
           this.subject.predmetKorisnici.forEach(
             korisnik => {
               this.predmetKorisnici.push(this.formBuilder.group({
-                ID: korisnik.ID,
-                Ime: korisnik.Ime,
-                Prezime: korisnik.Prezime,
+                korisnikID: korisnik.korisnikID,
+                ime: korisnik.ime,
+                prezime: korisnik.prezime,
                 Flag: korisnik.Flag,
-                Email: korisnik.Email,
-                isAdalUser: korisnik.isAdalUser
+                loginName: korisnik.loginName,
+                isFromAd: korisnik.isFromAd
               }))
             }
           );
         },
         err => {
-          console.log(err);
           /* ovo maknuti kad stigne backend */
           localStorage.removeItem('subject_id');
           this.navigationService.publishNavigationChange();
@@ -114,19 +113,18 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
       )
     } else {
       this.predmetKorisnici.push(this.formBuilder.group({
-        ID: this.adalUser.ID,
-        Ime: this.adalUser.Ime,
-        Prezime: this.adalUser.Prezime,
+        korisnikID: this.adalUser.korisnikID,
+        ime: this.adalUser.ime,
+        prezime: this.adalUser.prezime,
         Flag: this.adalUser.Flag,
-        Email: this.adalUser.Email,
-        isAdalUser: this.adalUser.isAdalUser
+        loginName: this.adalUser.loginName,
+        isFromAd: this.adalUser.isFromAd
       }));
     }
   }
 
   // moramo imati zbog untilComponentDestroyed
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   getSubjectStatuses(): void {
     this.subjectStatusService.getSubjectStatuses().pipe(untilComponentDestroyed(this)).subscribe(
@@ -189,12 +187,12 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
     modalRef.result.then((result) => {
       if (result) {
         this.predmetKorisnici.push(this.formBuilder.group({
-          ID: result.ID,
-          Ime: result.Ime,
-          Prezime: result.Prezime,
+          korisnikID: result.korisnikID,
+          ime: result.ime,
+          prezime: result.prezime,
           Flag: result.Flag,
-          Email: result.Email,
-          isAdalUser: result.isAdalUser
+          loginName: result.loginName,
+          isFromAd: result.isFromAd
         }));
         this.toastr.success('Dodana je nova dozvola na rad', 'Uspjeh', {
           progressBar: true
@@ -204,7 +202,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   }
 
   removePermission(user, item) {
-    if (user.value && user.value.isAdalUser) {
+    if (user.value && user.value.isFromAd) {
       this.toastr.error('Korisnika koji je kreirao predmet nije moguće izbrisati!', 'Pogreška', {
         progressBar: true
       });
