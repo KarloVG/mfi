@@ -6,11 +6,10 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule }    from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SubjectService } from './shared/services/subject.service';
 import { LocalStoreFilterService } from './shared/services/local-store-filter.service';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { SubjectService } from './shared/services/subject.service';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -23,7 +22,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     SharedModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxChartsModule,
+    ChartsModule
   ],
   providers: [
     SubjectService,

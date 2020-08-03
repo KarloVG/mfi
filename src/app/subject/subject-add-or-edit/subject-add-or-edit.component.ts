@@ -106,11 +106,12 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
                 Ime: korisnik.ime,
                 Prezime: korisnik.prezime,
                 Flag: korisnik.Flag,
-                loginName: korisnik.loginName,
+                LoginName: korisnik.loginName,
                 isFromAd: korisnik.isFromAd
               }))
             }
           );
+          console.log('predmetKorisnici',this.predmetKorisnici)
           console.log(this.subjectFormGroup)
         },
         err => {
@@ -126,7 +127,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
         Ime: this.adalUser.ime,
         Prezime: this.adalUser.prezime,
         Flag: this.adalUser.Flag,
-        loginName: this.adalUser.loginName,
+        LoginName: this.adalUser.loginName,
         isFromAd: this.adalUser.isFromAd
       }));
     }
