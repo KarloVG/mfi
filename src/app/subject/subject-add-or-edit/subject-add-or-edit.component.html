@@ -20,11 +20,11 @@
   <div class="col-12 bg-light border py-3 mb-5">
     <div class="row">
       <div class="col-10">
-        <button type="submit" class="btn btn-secondary mr-3">
+        <button type="submit" class="btn btn-primary mr-3">
           <span class="fas fa-check-square"></span>
           <span class="ml-2">Pohrani promjene</span>
         </button>
-        <button type="button" class="btn btn-secondary mr-3" (click)="navigateToWelcome()">
+        <button type="button" class="btn btn-outline-secondary mr-3" (click)="navigateToWelcome()">
           <span class="fas fa-times"></span>
           <span class="ml-2">Odustani</span>
         </button>
@@ -73,19 +73,20 @@
             <th scope="col">Broj</th>
             <th scope="col">Ime</th>
             <th scope="col">Prezime</th>
-            <th scope="col">E-mail</th>
+            <th scope="col">Korisničko ime</th>
             <th scope="col">Radnje</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let korisnik of predmetKorisnici.controls; let userIndex = index" [formGroupName]="userIndex">
             <th scope="row">{{ userIndex + 1 }}</th>
-            <td>{{ korisnik.get('Ime').value }}</td>
-            <td>{{ korisnik.get('Prezime').value }}</td>
-            <td>{{ korisnik.get('Email').value }}</td>
+            <td>{{ korisnik.get('ime').value }}</td>
+            <td>{{ korisnik.get('prezime').value }}</td>
+            <td>{{ korisnik.get('loginName').value }}</td>
             <td>
               <button type="button" class="btn btn-outline-danger btn-sm px-3 py-1" (click)="removePermission(korisnik,userIndex)">
                 <small class="fas fa-trash"></small>
+                <span class="ml-2">Briši</span>
               </button>
             </td>
           </tr>
@@ -98,7 +99,7 @@
           </tr>
         </tbody>
       </table>
-      <button type="button" class="btn btn-primary float-right" (click)="openPermissionModal()">
+      <button type="button" class="btn btn-secondary float-right" (click)="openPermissionModal()">
         <span class="fas fa-plus-square"></span>
         <span class="ml-2">Dodaj novu dozvolu</span>
       </button>

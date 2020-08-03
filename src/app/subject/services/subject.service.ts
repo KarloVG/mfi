@@ -8,7 +8,7 @@ import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item'
 import * as moment from 'moment';
 import { CreateSubjektRequest } from '../models/create-subjekt-request';
 
-@Injectable({ 
+@Injectable({
   providedIn: 'root'
 })
 export class SubjectService {

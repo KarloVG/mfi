@@ -21,7 +21,7 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
   subjectId: number;
   subject: ISubject;
 
-  //temporarily 
+  //temporarily
   subjectStatus: ISimpleDropdownItem;
 
   constructor(
@@ -44,8 +44,7 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
   }
 
   // moramo imati zbog untilComponentDestroyed
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   navigateToEdit(): void {
     this.router.navigate(['subject/edit', this.subjectId]);
@@ -60,7 +59,7 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
         this.subjectService.deleteSubject(this.subjectId).subscribe(
           data => {
             this.toastrService.success('Obrisali ste predmet', 'Uspjeh');
-            localStorage.removeItem('subject_id');
+            localStorage.removeItem('predmetID');
             this.navigationService.publishNavigationChange();
             this.router.navigate(['welcome']);
           }
@@ -86,19 +85,19 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
         console.log(data)
         this.subject = data;
       },
-      err => {  
+      err => {
         console.log(err);
         /* ovo maknuti kad stigne backend */
-        localStorage.removeItem('subject_id');
+        localStorage.removeItem('predmetID');
         this.navigationService.publishNavigationChange();
-        this.router.navigate(['welcome']);  
+        this.router.navigate(['welcome']);
       }
     )
   }
 
   exitSubject(): void {
     this.toastrService.info('Predmet je zatvoren')
-    localStorage.removeItem('subject_id');
+    localStorage.removeItem('predmetID');
     this.navigationService.publishNavigationChange();
     this.router.navigate(['welcome']);
   }

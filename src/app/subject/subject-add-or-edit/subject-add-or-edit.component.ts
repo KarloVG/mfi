@@ -59,12 +59,12 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   subjectName: string = '';
 
   adalUser: ISubjectPermission = {
-    ID: 15,
-    Ime: 'Željko',
-    Prezime: 'Malnar',
+    korisnikID: 15,
+    ime: 'Željko',
+    prezime: 'Malnar',
     Flag: false,
-    Email: 'zeljko.malnar@gmail.com',
-    isAdalUser: true
+    loginName: 'zeljko.malnar@gmailloginName',
+    isFromAd: true
   }
 
   constructor(
@@ -106,15 +106,14 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
                 Ime: korisnik.Ime,
                 Prezime: korisnik.Prezime,
                 Flag: korisnik.Flag,
-                Email: korisnik.Email,
-                isAdalUser: korisnik.isAdalUser
+                loginName: korisnik.loginName,
+                isFromAd: korisnik.isFromAd
               }))
             }
           );
           console.log(this.subjectFormGroup)
         },
         err => {
-          console.log(err);
           /* ovo maknuti kad stigne backend */
           localStorage.removeItem('subject_id');
           this.navigationService.publishNavigationChange();
@@ -127,15 +126,14 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
         Ime: this.adalUser.Ime,
         Prezime: this.adalUser.Prezime,
         Flag: this.adalUser.Flag,
-        Email: this.adalUser.Email,
-        isAdalUser: this.adalUser.isAdalUser
+        loginName: this.adalUser.loginName,
+        isFromAd: this.adalUser.isFromAd
       }));
     }
   }
 
   // moramo imati zbog untilComponentDestroyed
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   getSubjectStatuses(): void {
     this.subjectStatusService.getSubjectStatuses().pipe(untilComponentDestroyed(this)).subscribe(
@@ -202,8 +200,8 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
           Ime: result.Ime,
           Prezime: result.Prezime,
           Flag: result.Flag,
-          Email: result.Email,
-          isAdalUser: result.isAdalUser
+          loginName: result.loginName,
+          isFromAd: result.isFromAd
         }));
         this.toastr.success('Dodana je nova dozvola na rad', 'Uspjeh', {
           progressBar: true
@@ -213,7 +211,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   }
 
   removePermission(user, item) {
-    if (user.value && user.value.isAdalUser) {
+    if (user.value && user.value.isFromAd) {
       this.toastr.error('Korisnika koji je kreirao predmet nije moguće izbrisati!', 'Pogreška', {
         progressBar: true
       });

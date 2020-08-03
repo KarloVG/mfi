@@ -1,9 +1,10 @@
 export interface ISubjectPermission {
     id?: number,
-    ID: number,
-    Ime: string,
-    Prezime: string,
-    Email: string,
+    korisnikID: number,
+    ime: string,
+    prezime: string,
+    loginName: string,
+    email?: string,
     Flag: boolean,
-    isAdalUser?: boolean
+    isFromAd?: boolean
 }

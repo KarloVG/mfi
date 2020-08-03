@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { LocalStoreSubjectService } from './local-store-subject.service';
+import { SubjectService } from './subject.service';
 
 export interface IMenuItem {
     name: string
@@ -18,14 +18,14 @@ export interface IMenuItem {
 export class NavigationService {
 
     constructor(
-        private localStoreService: LocalStoreSubjectService
+        private storeService: SubjectService
     ) { }
 
     getDefaultMenu(): IMenuItem[] {
         return [
             {
                 name: 'predmet',
-                path: '/subject/' + this.localStoreService.hasToken(),
+                path: '/subject/' + this.storeService.hasToken(),
                 descr: 'Predmet',
                 icon: 'fa-folder-open',
                 active: false,
@@ -94,7 +94,7 @@ export class NavigationService {
     menuItems$ = this.menuItems.asObservable();
 
     publishNavigationChange() {
-        if (this.localStoreService.hasToken() == null) {
+        if (this.storeService.hasToken() == null) {
             this.menuItems.next(this.emptyMenu);
         } else {
             this.menuItems.next(this.getDefaultMenu());

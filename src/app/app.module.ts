@@ -7,11 +7,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule }    from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { FakeDataService } from './shared/in-memory-api/fake-data.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LocalStoreSubjectService } from './shared/services/local-store-subject.service';
+import { SubjectService } from './shared/services/subject.service';
 import { LocalStoreFilterService } from './shared/services/local-store-filter.service';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -24,13 +23,19 @@ import { LocalStoreFilterService } from './shared/services/local-store-filter.se
     SharedModule,
     AppRoutingModule,
     HttpClientModule,
+<<<<<<< HEAD
     // HttpClientInMemoryWebApiModule.forRoot(FakeDataService, { delay: 300 })
+=======
+    NgxChartsModule,
+>>>>>>> origin
   ],
   providers: [
-    LocalStoreSubjectService,
+    SubjectService,
     LocalStoreFilterService
   ],
   bootstrap: [AppComponent],
-  exports: [ RouterModule ]
+  exports: [
+    RouterModule,
+  ]
 })
 export class AppModule { }
