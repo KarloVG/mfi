@@ -69,7 +69,7 @@
                         Odaberite predmet <span class="text-danger">*</span>
                     </label>
                     <div class="col-sm-12">
-                        <ng-select [items]="subjects" bindLabel="name" bindValue="id" labelForId="state"
+                        <ng-select [items]="subjects" bindLabel="nazivPredmeta" bindValue="predmetID" labelForId="status"
                             [isOpen]="!isSubjectSelected" placeholder="Izaberi..."
                             formControlName="Subject" [virtualScroll]="true"
                             [ngClass]="{'is-invalid': Subject.invalid && (Subject.dirty || Subject.touched || myForm.submitted)}"

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { SubjectService } from '../services/subject.service';
+import { SubjectApiService } from '../services/subject.service';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray, FormGroupDirective } from '@angular/forms';
 import { SubjectStatusService } from '../services/subject-status.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -45,7 +45,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   });
   subjectId: number;
   subject: ISubject;
-  
+
   private dynamicDate = new Date();
   dynamicToday = {
     year: this.dynamicDate.getFullYear(),
@@ -73,7 +73,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
     private ngbModalService: NgbModal,
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
-    private subjectService: SubjectService,
+    private subjectApiService: SubjectApiService,
     private router: Router,
     private navigationService: NavigationService
   ) { }
@@ -87,7 +87,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
     )
     this.subjectId = +this.activatedRoute.snapshot.paramMap.get('id') || null;
     if (this.subjectId) {
-      this.subjectService.getSubjectById(this.subjectId).pipe(untilComponentDestroyed(this)).subscribe(
+      this.subjectApiService.getSubjectById(this.subjectId).pipe(untilComponentDestroyed(this)).subscribe(
         data => {
           this.subject = data;
           console.log(this.subject)
@@ -140,6 +140,10 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
     this.subjectStatusService.getSubjectStatuses().pipe(untilComponentDestroyed(this)).subscribe(
       data => {
         this.subjectStatuses = data;
+        this.subjectFormGroup.patchValue({
+          statusPredmetaID: this.subjectStatuses.find(itm => { return itm.naziv === 'Priprema' }).statusPredmetaID,
+          datumOtvaranja: new Date()
+        })
       }
     )
   }
@@ -208,7 +212,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
           progressBar: true
         })
       }
-    }).catch((res) => { });
+    }).catch((res) => {});
   }
 
   removePermission(user, item) {
@@ -238,7 +242,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   }
 
   editSubject() {
-    this.subjectService.editSubject(this.subjectId, this.subjectFormGroup.value).pipe(untilComponentDestroyed(this))
+    this.subjectApiService.editSubject(this.subjectId, this.subjectFormGroup.value).pipe(untilComponentDestroyed(this))
       .subscribe(responseData => {
         console.log(responseData)
         this.subjectFormGroup.markAsPristine();
@@ -251,7 +255,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   }
 
   editSubjectWithoutNavigating() {
-    this.subjectService.editSubject(this.subjectId, this.subjectFormGroup.value).pipe(untilComponentDestroyed(this))
+    this.subjectApiService.editSubject(this.subjectId, this.subjectFormGroup.value).pipe(untilComponentDestroyed(this))
       .subscribe(responseData => {
         console.log(responseData)
         this.subjectFormGroup.markAsPristine();
@@ -262,8 +266,8 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   }
 
   addSubject() {
-    console.log(this.subjectFormGroup.value)
-    this.subjectService.addSubject(this.subjectFormGroup.value).pipe(untilComponentDestroyed(this))
+    console.log('ADDSUB', this.subjectFormGroup.value)
+    this.subjectApiService.addSubject(this.subjectFormGroup.value).pipe(untilComponentDestroyed(this))
       .subscribe(response => {
         localStorage.setItem('subject_id', response.predmetID.toString());
         this.subjectFormGroup.markAsPristine();

@@ -3,12 +3,14 @@ import { SubjectStatusService } from '../services/subject-status.service';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SubjectService } from '../services/subject.service';
+import { SubjectApiService } from '../services/subject.service';
 import { ISubject } from '../models/subject';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'src/app/shared/components/confirmation-modal/confirmation-modal.component';
 import { ToastrService } from 'ngx-toastr';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
+import { SubjectService } from 'src/app/shared/services/subject.service';
+import { ModalCanDeactivateComponent } from 'src/app/subject/subject-add-or-edit/modal-can-deactivate/modal-can-deactivate.component';
 
 @Component({
   selector: 'app-subject-detail',
@@ -27,11 +29,14 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
   constructor(
     private subjectStatusService: SubjectStatusService,
     private activatedRoute: ActivatedRoute,
-    private subjectService: SubjectService,
+    private subjectApiService: SubjectApiService,
     private ngbModalService: NgbModal,
     private toastrService: ToastrService,
     private router: Router,
-    private navigationService: NavigationService
+    private navigationService: NavigationService,
+
+    private storeService: SubjectService,
+    private navService: NavigationService,
   ) { }
 
   ngOnInit(): void {
@@ -56,7 +61,7 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.description = `Jeste li sigurni da želite izbrisati predmet: '${this.subject.nazivPredmeta}' sa brojem predmeta '${this.subject.brojPredmeta}'`
     modalRef.result.then((result) => {
       if (result) {
-        this.subjectService.deleteSubject(this.subjectId).subscribe(
+        this.subjectApiService.deleteSubject(this.subjectId).subscribe(
           data => {
             this.toastrService.success('Obrisali ste predmet', 'Uspjeh');
             localStorage.removeItem('predmetID');
@@ -80,7 +85,7 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
   }
 
   getSubjectById() {
-    this.subjectService.getSubjectById(this.subjectId).pipe(untilComponentDestroyed(this)).subscribe(
+    this.subjectApiService.getSubjectById(this.subjectId).pipe(untilComponentDestroyed(this)).subscribe(
       data => {
         console.log(data)
         this.subject = data;
@@ -95,10 +100,29 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
     )
   }
 
-  exitSubject(): void {
-    this.toastrService.info('Predmet je zatvoren')
-    localStorage.removeItem('predmetID');
-    this.navigationService.publishNavigationChange();
-    this.router.navigate(['welcome']);
+  exitSubject(): void { // here
+    const subjectToken = this.storeService.hasToken();
+    if (subjectToken) {
+      const modalRef = this.ngbModalService.open(ModalCanDeactivateComponent, { backdrop: 'static', keyboard: false });
+      modalRef.result.then((result) => {
+        if (result == true) {
+          this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
+            progressBar: true
+          });
+          localStorage.clear();
+          this.navService.publishNavigationChange();
+          this.router.navigate(['welcome']);
+        } else if (result == false) {
+          this.toastrService.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
+            progressBar: true
+          });
+          localStorage.clear();
+          this.navService.publishNavigationChange();
+          this.router.navigate(['welcome']);
+        }
+      })
+    } else {
+      this.toastrService.warning('Ne postoji aktivan predmet', 'Pažnja');
+    }
   }
 }
