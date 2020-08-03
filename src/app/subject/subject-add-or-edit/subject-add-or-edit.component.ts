@@ -141,9 +141,13 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
       data => {
         this.subjectStatuses = data;
         this.subjectFormGroup.patchValue({
-          statusPredmetaID: this.subjectStatuses.find(itm => { return itm.naziv === 'Priprema' }).statusPredmetaID,
-          datumOtvaranja: new Date()
+          statusPredmetaID: this.subjectStatuses.find(itm => { return itm.naziv === 'Priprema' }).statusPredmetaID
         })
+        if (this.subjectId === null && this.subjectFormGroup.get('datumOtvaranja').value == '') {
+          this.subjectFormGroup.patchValue({
+            datumOtvaranja: new Date()
+          })
+        }
       }
     )
   }
