@@ -102,9 +102,9 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
           this.subject.predmetKorisnici.forEach(
             korisnik => {
               this.predmetKorisnici.push(this.formBuilder.group({
-                ID: korisnik.ID,
-                Ime: korisnik.Ime,
-                Prezime: korisnik.Prezime,
+                ID: korisnik.id,
+                Ime: korisnik.ime,
+                Prezime: korisnik.prezime,
                 Flag: korisnik.Flag,
                 loginName: korisnik.loginName,
                 isFromAd: korisnik.isFromAd
@@ -122,9 +122,9 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
       )
     } else {
       this.predmetKorisnici.push(this.formBuilder.group({
-        ID: this.adalUser.ID,
-        Ime: this.adalUser.Ime,
-        Prezime: this.adalUser.Prezime,
+        ID: this.adalUser.id,
+        Ime: this.adalUser.ime,
+        Prezime: this.adalUser.prezime,
         Flag: this.adalUser.Flag,
         loginName: this.adalUser.loginName,
         isFromAd: this.adalUser.isFromAd
