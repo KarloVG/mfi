@@ -80,9 +80,9 @@
         <tbody>
           <tr *ngFor="let korisnik of predmetKorisnici.controls; let userIndex = index" [formGroupName]="userIndex">
             <th scope="row">{{ userIndex + 1 }}</th>
-            <td>{{ korisnik.get('ime').value }}</td>
-            <td>{{ korisnik.get('prezime').value }}</td>
-            <td>{{ korisnik.get('loginName').value }}</td>
+            <td>{{ korisnik.get('Ime').value }}</td>
+            <td>{{ korisnik.get('Prezime').value }}</td>
+            <td>{{ korisnik.get('LoginName').value }}</td>
             <td>
               <button type="button" class="btn btn-outline-danger btn-sm px-3 py-1" (click)="removePermission(korisnik,userIndex)">
                 <small class="fas fa-trash"></small>
