@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { OVERVIEW_COLUMNS } from '../mock-data/base-overview-columns';
 import { BaseService } from '../services/base.service';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -20,7 +19,6 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
 
   @ViewChild('myTable') table: any;
   filterValue: string;
-  columns: any[] = OVERVIEW_COLUMNS;
   isLoading: boolean = true;
   baseItems: IBaseItem[] = [];
   staticValue: IBaseItem[] = [];
@@ -42,10 +40,25 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.baseService.getBaseItems().pipe(untilComponentDestroyed(this)).subscribe(
       data => {
-        console.log(data)
         this.baseItems = data;
         this.staticValue = data;
+        this.baseItems.forEach(el => {
+          el.uvezeneIzliste = el.izvodi.length;
+          if(!el.izvodi.length) {
+            el.brojTransakcija = 0;
+            el.iznosTransakcija = 0;
+          } else {
+            el.izvodi.forEach(izv => {
+              el.brojTransakcija += izv.BrojTransakcija;
+              el.iznosTransakcija += izv.IznosTransakcija;
+            });
+          }
+        });
+        console.log(this.baseItems)
         this.isLoading = false;
+      },
+      err => {
+        console.log(err)
       }
     )
   }
@@ -99,9 +112,10 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
   }
 
   editPerson(row: IBaseItem) {
-    if (row && row.Osoba) {
+    if (row) {
       const modalRef = this.ngbModalService.open(ModalAddPersonComponent, { backdrop: 'static', keyboard: false });
-      modalRef.componentInstance.baseItem = row;
+      modalRef.componentInstance.osoba = row;
+      console.log(row)
       modalRef.result.then((result) => {
         if (result) {
           this.toastr.success('Osoba na predmetu je uređena', 'Uspjeh', {
@@ -117,22 +131,22 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
     }
   }
 
-  deletePerson(row) {
-    if (row && row.Osoba) {
+  deletePerson(row: IBaseItem) {
+    if (row) {
       const modalRef = this.ngbModalService.open(ConfirmationModalComponent, { backdrop: 'static', keyboard: false });
-      if (row.UvezeneIzliste && row.BrojTransakcija) {
+      if (row.uvezeneIzliste && row.brojTransakcija) {
         modalRef.componentInstance.title = 'Brisanje osobe i izlista za osobu';
-        modalRef.componentInstance.description = `Za odabranu fizičku osobu: "${row.Osoba.Naziv}" će biti obrisani SVI uvezeni izlisti: ukupno, biti će obrisano
-        "${row.UvezeneIzliste}" uvezena izlista na kojima je evidentirano "${row.BrojTransakcija}" financijskih transakcija`;
+        modalRef.componentInstance.description = `Za odabranu fizičku osobu: "${row.naziv}" će biti obrisani SVI uvezeni izlisti: ukupno, biti će obrisano
+        "${row.uvezeneIzliste}" uvezena izlista na kojima je evidentirano "${row.brojTransakcija}" financijskih transakcija`;
       } else {
         modalRef.componentInstance.title = 'Uklanjanje osobe sa predmeta';
-        modalRef.componentInstance.description = `Odabrana fizička osoba "${row.Osoba.Naziv}" će biti uklonjena iz baze izlista
+        modalRef.componentInstance.description = `Odabrana fizička osoba "${row.naziv}" će biti uklonjena iz baze izlista
         i neće biti moguće uvoziti izliste za tu osobu`;
       }
       modalRef.componentInstance.class = true; // text danger
       modalRef.result.then((result) => {
         if (result) {
-          this.baseService.deletePersonOnTable(row.id).subscribe(data => {
+          this.baseService.deletePersonOnBase(row.osobaID).subscribe(data => {
             this.toastr.success('Osoba na predmetu je izbrisana', 'Uspjeh', {
               progressBar: true
             });
@@ -151,10 +165,10 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
     this.peopleOnSubject = [];
     this.baseItems.forEach(
       item => {
-        this.peopleOnSubject.push({
-          id: item.Osoba.OsobaID,
-          name: item.Osoba.Naziv
-        })
+        // this.peopleOnSubject.push({
+        //   id: item.Osoba.OsobaID,
+        //   name: item.Osoba.Naziv
+        // })
       }
     );
     const modalRef = this.ngbModalService.open(ModalImportFileComponent, { size: 'lg', backdrop: 'static', keyboard: false });
@@ -176,10 +190,10 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
     this.peopleOnSubject = [];
     this.baseItems.forEach(
       item => {
-        this.peopleOnSubject.push({
-          id: item.Osoba.OsobaID,
-          name: item.Osoba.Naziv
-        })
+        // this.peopleOnSubject.push({
+        //   id: item.Osoba.OsobaID,
+        //   name: item.Osoba.Naziv
+        // })
       }
     );
     const modalRef = this.ngbModalService.open(ModalImportTirmComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });

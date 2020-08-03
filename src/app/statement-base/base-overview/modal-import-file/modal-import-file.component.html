@@ -37,9 +37,9 @@
                   <span class="badge badge-pill badge-dark mr-2">3</span>
                     Odaberi osobu na predmetu za koju se uvozi izlist: <span class="text-danger">*</span>
                 </label>
-                <ng-select [items]="peopleOnSubject" bindLabel="name" bindValue="id" labelForId="state"
-                    placeholder="Izaberi..." clearAllText="Clear" formControlName="person"
-                    [ngClass]="{'is-invalid': person.invalid && (person.dirty || person.touched || myForm.submitted)}">
+                <ng-select [items]="osobeNaPredmetu" bindLabel="naziv" bindValue="osobaID" labelForId="state"
+                    placeholder="Izaberi..." clearAllText="Clear" formControlName="osoba"
+                    [ngClass]="{'is-invalid': osoba.invalid && (osoba.dirty || osoba.touched || myForm.submitted)}">
                 </ng-select>
                 <div class="invalid-feedback">Polje je obavezno</div>
             </div>

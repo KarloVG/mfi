@@ -6,6 +6,7 @@ import { ISubject } from '../models/subject';
 import { map } from 'rxjs/operators';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 import * as moment from 'moment';
+import { CreateSubjektRequest } from '../models/create-subjekt-request';
 
 @Injectable({
   providedIn: 'root'
@@ -28,24 +29,21 @@ export class SubjectService {
 
   getSubjectsDropdown(): Observable<ISimpleDropdownItem[]> {
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
-    return this.http.get<ISubject[]>(url).pipe(map(response => {
-      return response.map(el => {
-        const item: ISimpleDropdownItem = { id: el.predmetID , name: `Predmet '${el.nazivPredmeta}' (${moment(el.datumOtvaranja).format('DD.MM.YYYY')})` }
-        return item
-      })
+    return this.http.get<ISimpleDropdownItem[]>(url).pipe(map(response => {
+      return response
     }));
   }
 
   addSubject(formData: ISubject): Observable<ISubject> {
-    const requestData = {
+    const requestData: CreateSubjektRequest = {
       brojPredmeta: formData.brojPredmeta,
       datumOtvaranja: formData.datumOtvaranja,
-      dozvoljeniKorisnici: formData.predmetKorisnici,
+      predmetKorisnici: formData.predmetKorisnici,
       napomena: formData.napomena,
       nazivPredmeta: formData.nazivPredmeta,
       statusPredmetaID: formData.statusPredmetaID
     }
-
+    console.log('create request', requestData)
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
     return this.http.post<ISubject>(url, requestData);
   }
@@ -55,13 +53,14 @@ export class SubjectService {
       predmetID: subjectId,
       brojPredmeta: formData.brojPredmeta,
       datumOtvaranja: formData.datumOtvaranja,
-      dozvoljeniKorisnici: formData.predmetKorisnici,
+      predmetKorisnici: formData.predmetKorisnici,
       napomena: formData.napomena,
       nazivPredmeta: formData.nazivPredmeta,
       statusPredmetaID: formData.statusPredmetaID
     }
+    console.log('update request', requestData)
 
-    const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
+    const url = this.urlHelper.getUrl(this.CONTROLER_NAME, subjectId.toString());
     return this.http.put<ISubject>(url, requestData);
   }
 

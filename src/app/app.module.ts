@@ -23,7 +23,11 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     SharedModule,
     AppRoutingModule,
     HttpClientModule,
+<<<<<<< HEAD
+    // HttpClientInMemoryWebApiModule.forRoot(FakeDataService, { delay: 300 })
+=======
     NgxChartsModule,
+>>>>>>> origin
   ],
   providers: [
     SubjectService,

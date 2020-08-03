@@ -38,7 +38,7 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.subscribe(params => {
       if(params && params.id) {
         this.subjectId = params.id;
-          this.getSubjectStatuses();
+        this.getSubjectById();
       }
     });
   }
@@ -84,7 +84,6 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
       data => {
         console.log(data)
         this.subject = data;
-        this.subjectStatus = this.subjectStatuses.find(x => x.id == this.subject.statusPredmetaID);
       },
       err => {
         console.log(err);

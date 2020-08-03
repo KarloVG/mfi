@@ -41,7 +41,7 @@
     <ul class="list-group list-group-horizontal">
         <li class="list-group-item d-flex justify-content-between">
             <small>Ukupni broj zapisa</small>
-            <span class="badge badge-primary badge-pill ml-5">{{ tableItems.length ? tableItems.length : 0}}</span>
+            <span class="badge badge-primary badge-pill ml-5">{{ financijskeTransakcije.length ? financijskeTransakcije.length : 0}}</span>
         </li>
         <li class="list-group-item d-flex justify-content-between">
             <small>Dolazne transakcije</small>
@@ -82,33 +82,33 @@
             </div>
         </div>
         <ngx-datatable class="material mt-3" columnMode="force" [headerHeight]="'auto'" [footerHeight]="50"
-            [rowHeight]="'auto'" [limit]="10" [loadingIndicator]="isLoading" [rows]="tableItems" [messages]="{
+            [rowHeight]="'auto'" [limit]="10" [loadingIndicator]="isLoading" [rows]="financijskeTransakcije" [messages]="{
             emptyMessage:'Nema rezultata',
             totalMessage: 'ukupno'
         }">
-            <ngx-datatable-column name="Broj računa" prop="BrojRacunaA" [width]="200"></ngx-datatable-column>
-            <ngx-datatable-column name="SWIFT/BIC" prop="SWIFTA" [width]="120"></ngx-datatable-column>
-            <ngx-datatable-column name="Banka računa" prop="BankaA" [width]="100"></ngx-datatable-column>
-            <ngx-datatable-column name="Država računa" prop="DrzavaA" [width]="100"></ngx-datatable-column>
-            <ngx-datatable-column name="Naziv vlasnika rač. A" name="Naziv vl. rač. A" prop="NazivA" [width]="130">
+            <ngx-datatable-column name="Broj računa" prop="a_RN" [width]="200"></ngx-datatable-column>
+            <ngx-datatable-column name="SWIFT/BIC" prop="a_FIS" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Banka računa" prop="a_FIN" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Država računa" prop="a_FID" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Naziv vlasnika rač. A" prop="a_NA" [width]="130">
             </ngx-datatable-column>
-            <ngx-datatable-column name="Datum / vrijeme" prop="DatumTransakcije" [width]="100">
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <ngx-datatable-column name="Datum / vrijeme" prop="t_DV" [width]="100">
+                <!-- <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ value | date: 'dd.MM.yyyy'}}
-                </ng-template>
+                </ng-template> -->
             </ngx-datatable-column>
-            <ngx-datatable-column name="Referentni broj" prop="ReferentniBroj" [width]="130"></ngx-datatable-column>
-            <ngx-datatable-column name="Vrsta" prop="VrstaTransakcije" [width]="120"></ngx-datatable-column>
-            <ngx-datatable-column name="Opis" prop="Opis" [width]="170"></ngx-datatable-column>
-            <ngx-datatable-column name="Iznos" prop="IznosTransakcije" [width]="120"></ngx-datatable-column>
-            <ngx-datatable-column name="Valuta" prop="Valuta" [width]="120"></ngx-datatable-column>
-            <ngx-datatable-column name="Konvertirani iznos" prop="CijenaKn" [width]="120"></ngx-datatable-column>
-            <ngx-datatable-column name="Smjer" prop="Smjer" [width]="120"></ngx-datatable-column>
-            <ngx-datatable-column name="Broj računa" prop="BrojRacunaB" [width]="120"></ngx-datatable-column>
-            <ngx-datatable-column name="SWIFT/BIC" prop="SWIFTB" [width]="120"></ngx-datatable-column>
-            <ngx-datatable-column name="Banka računa" prop="BankaB" [width]="100"></ngx-datatable-column>
-            <ngx-datatable-column name="Država računa" prop="DrzavaB" [width]="100"></ngx-datatable-column>
-            <ngx-datatable-column name="Naziv vlasnika rač. B" prop="NazivB" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Referentni broj" prop="t_REF" [width]="130"></ngx-datatable-column>
+            <ngx-datatable-column name="Vrsta" prop="t_VR" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Opis" prop="t_DESC" [width]="170"></ngx-datatable-column>
+            <ngx-datatable-column name="Iznos" prop="t_IZ" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Valuta" prop="t_VL" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Konvertirani iznos" prop="t_KONV_IZ" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Smjer" prop="t_DIR" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Broj računa" prop="b_RN" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="SWIFT/BIC" prop="b_FIS" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Banka računa" prop="b_FIN" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Država računa" prop="b_FID" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Naziv vlasnika rač. B" prop="a_NA" [width]="120"></ngx-datatable-column>
         </ngx-datatable>
     </div>
 </div>

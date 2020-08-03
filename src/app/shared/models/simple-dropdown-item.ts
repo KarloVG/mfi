@@ -1,4 +1,4 @@
 export interface ISimpleDropdownItem {
-    id: number,
-    name: string
+    statusPredmetaID: number,
+    naziv: string
 }

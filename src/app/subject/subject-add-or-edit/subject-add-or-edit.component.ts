@@ -45,6 +45,13 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   });
   subjectId: number;
   subject: ISubject;
+  
+  private dynamicDate = new Date();
+  dynamicToday = {
+    year: this.dynamicDate.getFullYear(),
+    month: this.dynamicDate.getMonth() + 1,
+    day: this.dynamicDate.getDate()
+  }
 
   isReadOnly: boolean = false;
   //deativation guard
@@ -83,6 +90,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
       this.subjectService.getSubjectById(this.subjectId).pipe(untilComponentDestroyed(this)).subscribe(
         data => {
           this.subject = data;
+          console.log(this.subject)
           this.subjectFormGroup.patchValue({
             predmetID: this.subject.predmetID,
             brojPredmeta: this.subject.brojPredmeta,
@@ -94,15 +102,16 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
           this.subject.predmetKorisnici.forEach(
             korisnik => {
               this.predmetKorisnici.push(this.formBuilder.group({
-                korisnikID: korisnik.korisnikID,
-                ime: korisnik.ime,
-                prezime: korisnik.prezime,
+                ID: korisnik.id,
+                Ime: korisnik.ime,
+                Prezime: korisnik.prezime,
                 Flag: korisnik.Flag,
                 loginName: korisnik.loginName,
                 isFromAd: korisnik.isFromAd
               }))
             }
           );
+          console.log(this.subjectFormGroup)
         },
         err => {
           /* ovo maknuti kad stigne backend */
@@ -113,9 +122,9 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
       )
     } else {
       this.predmetKorisnici.push(this.formBuilder.group({
-        korisnikID: this.adalUser.korisnikID,
-        ime: this.adalUser.ime,
-        prezime: this.adalUser.prezime,
+        ID: this.adalUser.id,
+        Ime: this.adalUser.ime,
+        Prezime: this.adalUser.prezime,
         Flag: this.adalUser.Flag,
         loginName: this.adalUser.loginName,
         isFromAd: this.adalUser.isFromAd
@@ -187,9 +196,9 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
     modalRef.result.then((result) => {
       if (result) {
         this.predmetKorisnici.push(this.formBuilder.group({
-          korisnikID: result.korisnikID,
-          ime: result.ime,
-          prezime: result.prezime,
+          ID: result.ID,
+          Ime: result.Ime,
+          Prezime: result.Prezime,
           Flag: result.Flag,
           loginName: result.loginName,
           isFromAd: result.isFromAd
@@ -252,9 +261,10 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   }
 
   addSubject() {
+    console.log(this.subjectFormGroup.value)
     this.subjectService.addSubject(this.subjectFormGroup.value).pipe(untilComponentDestroyed(this))
       .subscribe(response => {
-        localStorage.setItem('predmetID', response.predmetID.toString());
+        localStorage.setItem('subject_id', response.predmetID.toString());
         this.subjectFormGroup.markAsPristine();
         this.toastr.success('Pohranili ste novi predmet', 'Uspjeh', {
           progressBar: true

@@ -77,9 +77,9 @@
             <tbody>
                 <tr *ngFor="let korisnik of subject.predmetKorisnici; let i = index">
                     <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ korisnik.Ime }}</td>
-                    <td>{{ korisnik.Prezime }}</td>
-                    <td>{{ korisnik.Email }}</td>
+                    <td>{{ korisnik.ime }}</td>
+                    <td>{{ korisnik.prezime }}</td>
+                    <td>{{ korisnik.email }}</td>
                 </tr>
                 <tr *ngIf="subject.predmetKorisnici.length == 0">
                     <td>n/a</td>

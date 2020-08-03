@@ -44,7 +44,7 @@
       <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
         <label for="datumOtvaranja">Datum otvaranja predmeta <span class="text-danger">*</span></label>
         <div class="input-group">
-          <input class="form-control" placeholder="dd.mm.yyyy." name="dp" formControlName="datumOtvaranja" ngbDatepicker #d="ngbDatepicker" [readonly]="true" [ngClass]="{'is-invalid': datumOtvaranja.invalid && (datumOtvaranja.dirty || datumOtvaranja.touched || myForm.submitted)}" [minDate]="{year: 2000, month: 1, day: 1}">
+          <input class="form-control" placeholder="dd.mm.yyyy." name="dp" formControlName="datumOtvaranja" ngbDatepicker #d="ngbDatepicker" [readonly]="true" [ngClass]="{'is-invalid': datumOtvaranja.invalid && (datumOtvaranja.dirty || datumOtvaranja.touched || myForm.submitted)}" [minDate]="{year: 2000, month: 1, day: 1}" [maxDate]="dynamicToday">
           <div class="input-group-append">
             <button class="btn btn-outline-secondary calendar-box" (click)="d.toggle()" type="button"><span class="fas fa-calendar"></span></button>
           </div>
@@ -105,7 +105,7 @@
       </button>
     </div>
     <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
-      <label for="napomena">napomena</label>
+      <label for="napomena">Napomena</label>
       <textarea class="form-control" placeholder="Upišite napomenu..." rows="5" formControlName="napomena" [ngClass]="{'is-invalid': napomena.invalid && (napomena.dirty || napomena.touched || myForm.submitted)}"></textarea>
       <div class="invalid-feedback">Polje je obavezno</div>
     </div>
