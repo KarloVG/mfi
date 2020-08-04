@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SubjectService } from './shared/services/subject.service';
 import { ChartsModule } from 'ng2-charts';
 import { LocalStoreSubjectService } from './shared/services/local-store-subject.service';
+import { LocalStoreFilterService } from './shared/services/local-store-filter.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { LocalStoreSubjectService } from './shared/services/local-store-subject.
   ],
   providers: [
     SubjectService,
-    LocalStoreSubjectService
+    LocalStoreSubjectService,
+    LocalStoreFilterService
   ],
   bootstrap: [AppComponent],
   exports: [
