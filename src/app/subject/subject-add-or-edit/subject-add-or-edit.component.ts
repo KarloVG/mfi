@@ -99,14 +99,15 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
             napomena: this.subject.napomena,
           })
           this.subject.predmetKorisnici.forEach(
-            korisnik => {
+            korisnikData => {
+              const korisnik = korisnikData.korisnik as ISubjectPermission
               this.predmetKorisnici.push(this.formBuilder.group({
-                ID: korisnik.korisnik.id,
-                Ime: korisnik.korisnik.ime,
-                Prezime: korisnik.korisnik.prezime,
-                Flag: korisnik.korisnik.Flag,
-                LoginName: korisnik.korisnik.loginName,
-                isFromAd: korisnik.korisnik.isFromAd
+                ID: korisnik.id,
+                Ime: korisnik.ime,
+                Prezime: korisnik.prezime,
+                Flag: korisnik.Flag,
+                LoginName: korisnik.loginName,
+                isFromAd: korisnik.isFromAd
               }))
             }
           );

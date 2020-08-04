@@ -10,5 +10,5 @@ export interface ISubject {
     statusPredmeta: ISimpleDropdownItem,
     statusPredmetaID: number;
     napomena: string,
-    predmetKorisnici: ISubjectPermission[];
+    predmetKorisnici: any[]; // FIXME: razjebo sam ga ovdje, u praksi sa servera dobijem drugacije podatke, ne dobijem ISubjectPermission[]
 }
