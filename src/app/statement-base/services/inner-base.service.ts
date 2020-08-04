@@ -20,7 +20,7 @@ export class InnerBaseService {
 
   getInnerBaseItemsById(id: number): Observable<IInnerbaseItem[]> {
     const url = this.urlHelper.getUrl(this.BASE_ITEMS + '?BaseItemID=' + id.toString());
-    console.log(url)
+    console.log('gIBbId', url)
     return this.http.get<IInnerbaseItem[]>(url)
   }
 

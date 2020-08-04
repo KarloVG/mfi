@@ -29,7 +29,7 @@ export class SidebarComponent implements OnInit {
         var withNoDigits = event.url.replace(/[0-9]/g, '');
         if(withNoDigits == '/subject/edit/') {
           this.isDisabledDropdown = true;
-          console.log(this.isDisabledDropdown)
+          console.log('iDD', this.isDisabledDropdown)
         } else {
           this.isDisabledDropdown = false;
         }
@@ -47,8 +47,8 @@ export class SidebarComponent implements OnInit {
   }
 
   checkForSubject() {
-    console.log(this.aRoute.routeConfig);
-    console.log(this.router.url)
+    console.log('cFS-RCx', this.aRoute.routeConfig);
+    console.log('cFS-RUX', this.router.url)
   }
 
   navigateToNewSubject() {

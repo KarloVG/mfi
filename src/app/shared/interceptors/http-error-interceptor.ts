@@ -8,7 +8,7 @@ import {
    import { Observable, throwError } from 'rxjs';
    import { retry, catchError } from 'rxjs/operators';
    import { Injectable } from '@angular/core';
-   
+
    @Injectable()
    export class HttpErrorInterceptor implements HttpInterceptor {
     constructor(
@@ -25,7 +25,7 @@ import {
               errorMessage = `Error: ${error.error.message}`;
             } else {
               // server-side error
-              console.log(error)
+              console.error('HEI', error)
               errorMessage = error ? error.error ? error.error.response : 'Kontaktirajte administratora' : 'Kontaktirajte administratora';
             }
             // this.toastr.error(errorMessage,'Pogreška', {
@@ -37,4 +37,3 @@ import {
         )
     }
    }
-   

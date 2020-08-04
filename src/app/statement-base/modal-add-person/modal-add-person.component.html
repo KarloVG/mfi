@@ -24,7 +24,7 @@
                 <label for="tipOsobe">
                     Tip osobe <span class="text-danger">*</span>
                 </label>
-                <ng-select [items]="personTypes" bindLabel="naziv" bindValue="ID" labelForId="state" [clearable]="false"
+                <ng-select [items]="personTypes" bindLabel="naziv" bindValue="ID" labelForId="tipOsobe" [clearable]="false"
                     placeholder="Izaberi..." clearAllText="Clear" formControlName="tipOsobe"
                     [ngClass]="{'is-invalid': tipOsobe.invalid && (tipOsobe.dirty || tipOsobe.touched || myForm.submitted)}">
                 </ng-select>
@@ -34,7 +34,7 @@
                 <label for="vrstaIdBroja">
                     Vrsta ID broja
                 </label>
-                <ng-select [items]="identificationTypes" bindLabel="name" bindValue="id" labelForId="state"
+                <ng-select [items]="identificationTypes" bindLabel="name" bindValue="id" labelForId="vrstaIdBroja"
                     placeholder="Izaberi..." clearAllText="Clear" formControlName="vrstaIdBroja" (change)="onChangeIDType($event)"
                     [ngClass]="{'is-invalid': vrstaIdBroja.invalid && (vrstaIdBroja.dirty || vrstaIdBroja.touched || myForm.submitted)}">
                 </ng-select>

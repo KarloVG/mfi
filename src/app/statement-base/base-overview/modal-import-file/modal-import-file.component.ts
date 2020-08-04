@@ -52,7 +52,7 @@ export class ModalImportFileComponent implements OnInit, OnDestroy {
     //     name: 'template_example.jsonc'
     //   }
     // ];
-    
+
   }
 
   ngOnDestroy(): void { }
@@ -69,7 +69,7 @@ export class ModalImportFileComponent implements OnInit, OnDestroy {
     this.financijskaTransakcijaService.getTemplates().pipe(untilComponentDestroyed(this)).subscribe(
       data => {
         this.validationTemplates = data;
-        console.log(this.validationTemplates)
+        console.log('dohT', this.validationTemplates)
       }
     )
   }
@@ -81,7 +81,7 @@ export class ModalImportFileComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.importFromFileGroup.value)
+    console.log('SBX', this.importFromFileGroup.value)
     if (this.fileInput) {
       if (this.importFromFileGroup.invalid) {
         return;
@@ -94,22 +94,22 @@ export class ModalImportFileComponent implements OnInit, OnDestroy {
                 this.importSuccess = false;
                 element.errors.forEach(el => {
                   this.errorName += `${el.name}
- `; 
+ `;
                 })
                 this.errors.push({
                   name: this.errorName,
                   rowId: index
                 });
-                console.log(element.errors)
+                console.warn('ERRX', element.errors)
               }
               if (element.extract && element.extract.length) {
                 this.extracts = element.extract;
               }
               if(JSON.stringify(element) === JSON.stringify(array[array.length - 1]) ) {
-                console.log(element)
+                console.log('SX1-elm', element)
                 this.isLoadingResponse = false;
                 if(this.errors.length == 0) {
-                  console.log(this.importSuccess)
+                  console.log('SX2-importSuccess', this.importSuccess)
                   const modalResponse = {
                     personId: this.osoba.value,
                     extracts: this.extracts}
@@ -122,7 +122,7 @@ export class ModalImportFileComponent implements OnInit, OnDestroy {
       }
     } else {
       return;
-    } 
+    }
   }
 
   onFileInput(event: Event) {

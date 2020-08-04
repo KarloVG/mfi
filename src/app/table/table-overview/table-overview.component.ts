@@ -56,13 +56,13 @@ export class TableOverviewComponent implements OnInit, OnDestroy {
       data => {
         data.forEach(
           izvod => {
-            console.log(izvod)
+            console.log('TgIZ', izvod)
             this.financijskeTransakcije = this.financijskeTransakcije.concat(izvod);
           }
         )
         this.isLoading = false;
         console.log('data', data);
-        console.log(this.financijskeTransakcije)
+        console.log('FinTran', this.financijskeTransakcije)
       }
     )
   }
@@ -72,7 +72,6 @@ export class TableOverviewComponent implements OnInit, OnDestroy {
     let keys = Object.keys(this.financijskeTransakcije[0]);
     let colsAmt = keys.length + 1;
     this.financijskeTransakcije = this.staticValue.filter(function (item) {
-      console.log()
       for (let i = 0; i < colsAmt; i++) {
         if (item[keys[i]] != null && item[keys[i]].toString().toLowerCase().indexOf(searchVal) !== -1 || !searchVal) {
           return true;
@@ -109,7 +108,7 @@ export class TableOverviewComponent implements OnInit, OnDestroy {
   }
 
   hasActiveFilter() {
-    console.log(this.localStorageFilterService.hasToken())
+    console.log('hAFx', this.localStorageFilterService.hasToken())
     if(this.localStorageFilterService.hasToken()) {
       this.modalFilterValues = JSON.parse(localStorage['filter_fields']);
       this.isActiveFilter = true;
@@ -120,7 +119,6 @@ export class TableOverviewComponent implements OnInit, OnDestroy {
   }
 
   exportAsXLSX(): void {
-
     // if (this.financijskeTransakcije && this.financijskeTransakcije.length > 0) {
     //   let excelRows = [];
     //   let columnWidth = [];

@@ -24,7 +24,7 @@ export class BaseService {
   private readonly IDENTIFICATION_CONTROLLER = 'VrstaIdBroja';
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private urlHelper: UrlHelperService,
     private subjectLocalService: LocalStoreSubjectService
     ) { }
@@ -74,7 +74,7 @@ export class BaseService {
   }
 
   editPersonOnBase(osoba: IEditOsobaRequest) {
-    console.log(osoba)
+    console.log('ePOB', osoba)
     const token = this.subjectLocalService.hasToken();
     if(token && osoba.osobaID) {
       osoba.predmetID = +token;

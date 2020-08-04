@@ -40,7 +40,7 @@ export class InnerBaseComponent implements OnInit, OnDestroy {
       data => {
         this.isLoading = false;
         this.innerItems = data;
-        console.log(data)
+        console.log('gIBIDx', data)
       }
     );
   }
@@ -61,7 +61,7 @@ export class InnerBaseComponent implements OnInit, OnDestroy {
                 progressBar: true
               });
             },
-            error => {  console.log(error)  }
+            error => {  console.error('dIBIe', error)  }
           )
         } else {
           this.toastr.warning('Detalj izvoda nije obrisan', 'Pažnja', {

@@ -5,7 +5,6 @@ import { ChartOverviewComponent } from './chart-overview/chart-overview.componen
 import { SharedModule } from '../shared/shared.module';
 import { ChartsModule } from 'ng2-charts';
 
-
 @NgModule({
   declarations: [ChartOverviewComponent],
   imports: [
@@ -16,4 +15,4 @@ import { ChartsModule } from 'ng2-charts';
   ],
   exports: [ChartRoutingModule]
 })
-export class ChartModule { }
+export class ChartModule {}

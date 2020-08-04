@@ -87,11 +87,11 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
   getSubjectById() {
     this.subjectApiService.getSubjectById(this.subjectId).pipe(untilComponentDestroyed(this)).subscribe(
       data => {
-        console.log(data)
+        console.log('SDDX', data)
         this.subject = data;
       },
       err => {
-        console.log(err);
+        console.error('SDDXe', err);
         /* ovo maknuti kad stigne backend */
         localStorage.removeItem('predmetID');
         this.navigationService.publishNavigationChange();

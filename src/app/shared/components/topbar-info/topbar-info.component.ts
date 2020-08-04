@@ -13,7 +13,6 @@ export class TopbarInfoComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.moduleName);
+    console.log('MODX', this.moduleName);
   }
-
 }

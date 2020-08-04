@@ -54,11 +54,11 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
             });
           }
         });
-        console.log(this.baseItems)
+        console.log('TBI', this.baseItems)
         this.isLoading = false;
       },
       err => {
-        console.log(err)
+        console.error('TBIe', err)
       }
     )
   }
@@ -115,7 +115,7 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
     if (row) {
       const modalRef = this.ngbModalService.open(ModalAddPersonComponent, { backdrop: 'static', keyboard: false });
       modalRef.componentInstance.osoba = row;
-      console.log(row)
+      console.log('eProw', row)
       modalRef.result.then((result) => {
         if (result) {
           this.toastr.success('Osoba na predmetu je uređena', 'Uspjeh', {
