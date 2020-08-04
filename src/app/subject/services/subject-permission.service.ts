@@ -15,7 +15,6 @@ export class SubjectPermissionervice {
 
   getPermissions(): Observable<ISubjectPermission[]> {
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
-    console.log('SPSx', url)
     return this.http.get<ISubjectPermission[]>(url);
   }
 }

@@ -1,4 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router'
+import {SubjectService} from 'src/app/shared/services/subject.service'
+import {SubjectApiService} from 'src/app/subject/services/subject.service'
 
 interface Types {
   id: string
@@ -35,7 +38,13 @@ export class TopbarComponent implements OnInit {
   selectedUser: UsersSelection = <UsersSelection>{}
   selectedType: Types = <Types>{}
 
-  constructor() {
+  subjectId: number
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private subjectService: SubjectService,
+    private subjectApiService: SubjectApiService,
+  ) {
     this.typesList = [
       { id: 'sviracuni', title: 'Svi računi odabrane osobe' }
     ]
@@ -43,6 +52,18 @@ export class TopbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    /*
+    this.subjectId = +this.subjectService.hasToken()
+    console.log('ODX', this.subjectId)
+    this.subjectApiService.getSubjectById(this.subjectId).subscribe(
+      data => {
+        console.log('GOT', data)
+      },
+      err => {
+        console.warn('ERR', err)
+      }
+    )
+    */
     this.usersList = this.usersImportList.map(obj => ({...obj}))
     this.selectedUser = this.usersList.map(usr => { return { id: usr.id, name: usr.name + ' (OIB: ' + usr.oib + ')' }})[0]
   }

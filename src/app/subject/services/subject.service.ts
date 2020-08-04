@@ -11,7 +11,7 @@ import { CreateSubjektRequest } from '../models/create-subjekt-request';
 @Injectable({
   providedIn: 'root'
 })
-export class SubjectService {
+export class SubjectApiService {
 
   constructor(private http: HttpClient, private urlHelper: UrlHelperService) { }
 

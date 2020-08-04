@@ -6,7 +6,7 @@ import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { NgbActiveModal, NgbDateParserFormatter, NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateCustomParserFormatter } from 'src/app/shared/utils/ngb-date-custom-parser-formatter';
 import { CustomDatepickerI18n } from 'src/app/shared/utils/custom-date-picker-i18n';
-import { SubjectService } from '../../services/subject.service';
+import { SubjectApiService } from '../../services/subject.service';
 
 @Component({
   selector: 'app-modal-open-subject',
@@ -33,7 +33,7 @@ export class ModalOpenSubjectComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private subjectStatusService: SubjectStatusService,
-    private subjectService: SubjectService,
+    private subjectApiService: SubjectApiService,
     private modal: NgbActiveModal
   ) { }
 
@@ -63,7 +63,7 @@ export class ModalOpenSubjectComponent implements OnInit, OnDestroy {
   }
 
   getSubjects() {
-    this.subjectService.getSubjectsDropdown().pipe(untilComponentDestroyed(this)).subscribe(
+    this.subjectApiService.getSubjectsDropdown().pipe(untilComponentDestroyed(this)).subscribe(
       response => {
         this.subjects = response;
       }
