@@ -30,9 +30,6 @@ export class AccountviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.focusAccounts = this.activeUser.accounts
-    console.log('NX', this.node)
-    //console.log('XX', this.activeUser)
-    //console.log('BX', this.isSelectedActiveUser)
   }
 
   closeInfobox(): void {
