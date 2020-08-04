@@ -23,6 +23,7 @@ import { ModalCanDeactivateComponent } from './subject-add-or-edit/modal-can-dea
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
+    SubjectRoutingModule
   ],
   exports: [SubjectRoutingModule],
   providers: [

@@ -20,7 +20,6 @@ import { ModalImportTirmComponent } from './base-overview/modal-import-tirm/moda
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
-    StatementBaseRoutingModule
   ],
   exports: [StatementBaseRoutingModule]
 })

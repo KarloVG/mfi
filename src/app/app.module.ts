@@ -7,9 +7,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule }    from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LocalStoreFilterService } from './shared/services/local-store-filter.service';
 import { SubjectService } from './shared/services/subject.service';
 import { ChartsModule } from 'ng2-charts';
+import { LocalStoreSubjectService } from './shared/services/local-store-subject.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,7 @@ import { ChartsModule } from 'ng2-charts';
   ],
   providers: [
     SubjectService,
-    LocalStoreFilterService
+    LocalStoreSubjectService
   ],
   bootstrap: [AppComponent],
   exports: [

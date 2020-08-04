@@ -10,28 +10,31 @@ import { FlowModule } from './flow/flow.module';
 import { MapModule } from './map/map.module';
 import { TableModule } from './table/table.module';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
+import { CustomPreloader } from './custom-preloader';
 
 const routes: Routes = [
   {
     path: 'welcome',
     component: MainLayoutComponent,
     loadChildren: () => HomeModule
-    // loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
   },
   {
     path: 'subject',
     component: MainLayoutComponent,
-    loadChildren: () => SubjectModule
+    loadChildren: () => SubjectModule,
+    data: { preload: true }
   },
   {
     path: 'statement-base',
     component: MainLayoutComponent,
-    loadChildren: () => StatementBaseModule
+    loadChildren: () => StatementBaseModule,
+    data: { preload: true }
   },
   {
     path: 'table',
     component: MainLayoutComponent,
-    loadChildren: () => TableModule
+    loadChildren: () => TableModule,
+    data: { preload: true }
   },
   {
     path: 'chart',
@@ -61,7 +64,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes , { preloadingStrategy: CustomPreloader })],
+  exports: [RouterModule],
+  providers: [CustomPreloader]
 })
 export class AppRoutingModule { }
