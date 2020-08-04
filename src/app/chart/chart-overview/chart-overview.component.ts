@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ChartType, ChartOptions } from 'chart.js';
-import { Label } from 'ng2-charts';
+import { ChartType, ChartOptions, ChartDataSets } from 'chart.js';
+import { Label, Color } from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
@@ -13,13 +13,9 @@ export class ChartOverviewComponent implements OnInit {
   moduleName: string = 'Prikaz informacija na mapi';
   moduleFontIcon = 'fas fa-chart-pie';
 
-  single = true
+  constructor() {}
 
-  constructor() {
-    //Object.assign(this, { single })
-  }
-
-  public pieChartOptions: ChartOptions = {
+  pieChartOptions: ChartOptions = {
     responsive: true,
     legend: {
       position: 'top',
@@ -33,15 +29,46 @@ export class ChartOverviewComponent implements OnInit {
       },
     }
   };
-  public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
-  public pieChartData: number[] = [300, 500, 100];
-  public pieChartType: ChartType = 'pie';
-  public pieChartLegend = true;
-  public pieChartPlugins = [pluginDataLabels];
-  public pieChartColors = [
+  pieChartType: ChartType = 'pie';
+  pieChartLegend = true;
+  pieChartPlugins = [pluginDataLabels];
+  pieChartColors = [
     {
-      backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'],
+      backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)', 'rgba(128,0,128,0.3)', 'rgba(128,128,0,0.3)', 'rgba(0,128,128,0.3)'],
     },
+  ];
+
+  pieChartLabels1: Label[] = ['Hrvatska', 'Bosna i Hercegovina', 'Grčka', 'Ujedinjeno Kraljevstvo', 'Estonija', 'Sjedinjene Američke Države'];
+  pieChartLabels2: Label[] = ['Hrvatska', 'Bosna i Hercegovina', 'Grčka', 'Ujedinjeno Kraljevstvo', 'Irska', 'Srbija'];
+  pieChartData1: number[] = [69.8, 0.7, 2, 18.9, 4.9, 3.7];
+  pieChartData2: number[] = [10.1, 1.2, 4.3, 4.3, 61.8, 18.3];
+
+  barChartOptions: ChartOptions = {
+    responsive: true,
+    // We use these empty structures as placeholders for dynamic theming.
+    scales: { xAxes: [{}], yAxes: [{}] },
+    plugins: {
+      datalabels: {
+        anchor: 'end',
+        align: 'end',
+      }
+    }
+  };
+  barChartType: ChartType = 'horizontalBar';
+  barChartLegend = true;
+  barChartPlugins = [pluginDataLabels];
+
+  barChartLabels1: Label[] = ['Boško Bošković', 'ACME Ltd.', 'Marko Markić', 'Dobra Tvrtka d.o.o.', 'Ivana Ivić', 'Ana Anić'];
+  barChartLabels2: Label[] = ['Petar Petrović', 'Franjo Franjić', 'Nina Ninić', 'ACME Ltd. (UK)', 'Luka Lukač', 'Ana Anić'];
+
+  barChartColors1 = 'rgba(0,255,0,0.3)'
+  barChartColors2 = 'rgba(255,0,0,0.3)'
+
+  barChartData1: ChartDataSets[] = [
+    { data: [21000, 60000, 24000, 77000, 11000, 44000], label: 'Uplate' }
+  ];
+  barChartData2: ChartDataSets[] = [
+    { data: [21000, 60000, 24000, 77000, 11000, 44000], label: 'Isplate' }
   ];
 
   // events
@@ -51,28 +78,6 @@ export class ChartOverviewComponent implements OnInit {
 
   public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
-  }
-
-  changeLabels() {
-    const words = ['hen', 'variable', 'embryo', 'instal', 'pleasant', 'physical', 'bomber', 'army', 'add', 'film',
-      'conductor', 'comfortable', 'flourish', 'establish', 'circumstance', 'chimney', 'crack', 'hall', 'energy',
-      'treat', 'window', 'shareholder', 'division', 'disk', 'temptation', 'chord', 'left', 'hospital', 'beef',
-      'patrol', 'satisfied', 'academy', 'acceptance', 'ivory', 'aquarium', 'building', 'store', 'replace', 'language',
-      'redeem', 'honest', 'intention', 'silk', 'opera', 'sleep', 'innocent', 'ignore', 'suite', 'applaud', 'funny'];
-    const randomWord = () => words[Math.trunc(Math.random() * words.length)];
-    this.pieChartLabels = Array.apply(null, { length: 3 }).map(_ => randomWord());
-  }
-
-  addSlice() {
-    this.pieChartLabels.push(['Line 1', 'Line 2', 'Line 3']);
-    this.pieChartData.push(400);
-    this.pieChartColors[0].backgroundColor.push('rgba(196,79,244,0.3)');
-  }
-
-  removeSlice() {
-    this.pieChartLabels.pop();
-    this.pieChartData.pop();
-    this.pieChartColors[0].backgroundColor.pop();
   }
 
   ngOnInit(): void {}

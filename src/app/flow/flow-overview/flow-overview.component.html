@@ -1,3 +1,41 @@
 <header class="bg-primary col-sm-12 text-center text-light p-1">
     <app-topbar-info [moduleFontIcon]="moduleFontIcon" [moduleName]="moduleName"></app-topbar-info>
 </header>
+
+<div>
+  <!--app-topbar
+    [usersImportList]="usersList"
+    [addUserAction]="addUser.bind(this)"
+    [expandViewAction]="expandView.bind(this)"
+    [contractViewAction]="contractView.bind(this)">
+  </app-topbar-->
+
+  <div id="chart-area">
+    <div class="row">
+      <div class="col-sm-8 offset-sm-2">
+        <div class="chart d-block">
+          <canvas baseChart
+            [datasets]="barChartData1"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [plugins]="barChartPlugins"
+            [legend]="barChartLegend"
+            [chartType]="barChartType">
+          </canvas>
+        </div>
+      </div>
+      <div class="col-sm-8 offset-sm-2">
+        <div class="chart d-block">
+          <canvas baseChart
+            [datasets]="barChartData2"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [plugins]="barChartPlugins"
+            [legend]="barChartLegend"
+            [chartType]="barChartType">
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -10,26 +10,62 @@
     [contractViewAction]="contractView.bind(this)">
   </app-topbar-->
 
-  <!-- <div id="graph" class="graph-canvas p-0 m-0"></div> -->
-  <div>
-    <div>
-      <div class="chart">
-        <canvas baseChart
-          [data]="pieChartData"
-          [labels]="pieChartLabels"
-          [chartType]="pieChartType"
-          [options]="pieChartOptions"
-          [plugins]="pieChartPlugins"
-          [colors]="pieChartColors"
-          [legend]="pieChartLegend">
-        </canvas>
+  <div id="chart-area">
+    <div class="row">
+      <div class="col-sm-4 offset-sm-1">
+        <div class="chart d-block">
+          <canvas baseChart
+            [datasets]="barChartData1"
+            [labels]="barChartLabels1"
+            [options]="barChartOptions"
+            [plugins]="barChartPlugins"
+            [legend]="barChartLegend"
+            [chartType]="barChartType">
+          </canvas>
+        </div>
+      </div>
+      <div class="col-sm-4 offset-sm-1">
+        <div class="chart d-block">
+          <canvas baseChart
+            [datasets]="barChartData2"
+            [labels]="barChartLabels2"
+            [options]="barChartOptions"
+            [plugins]="barChartPlugins"
+            [legend]="barChartLegend"
+            [chartType]="barChartType">
+          </canvas>
+        </div>
       </div>
     </div>
-  </div>
-  <div>
-    <button mat-button mat-raised-button color="primary" (click)="pieChartLegend=!pieChartLegend">Toggle Legend</button>
-    <button mat-button mat-raised-button color="primary" (click)="changeLabels()">Change Labels</button>
-    <button mat-button mat-raised-button color="primary" (click)="addSlice()">Add Slice</button>
-    <button mat-button mat-raised-button color="primary" (click)="removeSlice()">Remove Slice</button>
+    <br>
+
+    <div class="row">
+      <div class="col-sm-4 offset-sm-1">
+        <div class="chart">
+          <canvas baseChart
+            [data]="pieChartData1"
+            [labels]="pieChartLabels1"
+            [chartType]="pieChartType"
+            [options]="pieChartOptions"
+            [plugins]="pieChartPlugins"
+            [colors]="pieChartColors"
+            [legend]="pieChartLegend">
+          </canvas>
+        </div>
+      </div>
+      <div class="col-sm-4 offset-sm-1">
+        <div class="chart">
+          <canvas baseChart
+            [data]="pieChartData2"
+            [labels]="pieChartLabels2"
+            [chartType]="pieChartType"
+            [options]="pieChartOptions"
+            [plugins]="pieChartPlugins"
+            [colors]="pieChartColors"
+            [legend]="pieChartLegend">
+          </canvas>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
