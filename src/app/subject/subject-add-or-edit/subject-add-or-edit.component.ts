@@ -90,7 +90,6 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
       this.subjectApiService.getSubjectById(this.subjectId).pipe(untilComponentDestroyed(this)).subscribe(
         data => {
           this.subject = data;
-          console.log(this.subject)
           this.subjectFormGroup.patchValue({
             predmetID: this.subject.predmetID,
             brojPredmeta: this.subject.brojPredmeta,
@@ -102,17 +101,17 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
           this.subject.predmetKorisnici.forEach(
             korisnik => {
               this.predmetKorisnici.push(this.formBuilder.group({
-                ID: korisnik.id,
-                Ime: korisnik.ime,
-                Prezime: korisnik.prezime,
-                Flag: korisnik.Flag,
-                LoginName: korisnik.loginName,
-                isFromAd: korisnik.isFromAd
+                ID: korisnik.korisnik.id,
+                Ime: korisnik.korisnik.ime,
+                Prezime: korisnik.korisnik.prezime,
+                Flag: korisnik.korisnik.Flag,
+                LoginName: korisnik.korisnik.loginName,
+                isFromAd: korisnik.korisnik.isFromAd
               }))
             }
           );
-          console.log('predmetKorisnici',this.predmetKorisnici)
-          console.log(this.subjectFormGroup)
+          console.log('predmetKorisnici', this.predmetKorisnici)
+
         },
         err => {
           /* ovo maknuti kad stigne backend */
@@ -205,11 +204,11 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
     modalRef.result.then((result) => {
       if (result) {
         this.predmetKorisnici.push(this.formBuilder.group({
-          ID: result.ID,
-          Ime: result.Ime,
-          Prezime: result.Prezime,
+          ID: result.korisnikID,
+          Ime: result.ime,
+          Prezime: result.prezime,
           Flag: result.Flag,
-          loginName: result.loginName,
+          LoginName: result.loginName,
           isFromAd: result.isFromAd
         }));
         this.toastr.success('Dodana je nova dozvola na rad', 'Uspjeh', {
@@ -248,7 +247,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   editSubject() {
     this.subjectApiService.editSubject(this.subjectId, this.subjectFormGroup.value).pipe(untilComponentDestroyed(this))
       .subscribe(responseData => {
-        console.log(responseData)
+        console.log('EditSubjectResponse', responseData)
         this.subjectFormGroup.markAsPristine();
         this.toastr.success('Uredili ste predmet', 'Uspjeh', {
           progressBar: true
@@ -261,7 +260,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   editSubjectWithoutNavigating() {
     this.subjectApiService.editSubject(this.subjectId, this.subjectFormGroup.value).pipe(untilComponentDestroyed(this))
       .subscribe(responseData => {
-        console.log(responseData)
+        console.log('EditSubjectWNResponse', responseData)
         this.subjectFormGroup.markAsPristine();
         this.toastr.success('Uredili ste predmet', 'Uspjeh', {
           progressBar: true
