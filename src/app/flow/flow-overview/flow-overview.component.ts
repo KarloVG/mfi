@@ -11,7 +11,8 @@ import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
 export class FlowOverviewComponent implements OnInit {
   moduleName: string = 'Vremenski tijek transakcija';
-  moduleFontIcon = 'fas fa-clock';
+  moduleFontIcon: string = 'fas fa-clock';
+  displayType: string = 'flow'
 
   constructor() {}
 
@@ -45,11 +46,30 @@ export class FlowOverviewComponent implements OnInit {
   ];
 
   // events
-  public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
+  chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
   }
 
-  public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
+  chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
+  }
+
+  addUser() {
+    console.log('Flow', 'addUser')
+  }
+  expandView() {
+    console.log('Flow', 'expandViewAction')
+  }
+  contractView() {
+    console.log('Flow', 'contractViewAction')
+  }
+  notifications() {
+    console.log('Flow', 'notificationsAction')
+  }
+  filter() {
+    console.log('Flow', 'filtersAction')
+  }
+  export() {
+    console.log('Flow', 'exportAction')
   }
 }

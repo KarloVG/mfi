@@ -11,7 +11,8 @@ import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
 export class ChartOverviewComponent implements OnInit {
   moduleName: string = 'Graf financijskih transakcija';
-  moduleFontIcon = 'fas fa-chart-pie';
+  moduleFontIcon: string = 'fas fa-chart-pie';
+  displayType: string = 'chart'
 
   constructor() {}
 
@@ -72,13 +73,32 @@ export class ChartOverviewComponent implements OnInit {
   ];
 
   // events
-  public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
+  chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
   }
 
-  public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
+  chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
   }
 
   ngOnInit(): void {}
+
+  addUser() {
+    console.log('Chart', 'addUser')
+  }
+  expandView() {
+    console.log('Chart', 'expandViewAction')
+  }
+  contractView() {
+    console.log('Chart', 'contractViewAction')
+  }
+  notifications() {
+    console.log('Chart', 'notificationsAction')
+  }
+  filter() {
+    console.log('Chart', 'filtersAction')
+  }
+  export() {
+    console.log('Chart', 'exportAction')
+  }
 }

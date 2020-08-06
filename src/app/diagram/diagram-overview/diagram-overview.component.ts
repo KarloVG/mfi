@@ -36,6 +36,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   viewLevel = 1
   moduleName: string = 'Dijagram financijskih transakcija'
   moduleFontIcon: string = 'fas fa-sitemap'
+  displayType: string = 'diagram'
 
   public constructor(
     private diaSvc: DiagramService
@@ -174,5 +175,15 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
 
   rndmm(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
+  }
+
+  notifications() {
+    console.log('Chart', 'notificationsAction')
+  }
+  filter() {
+    console.log('Chart', 'filtersAction')
+  }
+  export() {
+    console.log('Chart', 'exportAction')
   }
 }

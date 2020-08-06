@@ -4,10 +4,13 @@
 
 <div>
   <app-visualisation-toolbar
-    [usersImportList]="usersList"
+    [displayType]="displayType"
     [addUserAction]="addUser.bind(this)"
     [expandViewAction]="expandView.bind(this)"
-    [contractViewAction]="contractView.bind(this)">
+    [contractViewAction]="contractView.bind(this)"
+    [notificationsAction]="notifications.bind(this)"
+    [filterAction]="filter.bind(this)"
+    [exportAction]="export.bind(this)">
   </app-visualisation-toolbar>
 
   <div class="infobox float-left col-sm-3" *ngIf="nodeActive !== null">

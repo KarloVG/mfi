@@ -3,12 +3,15 @@
 </header>
 
 <div>
-  <!--app-topbar
-    [usersImportList]="usersList"
+  <app-visualisation-toolbar
+    [displayType]="displayType"
     [addUserAction]="addUser.bind(this)"
     [expandViewAction]="expandView.bind(this)"
-    [contractViewAction]="contractView.bind(this)">
-  </app-topbar-->
+    [contractViewAction]="contractView.bind(this)"
+    [notificationsAction]="notifications.bind(this)"
+    [filterAction]="filter.bind(this)"
+    [exportAction]="export.bind(this)">
+  </app-visualisation-toolbar>
 
   <div id="chart-area">
     <div class="row">
