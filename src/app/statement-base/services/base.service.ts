@@ -9,6 +9,7 @@ import { ICreateOsobaRequest } from '../models/create-osoba-request';
 import { LocalStoreSubjectService } from 'src/app/shared/services/local-store-subject.service';
 import { IEditOsobaRequest } from '../models/edit-osoba-request';
 import { IOsobaDropdown } from '../models/osoba-dropdown';
+import { IOsoba } from '../models/osoba';
 import { IGetIzvodRequest } from '../models/get-izvod-request';
 import { ITablicaIzvod } from 'src/app/table/models/tablica-izvod';
 
@@ -50,6 +51,13 @@ export class BaseService {
     if(token) {
       const url = this.urlHelper.getUrl(this.BASE_ITEMS, 'odabirOsobe', token);
       return this.http.get<IOsobaDropdown[]>(url);
+    }
+  }
+  getOsobe(): Observable<IOsoba[]> {
+    const token = this.subjectLocalService.hasToken();
+    if(token) {
+      const url = this.urlHelper.getUrl(this.BASE_ITEMS, 'Osobe', token);
+      return this.http.get<IOsoba[]>(url);
     }
   }
 

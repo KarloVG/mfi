@@ -30,26 +30,47 @@
       </form>
 
       <div class="col-sm-5 text-right">
-        <button type="button" class="btn btn-secondary mr-3" title="Prikaži +1" (click)="expandViewAction()">
+        <button type="button" class="btn btn-secondary mr-3" title="Prikaži +1"
+          *ngIf="displayType === 'diagram'"
+          (click)="expandViewAction()">
           <span class="fas fa-arrow-circle-up"></span>
           <span class="ml-2 d--none">Prikaži</span>
           <span class="ml-1 d--none">+1</span>
         </button>
-        <button type="button" class="btn btn-secondary mr-3" title="Prikaži +1" (click)="contractViewAction()">
+        <button type="button" class="btn btn-secondary mr-3" title="Prikaži +1"
+          *ngIf="displayType === 'diagram'"
+          (click)="contractViewAction()">
           <span class="fas fa-arrow-circle-down"></span>
           <span class="ml-2 d--none">Prikaži</span>
           <span class="ml-1 d--none">-1</span>
         </button>
 
-        <button type="button" class="btn btn-secondary mr-3" disabled title="Alarmiranje" data-click="notifications()">
+        <button type="button" class="btn btn-secondary mr-3" title="Približi"
+          *ngIf="displayType === 'map'"
+          (click)="expandViewAction()">
+          <span class="fas fa-search-plus"></span>
+          <span class="ml-2 d--none">Približi</span>
+        </button>
+        <button type="button" class="btn btn-secondary mr-3" title="Udalji"
+          *ngIf="displayType === 'map'"
+          (click)="contractViewAction()">
+          <span class="fas fa-search-minus"></span>
+          <span class="ml-2 d--none">Udalji</span>
+        </button>
+
+        <button type="button" class="btn btn-secondary mr-3" disabled title="Alarmiranje"
+          *ngIf="displayType === 'diagram'"
+          (click)="notificationsAction()">
           <span class="fas fa-bell"></span>
           <span class="ml-2 d-none">Alarmiranje</span>
         </button>
-        <button type="button" class="btn btn-secondary mr-3" disabled title="Izvoz slike" data-click="export()">
+        <button type="button" class="btn btn-secondary mr-3" disabled title="Izvoz slike"
+          (click)="exportAction()">
           <span class="fas fa-image"></span>
           <span class="ml-2 d-none">Izvoz slike</span>
         </button>
-        <button type="button" class="btn btn-secondary mr-3" title="Filtriranje" data-click="filter()">
+        <button type="button" class="btn btn-secondary mr-3" title="Filtriranje"
+          (click)="filterAction()">
           <span class="fas fa-filter"></span>
           <span class="ml-2 d--none">Filtriranje</span>
         </button>

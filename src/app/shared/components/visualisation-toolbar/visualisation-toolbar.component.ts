@@ -4,6 +4,8 @@ import {SubjectService} from 'src/app/shared/services/subject.service'
 import {SubjectApiService} from 'src/app/subject/services/subject.service'
 import {BaseService} from 'src/app/statement-base/services/base.service'
 
+import { DiagramService } from 'src/app/shared/services/diagram.service'
+
 interface Types {
   id: string
   title: string
@@ -26,10 +28,14 @@ interface UsersSelection {
   styleUrls: ['./visualisation-toolbar.component.scss']
 })
 export class VisualisationToolbarComponent implements OnInit {
+  @Input() displayType: string // [ chart | diagram | flow | map | table ]
   @Input() addUserAction: any
   @Input() expandViewAction: any
   @Input() contractViewAction: any
-  @Input() usersImportList: Users[]
+  @Input() notificationsAction: any
+  @Input() filterAction: any
+  @Input() exportAction: any
+
   typesList: Types[]
   usersList: Users[]
 
@@ -42,6 +48,8 @@ export class VisualisationToolbarComponent implements OnInit {
     private subjectService: SubjectService,
     private subjectApiService: SubjectApiService,
     private baseService: BaseService,
+
+    private diaSvc: DiagramService,
   ) {
     this.typesList = [
       { id: 'sviracuni', title: 'Svi računi odabrane osobe' }
@@ -50,18 +58,22 @@ export class VisualisationToolbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    /*
     this.subjectId = +this.subjectService.hasToken()
     console.log('ODX', this.subjectId)
     this.baseService.getOsobeDropdown().subscribe(
       data => {
         console.log('GOT', data)
+        this.usersList = this.usersImportList.map(obj => ({...obj}))
       },
       err => {
         console.warn('ERR', err)
       }
     )
+    */
 
-    this.usersList = this.usersImportList.map(obj => ({...obj}))
+    const usersImportList = this.diaSvc.getAllUsers()
+    this.usersList = usersImportList.map(obj => ({...obj})) as any
     this.selectedUser = this.usersList.map(usr => { return { id: usr.id, name: usr.name + ' (OIB: ' + usr.oib + ')' }})[0]
   }
 
