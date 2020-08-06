@@ -1,3 +1,27 @@
 <header class="bg-primary col-sm-12 text-center text-light p-1">
     <app-toolbar-info [moduleFontIcon]="moduleFontIcon" [moduleName]="moduleName"></app-toolbar-info>
 </header>
+
+<div>
+  <app-visualisation-toolbar
+    [displayType]="displayType"
+    [addUserAction]="addUser.bind(this)"
+    [expandViewAction]="expandView.bind(this)"
+    [contractViewAction]="contractView.bind(this)"
+    [notificationsAction]="notifications.bind(this)"
+    [filterAction]="filter.bind(this)"
+    [exportAction]="export.bind(this)">
+  </app-visualisation-toolbar>
+
+  <div id="map-area">
+    <div class="map-canvas"
+      leaflet
+      [leafletOptions]="options"
+      [leafletLayersControl]="layersControl"
+      [(leafletZoom)]="zoom"
+      (leafletMapZoom)="zoomControl($event)"
+      (leafletClick)="mapClick($event)"
+      (leafletMapReady)="onMapReady($event)">
+    </div>
+  </div>
+</div>

@@ -11,6 +11,7 @@ import { SubjectService } from './shared/services/subject.service';
 import { ChartsModule } from 'ng2-charts';
 import { LocalStoreSubjectService } from './shared/services/local-store-subject.service';
 import { LocalStoreFilterService } from './shared/services/local-store-filter.service';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet'
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { LocalStoreFilterService } from './shared/services/local-store-filter.se
     SharedModule,
     AppRoutingModule,
     HttpClientModule,
-    ChartsModule
+    ChartsModule,
+    LeafletModule,
   ],
   providers: [
     SubjectService,

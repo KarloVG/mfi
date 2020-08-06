@@ -33,7 +33,10 @@
               "node_modules/@fortawesome/fontawesome-free-webfonts/css/fontawesome.css",
               "node_modules/@fortawesome/fontawesome-free-webfonts/css/fa-regular.css",
               "node_modules/@fortawesome/fontawesome-free-webfonts/css/fa-brands.css",
-              "node_modules/@fortawesome/fontawesome-free-webfonts/css/fa-solid.css"
+              "node_modules/@fortawesome/fontawesome-free-webfonts/css/fa-solid.css",
+              "node_modules/vis/dist/vis.css",
+              "node_modules/vis/dist/vis-timeline-graph2d.min.css",
+              "node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": [
               "node_modules/vis/dist/vis.min.js",
@@ -108,7 +111,8 @@
               "node_modules/@fortawesome/fontawesome-free-webfonts/css/fa-solid.css",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/vis/dist/vis.css",
-              "node_modules/vis/dist/vis-timeline-graph2d.min.css"
+              "node_modules/vis/dist/vis-timeline-graph2d.min.css",
+              "node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": []
           }
