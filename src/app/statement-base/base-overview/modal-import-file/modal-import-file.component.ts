@@ -6,6 +6,7 @@ import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { IOsobaDropdown } from '../../models/osoba-dropdown';
 import { BaseService } from '../../services/base.service';
 import { FinancijskaTransakcijaService } from '../../services/financijska-transakcija.service';
+import { IParserResponse } from '../../models/parser-response';
 
 @Component({
   selector: 'app-modal-import-file',
@@ -19,9 +20,8 @@ export class ModalImportFileComponent implements OnInit, OnDestroy {
   fileName: string;
   validationTemplates: ISimpleDropdownItem[] = [];
   fileInput: File;
-  errors: any[] = [];
+  errors = [];
   extracts: any[] = [];
-  errorName: string = '';
 
   osobeNaPredmetu: IOsobaDropdown[] = [];
 
@@ -87,37 +87,19 @@ export class ModalImportFileComponent implements OnInit, OnDestroy {
         return;
       } else {
         this.isLoadingResponse = true;
-        this.financijskaTransakcijaService.validateFile(this.osoba.value,this.fileInput, this.template.value).subscribe(data => {
-          data.forEach(
-            (element, index,array) => {
-              if (element.errors && element.errors.length) {
-                this.importSuccess = false;
-                element.errors.forEach(el => {
-                  this.errorName += `${el.name}
- `;
-                })
-                this.errors.push({
-                  name: this.errorName,
-                  rowId: index
-                });
-                console.warn('ERRX', element.errors)
+        this.financijskaTransakcijaService.validateFile(this.osoba.value,this.fileInput, this.template.value).subscribe((data: IParserResponse) => {
+          if(data.success) {
+            this.isLoadingResponse = false;
+            this.modal.close(true);
+          } else {
+            this.isLoadingResponse = false;
+            this.importSuccess = false;
+            data.errorList.forEach(
+              error => {
+                this.errors.push(error);
               }
-              if (element.extract && element.extract.length) {
-                this.extracts = element.extract;
-              }
-              if(JSON.stringify(element) === JSON.stringify(array[array.length - 1]) ) {
-                console.log('SX1-elm', element)
-                this.isLoadingResponse = false;
-                if(this.errors.length == 0) {
-                  console.log('SX2-importSuccess', this.importSuccess)
-                  const modalResponse = {
-                    personId: this.osoba.value,
-                    extracts: this.extracts}
-                  this.modal.close(modalResponse)
-                }
-              }
-            }
-          );
+            )
+          }
         })
       }
     } else {
