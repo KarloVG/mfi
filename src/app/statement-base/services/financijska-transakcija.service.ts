@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 import { LocalStoreSubjectService } from 'src/app/shared/services/local-store-subject.service';
+import { IParserResponse } from '../models/parser-response';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class FinancijskaTransakcijaService {
     return this.http.get<ISimpleDropdownItem[]>(url);
   }
 
-  validateFile(osobaID,file, templateName): Observable<any> {
+  validateFile(osobaID,file, templateName): Observable<IParserResponse> {
     const token = this.subjectLocalService.hasToken();
     if (token) {
       const requestData = new FormData();
