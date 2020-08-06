@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-topbar-info',
-  templateUrl: './topbar-info.component.html',
-  styleUrls: ['./topbar-info.component.scss']
+  selector: 'app-toolbar-info',
+  templateUrl: './toolbar-info.component.html',
+  styleUrls: ['./toolbar-info.component.scss']
 })
-export class TopbarInfoComponent implements OnInit {
+export class ToolbarInfoComponent implements OnInit {
 
   @Input() moduleName: string;
   @Input() moduleFontIcon;
