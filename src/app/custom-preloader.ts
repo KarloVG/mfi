@@ -1,5 +1,4 @@
 import { PreloadingStrategy, Route } from '@angular/router';
-
 import { Observable, of } from 'rxjs';
 
 export class CustomPreloader implements PreloadingStrategy {

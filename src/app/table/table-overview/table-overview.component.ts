@@ -27,11 +27,11 @@ export class TableOverviewComponent implements OnInit, OnDestroy {
   isActiveFilter: boolean = false;
   modalFilterValues: IFilterCriteria;
   moduleName: string = 'Tablica financijskih transakcija';
-  moduleFontIcon = 'fas fa-table';
+  moduleFontIcon: string = 'fas fa-table';
+  displayType: string = 'table'
 
   financijskeTransakcije: IFinancijskaTransakcija[] = [];
   staticValue: IFinancijskaTransakcija[] = [];
-
 
   constructor(
     private baseDetailService: BaseDetailService,
