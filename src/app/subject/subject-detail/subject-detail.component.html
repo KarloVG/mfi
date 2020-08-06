@@ -14,11 +14,11 @@
         <span class="fas fa-check-square"></span>
         <span class="ml-2">Uredi predmet</span>
       </button>
-      <button type="button" class="btn btn-secondary mr-3" (click)="exitSubject()">
+      <button type="button" class="btn btn-outline-secondary mr-3" (click)="exitSubject()">
         <span class="fas fa-times-circle"></span>
         <span class="ml-2">Zatvori predmet</span>
       </button>
-      <button type="button" class="btn btn-danger mr-3" (click)="deleteSubject()">
+      <button type="button" class="btn btn-danger mr-3 d-none" (click)="deleteSubject()">
         <span class="fas fa-trash"></span>
         <span class="ml-2">Obriši predmet</span>
       </button>
@@ -71,15 +71,18 @@
                     <th scope="col">Broj</th>
                     <th scope="col">Ime</th>
                     <th scope="col">Prezime</th>
-                    <th scope="col">E-mail</th>
+                    <th scope="col">Korisničko ime</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let korisnik of subject.predmetKorisnici; let i = index">
                     <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ korisnik.ime }}</td>
-                    <td>{{ korisnik.prezime }}</td>
-                    <td>{{ korisnik.email }}</td>
+                    <td>{{ korisnik.korisnik.ime }}</td>
+                    <td>{{ korisnik.korisnik.prezime }}</td>
+                    <td>
+                      {{ korisnik.korisnik.loginName }}
+                      <span class="fas fa-bookmark pull-right ml-3" title="Default korisnik na predmetu" *ngIf="korisnik.defaultKorisnikNaPredmetu === true"></span>
+                    </td>
                 </tr>
                 <tr *ngIf="subject.predmetKorisnici.length == 0">
                     <td>n/a</td>
