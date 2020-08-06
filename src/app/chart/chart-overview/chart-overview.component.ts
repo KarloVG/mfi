@@ -10,7 +10,7 @@ import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 })
 
 export class ChartOverviewComponent implements OnInit {
-  moduleName: string = 'Prikaz informacija na mapi';
+  moduleName: string = 'Graf financijskih transakcija';
   moduleFontIcon = 'fas fa-chart-pie';
 
   constructor() {}

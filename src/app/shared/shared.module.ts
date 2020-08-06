@@ -17,4 +17,4 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
   ],
   exports: [CommonModule,NgbModule, LayoutModule, NgxDatatableModule, SharedComponentsModule]
 })
-export class SharedModule { }
+export class SharedModule {}

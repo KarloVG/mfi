@@ -1,0 +1,57 @@
+  <section class="infobar row no-gutters mb-2">
+    <div class="col-sm-12 py-2 row ml-0 bg-light border-bottom">
+      <form class="col-sm-7 row">
+        <div class="col-sm-6">
+          <div class="form-group row mb-1">
+            <label for="osobazavizualizaciju" class="col-sm-5 col-form-label">Osoba za vizualizaciju</label>
+            <div class="col-sm-7">
+              <select class="form-control" id="selectedUser" [(ngModel)]="selectedUser.id" name="user">
+                <option *ngFor="let user of usersList" value="{{user.id}}">{{user.name}} (OIB: {{user.oib}})</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-5">
+          <div class="form-group row mb-1">
+            <label for="racunizavizualizaciju" class="col-sm-5 col-form-label">Račun za vizualizaciju</label>
+            <div class="col-sm-7">
+              <select class="form-control" id="selectedType" [(ngModel)]="selectedType.id" name="type">
+                <option *ngFor="let type of typesList" value="{{type.id}}">{{type.title}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-1">
+          <button type="button" class="btn btn-secondary mr-3" title="Dodaj na dijagram" (click)="addUser()">
+            <span class="fas fa-user-plus"></span>
+          </button>
+        </div>
+      </form>
+      <div class="col-sm-5 text-right">
+        <button type="button" class="btn btn-secondary mr-3" title="Prikaži +1" (click)="expandViewAction()">
+          <span class="fas fa-arrow-circle-up"></span>
+          <span class="ml-2 d--none">Prikaži</span>
+          <span class="ml-1 d--none">+1</span>
+        </button>
+        <button type="button" class="btn btn-secondary mr-3" title="Prikaži +1" (click)="contractViewAction()">
+          <span class="fas fa-arrow-circle-down"></span>
+          <span class="ml-2 d--none">Prikaži</span>
+          <span class="ml-1 d--none">-1</span>
+        </button>
+
+        <button type="button" class="btn btn-secondary mr-3" disabled title="Alarmiranje" data-click="notifications()">
+          <span class="fas fa-bell"></span>
+          <span class="ml-2 d-none">Alarmiranje</span>
+        </button>
+        <button type="button" class="btn btn-secondary mr-3" disabled title="Izvoz slike" data-click="export()">
+          <span class="fas fa-image"></span>
+          <span class="ml-2 d-none">Izvoz slike</span>
+        </button>
+        <button type="button" class="btn btn-secondary mr-3" title="Filtriranje" data-click="filter()">
+          <span class="fas fa-filter"></span>
+          <span class="ml-2 d--none">Filtriranje</span>
+        </button>
+
+      </div>
+    </div>
+  </section>

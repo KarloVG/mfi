@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartRoutingModule } from './chart-routing.module';
 import { ChartOverviewComponent } from './chart-overview/chart-overview.component';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
@@ -11,7 +11,7 @@ import { ChartsModule } from 'ng2-charts';
     CommonModule,
     ChartRoutingModule,
     SharedModule,
-    ChartsModule
+    ChartsModule,
   ],
   exports: [ChartRoutingModule]
 })
