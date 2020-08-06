@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Network, DataSet, Node, Edge, IdType } from 'vis'
+import { DiagramService } from 'src/app/shared/services/diagram.service'
 
 import { registerLocaleData } from '@angular/common';
 import localeHr from '@angular/common/locales/hr';
 registerLocaleData(localeHr, 'hr');
-
-import { DiagramService } from 'src/app/shared/services/diagram.service'
 
 interface Users {
   id: number
@@ -35,6 +34,8 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   isSelectedActiveUser: boolean = false
 
   viewLevel = 1
+  moduleName: string = 'Dijagram financijskih transakcija'
+  moduleFontIcon: string = 'fas fa-sitemap'
 
   public constructor(
     private diaSvc: DiagramService

@@ -52,7 +52,6 @@ export class TopbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /*
     this.subjectId = +this.subjectService.hasToken()
     console.log('ODX', this.subjectId)
     this.subjectApiService.getSubjectById(this.subjectId).subscribe(
@@ -63,7 +62,7 @@ export class TopbarComponent implements OnInit {
         console.warn('ERR', err)
       }
     )
-    */
+
     this.usersList = this.usersImportList.map(obj => ({...obj}))
     this.selectedUser = this.usersList.map(usr => { return { id: usr.id, name: usr.name + ' (OIB: ' + usr.oib + ')' }})[0]
   }

@@ -2,6 +2,7 @@ import {Component, OnInit, Input} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router'
 import {SubjectService} from 'src/app/shared/services/subject.service'
 import {SubjectApiService} from 'src/app/subject/services/subject.service'
+import {BaseService} from 'src/app/statement-base/services/base.service'
 
 interface Types {
   id: string
@@ -40,6 +41,7 @@ export class VisualisationToolbarComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private subjectService: SubjectService,
     private subjectApiService: SubjectApiService,
+    private baseService: BaseService,
   ) {
     this.typesList = [
       { id: 'sviracuni', title: 'Svi računi odabrane osobe' }
@@ -50,7 +52,7 @@ export class VisualisationToolbarComponent implements OnInit {
   ngOnInit(): void {
     this.subjectId = +this.subjectService.hasToken()
     console.log('ODX', this.subjectId)
-    this.subjectApiService.getSubjectById(this.subjectId).subscribe(
+    this.baseService.getOsobeDropdown().subscribe(
       data => {
         console.log('GOT', data)
       },

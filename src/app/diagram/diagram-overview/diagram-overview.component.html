@@ -1,10 +1,14 @@
+<header class="bg-primary col-sm-12 text-center text-light p-1">
+  <app-toolbar-info [moduleFontIcon]="moduleFontIcon" [moduleName]="moduleName"></app-toolbar-info>
+</header>
+
 <div>
-  <app-topbar
+  <app-visualisation-toolbar
     [usersImportList]="usersList"
     [addUserAction]="addUser.bind(this)"
     [expandViewAction]="expandView.bind(this)"
     [contractViewAction]="contractView.bind(this)">
-  </app-topbar>
+  </app-visualisation-toolbar>
 
   <div class="infobox float-left col-sm-3" *ngIf="nodeActive !== null">
     <app-userview
