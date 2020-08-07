@@ -1,8 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
-import { Network, DataSet, Node, Edge, IdType } from 'vis'
-import { DiagramService } from 'src/app/shared/services/diagram.service'
+import {Component, OnInit, OnDestroy} from '@angular/core'
+import {Network, DataSet, Node, Edge, IdType} from 'vis'
+import {DiagramService} from 'src/app/shared/services/diagram.service'
+import {SubjectService} from 'src/app/shared/services/subject.service'
+import {BaseService} from 'src/app/statement-base/services/base.service'
 
-import { registerLocaleData } from '@angular/common';
+import {registerLocaleData} from '@angular/common';
 import localeHr from '@angular/common/locales/hr';
 registerLocaleData(localeHr, 'hr');
 
@@ -38,10 +40,22 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   moduleFontIcon: string = 'fas fa-sitemap'
   displayType: string = 'diagram'
 
+  subjectId: number
+
   public constructor(
-    private diaSvc: DiagramService
+    private diaSvc: DiagramService,
+    private subjectService: SubjectService,
+    private baseService: BaseService,
   ) {
-    this.usersList = this.diaSvc.getAllUsers()
+    this.subjectId = +this.subjectService.hasToken()
+    this.baseService.getBaseItems().subscribe(
+      data => {
+        this.usersList = data as Users
+      },
+      err => {
+        console.warn('ERR', err)
+      }
+    )
   }
 
   public ngOnInit(): void {
@@ -103,8 +117,12 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
 
   addUser(userId, typeId) {
     if (this.nodes.length > 0 || this.edges.length > 0) { this.clearNetwork() }
-    const person = this.diaSvc.getPerson(userId)
+    let person = this.usersList.find(usr => { return usr.osobaID === userId})
     const accounts = this.diaSvc.getUserAccounts(userId)
+    console.log('DSX', person, accounts)
+
+    person.label = person.naziv + '\r\n(ID: ' + person.idBroj + ')'
+
     this.diaSvc.addNode(person)
     this.diaSvc.addNodes(accounts)
     this.activeUser = person

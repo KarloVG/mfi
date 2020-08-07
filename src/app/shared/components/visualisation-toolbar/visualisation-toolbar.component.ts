@@ -4,8 +4,6 @@ import {SubjectService} from 'src/app/shared/services/subject.service'
 import {SubjectApiService} from 'src/app/subject/services/subject.service'
 import {BaseService} from 'src/app/statement-base/services/base.service'
 
-import { DiagramService } from 'src/app/shared/services/diagram.service'
-
 interface Types {
   id: string
   title: string
@@ -48,8 +46,6 @@ export class VisualisationToolbarComponent implements OnInit {
     private subjectService: SubjectService,
     private subjectApiService: SubjectApiService,
     private baseService: BaseService,
-
-    private diaSvc: DiagramService,
   ) {
     this.typesList = [
       { id: 'sviracuni', title: 'Svi računi odabrane osobe' }
@@ -58,12 +54,9 @@ export class VisualisationToolbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.subjectId = +this.subjectService.hasToken()
-    console.log('ODX', this.subjectId)
     this.baseService.getBaseItems().subscribe(
       data => {
-        console.log('GOT', data)
         this.usersList = data as Users
         this.selectedUser = this.usersList.map(usr => {
           return { id: usr.osobaID, name: usr.naziv + ' (ID: ' + usr.idBroj + ')' }

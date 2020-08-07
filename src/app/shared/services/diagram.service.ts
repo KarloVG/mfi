@@ -1,23 +1,21 @@
-import { Injectable } from '@angular/core';
-import { Network, DataSet, Node, Edge, IdType } from 'vis'
+import {Injectable} from '@angular/core';
+import {Network, DataSet, Node, Edge, IdType} from 'vis'
+import {BaseService} from 'src/app/statement-base/services/base.service'
+import {SubjectService} from 'src/app/shared/services/subject.service'
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class DiagramService {
-  public allUsers = [
-    {id: 101, name: 'Marko Marković', oib: '12345', totalIn: 31950, totalOut: 115450},
-    {id: 102, name: 'Petar Petrović', oib: '67890', totalIn: 0, totalOut: 0},
-    {id: 103, name: 'Dobra tvrtka d.o.o.', oib: '45678', totalIn: 0, totalOut: 0},
-  ]
+  public allUsers = []
   public allAccs = [
-    {id: 2001, userId: 101, accNo: 'HR100123', swift: 'ZABAHR2X', bank: 'ZABA', country: 'HR'}, // Marko Marković
-    {id: 2002, userId: 101, accNo: 'HR100987', swift: 'ZABAHR2X', bank: 'ZABA', country: 'HR'}, // Marko Marković
-    {id: 2003, userId: 101, accNo: 'HR200456', swift: 'PBZGHR2X', bank: 'PBZ',  country: 'HR'}, // Marko Marković
-    {id: 2004, userId: 101, accNo: 'HR300333', swift: 'HPBZHR2X', bank: 'HPB',  country: 'HR'}, // Marko Marković
-    {id: 2005, userId: 102, accNo: '123456',   swift: 'BOFAUS3N', bank: 'BOFA', country: 'US'}, // Petar Petrović
-    {id: 2006, userId: 102, accNo: 'HR100246', swift: 'ZABAHR2X', bank: 'ZABA', country: 'HR'}, // Petar Petrović
+    {id: 2001, userId: 7, accNo: 'HR100123', swift: 'ZABAHR2X', bank: 'ZABA', country: 'HR'}, // Marko Marković
+    {id: 2002, userId: 7, accNo: 'HR100987', swift: 'ZABAHR2X', bank: 'ZABA', country: 'HR'}, // Marko Marković
+    {id: 2003, userId: 7, accNo: 'HR200456', swift: 'PBZGHR2X', bank: 'PBZ',  country: 'HR'}, // Marko Marković
+    {id: 2004, userId: 7, accNo: 'HR300333', swift: 'HPBZHR2X', bank: 'HPB',  country: 'HR'}, // Marko Marković
+    {id: 2005, userId: 8, accNo: '123456',   swift: 'BOFAUS3N', bank: 'BOFA', country: 'US'}, // Petar Petrović
+    {id: 2006, userId: 8, accNo: 'HR100246', swift: 'ZABAHR2X', bank: 'ZABA', country: 'HR'}, // Petar Petrović
     {id: 2007, userId: 103, accNo: 'HR200678', swift: 'ZABAHR2X', bank: 'ZABA', country: 'HR'}, // Dobra tvrtka d.o.o.
   ]
   public allTrans = [
@@ -100,8 +98,22 @@ export class DiagramService {
     },
   }
   data: any
+  subjectId
 
-  constructor() {}
+  constructor(
+    private subjectService: SubjectService,
+    private baseService: BaseService,
+  ) {
+    this.subjectId = +this.subjectService.hasToken()
+    this.baseService.getBaseItems().subscribe(
+      data => {
+        this.allUsers = data as Users
+      },
+      err => {
+        console.warn('ERR', err)
+      }
+    )
+  }
 
   assignNetwork(network, data, nodes, edges) {
     this.nodes = nodes
@@ -118,12 +130,12 @@ export class DiagramService {
     const person = this.allUsers.find(itm => { return itm.id === id })
     const accountIdList = this.allAccs.filter(itm => { return itm.userId === id }).map(itm => { return itm.id })
     return {
-      id: person.id,
-      label: person.name + '\r\nOIB: ' + person.oib,
+      id: person.osobaID,
+      label: person.naziv + '\r\nOIB: ' + person.idBroj,
       type: 'user',
       mass: 1,
-      name: person.name,
-      oib: person.oib,
+      name: person.naziv,
+      oib: person.idBroj,
       totalIn: person.totalIn,
       totalOut: person.totalOut,
       accounts: accountIdList
@@ -341,6 +353,7 @@ export class DiagramService {
   }
 
   addNode(node: any) {
+    console.log('NX', node)
     this.nodes.update(node)
   }
   addNodes(nodeArray: any) {
