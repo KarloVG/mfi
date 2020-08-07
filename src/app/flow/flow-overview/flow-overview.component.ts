@@ -14,13 +14,8 @@ export class FlowOverviewComponent implements OnInit {
   moduleFontIcon: string = 'fas fa-clock';
   displayType: string = 'flow'
 
-  constructor() {}
-
-  ngOnInit(): void {}
-
   barChartOptions: ChartOptions = {
     responsive: true,
-    // We use these empty structures as placeholders for dynamic theming.
     scales: { xAxes: [{}], yAxes: [{}] },
     plugins: {
       datalabels: {
@@ -38,14 +33,22 @@ export class FlowOverviewComponent implements OnInit {
   barChartColors1 = 'rgba(0,255,0,0.3)'
   barChartColors2 = 'rgba(255,0,0,0.3)'
 
-  barChartData1: ChartDataSets[] = [
+  barChartDataU: ChartDataSets[] = [{ data: [], label: 'Uplate' }]
+  barChartDataUx: ChartDataSets[] = [
     { data: [21000, 60000, 24000, 77000, 11000, 44000, 21000, 60000, 24000, 77000, 11000, 44000], label: 'Uplate' }
-  ];
-  barChartData2: ChartDataSets[] = [
+  ]
+  barChartDataI: ChartDataSets[] = [{ data: [], label: 'Isplate' }]
+  barChartDataIx: ChartDataSets[] = [
     { data: [-21000, -11000, -60000, -44000, -24000, -77000, -11000, -21000, -24000, -77000, -60000, -44000], label: 'Isplate' }
   ];
 
-  // events
+  entriesMin: number = 1
+  entriesMax: number = 90
+
+  constructor() {}
+
+  ngOnInit(): void {}
+
   chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
   }
@@ -56,7 +59,14 @@ export class FlowOverviewComponent implements OnInit {
 
   addUser() {
     console.log('Flow', 'addUser')
+    for (let u = 1; u <= 12; u++) {
+      this.barChartDataU[0].data.push(this.rndmm(this.entriesMin, this.entriesMax) * 1000)
+    }
+    for (let i = 1; i <= 12; i++) {
+      this.barChartDataI[0].data.push(-1 * this.rndmm(this.entriesMin, this.entriesMax) * 1000)
+    }
   }
+
   expandView() {
     console.log('Flow', 'expandViewAction')
   }
@@ -71,5 +81,9 @@ export class FlowOverviewComponent implements OnInit {
   }
   export() {
     console.log('Flow', 'exportAction')
+  }
+
+  rndmm(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
   }
 }

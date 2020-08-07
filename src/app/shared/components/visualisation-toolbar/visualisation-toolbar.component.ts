@@ -58,23 +58,21 @@ export class VisualisationToolbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /*
+
     this.subjectId = +this.subjectService.hasToken()
     console.log('ODX', this.subjectId)
-    this.baseService.getOsobeDropdown().subscribe(
+    this.baseService.getBaseItems().subscribe(
       data => {
         console.log('GOT', data)
-        this.usersList = this.usersImportList.map(obj => ({...obj}))
+        this.usersList = data as Users
+        this.selectedUser = this.usersList.map(usr => {
+          return { id: usr.osobaID, name: usr.naziv + ' (ID: ' + usr.idBroj + ')' }
+        })[0]
       },
       err => {
         console.warn('ERR', err)
       }
     )
-    */
-
-    const usersImportList = this.diaSvc.getAllUsers()
-    this.usersList = usersImportList.map(obj => ({...obj})) as any
-    this.selectedUser = this.usersList.map(usr => { return { id: usr.id, name: usr.name + ' (OIB: ' + usr.oib + ')' }})[0]
   }
 
   addUser() {

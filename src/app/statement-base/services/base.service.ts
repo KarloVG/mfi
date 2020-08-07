@@ -53,13 +53,6 @@ export class BaseService {
       return this.http.get<IOsobaDropdown[]>(url);
     }
   }
-  getOsobe(): Observable<IOsoba[]> {
-    const token = this.subjectLocalService.hasToken();
-    if(token) {
-      const url = this.urlHelper.getUrl(this.BASE_ITEMS, 'Osobe', token);
-      return this.http.get<IOsoba[]>(url);
-    }
-  }
 
   getBaseExtracts(): Observable<IBaseExtract[]> {
     const url = this.urlHelper.getUrl(this.BASE_CONTROLLER);

@@ -7,7 +7,7 @@
             <label for="osobazavizualizaciju" class="col-sm-5 col-form-label">Osoba za vizualizaciju</label>
             <div class="col-sm-7">
               <select class="form-control" id="selectedUser" [(ngModel)]="selectedUser.id" name="user">
-                <option *ngFor="let user of usersList" value="{{user.id}}">{{user.name}} (OIB: {{user.oib}})</option>
+                <option *ngFor="let user of usersList" value="{{user.osobaID}}">{{user.naziv}} (ID: {{user.idBroj}})</option>
               </select>
             </div>
           </div>

@@ -39,14 +39,36 @@ export class ChartOverviewComponent implements OnInit {
     },
   ];
 
-  pieChartLabels1: Label[] = ['Hrvatska', 'Bosna i Hercegovina', 'Grčka', 'Ujedinjeno Kraljevstvo', 'Estonija', 'Sjedinjene Američke Države'];
-  pieChartLabels2: Label[] = ['Hrvatska', 'Bosna i Hercegovina', 'Grčka', 'Ujedinjeno Kraljevstvo', 'Irska', 'Srbija'];
-  pieChartData1: number[] = [69.8, 0.7, 2, 18.9, 4.9, 3.7];
-  pieChartData2: number[] = [10.1, 1.2, 4.3, 4.3, 61.8, 18.3];
+  pieChartLabels: Label[] = [
+    'Hrvatska',
+    'Bosna i Hercegovina',
+    'Grčka',
+    'Ujedinjeno Kraljevstvo',
+    'Estonija',
+    'Sjedinjene Američke Države',
+    'Irska',
+    'Srbija',
+    'Crna Gora',
+    'Austrija',
+    'Slovenija',
+    'Italija',
+    'Njemačka',
+    'Francuska',
+    'Malta',
+    'Cipar',
+    'Španjolska',
+    'Portugal',
+  ];
+
+  pieChartLabelsU: Label[] = [];
+  pieChartLabelsI: Label[] = [];
+  pieChartDataU: number[] = [];
+  pieChartDataUx: number[] = [69.8, 0.7, 2, 18.9, 4.9, 3.7];
+  pieChartDataI: number[] = [];
+  pieChartDataIx: number[] = [10.1, 1.2, 4.3, 4.3, 61.8, 18.3];
 
   barChartOptions: ChartOptions = {
     responsive: true,
-    // We use these empty structures as placeholders for dynamic theming.
     scales: { xAxes: [{}], yAxes: [{}] },
     plugins: {
       datalabels: {
@@ -59,20 +81,24 @@ export class ChartOverviewComponent implements OnInit {
   barChartLegend = true;
   barChartPlugins = [pluginDataLabels];
 
-  barChartLabels1: Label[] = ['Boško Bošković', 'ACME Ltd.', 'Marko Markić', 'Dobra Tvrtka d.o.o.', 'Ivana Ivić', 'Ana Anić'];
-  barChartLabels2: Label[] = ['Petar Petrović', 'Franjo Franjić', 'Nina Ninić', 'ACME Ltd. (UK)', 'Luka Lukač', 'Ana Anić'];
+  barChartLabelsU: Label[] = ['Boško Bošković', 'ACME Ltd.', 'Marko Markić', 'Dobra Tvrtka d.o.o.', 'Ivana Ivić', 'Ana Anić'];
+  barChartLabelsI: Label[] = ['Petar Petrović', 'Franjo Franjić', 'Nina Ninić', 'ACME Ltd. (UK)', 'Luka Lukač', 'Ana Anić'];
 
   barChartColors1 = 'rgba(0,255,0,0.3)'
   barChartColors2 = 'rgba(255,0,0,0.3)'
 
-  barChartData1: ChartDataSets[] = [
+  barChartDataU: ChartDataSets[] = [{ data: [], label: 'Uplate' }]
+  barChartDataUx: ChartDataSets[] = [
     { data: [21000, 60000, 24000, 77000, 11000, 44000], label: 'Uplate' }
   ];
-  barChartData2: ChartDataSets[] = [
+  barChartDataI: ChartDataSets[] = [{ data: [], label: 'Isplate' }]
+  barChartDataIx: ChartDataSets[] = [
     { data: [21000, 60000, 24000, 77000, 11000, 44000], label: 'Isplate' }
   ];
 
-  // events
+  entriesMin: number = 1
+  entriesMax: number = 90
+
   chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
   }
@@ -85,7 +111,32 @@ export class ChartOverviewComponent implements OnInit {
 
   addUser() {
     console.log('Chart', 'addUser')
+    this.barChartDataU[0].data = []
+    for (let u = 1; u <= this.barChartLabelsU.length; u++) {
+      this.barChartDataU[0].data.push(this.rndmm(this.entriesMin, this.entriesMax) * 1000)
+    }
+    this.barChartDataI[0].data = []
+    for (let i = 1; i <= this.barChartLabelsI.length; i++) {
+      this.barChartDataI[0].data.push(this.rndmm(this.entriesMin, this.entriesMax) * 1000)
+    }
+
+    this.pieChartLabelsU = []
+    this.pieChartLabelsU.push(this.pieChartLabels[0])
+    for (let i = 1; i <= 5; i++) {
+      this.pieChartLabelsU.push(this.pieChartLabels[this.rndmm(1, this.pieChartLabels.length - 1)])
+    }
+    this.pieChartLabelsI = []
+    this.pieChartLabelsI.push(this.pieChartLabels[0])
+    for (let i = 1; i <= 5; i++) {
+      this.pieChartLabelsI.push(this.pieChartLabels[this.rndmm(1, this.pieChartLabels.length - 1)])
+    }
+
+    this.shuffle(this.pieChartDataUx)
+    this.pieChartDataU = this.pieChartDataUx
+    this.shuffle(this.pieChartDataIx)
+    this.pieChartDataI = this.pieChartDataIx
   }
+
   expandView() {
     console.log('Chart', 'expandViewAction')
   }
@@ -100,5 +151,29 @@ export class ChartOverviewComponent implements OnInit {
   }
   export() {
     console.log('Chart', 'exportAction')
+  }
+
+  shuffle(array) {
+    let counter = array.length;
+
+    // While there are elements in the array
+    while (counter > 0) {
+        // Pick a random index
+        let index = Math.floor(Math.random() * counter);
+
+        // Decrease counter by 1
+        counter--;
+
+        // And swap the last element with it
+        let temp = array[counter];
+        array[counter] = array[index];
+        array[index] = temp;
+    }
+
+    return array;
+  }
+
+  rndmm(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
   }
 }
