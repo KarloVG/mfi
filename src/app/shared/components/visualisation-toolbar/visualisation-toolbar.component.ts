@@ -9,9 +9,10 @@ interface Types {
   title: string
 }
 interface Users {
-  id: string
-  name: string
-  oib: string
+  osobaID: string
+  naziv: string
+  idBroj: string
+  label?: string
   totalIn?: number
   totalOut?: number
 }
@@ -57,7 +58,7 @@ export class VisualisationToolbarComponent implements OnInit {
     this.subjectId = +this.subjectService.hasToken()
     this.baseService.getBaseItems().subscribe(
       data => {
-        this.usersList = data as Users
+        this.usersList = data as any
         this.selectedUser = this.usersList.map(usr => {
           return { id: usr.osobaID, name: usr.naziv + ' (ID: ' + usr.idBroj + ')' }
         })[0]

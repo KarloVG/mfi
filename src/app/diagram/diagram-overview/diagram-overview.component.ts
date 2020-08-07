@@ -9,9 +9,10 @@ import localeHr from '@angular/common/locales/hr';
 registerLocaleData(localeHr, 'hr');
 
 interface Users {
-  id: number
-  name: string
-  oib: string
+  osobaID: string
+  naziv: string
+  idBroj: string
+  label?: string
   totalIn?: number
   totalOut?: number
 }
@@ -30,8 +31,8 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   nodeActive: any = null
   edgeActive: any = null
 
-  activeUser: Users
-  usersList: Users[]
+  activeUser: any
+  usersList: any[]
   expanded = new Set([])
   isSelectedActiveUser: boolean = false
 
@@ -50,7 +51,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     this.subjectId = +this.subjectService.hasToken()
     this.baseService.getBaseItems().subscribe(
       data => {
-        this.usersList = data as Users
+        this.usersList = data
       },
       err => {
         console.warn('ERR', err)

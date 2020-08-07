@@ -107,7 +107,7 @@ export class DiagramService {
     this.subjectId = +this.subjectService.hasToken()
     this.baseService.getBaseItems().subscribe(
       data => {
-        this.allUsers = data as Users
+        this.allUsers = data
       },
       err => {
         console.warn('ERR', err)
