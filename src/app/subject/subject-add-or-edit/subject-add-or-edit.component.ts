@@ -16,7 +16,6 @@ import { NgbDateCustomParserFormatter } from 'src/app/shared/utils/ngb-date-cust
 import { Observable, Subject } from 'rxjs';
 import { ModalCanDeactivateComponent } from './modal-can-deactivate/modal-can-deactivate.component';
 import { CanComponentDeactivate } from 'src/app/shared/services/confirm-exit-popup-guard';
-import { AuthService } from 'src/app/shared/services/auth.service';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
 
 @Component({
@@ -58,14 +57,14 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   isSubmited: boolean = false;
   subjectName: string = '';
 
-  adalUser: ISubjectPermission = {
-    korisnikID: 15,
-    ime: 'Željko',
-    prezime: 'Malnar',
-    Flag: false,
-    loginName: 'zeljko.malnar@gmailloginName',
-    isFromAd: true
-  }
+  // adalUser: ISubjectPermission = {
+  //   korisnikID: 15,
+  //   ime: 'Željko',
+  //   prezime: 'Malnar',
+  //   Flag: false,
+  //   loginName: 'zeljko.malnar@gmailloginName',
+  //   isFromAd: true
+  // }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -100,14 +99,12 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
           })
           this.subject.predmetKorisnici.forEach(
             korisnikData => {
-              const korisnik = korisnikData.korisnik as ISubjectPermission
+              const korisnik = korisnikData.korisnik;
               this.predmetKorisnici.push(this.formBuilder.group({
-                ID: korisnik.id,
+                korisnikID: korisnik.korisnikID,
                 Ime: korisnik.ime,
                 Prezime: korisnik.prezime,
-                Flag: korisnik.Flag,
                 LoginName: korisnik.loginName,
-                isFromAd: korisnik.isFromAd
               }))
             }
           );
@@ -122,14 +119,14 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
         }
       )
     } else {
-      this.predmetKorisnici.push(this.formBuilder.group({
-        ID: this.adalUser.id,
-        Ime: this.adalUser.ime,
-        Prezime: this.adalUser.prezime,
-        Flag: this.adalUser.Flag,
-        LoginName: this.adalUser.loginName,
-        isFromAd: this.adalUser.isFromAd
-      }));
+      // this.predmetKorisnici.push(this.formBuilder.group({
+      //   ID: this.adalUser.id,
+      //   Ime: this.adalUser.ime,
+      //   Prezime: this.adalUser.prezime,
+      //   // Flag: this.adalUser.Flag,
+      //   LoginName: this.adalUser.loginName,
+      //   isFromAd: this.adalUser.isFromAd
+      // }));
     }
   }
 
@@ -205,12 +202,10 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
     modalRef.result.then((result) => {
       if (result) {
         this.predmetKorisnici.push(this.formBuilder.group({
-          ID: result.korisnikID,
+          korisnikID: result.korisnikID,
           Ime: result.ime,
           Prezime: result.prezime,
-          Flag: result.Flag,
           LoginName: result.loginName,
-          isFromAd: result.isFromAd
         }));
         this.toastr.success('Dodana je nova dozvola na rad', 'Uspjeh', {
           progressBar: true

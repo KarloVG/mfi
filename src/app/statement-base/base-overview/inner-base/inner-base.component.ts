@@ -16,7 +16,7 @@ import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 })
 export class InnerBaseComponent implements OnInit, OnDestroy {
 
-  @Input() baseItemID: number;
+  @Input() osobaID: number;
   isLoading: boolean = true;
   innerItems: IInnerbaseItem[] = [];
   columns: any[] = EXPANDED_COLUMNS;
@@ -30,13 +30,14 @@ export class InnerBaseComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void { }
 
   ngOnInit(): void {
-    if (this.baseItemID) {
+    console.log(this.osobaID)
+    if (this.osobaID) {
       this.getInnerItemsById();
     }
   }
 
   getInnerItemsById() {
-    this.innerService.getInnerBaseItemsById(this.baseItemID).pipe(take(1)).subscribe(
+    this.innerService.getInnerBaseItemsById(this.osobaID).pipe(take(1)).subscribe(
       data => {
         this.isLoading = false;
         this.innerItems = data;

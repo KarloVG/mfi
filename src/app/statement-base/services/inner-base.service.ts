@@ -9,7 +9,7 @@ import { IInnerbaseItem } from '../models/inner-base-item';
 })
 export class InnerBaseService {
 
-  private readonly BASE_ITEMS = 'innerBaseItems';
+  private readonly BASE_ITEMS = 'izvod';
 
   constructor(private http: HttpClient, private urlHelper: UrlHelperService) { }
 
@@ -19,7 +19,7 @@ export class InnerBaseService {
   }
 
   getInnerBaseItemsById(id: number): Observable<IInnerbaseItem[]> {
-    const url = this.urlHelper.getUrl(this.BASE_ITEMS + '?BaseItemID=' + id.toString());
+    const url = this.urlHelper.getUrl(this.BASE_ITEMS, id.toString());
     console.log('gIBbId', url)
     return this.http.get<IInnerbaseItem[]>(url)
   }
