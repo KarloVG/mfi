@@ -87,8 +87,8 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
   getSubjectById() {
     this.subjectApiService.getSubjectById(this.subjectId).pipe(untilComponentDestroyed(this)).subscribe(
       data => {
-        //console.log('SDDX', data)
         this.subject = data;
+        console.log(this.subject)
       },
       err => {
         console.error('SDDXe', err);
