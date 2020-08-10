@@ -1,5 +1,6 @@
 import { ISubjectPermission } from './subject-permission';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
+import { IPredmetKorisnici } from './predmet-korisnici';
 
 export interface ISubject {
     id?: number,
@@ -10,5 +11,5 @@ export interface ISubject {
     statusPredmeta: ISimpleDropdownItem,
     statusPredmetaID: number;
     napomena: string,
-    predmetKorisnici: any[]; // FIXME: razjebo sam ga ovdje, u praksi sa servera dobijem drugacije podatke, ne dobijem ISubjectPermission[]
+    predmetKorisnici: IPredmetKorisnici[];
 }
