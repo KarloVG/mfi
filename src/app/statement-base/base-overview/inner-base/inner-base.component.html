@@ -16,27 +16,27 @@
             </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column prop="Izvor" [width]="80"></ngx-datatable-column>
-        <ngx-datatable-column name="SWIFT" prop="SWIFT" [width]="80"></ngx-datatable-column>
-        <ngx-datatable-column prop="BrojRacuna" [width]="80"></ngx-datatable-column>
-        <ngx-datatable-column prop="DatumUvoza" [width]="100">
+        <ngx-datatable-column name="Izvor" prop="banka" [width]="80"></ngx-datatable-column>
+        <ngx-datatable-column name="SWIFT" prop="swift" [width]="80"></ngx-datatable-column>
+        <ngx-datatable-column prop="brojRacuna" [width]="80"></ngx-datatable-column>
+        <ngx-datatable-column prop="datumVrijemeUvoza" [width]="100">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                 {{ value | date: 'dd.MM.yyyy'}}
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column prop="Naziv" [width]="130"></ngx-datatable-column>
-        <ngx-datatable-column prop="IzvodOd" [width]="100">
+        <ngx-datatable-column prop="nazivOsobe" [width]="130"></ngx-datatable-column>
+        <ngx-datatable-column prop="datumVrijemeOd" [width]="100">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                 {{ value | date: 'dd.MM.yyyy'}}
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column prop="IzvodDo" [width]="100">
+        <ngx-datatable-column prop="datumVrijemeDo" [width]="100">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                 {{ value | date: 'dd.MM.yyyy'}}
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Br. transakcija (U/I)" prop="BrTransakcija" [width]="120"></ngx-datatable-column>
-        <ngx-datatable-column name="Iznos transakcija (U/I)" prop="IznosTransakcija" [width]="120"></ngx-datatable-column>
+        <ngx-datatable-column name="Br. transakcija (U/I)" prop="brojTransakcija" [width]="120"></ngx-datatable-column>
+        <ngx-datatable-column name="Iznos transakcija (U/I)" prop="iznosTransakcija" [width]="120"></ngx-datatable-column>
         <ngx-datatable-column name="actions" [width]="130" [resizeable]="false" [sortable]="false" [draggable]="false"
             [canAutoResize]="false">
             <ng-template ngx-datatable-header-template>

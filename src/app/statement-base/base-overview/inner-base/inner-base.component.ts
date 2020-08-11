@@ -30,18 +30,15 @@ export class InnerBaseComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void { }
 
   ngOnInit(): void {
-    console.log(this.osobaID)
-    if (this.osobaID) {
-      this.getInnerItemsById();
-    }
+    this.getInnerItemsById();
   }
 
-  getInnerItemsById() {
+  getInnerItemsById(): void {
     this.innerService.getInnerBaseItemsById(this.osobaID).pipe(take(1)).subscribe(
       data => {
         this.isLoading = false;
         this.innerItems = data;
-        console.log('gIBIDx', data)
+        console.log(this.innerItems)
       }
     );
   }
@@ -56,7 +53,6 @@ export class InnerBaseComponent implements OnInit, OnDestroy {
         if (result) {
           this.innerService.deleteInnerBaseItem(row.id).pipe(untilComponentDestroyed(this)).subscribe(
             data => {
-              console.log('usao',data)
               this.getInnerItemsById();
               this.toastr.success('Detalj izvoda je obrisan', 'Uspjeh', {
                 progressBar: true
