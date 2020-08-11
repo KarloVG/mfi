@@ -52,7 +52,7 @@ export class SubjectDetailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   navigateToEdit(): void {
-    this.router.navigate(['subject/edit', this.subjectId]);
+    this.router.navigate(['subject', this.subjectId , "edit"]);
   }
 
   deleteSubject() {

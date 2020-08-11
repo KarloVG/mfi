@@ -14,7 +14,7 @@ import { SubjectGuard } from '../shared/services/guards/subject.guard';
         canDeactivate: [ ConfirmExitPopupGuard ]
       },
       {
-        path:'edit/:id',
+        path:':id/edit',
         component: SubjectAddOrEditComponent,
         canActivate: [SubjectGuard],
         canDeactivate: [ ConfirmExitPopupGuard ]
