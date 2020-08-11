@@ -20,7 +20,6 @@ export class BaseService {
 
   private readonly BASE_ITEMS = 'Osoba';
   private readonly OSOBA_CONTROLLER = 'Osoba';
-  private readonly BASE_CONTROLLER = 'baseExtracts';
   private readonly IZVOD_CONTROLLER = 'izvod';
   private readonly IDENTIFICATION_CONTROLLER = 'VrstaIdBroja';
 
@@ -54,10 +53,10 @@ export class BaseService {
     }
   }
 
-  getBaseExtracts(): Observable<IBaseExtract[]> {
-    const url = this.urlHelper.getUrl(this.BASE_CONTROLLER);
-    return this.http.get<IBaseExtract[]>(url);
-  }
+  // getBaseExtracts(): Observable<IBaseExtract[]> {
+  //   const url = this.urlHelper.getUrl(this.BASE_CONTROLLER);
+  //   return this.http.get<IBaseExtract[]>(url);
+  // }
 
   getIdentificationTypes() {
     const url = this.urlHelper.getUrl(this.IDENTIFICATION_CONTROLLER);
