@@ -51,7 +51,7 @@ export class InnerBaseComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.class = true; // text danger
       modalRef.result.then((result) => {
         if (result) {
-          this.innerService.deleteInnerBaseItem(row.id).pipe(untilComponentDestroyed(this)).subscribe(
+          this.innerService.deleteInnerBaseItem(row.izvodID).pipe(untilComponentDestroyed(this)).subscribe(
             data => {
               this.getInnerItemsById();
               this.toastr.success('Detalj izvoda je obrisan', 'Uspjeh', {

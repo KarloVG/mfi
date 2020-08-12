@@ -29,7 +29,6 @@ export class SidebarComponent implements OnInit {
         var withNoDigits = event.url.replace(/[0-9]/g, '');
         if(withNoDigits == '/subject/edit/') {
           this.isDisabledDropdown = true;
-          console.log('iDD', this.isDisabledDropdown)
         } else {
           this.isDisabledDropdown = false;
         }
