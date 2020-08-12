@@ -12,7 +12,7 @@ import { take } from 'rxjs/operators';
 })
 export class ModalBaseDetailComponent implements OnInit {
 
-  @Input() baseDetail: IInnerbaseItem;
+  @Input() izvod: IInnerbaseItem;
   isLoading: boolean = true;
   baseTransactions: IInnerBaseDetail[] = [];
 
@@ -22,11 +22,12 @@ export class ModalBaseDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.izvod)
     this.getBaseDetail();
   }
 
   getBaseDetail() {
-    this.baseDetailService.getBaseDetailById().pipe(take(1)).subscribe(
+    this.baseDetailService.getBaseDetailById(this.izvod.izvodID).pipe(take(1)).subscribe(
       data => { this.baseTransactions = data; this.isLoading = false; }
     )
   }

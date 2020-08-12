@@ -47,7 +47,7 @@ export class InnerBaseComponent implements OnInit, OnDestroy {
     if (row) {
       const modalRef = this.ngbModalService.open(ConfirmationModalComponent, { backdrop: 'static', keyboard: false });
       modalRef.componentInstance.title = 'Uklanjanje detalja izvoda';
-      modalRef.componentInstance.description = `Odabrani detalj izvoda sa brojem računa "${row.BrojRacuna}" će biti obrisan za osobu ${row.Naziv}`;
+      modalRef.componentInstance.description = `Odabrani detalj izvoda sa brojem računa "${row.brojRacuna}" će biti obrisan za osobu ${row.nazivOsobe}`;
       modalRef.componentInstance.class = true; // text danger
       modalRef.result.then((result) => {
         if (result) {
@@ -71,7 +71,8 @@ export class InnerBaseComponent implements OnInit, OnDestroy {
 
   showInnerBaseDetail(row: IInnerbaseItem): void {
       const modalRef = this.ngbModalService.open(ModalBaseDetailComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
-      modalRef.componentInstance.baseDetail = row;
+      console.log(row);
+      modalRef.componentInstance.izvod = row;
   }
 
 }
