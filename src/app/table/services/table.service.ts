@@ -6,32 +6,33 @@ import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item'
 import { LocalStoreSubjectService } from 'src/app/shared/services/local-store-subject.service';
 import { IFinancijskaTransakcija } from 'src/app/shared/models/financijska-transakcija';
 import { ITablicaIzvod } from '../models/tablica-izvod';
-import { map } from 'rxjs/operators';
+import { IPaginationBase } from 'src/app/shared/models/pagination/pagination-base';
+import { IPagedResult } from 'src/app/shared/models/pagination/paged-result';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TableService {
 
-  private readonly CONTROLLER_NAME = 'Izvod';
+  private readonly CONTROLLER_NAME = 'FinancijskaTransakcija';
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private urlHelper: UrlHelperService,
     private subjectLocalService: LocalStoreSubjectService
-    ) { }
+  ) { }
 
-    getTransakcijeFromIzvod(): Observable<any> {
-        const token = this.subjectLocalService.hasToken();
-        if(token) {
-          const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, token);
-          return this.http.get<ITablicaIzvod[]>(url).pipe(
-            map( data => {
-                return data.map(
-                    (data) => { return data.financijskeTransakcije; }
-                )
-            })
-          );
-        }
+  getTransakcijeFromIzvod(paginationRequest: IPaginationBase): Observable<any> {
+    const token = this.subjectLocalService.hasToken();
+    if (token) {
+      const request = {
+        pageSize: paginationRequest.pageSize,
+        pageNumber: paginationRequest.page,
+        orderBy: paginationRequest.orderBy,
+        predmetID: token
+      }
+      const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'paginated');
+      return this.http.post<IPagedResult<IFinancijskaTransakcija>>(url, request);
     }
+  }
 }

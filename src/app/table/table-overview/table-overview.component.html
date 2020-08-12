@@ -31,7 +31,7 @@
     <ul class="list-group list-group-horizontal">
         <li class="list-group-item d-flex justify-content-between">
             <small>Ukupni broj zapisa</small>
-            <span class="badge badge-primary badge-pill ml-5">{{ financijskeTransakcije.length ? financijskeTransakcije.length : 0}}</span>
+            <span class="badge badge-primary badge-pill ml-5">{{ pagedResult?.itemsCount ? pagedResult.itemsCount : 0}}</span>
         </li>
         <li class="list-group-item d-flex justify-content-between">
             <small>Dolazne transakcije</small>
@@ -72,9 +72,11 @@
             </div>
         </div>
         <ngx-datatable class="material mt-3" columnMode="force" [headerHeight]="'auto'" [footerHeight]="50"
-            [rowHeight]="'auto'" [limit]="10" [loadingIndicator]="isLoading" [rows]="financijskeTransakcije" [messages]="{
+            [rowHeight]="'auto'" [loadingIndicator]="isLoading" [externalPaging]="true" [rows]="pagedResult?.model"
+            [count]="pagedResult?.itemsCount" [offset]="currentPage" limit="{{pageSize}}" [virtualization]="true" (page)="setPage($event)"
+            [messages]="{
             emptyMessage:'Nema rezultata',
-            totalMessage: 'ukupno'
+            totalMessage: pagedResult.message
         }">
             <ngx-datatable-column name="Broj računa" prop="a_RN" [width]="200"></ngx-datatable-column>
             <ngx-datatable-column name="SWIFT/BIC" prop="a_FIS" [width]="120"></ngx-datatable-column>

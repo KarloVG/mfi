@@ -14,15 +14,17 @@ import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { ITablicaIzvod } from '../models/tablica-izvod';
 import { IFinancijskaTransakcija } from 'src/app/shared/models/financijska-transakcija';
 import { TableService } from '../services/table.service';
+import { IPagedResult } from 'src/app/shared/models/pagination/paged-result';
+import { BasePaginationComponent } from 'src/app/shared/components/base-pagination/base-pagination.component';
+import { IPaginationBase } from 'src/app/shared/models/pagination/pagination-base';
 
 @Component({
   selector: 'app-table-overview',
   templateUrl: './table-overview.component.html',
   styleUrls: ['./table-overview.component.scss']
 })
-export class TableOverviewComponent implements OnInit, OnDestroy {
+export class TableOverviewComponent extends BasePaginationComponent implements OnInit, OnDestroy {
 
-  isLoading: boolean = true;
   filterValue: string;
   isActiveFilter: boolean = false;
   modalFilterValues: IFilterCriteria;
@@ -33,39 +35,71 @@ export class TableOverviewComponent implements OnInit, OnDestroy {
   financijskeTransakcije: IFinancijskaTransakcija[] = [];
   staticValue: IFinancijskaTransakcija[] = [];
 
+  // pagination
+  readonly pageSize = 10;
+  pagedResult: IPagedResult<IFinancijskaTransakcija>;
+  paginationRequest: IPaginationBase;
+
   constructor(
-    private baseDetailService: BaseDetailService,
     private ngbModalService: NgbModal,
     private toastr: ToastrService,
     private excelService: ExcelService,
     private localStorageFilterService: LocalStoreFilterService,
-    private baseService: BaseService,
     private tableService: TableService
-  ) { }
+  ) { 
+    super();
+  }
 
   ngOnInit(): void {
+    this.paginationRequest = {
+      page: this.currentPage + 1,
+      pageSize: this.pageSize
+    };
     this.hasActiveFilter();
-    //proof of concept
-    this.getIzvod();
+    this.fetchPage();
+    // this.getIzvod();
   }
 
   ngOnDestroy() { }
 
-  getIzvod() {
-    this.tableService.getTransakcijeFromIzvod().pipe(untilComponentDestroyed(this)).subscribe(
-      data => {
-        data.forEach(
-          izvod => {
-            console.log('TgIZ', izvod)
-            this.financijskeTransakcije = this.financijskeTransakcije.concat(izvod);
-          }
-        )
+  /* 
+    pagination methods
+  */
+  fetchPage() {
+    console.log('tu')
+    this.tableService.getTransakcijeFromIzvod(this.paginationRequest).pipe(
+      untilComponentDestroyed(this)).subscribe(pagedResult => {
         this.isLoading = false;
-        console.log('data', data);
-        console.log('FinTran', this.financijskeTransakcije)
-      }
-    )
+        this.pagedResult = pagedResult;
+        console.log(this.pagedResult)
+      });
   }
+
+  setPage(pageInfo) {
+    this.isLoading = true;
+    this.setPaginationOption(+pageInfo.offset);
+    this.fetchPage();
+  }
+
+  onSort(event) {
+    this.isLoading = true;
+    const orderByValue = event.newValue === 'asc' ? event.column.name : `-${event.column.name}`;
+    this.paginationRequest.orderBy = orderByValue;
+    this.fetchPage();
+  }
+
+  setPaginationOption(page: number, pageSize?: number) {
+    this.currentPage = page;
+    this.paginationRequest.page = page + 1;
+
+    if (pageSize) {
+      this.paginationRequest.pageSize = pageSize;
+    }
+  }
+
+  /* 
+    component methods
+  */
 
   filterUserTable(): void {
     let searchVal = this.filterValue.toLowerCase()
