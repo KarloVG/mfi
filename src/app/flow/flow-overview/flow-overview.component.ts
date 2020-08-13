@@ -4,6 +4,7 @@ import { Label, Color } from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 import { ITimespanChoice } from '../models/timespan-choice';
+import { FlowService } from '../services/flow.service';
 
 @Component({
   selector: 'app-flow-overview',
@@ -80,7 +81,9 @@ export class FlowOverviewComponent implements OnInit {
   entriesMin: number = 1
   entriesMax: number = 90
 
-  constructor() {}
+  constructor(
+    private flowService: FlowService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -103,8 +106,8 @@ export class FlowOverviewComponent implements OnInit {
   }
 
   changeGraphTimespan(timespan: number) {
-    console.log(timespan)
     this.timespanChoice = timespan;
+    // this.flowService.getGraphData()
   }
 
   expandView() {
