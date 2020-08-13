@@ -74,6 +74,7 @@
         <ngx-datatable class="material mt-3" columnMode="force" [headerHeight]="'auto'" [footerHeight]="50"
             [rowHeight]="'auto'" [loadingIndicator]="isLoading" [externalPaging]="true" [rows]="pagedResult?.model"
             [count]="pagedResult?.itemsCount" [offset]="currentPage" limit="{{pageSize}}" [virtualization]="true" (page)="setPage($event)"
+            [selected]="selected"   [selectionType]="SelectionType.multi" (select)="onSelect($event)"
             [messages]="{
             emptyMessage:'Nema rezultata',
             totalMessage: pagedResult.message

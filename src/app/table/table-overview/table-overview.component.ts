@@ -17,6 +17,7 @@ import { TableService } from '../services/table.service';
 import { IPagedResult } from 'src/app/shared/models/pagination/paged-result';
 import { BasePaginationComponent } from 'src/app/shared/components/base-pagination/base-pagination.component';
 import { IPaginationBase } from 'src/app/shared/models/pagination/pagination-base';
+import { SelectionType } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-table-overview',
@@ -34,6 +35,11 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
 
   financijskeTransakcije: IFinancijskaTransakcija[] = [];
   staticValue: IFinancijskaTransakcija[] = [];
+
+  //selection
+  SelectionType = SelectionType;
+  selected = [];
+  isSelectActive: boolean = false;
 
   // pagination
   readonly pageSize = 10;
@@ -71,7 +77,7 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
       untilComponentDestroyed(this)).subscribe(pagedResult => {
         this.isLoading = false;
         this.pagedResult = pagedResult;
-        console.log(this.pagedResult)
+        this.staticValue = pagedResult;
       });
   }
 
@@ -103,9 +109,9 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
 
   filterUserTable(): void {
     let searchVal = this.filterValue.toLowerCase()
-    let keys = Object.keys(this.financijskeTransakcije[0]);
+    let keys = Object.keys(this.pagedResult.model[0]);
     let colsAmt = keys.length + 1;
-    this.financijskeTransakcije = this.staticValue.filter(function (item) {
+    this.pagedResult.model = this.staticValue.filter(function (item) {
       for (let i = 0; i < colsAmt; i++) {
         if (item[keys[i]] != null && item[keys[i]].toString().toLowerCase().indexOf(searchVal) !== -1 || !searchVal) {
           return true;
@@ -114,9 +120,16 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
     });
   }
 
+  onSelect({ selected }) {
+    console.log('Select Event', selected, this.selected);
+
+    this.selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
+  }
+
   removeFilter(): void {
     this.filterValue = '';
-    this.financijskeTransakcije = this.staticValue;
+    this.pagedResult.model = this.staticValue;
   }
 
   openFilterModal() {
