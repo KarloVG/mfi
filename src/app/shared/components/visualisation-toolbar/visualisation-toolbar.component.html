@@ -6,8 +6,8 @@
           <div class="form-group row mb-1">
             <label for="osobazavizualizaciju" class="col-sm-5 col-form-label">Osoba za vizualizaciju</label>
             <div class="col-sm-7">
-              <select class="form-control" id="selectedUser" [(ngModel)]="selectedUser.id" name="user">
-                <option *ngFor="let user of usersList" value="{{user.osobaID}}">{{user.naziv}} (ID: {{user.idBroj}})</option>
+              <select class="form-control" id="selectedUser" [(ngModel)]="selectedUser.osobaID" name="user">
+                <option *ngFor="let user of usersList" value="{{user.osobaID}}">{{user.naziv}} ({{user.vrstaIdBroja ? user.vrstaIdBroja + ':' : ''}}{{user.idBroj ? user.idBroj : 'Nije unesen'}})</option>
               </select>
             </div>
           </div>

@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router'
 import {SubjectService} from 'src/app/shared/services/subject.service'
 import {SubjectApiService} from 'src/app/subject/services/subject.service'
 import {BaseService} from 'src/app/statement-base/services/base.service'
+import { VisualisationToolbarService } from '../../services/visualisation-toolbar.service';
+import { IOsobaDropdown } from '../../models/osoba-dropdown';
 
 interface Types {
   id: string
@@ -36,17 +38,15 @@ export class VisualisationToolbarComponent implements OnInit {
   @Input() exportAction: any
 
   typesList: Types[]
-  usersList: Users[]
+  usersList: IOsobaDropdown[] = [];
 
-  selectedUser: UsersSelection = <UsersSelection>{}
+  selectedUser: IOsobaDropdown;
   selectedType: Types = <Types>{}
   subjectId: number
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private subjectService: SubjectService,
-    private subjectApiService: SubjectApiService,
-    private baseService: BaseService,
+    private visualisationService: VisualisationToolbarService
   ) {
     this.typesList = [
       { id: 'sviracuni', title: 'Svi računi odabrane osobe' }
@@ -55,21 +55,16 @@ export class VisualisationToolbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subjectId = +this.subjectService.hasToken()
-    this.baseService.getBaseItems().subscribe(
+    this.subjectId = +this.subjectService.hasToken();
+    this.visualisationService.getOsobaDropdown().subscribe(
       data => {
-        this.usersList = data as any
-        this.selectedUser = this.usersList.map(usr => {
-          return { id: usr.osobaID, name: usr.naziv + ' (ID: ' + usr.idBroj + ')' }
-        })[0]
-      },
-      err => {
-        console.warn('ERR', err)
+        this.usersList = data;
+        this.selectedUser = this.usersList[0];
       }
     )
   }
 
   addUser() {
-    this.addUserAction(parseInt(this.selectedUser.id, 10), this.selectedType.id)
+    this.addUserAction(this.selectedUser.osobaID, this.selectedType.id)
   }
 }
