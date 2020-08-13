@@ -14,8 +14,8 @@
   </app-visualisation-toolbar>
 
   <div id="chart-area">
-    <div class="row">
-      <div class="col-sm-8 offset-sm-2 pb-3 mb-3">
+    <div class="d-flex">
+      <div class="col-sm-6 pb-3 mb-3">
         <div class="chart d-block">
           <canvas baseChart
             [datasets]="barChartDataU"
@@ -27,8 +27,7 @@
           </canvas>
         </div>
       </div>
-      <hr>
-      <div class="col-sm-8 offset-sm-2">
+      <div class="col-sm-6">
         <div class="chart d-block">
           <canvas baseChart
             [datasets]="barChartDataI"
@@ -39,6 +38,22 @@
             [chartType]="barChartType">
           </canvas>
         </div>
+      </div>
+    </div>
+  </div>
+  <div class="ml-5">
+    <p class="text-center mr-5">Vremenski period u dijagramu</p>
+    <br>
+    <div class="d-flex justify-content-center">
+      <div class="form-check form-check-inline mr-5" *ngFor="let choice of timespanChoices">
+        <input class="form-check-input" 
+               type="radio" 
+               name="{{ choice.inputName }}" 
+               id="{{ choice.inputName + choice.id }}" 
+               [value]="choice.id"
+               [(ngModel)]="timespanChoice"
+               (ngModelChange)="changeGraphTimespan($event)">
+        <label class="form-check-label" for="{{ choice.inputName + choice.id }}">{{ choice.name}}</label>
       </div>
     </div>
   </div>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ChartType, ChartOptions, ChartDataSets } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
+import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
+import { ITimespanChoice } from '../models/timespan-choice';
 
 @Component({
   selector: 'app-flow-overview',
@@ -12,6 +14,8 @@ import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 export class FlowOverviewComponent implements OnInit {
   moduleName: string = 'Vremenski tijek transakcija';
   moduleFontIcon: string = 'fas fa-clock';
+
+  // basic graph vars
   displayType: string = 'flow'
 
   barChartOptions: ChartOptions = {
@@ -27,17 +31,48 @@ export class FlowOverviewComponent implements OnInit {
   barChartType: ChartType = 'bar';
   barChartLegend = true;
   barChartPlugins = [pluginDataLabels];
+  chartColors: Array<any> = [
+    {
+      backgroundColor: ['#d13537', '#b000b5']
+    }
+  ];
 
+  //timespan vars
+  timespanChoice: number = 3;
+  timespanChoices: ITimespanChoice[] = [
+    {
+      id: 1,
+      name: '1 sat',
+      inputName:"1sat"
+    },
+    {
+      id: 2,
+      name: '1 dan',
+      inputName:"1dan"
+    },
+    {
+      id: 3,
+      name: '1 mjesec',
+      inputName:"1mjesec"
+    },
+    {
+      id: 4,
+      name: '1 godina',
+      inputName:"1godina"
+    }
+  ];
+
+  // graph label
   barChartLabels: Label[] = ['2019-01', '2019-02', '2019-03', '2019-04', '2019-05', '2019-06', '2019-07', '2019-08', '2019-09', '2019-10', '2019-11', '2019-12'];
 
-  barChartColors1 = 'rgba(0,255,0,0.3)'
-  barChartColors2 = 'rgba(255,0,0,0.3)'
-
-  barChartDataU: ChartDataSets[] = [{ data: [], label: 'Uplate' }]
+  // uplate
+  barChartDataU: ChartDataSets[] = [{ data: [], label: 'Uplate' }];
   barChartDataUx: ChartDataSets[] = [
     { data: [21000, 60000, 24000, 77000, 11000, 44000, 21000, 60000, 24000, 77000, 11000, 44000], label: 'Uplate' }
-  ]
-  barChartDataI: ChartDataSets[] = [{ data: [], label: 'Isplate' }]
+  ];
+
+  // isplate
+  barChartDataI: ChartDataSets[] = [{ data: [], label: 'Isplate' }];
   barChartDataIx: ChartDataSets[] = [
     { data: [-21000, -11000, -60000, -44000, -24000, -77000, -11000, -21000, -24000, -77000, -60000, -44000], label: 'Isplate' }
   ];
@@ -65,6 +100,11 @@ export class FlowOverviewComponent implements OnInit {
     for (let i = 1; i <= 12; i++) {
       this.barChartDataI[0].data.push(-1 * this.rndmm(this.entriesMin, this.entriesMax) * 1000)
     }
+  }
+
+  changeGraphTimespan(timespan: number) {
+    console.log(timespan)
+    this.timespanChoice = timespan;
   }
 
   expandView() {
