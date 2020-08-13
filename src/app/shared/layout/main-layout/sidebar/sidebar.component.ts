@@ -27,7 +27,7 @@ export class SidebarComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         var withNoDigits = event.url.replace(/[0-9]/g, '');
-        if(withNoDigits == '/subject/edit/') {
+        if(withNoDigits == '/subject//edit') {
           this.isDisabledDropdown = true;
         } else {
           this.isDisabledDropdown = false;
