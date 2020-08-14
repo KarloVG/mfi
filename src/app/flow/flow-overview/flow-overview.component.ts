@@ -5,6 +5,7 @@ import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 import { ITimespanChoice } from '../models/timespan-choice';
 import { FlowService } from '../services/flow.service';
+import { IOsobaDropdown } from 'src/app/statement-base/models/osoba-dropdown';
 
 @Component({
   selector: 'app-flow-overview',
@@ -78,6 +79,8 @@ export class FlowOverviewComponent implements OnInit {
     { data: [-21000, -11000, -60000, -44000, -24000, -77000, -11000, -21000, -24000, -77000, -60000, -44000], label: 'Isplate' }
   ];
 
+  //app visualisation event emitterr
+
   entriesMin: number = 1
   entriesMax: number = 90
 
@@ -102,6 +105,15 @@ export class FlowOverviewComponent implements OnInit {
     }
     for (let i = 1; i <= 12; i++) {
       this.barChartDataI[0].data.push(-1 * this.rndmm(this.entriesMin, this.entriesMax) * 1000)
+    }
+  }
+
+  // output from child component
+  onChangeOsobaOrIzvod(event) {
+    if(event.osobaID && event.izvodID) {
+      this.flowService.getGraphData(event.osobaID, event.izvodID, this.timespanChoice).subscribe(
+        data => { console.log(data)  }
+      );
     }
   }
 

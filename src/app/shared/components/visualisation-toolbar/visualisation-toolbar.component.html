@@ -6,9 +6,18 @@
           <div class="form-group row mb-1">
             <label for="osobazavizualizaciju" class="col-sm-5 col-form-label">Osoba za vizualizaciju</label>
             <div class="col-sm-7">
-              <select class="form-control" id="selectedUser" [(ngModel)]="selectedUser.osobaID" name="user">
-                <option *ngFor="let user of usersList" value="{{user.osobaID}}">{{user.naziv}} ({{user.vrstaIdBroja ? user.vrstaIdBroja + ':' : ''}}{{user.idBroj ? user.idBroj : 'Nije unesen'}})</option>
-              </select>
+              <ng-select 
+                   [items]="osobe"
+                   bindLabel="naziv"
+                   placeholder="Odabir osobe"
+                   [(ngModel)]="selectedOsoba"
+                   [ngModelOptions]="{standalone: true}"
+                   (change)="onChangeActiveOsoba($event)"
+                   [ngClass]="{'is-invalid': ctrl.invalid && (ctrl.dirty || ctrl.touched)}"
+                   #ctrl="ngModel"
+                   required>
+              </ng-select>
+              <div class="invalid-feedback">Polje je obavezno</div>
             </div>
           </div>
         </div>
@@ -16,9 +25,18 @@
           <div class="form-group row mb-1">
             <label for="racunizavizualizaciju" class="col-sm-5 col-form-label">Račun za vizualizaciju</label>
             <div class="col-sm-7">
-              <select class="form-control" id="selectedType" [(ngModel)]="selectedType.id" name="type">
-                <option *ngFor="let type of typesList" value="{{type.id}}">{{type.title}}</option>
-              </select>
+              <ng-select 
+                [items]="izvodi"
+                bindLabel="brojRacuna"
+                placeholder="Odabir računa osobe"
+                [(ngModel)]="selectedIzvod"
+                [ngModelOptions]="{standalone: true}"
+                (change)="onChangeActiveIzvod($event)"
+                [ngClass]="{'is-invalid': ctrl2.invalid && (ctrl2.dirty || ctrl2.touched)}"
+                #ctrl2="ngModel"
+                required>
+              </ng-select>
+              <div class="invalid-feedback">Polje je obavezno</div>
             </div>
           </div>
         </div>

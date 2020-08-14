@@ -1,10 +1,11 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router'
 import {SubjectService} from 'src/app/shared/services/subject.service'
 import {SubjectApiService} from 'src/app/subject/services/subject.service'
 import {BaseService} from 'src/app/statement-base/services/base.service'
 import { VisualisationToolbarService } from '../../services/visualisation-toolbar.service';
 import { IOsobaDropdown } from '../../models/osoba-dropdown';
+import { IIzvodDropdown } from '../../models/izvod-dropdown';
 
 interface Types {
   id: string
@@ -37,34 +38,51 @@ export class VisualisationToolbarComponent implements OnInit {
   @Input() filterAction: any
   @Input() exportAction: any
 
-  typesList: Types[]
-  usersList: IOsobaDropdown[] = [];
+  @Output() childNotification: EventEmitter<any> = new EventEmitter<any>();
 
-  selectedUser: IOsobaDropdown;
-  selectedType: Types = <Types>{}
+  typesList: Types[]
+  osobe: IOsobaDropdown[] = [];
+  selectedOsoba: IOsobaDropdown;
+
+  selectedIzvod: IIzvodDropdown;
+  izvodi: IIzvodDropdown[] = [];
   subjectId: number
 
   constructor(
     private subjectService: SubjectService,
     private visualisationService: VisualisationToolbarService
-  ) {
-    this.typesList = [
-      { id: 'sviracuni', title: 'Svi računi odabrane osobe' }
-    ]
-    this.selectedType = this.typesList[0]
-  }
+  ) { }
 
   ngOnInit(): void {
     this.subjectId = +this.subjectService.hasToken();
     this.visualisationService.getOsobaDropdown().subscribe(
-      data => {
-        this.usersList = data;
-        this.selectedUser = this.usersList[0];
-      }
+      data => {  this.osobe = data;  }
     )
   }
 
-  addUser() {
-    this.addUserAction(this.selectedUser.osobaID, this.selectedType.id)
+  addUser(): void {
+    this.addUserAction(this.selectedOsoba.osobaID, this.selectedIzvod.izvodID)
   }
+
+  onChangeActiveOsoba(event): void {
+    if(event && event.osobaID) {
+      this.selectedIzvod = null;
+      this.visualisationService.getIzvodiForOsobaDropdown(event.osobaID).subscribe(
+        data => { this.izvodi = data;  }
+      )
+    } else {
+      this.izvodi = [];
+      this.selectedIzvod = null;
+    }
+  }
+
+  onChangeActiveIzvod(event) {
+    if(event && event.izvodID) {
+      this.childNotification.emit({osobaID: this.selectedOsoba.osobaID,izvodID: event.izvodID });
+    }
+  }
+
+  // outputUserToParentComponent(event): void {
+  //   this.activeUser.emit(event);
+  // }
 }

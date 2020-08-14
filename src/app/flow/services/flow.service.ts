@@ -11,9 +11,10 @@ export class FlowService {
     private readonly CONTROLLER_NAME = 'FinancijskaTransakcija';
     constructor(private http: HttpClient, private urlHelper: UrlHelperService) { }
 
-    getGraphData(idOsoba: number, idTimespan: number): Observable<any> {
+    getGraphData(idOsoba: number, idIzvod: number, idTimespan: number): Observable<any> {
         const request = {
             osobaID: idOsoba,
+            idIzvod: idIzvod,
             timespanID: idTimespan
         }
         const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'graph');

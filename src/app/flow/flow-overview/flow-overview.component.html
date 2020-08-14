@@ -4,6 +4,7 @@
 
 <div>
   <app-visualisation-toolbar
+    (childNotification)="onChangeOsobaOrIzvod($event)"
     [displayType]="displayType"
     [addUserAction]="addUser.bind(this)"
     [expandViewAction]="expandView.bind(this)"
