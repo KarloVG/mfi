@@ -14,7 +14,7 @@ export class FlowService {
     getGraphData(idOsoba: number, idIzvod: number, idTimespan: number): Observable<any> {
         const request = {
             osobaID: idOsoba,
-            idIzvod: idIzvod,
+            izvodID: idIzvod,
             timespanID: idTimespan
         }
         const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'graph');

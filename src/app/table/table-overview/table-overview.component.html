@@ -77,7 +77,7 @@
             [selected]="selected"   [selectionType]="SelectionType.multi" (select)="onSelect($event)"
             [messages]="{
             emptyMessage:'Nema rezultata',
-            totalMessage: pagedResult.message
+            totalMessage: pagedResult ? pagedResult.message : 'Ukupan broj' 
         }">
             <ngx-datatable-column name="Broj računa" prop="a_RN" [width]="200"></ngx-datatable-column>
             <ngx-datatable-column name="SWIFT/BIC" prop="a_FIS" [width]="120"></ngx-datatable-column>
