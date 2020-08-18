@@ -40,7 +40,13 @@ export class FlowOverviewComponent implements OnInit {
   ];
 
   //timespan vars
-  timespanChoice: number = 3;
+  private dynamicDate = new Date();
+  dynamicToday = {
+    year: this.dynamicDate.getFullYear(),
+    month: this.dynamicDate.getMonth() + 1,
+    day: this.dynamicDate.getDate()
+  }
+  timespanChoice: number = 4;
   timespanChoices: ITimespanChoice[] = [
     {
       id: 1,
@@ -54,15 +60,23 @@ export class FlowOverviewComponent implements OnInit {
     },
     {
       id: 3,
+      name: '1 tjedan',
+      inputName:"1tjedan"
+    },
+    {
+      id: 4,
       name: '1 mjesec',
       inputName:"1mjesec"
     },
     {
-      id: 4,
+      id: 5,
       name: '1 godina',
       inputName:"1godina"
     }
   ];
+  selectedTimespan: number;
+  choosenDate: any;
+  dates: any[];
 
   // graph label
   barChartLabels: Label[] = ['2019-01', '2019-02', '2019-03', '2019-04', '2019-05', '2019-06', '2019-07', '2019-08', '2019-09', '2019-10', '2019-11', '2019-12'];
@@ -98,27 +112,42 @@ export class FlowOverviewComponent implements OnInit {
     console.log(event, active);
   }
 
-  addUser() {
-    console.log('Flow', 'addUser')
-    for (let u = 1; u <= 12; u++) {
-      this.barChartDataU[0].data.push(this.rndmm(this.entriesMin, this.entriesMax) * 1000)
-    }
-    for (let i = 1; i <= 12; i++) {
-      this.barChartDataI[0].data.push(-1 * this.rndmm(this.entriesMin, this.entriesMax) * 1000)
-    }
-  }
-
   // output from child component
   onChangeOsobaOrIzvod(event) {
     if(event.osobaID && event.izvodID) {
       this.flowService.getGraphData(event.osobaID, event.izvodID, this.timespanChoice).subscribe(
-        data => { console.log(data)  }
+        data => { 
+          console.log(data);
+          // this.barChartDataU[0].data.push(this.rndmm(this.entriesMin, this.entriesMax) * 1000)
+          // this.barChartDataI[0].data.push(-1 * this.rndmm(this.entriesMin, this.entriesMax) * 1000)
+        }
       );
     }
   }
 
+  onSelectTimespan() {
+
+  }
+  
+  onChangeDate () {
+
+  }
+
   changeGraphTimespan(timespan: number) {
-    this.timespanChoice = timespan;
+    this.selectedTimespan = null;
+    if(this.timespanChoice) {
+      if(this.timespanChoice == 1) {
+
+      } else if(this.timespanChoice == 2) {
+
+      } else if(this.timespanChoice == 3) {
+        
+      } else if(this.timespanChoice == 4) {
+        
+      } else if(this.timespanChoice == 5) {
+        
+      }
+    }
     // this.flowService.getGraphData()
   }
 

@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router'
 import {SubjectService} from 'src/app/shared/services/subject.service'
 import {SubjectApiService} from 'src/app/subject/services/subject.service'
@@ -30,6 +30,8 @@ interface UsersSelection {
   styleUrls: ['./visualisation-toolbar.component.scss']
 })
 export class VisualisationToolbarComponent implements OnInit {
+  @ViewChild('visualisationForm') visualisationForm: HTMLFormElement;
+
   @Input() displayType: string // [ chart | diagram | flow | map | table ]
   @Input() addUserAction: any
   @Input() expandViewAction: any
@@ -60,8 +62,15 @@ export class VisualisationToolbarComponent implements OnInit {
     )
   }
 
-  addUser(): void {
-    this.addUserAction(this.selectedOsoba.osobaID, this.selectedIzvod.izvodID)
+  passDataToParent() {
+    if(this.selectedOsoba && this.selectedOsoba.osobaID) {
+      this.childNotification.emit({
+          osobaID: this.selectedOsoba.osobaID,
+          izvodID: this.selectedIzvod ? this.selectedIzvod.izvodID : null 
+      });
+    } else {
+      this.visualisationForm.form.controls['ctrl'].markAsTouched();
+    }
   }
 
   onChangeActiveOsoba(event): void {
@@ -75,14 +84,4 @@ export class VisualisationToolbarComponent implements OnInit {
       this.selectedIzvod = null;
     }
   }
-
-  onChangeActiveIzvod(event) {
-    if(event && event.izvodID) {
-      this.childNotification.emit({osobaID: this.selectedOsoba.osobaID,izvodID: event.izvodID });
-    }
-  }
-
-  // outputUserToParentComponent(event): void {
-  //   this.activeUser.emit(event);
-  // }
 }

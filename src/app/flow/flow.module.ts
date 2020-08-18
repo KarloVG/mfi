@@ -5,6 +5,7 @@ import { FlowOverviewComponent } from './flow-overview/flow-overview.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ChartsModule } from 'ng2-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [FlowOverviewComponent],
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SharedModule,
     ChartsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgSelectModule
   ],
   exports: [FlowRoutingModule]
 })
