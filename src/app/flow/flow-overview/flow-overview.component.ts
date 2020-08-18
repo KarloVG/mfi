@@ -6,11 +6,19 @@ import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item'
 import { ITimespanChoice } from '../models/timespan-choice';
 import { FlowService } from '../services/flow.service';
 import { IOsobaDropdown } from 'src/app/statement-base/models/osoba-dropdown';
+import { NgbDateParserFormatter, NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateCustomParserFormatter } from 'src/app/shared/utils/ngb-date-custom-parser-formatter';
+import { CustomDatepickerI18n } from 'src/app/shared/utils/custom-date-picker-i18n';
+import { ITimepickerDate, MONTHS, YEARS } from '../models/timepicker-date';
 
 @Component({
   selector: 'app-flow-overview',
   templateUrl: './flow-overview.component.html',
-  styleUrls: ['./flow-overview.component.scss']
+  styleUrls: ['./flow-overview.component.scss'],
+  providers: [
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n }
+  ]
 })
 
 export class FlowOverviewComponent implements OnInit {
@@ -76,10 +84,11 @@ export class FlowOverviewComponent implements OnInit {
   ];
   selectedTimespan: number;
   choosenDate: any;
-  dates: any[];
+  months: ITimepickerDate[] = MONTHS;
+  years: ITimepickerDate[] = YEARS;
 
   // graph label
-  barChartLabels: Label[] = ['2019-01', '2019-02', '2019-03', '2019-04', '2019-05', '2019-06', '2019-07', '2019-08', '2019-09', '2019-10', '2019-11', '2019-12'];
+  barChartLabels: Label[] = ['Sij', 'Velj', 'Ožu', 'Tra', 'Svi', 'Lip', 'Srp', 'Kol', 'Ruj', 'Lis', 'Stu', 'Pro'];
 
   // uplate
   barChartDataU: ChartDataSets[] = [{ data: [], label: 'Uplate' }];
@@ -130,7 +139,7 @@ export class FlowOverviewComponent implements OnInit {
   }
   
   onChangeDate () {
-
+    console.log(this.selectedTimespan)
   }
 
   changeGraphTimespan(timespan: number) {

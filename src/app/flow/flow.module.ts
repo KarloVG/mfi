@@ -6,6 +6,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ChartsModule } from 'ng2-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [FlowOverviewComponent],
@@ -17,6 +18,12 @@ import { NgSelectModule } from '@ng-select/ng-select';
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule
+  ],
+  providers: [
+    {
+      provide: NgbDateAdapter,
+      useClass: NgbDateNativeAdapter
+    }
   ],
   exports: [FlowRoutingModule]
 })

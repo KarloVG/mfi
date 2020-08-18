@@ -10,27 +10,9 @@
   </app-visualisation-toolbar>
   <!-- [addUserAction]="addUser.bind(this)" -->
 
-  <div id="chart-area">
-    <div class="d-flex">
-      <div class="col-sm-6 pb-3 mb-3">
-        <div class="chart d-block">
-          <canvas baseChart [datasets]="barChartDataU" [labels]="barChartLabels" [options]="barChartOptions"
-            [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
-          </canvas>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="chart d-block">
-          <canvas baseChart [datasets]="barChartDataI" [labels]="barChartLabels" [options]="barChartOptions"
-            [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
-          </canvas>
-        </div>
-      </div>
-    </div>
-  </div>
   <form #timespanForm="ngForm" (ngSubmit)="onSelectTimespan()" id="timespanForm">
     <div class="ml-5">
-      <p class="text-center mr-5">Vremenski period u dijagramu</p>
+      <p class="text-center mr-5"><strong>Vremenski period u dijagramu</strong></p>
       <br>
       <div class="d-flex justify-content-center">
         <div class="form-check form-check-inline mr-5" *ngFor="let choice of timespanChoices">
@@ -55,45 +37,60 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4 offset-4" *ngIf="timespanChoice == 2">
-        <div class="form-group row mt-3">
-          <label for="datumOtvaranja" class="col-sm-5 col-form-label">Odabir tjedna</label>
-          <div  class="input-group col-sm-7">
-            <input class="form-control" placeholder="dd.mm.yyyy." name="dp" [(ngModel)]="selectedTimespan"
-              ngbDatepicker #d="ngbDatepicker" [readonly]="true" [minDate]="{year: 2015, month: 1, day: 1}"
-              [maxDate]="dynamicToday">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary calendar-box" (click)="d.toggle()" type="button"><span
-                  class="fas fa-calendar"></span></button>
-            </div>
-            <div class="invalid-feedback">Polje je obavezno</div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 offset-4" *ngIf="timespanChoice == 3 || timespanChoice == 4">
+      <div class="col-md-4 offset-4" *ngIf="timespanChoice == 2 || timespanChoice == 3 || timespanChoice == 4">
         <div class="form-group row mt-3" >
-          <label for="osobazavizualizaciju" class="col-sm-5 col-form-label" *ngIf="timespanChoice == 3">Odabir
+          <label for="osobazavizualizaciju" class="col-sm-5 col-form-label" *ngIf="timespanChoice == 2 || timespanChoice == 3; else yearPicker">Odabir
             mjeseca</label>
-          <label for="osobazavizualizaciju" class="col-sm-5 col-form-label" *ngIf="timespanChoice == 4">Odabir
-            godine</label>
-          <div class="col-sm-7">
-            <ng-select [items]="dates" bindLabel="naziv" placeholder="Izaberi" [(ngModel)]="selectedTimespan"
-              (change)="onChangeDate()" name="ctrl"
-              [ngClass]="{'is-invalid': ctrl.invalid && (ctrl.dirty || ctrl.touched)}" #ctrl="ngModel" required>
-            </ng-select>
-            <div class="invalid-feedback">Polje je obavezno</div>
-          </div>
+            <div class="col-sm-7" *ngIf="timespanChoice == 2 || timespanChoice == 3; else yearPicker2">
+              <ng-select [items]="months" bindLabel="name" placeholder="Izaberi" [(ngModel)]="selectedTimespan"
+                (change)="onChangeDate()" name="ctrl"
+                [ngClass]="{'is-invalid': ctrl.invalid && (ctrl.dirty || ctrl.touched)}" #ctrl="ngModel" required>
+              </ng-select>
+              <div class="invalid-feedback">Polje je obavezno</div>
+            </div>
+            <ng-template #yearPicker>
+              <label for="osobazavizualizaciju" class="col-sm-5 col-form-label" >Odabir
+                godine</label>
+            </ng-template>
+            <ng-template #yearPicker2>
+              <div class="col-sm-7">
+                <ng-select [items]="years" bindLabel="name" placeholder="Izaberi" [(ngModel)]="selectedTimespan"
+                  (change)="onChangeDate()" name="ctrl"
+                  [ngClass]="{'is-invalid': ctrl.invalid && (ctrl.dirty || ctrl.touched)}" #ctrl="ngModel" required>
+                </ng-select>
+                <div class="invalid-feedback">Polje je obavezno</div>
+              </div>
+            </ng-template>
+          
         </div>
       </div>
       <div class="col-md-4 offset-4" *ngIf="timespanChoice == 5">
         <div class="form-group row mt-3">
           <label for="osobazavizualizaciju" class="col-sm-5 col-form-label">Odabir broja godina</label>
           <div class="col-sm-7">
-            <input class="form-control" type="number" name="broj godina" id="inputGodina" [(ngModel)]="selectedTimespan"
-              (ngModelChange)="changeGraphTimespan($event)">
+            <input class="form-control" type="number" name="broj godina" id="inputGodina" [(ngModel)]="selectedTimespan" #ctrlY="ngModel"
+              (ngModelChange)="changeGraphTimespan($event)" [ngClass]="{'is-invalid': ctrlY.invalid && (ctrlY.dirty || ctrlY.touched)}" required  min="1" max="5">
           </div>
+          <div class="invalid-feedback">Polje je obavezno, odabir između 1 i 5 godina</div>
         </div>
       </div>
     </div>
   </form>
+
+  <div id="chart-area">
+    <div class="col-sm-10 pb-3 mb-3">
+      <div class="chart d-block">
+        <canvas baseChart [datasets]="barChartDataU" [labels]="barChartLabels" [options]="barChartOptions"
+          [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+        </canvas>
+      </div>
+    </div>
+    <div class="col-sm-10">
+      <div class="chart d-block">
+        <canvas baseChart [datasets]="barChartDataI" [labels]="barChartLabels" [options]="barChartOptions"
+          [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+        </canvas>
+      </div>
+    </div>
+  </div>
 </div>
