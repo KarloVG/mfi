@@ -7,5 +7,9 @@ export interface IBaseItem {
     izvodi: IBaseExtract[],
     uvezeneIzliste?: number,
     brojTransakcija?: number,
+    brojIsplata?: number,
+    brojUplata?: number,
     iznosTransakcija?: number,
+    iznosUplata?: number,
+    iznosIsplata?: number
 }

@@ -14,4 +14,10 @@ export interface IBaseExtract {
     IznosIsplata: number;
     HashDatoteke: string;  
     HashAlgoritam : string;
+    brojTransakcija?: number,
+    brojIsplata?: number,
+    brojUplata?: number,
+    iznosTransakcija?: number,
+    iznosUplata?: number,
+    iznosIsplata?: number
 }

@@ -85,10 +85,13 @@
 
             <ngx-datatable-column name="Ime / Naziv vlasnika računa" prop="naziv" [width]="150"></ngx-datatable-column>
             <ngx-datatable-column name="Broj uvezenih računa" prop="uvezeneIzliste" [width]="150"></ngx-datatable-column>
-            <ngx-datatable-column name="Ukupan broj transakcija (U/I)" prop="brojTransakcija" [width]="150"></ngx-datatable-column>
+            <ngx-datatable-column name="Ukupan broj transakcija (U/I)" prop="brojTransakcija" [width]="150">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                    <span>{{ value }} ({{ row.brojUplata }}/{{ row.brojIsplata }})</span>
+                </ng-template></ngx-datatable-column>
             <ngx-datatable-column name="Ukupan iznos transakcija (U/I)" prop="iznosTransakcija" [width]="150">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                    <span>{{ value }} HRK</span>
+                    <span>{{ value }} HRK ({{ row.iznosUplata }} HRK/{{ row.iznosIsplata }} HRK)</span>
                 </ng-template>
             </ngx-datatable-column>
 

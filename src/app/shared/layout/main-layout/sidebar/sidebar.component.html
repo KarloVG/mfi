@@ -30,7 +30,7 @@
           <a routerLinkActive="is-active" type="button" class="menu-button btn btn-block py-3"
             routerLink="{{menu.path}}"
             [title]="menu.descr"
-            [attr.disabled]="menu.disabled ? true : null">
+            [attr.disabled]="isDisabledDropdown ? true : null" >
           <span class="menu-icon d-block fas fa-2x" [ngClass]="menu.icon"></span>
           <span class="menu-text d-block " *ngIf="!!menu.descr">{{menu.descr}}</span>
         </a>

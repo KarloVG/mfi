@@ -44,13 +44,20 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
         this.staticValue = data;
         this.baseItems.forEach(el => {
           el.uvezeneIzliste = el.izvodi.length;
-          if(!el.izvodi.length) {
-            el.brojTransakcija = 0;
-            el.iznosTransakcija = 0;
-          } else {
+          el.iznosUplata = 0;
+          el.iznosIsplata = 0;
+          el.brojTransakcija = 0;
+          el.brojIsplata = 0;
+          el.brojUplata = 0;
+          el.iznosTransakcija = 0;
+          if(el.izvodi.length) {
             el.izvodi.forEach(izv => {
-              el.brojTransakcija += izv.BrojTransakcija;
-              el.iznosTransakcija += izv.IznosTransakcija;
+              el.iznosUplata += izv.iznosUplata;
+              el.iznosIsplata += izv.iznosIsplata;
+              el.iznosTransakcija += izv.iznosTransakcija;
+              el.brojTransakcija += izv.brojTransakcija;
+              el.brojIsplata += izv.brojIsplata;
+              el.brojUplata += izv.brojUplata;
             });
           }
         });
