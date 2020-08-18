@@ -162,22 +162,13 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
   }
 
   openBaseImportFromFile() {
-    this.peopleOnSubject = [];
-    this.baseItems.forEach(
-      item => {
-        // this.peopleOnSubject.push({
-        //   id: item.Osoba.OsobaID,
-        //   name: item.Osoba.Naziv
-        // })
-      }
-    );
     const modalRef = this.ngbModalService.open(ModalImportFileComponent, { size: 'lg', backdrop: 'static', keyboard: false });
-    modalRef.componentInstance.peopleOnSubject = this.peopleOnSubject;
     modalRef.result.then((result) => {
       if (result) {
         this.toastr.success('Izvod iz datoteke je dodan', 'Uspjeh', {
           progressBar: true
         });
+        this.getBaseItems();
       } else {
         this.toastr.warning('Izvod iz datoteke nije dodan', 'Pažnja', {
           progressBar: true
