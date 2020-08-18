@@ -174,11 +174,11 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
               });
               this.confimationSubject.next(false);
             } else {
+              this.addSubjectWithoutNavigating();
               this.toastr.success('Pohranili ste novi predmet', 'Uspjeh', {
                 progressBar: true
               });
               this.confimationSubject.next(true);
-              this.navigationService.publishNavigationChange();
             }
           }
         } else if (result == false) {
@@ -265,7 +265,6 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   }
 
   addSubject() {
-    console.log('ADDSUB', this.subjectFormGroup.value)
     this.subjectApiService.addSubject(this.subjectFormGroup.value).pipe(untilComponentDestroyed(this))
       .subscribe(response => {
         localStorage.setItem('subject_id', response.predmetID.toString());
@@ -276,6 +275,14 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
         this.navigationService.publishNavigationChange();
         this.router.navigate(['subject', response.predmetID]);
       })
+  }
+
+  addSubjectWithoutNavigating() {
+    this.subjectApiService.addSubject(this.subjectFormGroup.value).pipe(untilComponentDestroyed(this))
+    .subscribe(response => {
+      localStorage.setItem('subject_id', response.predmetID.toString());
+      this.navigationService.publishNavigationChange();
+    })
   }
 
   get brojPredmeta(): AbstractControl {
