@@ -168,7 +168,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
             this.confimationSubject.next(true);
             this.editSubjectWithoutNavigating();
           } else {
-            if (this.subjectFormGroup.invalid) {
+            if (this.subjectFormGroup.invalid || !this.predmetKorisnici.value.length) {
               this.subjectFormGroup.markAllAsTouched();
               this.toastr.error('Nisu ispunjena sva obavezna polja', 'Greška', {
                 progressBar: true
@@ -230,10 +230,16 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
       // triggers contitional for myForm.submitted on html
       return;
     } else {
-      if (this.subjectId) {
-        this.editSubject();
+      if(this.predmetKorisnici.value.length) {
+        if (this.subjectId) {
+          this.editSubject();
+        } else {
+          this.addSubject();
+        }
       } else {
-        this.addSubject();
+        this.toastr.error('Nije dodana dozvola za rad', 'Greška', {
+          progressBar: true
+        });
       }
     }
   }
