@@ -7,6 +7,8 @@ import { map } from 'rxjs/operators';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 import * as moment from 'moment';
 import { CreateSubjektRequest } from '../models/create-subjekt-request';
+import { IGetPredmetRequest } from '../models/get-predmet-request';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -27,11 +29,16 @@ export class SubjectApiService {
     return this.http.get<ISubject>(url);
   }
 
-  getSubjectsDropdown(): Observable<ISimpleDropdownItem[]> {
-    const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
-    return this.http.get<ISimpleDropdownItem[]>(url).pipe(map(response => {
-      return response
-    }));
+  getSubjectsDropdown(formgroup: FormGroup): Observable<ISimpleDropdownItem[]> {
+    console.log()
+    const request:IGetPredmetRequest = {
+      datumOtvaranjaDo: formgroup.value.DatumOtvaranjaDo,
+      datumOtvaranjaOd: formgroup.value.DatumOtvaranjaOd,
+      statusPredmeta: formgroup.value.StatusPredmeta
+    }
+    console.log(request)
+    const url = this.urlHelper.getUrl(this.CONTROLER_NAME, 'filter');
+    return this.http.post<ISimpleDropdownItem[]>(url, request);
   }
 
   addSubject(formData: ISubject): Observable<ISubject> {

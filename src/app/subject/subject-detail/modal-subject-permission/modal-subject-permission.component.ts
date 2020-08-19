@@ -33,7 +33,6 @@ export class ModalSubjectPermissionComponent implements OnInit, OnDestroy {
     private toastr: ToastrService
   ) {}
 
-  //future backend filtering - will be refactored when backend comes
   filterUserTable() {
     this.subjectPermisssionService.getPermissions(this.subjectPermisionGroup.value)
     .pipe(untilComponentDestroyed(this)).subscribe(

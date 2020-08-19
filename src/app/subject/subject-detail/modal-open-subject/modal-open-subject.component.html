@@ -14,7 +14,7 @@
                         Status predmeta
                     </label>
                     <div class="col-sm-4">
-                        <ng-select [items]="subjectStatuses" bindLabel="name" bindValue="id" labelForId="state"
+                        <ng-select [items]="subjectStatuses" bindLabel="name" bindValue="statusPredmetaID" labelForId="state"
                             placeholder="Izaberi..." clearAllText="Clear" formControlName="StatusPredmeta"
                             [ngClass]="{'is-invalid': StatusPredmeta.invalid && (StatusPredmeta.dirty || StatusPredmeta.touched || myForm.submitted)}">
                         </ng-select>

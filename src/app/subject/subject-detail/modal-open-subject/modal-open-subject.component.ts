@@ -53,17 +53,11 @@ export class ModalOpenSubjectComponent implements OnInit, OnDestroy {
 
   clearFilters(): void {
     this.subjects = [];
-    this.existingSubjectGroup.patchValue({
-      Subject: null
-    });
+    this.existingSubjectGroup.reset();
   }
 
   filterSubjects() {
-    this.getSubjects();
-  }
-
-  getSubjects() {
-    this.subjectApiService.getSubjectsDropdown().pipe(untilComponentDestroyed(this)).subscribe(
+    this.subjectApiService.getSubjectsDropdown(this.existingSubjectGroup).pipe(untilComponentDestroyed(this)).subscribe(
       response => {
         this.subjects = response;
       }
