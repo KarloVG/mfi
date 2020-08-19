@@ -81,17 +81,17 @@ export class SidebarComponent implements OnInit {
     if (subjectToken) {
       const modalRef = this.ngbModalService.open(ModalCanDeactivateComponent, { backdrop: 'static', keyboard: false });
       modalRef.result.then((result) => {
-        if (result == true) {
-          this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
-            progressBar: true
-          });
-          localStorage.clear();
-          this.navService.publishNavigationChange();
-          this.openFilterModal();
-        } else if (result == false) {
-          this.toastrService.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
-            progressBar: true
-          });
+        if (result == true || result == false) {
+          if(result == true) {
+            this.toastrService.success('Stanje predmeta je pohranjeno', 'Uspjeh', {
+              progressBar: true
+            });
+          } else {
+            this.toastrService.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
+              progressBar: true
+            });
+          }
+          this.router.navigate(['welcome']);
           localStorage.clear();
           this.navService.publishNavigationChange();
           this.openFilterModal();

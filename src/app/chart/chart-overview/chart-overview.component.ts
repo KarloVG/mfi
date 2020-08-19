@@ -99,6 +99,10 @@ export class ChartOverviewComponent implements OnInit {
   entriesMin: number = 1
   entriesMax: number = 90
 
+  onChangeOsobaOrIzvod() {
+    
+  }
+
   chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
   }
