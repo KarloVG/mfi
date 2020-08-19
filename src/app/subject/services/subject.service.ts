@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import { CreateSubjektRequest } from '../models/create-subjekt-request';
 import { IGetPredmetRequest } from '../models/get-predmet-request';
 import { FormGroup } from '@angular/forms';
+import { createMidnightTime, createBeforeMidnightTime } from 'src/app/shared/utils/time-picker-helper';
 
 @Injectable({
   providedIn: 'root'
@@ -30,13 +31,11 @@ export class SubjectApiService {
   }
 
   getSubjectsDropdown(formgroup: FormGroup): Observable<ISimpleDropdownItem[]> {
-    console.log()
-    const request:IGetPredmetRequest = {
-      datumOtvaranjaDo: formgroup.value.DatumOtvaranjaDo,
-      datumOtvaranjaOd: formgroup.value.DatumOtvaranjaOd,
+    const request: IGetPredmetRequest = {
+      datumOtvaranjaDo: createBeforeMidnightTime(formgroup.value.DatumOtvaranjaDo),
+      datumOtvaranjaOd: createMidnightTime(formgroup.value.DatumOtvaranjaOd),
       statusPredmeta: formgroup.value.StatusPredmeta
     }
-    console.log(request)
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME, 'filter');
     return this.http.post<ISimpleDropdownItem[]>(url, request);
   }
@@ -50,7 +49,6 @@ export class SubjectApiService {
       nazivPredmeta: formData.nazivPredmeta,
       statusPredmetaID: formData.statusPredmetaID
     }
-    console.log('create request', requestData)
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
     return this.http.post<ISubject>(url, requestData);
   }
@@ -65,8 +63,6 @@ export class SubjectApiService {
       nazivPredmeta: formData.nazivPredmeta,
       statusPredmetaID: formData.statusPredmetaID
     }
-    console.log('update request', requestData)
-
     const url = this.urlHelper.getUrl(this.CONTROLER_NAME, subjectId.toString());
     return this.http.put<ISubject>(url, requestData);
   }
