@@ -162,6 +162,7 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
       const modalRef = this.ngbModalService.open(ModalCanDeactivateComponent, { backdrop: 'static', keyboard: false });
       modalRef.componentInstance.subjectName = this.subjectId ? this.nazivPredmeta.value : '';
       modalRef.result.then((result) => {
+        console.log(result)
         if (result == true) {
           if (this.subjectId) {
             this.confimationSubject.next(true);
@@ -175,9 +176,6 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
               this.confimationSubject.next(false);
             } else {
               this.addSubjectWithoutNavigating();
-              this.toastr.success('Pohranili ste novi predmet', 'Uspjeh', {
-                progressBar: true
-              });
               this.confimationSubject.next(true);
             }
           }
@@ -280,8 +278,10 @@ export class SubjectAddOrEditComponent implements OnInit, CanComponentDeactivate
   addSubjectWithoutNavigating() {
     this.subjectApiService.addSubject(this.subjectFormGroup.value).pipe(untilComponentDestroyed(this))
     .subscribe(response => {
-      localStorage.setItem('subject_id', response.predmetID.toString());
-      this.navigationService.publishNavigationChange();
+      this.subjectFormGroup.markAsPristine();
+      this.toastr.success('Pohranili ste novi predmet', 'Uspjeh', {
+        progressBar: true
+      });
     })
   }
 

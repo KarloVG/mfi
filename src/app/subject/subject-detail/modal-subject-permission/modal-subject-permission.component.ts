@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SubjectPermissionervice } from '../../services/subject-permission.service';
 import { take } from 'rxjs/operators';
 import { ISubjectPermission } from '../../models/subject-permission';
 import { ToastrService } from 'ngx-toastr';
+import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 
 @Component({
   selector: 'app-modal-subject-permission',
   templateUrl: './modal-subject-permission.component.html',
   styleUrls: ['./modal-subject-permission.component.scss']
 })
-export class ModalSubjectPermissionComponent implements OnInit {
+export class ModalSubjectPermissionComponent implements OnInit, OnDestroy {
 
   subjectPermisionGroup: FormGroup = this.formBuilder.group({
     ime: [''],
@@ -34,17 +35,12 @@ export class ModalSubjectPermissionComponent implements OnInit {
 
   //future backend filtering - will be refactored when backend comes
   filterUserTable() {
-      let searchVal = this.ime.value.toLowerCase();
-      let colsAmt = 10;
-      let keys = Object.keys(this.subjectPermissions[0]);
-
-      this.filteredSubjectPermissions = this.subjectPermissions.filter(function (item) {
-        for (let i = 0; i < colsAmt; i++) {
-          if (item[keys[i]] != null && item[keys[i]].toString().toLowerCase().indexOf(searchVal) !== -1 || !searchVal) {
-            return true;
-          }
-        }
-      });
+    this.subjectPermisssionService.getPermissions(this.subjectPermisionGroup.value)
+    .pipe(untilComponentDestroyed(this)).subscribe(
+      data => {
+        this.filteredSubjectPermissions = data;
+      }
+    )
   }
 
   selectPermissionUser(event: MouseEvent, permission: ISubjectPermission) {
@@ -73,15 +69,9 @@ export class ModalSubjectPermissionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getSubjectPermissions();
   }
 
-  getSubjectPermissions() {
-    this.subjectPermisssionService.getPermissions().pipe(take(1)).subscribe(
-      data => {
-        this.subjectPermissions = data;
-      }
-    )
+  ngOnDestroy(): void {
   }
 
   onSubmit() {

@@ -123,12 +123,13 @@ export class FlowOverviewComponent implements OnInit {
 
   // output from child component
   onChangeOsobaOrIzvod(event) {
+    this.barChartDataU[0].data.push(this.rndmm(this.entriesMin, this.entriesMax) * 1000)
+    this.barChartDataI[0].data.push(-1 * this.rndmm(this.entriesMin, this.entriesMax) * 1000)
     if(event.osobaID && event.izvodID) {
       this.flowService.getGraphData(event.osobaID, event.izvodID, this.timespanChoice).subscribe(
         data => { 
           console.log(data);
-          // this.barChartDataU[0].data.push(this.rndmm(this.entriesMin, this.entriesMax) * 1000)
-          // this.barChartDataI[0].data.push(-1 * this.rndmm(this.entriesMin, this.entriesMax) * 1000)
+          
         }
       );
     }

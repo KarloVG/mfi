@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ISubjectPermission } from '../models/subject-permission';
+import { IGetKorisnikRequest } from '../models/get-korisnik-request';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,13 @@ export class SubjectPermissionervice {
 
   private readonly CONTROLER_NAME = 'Korisnik';
 
-  getPermissions(): Observable<ISubjectPermission[]> {
-    const url = this.urlHelper.getUrl(this.CONTROLER_NAME);
-    return this.http.get<ISubjectPermission[]>(url);
+  getPermissions(formgroup: IGetKorisnikRequest): Observable<ISubjectPermission[]> {
+    const request: IGetKorisnikRequest =  {
+      ime: formgroup.ime,
+      prezime: formgroup.prezime,
+      loginName: formgroup.loginName
+    }
+    const url = this.urlHelper.getUrl(this.CONTROLER_NAME, 'filter');
+    return this.http.post<ISubjectPermission[]>(url, request);
   }
 }
