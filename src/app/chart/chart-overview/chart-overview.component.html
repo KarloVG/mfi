@@ -16,26 +16,28 @@
 
   <div id="chart-area">
     <div class="row">
-      <div class="col-sm-4 offset-sm-1">
-        <div class="chart d-block">
-          <canvas baseChart
+      <div class="col-sm-6">
+        <div style="display:block;">
+          <canvas baseChart 
             [datasets]="barChartDataU"
             [labels]="barChartLabelsU"
             [options]="barChartOptions"
             [plugins]="barChartPlugins"
             [legend]="barChartLegend"
+            [colors]="barChartColorU"
             [chartType]="barChartType">
           </canvas>
         </div>
       </div>
-      <div class="col-sm-4 offset-sm-1">
-        <div class="chart d-block">
+      <div class="col-sm-6">
+        <div style="display:block;">
           <canvas baseChart
             [datasets]="barChartDataI"
             [labels]="barChartLabelsI"
             [options]="barChartOptions"
             [plugins]="barChartPlugins"
             [legend]="barChartLegend"
+            [colors]="barChartColorI"
             [chartType]="barChartType">
           </canvas>
         </div>
@@ -52,7 +54,7 @@
             [chartType]="pieChartType"
             [options]="pieChartOptions"
             [plugins]="pieChartPlugins"
-            [colors]="pieChartColors"
+            [colors]="pieChartColorsI"
             [legend]="pieChartLegend">
           </canvas>
         </div>
@@ -65,7 +67,7 @@
             [chartType]="pieChartType"
             [options]="pieChartOptions"
             [plugins]="pieChartPlugins"
-            [colors]="pieChartColors"
+            [colors]="pieChartColorsU"
             [legend]="pieChartLegend">
           </canvas>
         </div>

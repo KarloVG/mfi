@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ChartType, ChartOptions, ChartDataSets } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
+import { ChartService } from '../services/chart-service';
+import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
+import { IChartResponse } from '../models/chart-response';
 
 @Component({
   selector: 'app-chart-overview',
@@ -9,12 +12,15 @@ import * as pluginDataLabels from 'chartjs-plugin-datalabels';
   styleUrls: ['./chart-overview.component.scss']
 })
 
-export class ChartOverviewComponent implements OnInit {
+export class ChartOverviewComponent implements OnInit, OnDestroy {
   moduleName: string = 'Graf financijskih transakcija';
   moduleFontIcon: string = 'fas fa-chart-pie';
-  displayType: string = 'chart'
+  displayType: string = 'chart';
 
-  constructor() {}
+  chartResponseData: IChartResponse;
+  constructor(
+    private chartService: ChartService
+  ) {}
 
   pieChartOptions: ChartOptions = {
     responsive: true,
@@ -24,8 +30,7 @@ export class ChartOverviewComponent implements OnInit {
     plugins: {
       datalabels: {
         formatter: (value, ctx) => {
-          const label = ctx.chart.data.labels[ctx.dataIndex];
-          return label;
+          return value + ' Kn';
         },
       },
     }
@@ -33,39 +38,17 @@ export class ChartOverviewComponent implements OnInit {
   pieChartType: ChartType = 'pie';
   pieChartLegend = true;
   pieChartPlugins = [pluginDataLabels];
-  pieChartColors = [
-    {
-      backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)', 'rgba(128,0,128,0.3)', 'rgba(128,128,0,0.3)', 'rgba(0,128,128,0.3)'],
-    },
-  ];
 
-  pieChartLabels: Label[] = [
-    'Hrvatska',
-    'Bosna i Hercegovina',
-    'Grčka',
-    'Ujedinjeno Kraljevstvo',
-    'Estonija',
-    'Sjedinjene Američke Države',
-    'Irska',
-    'Srbija',
-    'Crna Gora',
-    'Austrija',
-    'Slovenija',
-    'Italija',
-    'Njemačka',
-    'Francuska',
-    'Malta',
-    'Cipar',
-    'Španjolska',
-    'Portugal',
-  ];
+  colors = ['rgb(0,206,209)', 'rgb(30,144,255)', 'rgb(239, 192, 80)','rgb(136, 176, 75)', 'rgb(68, 184, 172)', 'rgb(225, 93, 68)', 'rgb(89, 160, 0)'
+  , 'rgb(255, 160, 0)', 'rgb(255, 230, 0)', 'rgb(255, 137, 255)', 'rgb(17, 137, 255)', 'rgb(185, 77, 0)', 'rgb(185, 77, 120)', 'rgb(185, 77, 34)', 'rgb(185, 255, 0)'
+  , 'rgb(230, 117, 0)'];
+  pieChartColorsI = [{ backgroundColor: [this.colors[Math.floor(Math.random() * this.colors.length)], this.colors[Math.floor(Math.random() * this.colors.length)], this.colors[Math.floor(Math.random() * this.colors.length)], this.colors[Math.floor(Math.random() * this.colors.length)], this.colors[Math.floor(Math.random() * this.colors.length)]]}];
+  pieChartColorsU = [{ backgroundColor: [this.colors[Math.floor(Math.random() * this.colors.length)], this.colors[Math.floor(Math.random() * this.colors.length)], this.colors[Math.floor(Math.random() * this.colors.length)], this.colors[Math.floor(Math.random() * this.colors.length)], this.colors[Math.floor(Math.random() * this.colors.length)]]}];
 
   pieChartLabelsU: Label[] = [];
   pieChartLabelsI: Label[] = [];
   pieChartDataU: number[] = [];
-  pieChartDataUx: number[] = [69.8, 0.7, 2, 18.9, 4.9, 3.7];
   pieChartDataI: number[] = [];
-  pieChartDataIx: number[] = [10.1, 1.2, 4.3, 4.3, 61.8, 18.3];
 
   barChartOptions: ChartOptions = {
     responsive: true,
@@ -73,7 +56,7 @@ export class ChartOverviewComponent implements OnInit {
     plugins: {
       datalabels: {
         anchor: 'end',
-        align: 'end',
+        align: 'center'
       }
     }
   };
@@ -81,26 +64,63 @@ export class ChartOverviewComponent implements OnInit {
   barChartLegend = true;
   barChartPlugins = [pluginDataLabels];
 
-  barChartLabelsU: Label[] = ['Boško Bošković', 'ACME Ltd.', 'Marko Markić', 'Dobra Tvrtka d.o.o.', 'Ivana Ivić', 'Ana Anić'];
-  barChartLabelsI: Label[] = ['Petar Petrović', 'Franjo Franjić', 'Nina Ninić', 'ACME Ltd. (UK)', 'Luka Lukač', 'Ana Anić'];
+  barChartLabelsU: Label[] = [];
+  barChartLabelsI: Label[] = [];
 
-  barChartColors1 = 'rgba(0,255,0,0.3)'
-  barChartColors2 = 'rgba(255,0,0,0.3)'
+  barChartColorU: Color[] = [
+    { backgroundColor: this.colors[Math.floor(Math.random() * this.colors.length)] }
+  ];
+  barChartColorI: Color[] = [
+    { backgroundColor: this.colors[Math.floor(Math.random() * this.colors.length)] }
+  ];
 
   barChartDataU: ChartDataSets[] = [{ data: [], label: 'Uplate' }]
-  barChartDataUx: ChartDataSets[] = [
-    { data: [21000, 60000, 24000, 77000, 11000, 44000], label: 'Uplate' }
-  ];
   barChartDataI: ChartDataSets[] = [{ data: [], label: 'Isplate' }]
-  barChartDataIx: ChartDataSets[] = [
-    { data: [21000, 60000, 24000, 77000, 11000, 44000], label: 'Isplate' }
-  ];
 
   entriesMin: number = 1
   entriesMax: number = 90
 
-  onChangeOsobaOrIzvod() {
+  onChangeOsobaOrIzvod(event) {
+    this.pieChartDataI = [];
+    this.pieChartDataU = [];
+    this.pieChartLabelsI = [];
+    this.pieChartLabelsU = [];
+    this.barChartDataI[0].data = [];
+    this.barChartDataU[0].data = [];
+    this.barChartLabelsI = [];
+    this.barChartLabelsU = [];
     
+    if(event.osobaID) {
+      this.chartService.getChartData(event.osobaID, event.izvodID).pipe(untilComponentDestroyed(this)).subscribe(
+        data => {
+          this.chartResponseData = data;
+          this.chartResponseData.ulazneTransakcijePoOsobi.forEach(
+            poOsobi => {
+              this.barChartLabelsU.push(poOsobi.osoba);
+              this.barChartDataU[0].data.push(poOsobi.iznos);
+            }
+          );
+          this.chartResponseData.izlazneTransakcijePoOsobi.forEach(
+            poOsobi => {
+              this.barChartLabelsI.push(poOsobi.osoba);
+              this.barChartDataI[0].data.push(poOsobi.iznos);
+            }
+          );
+          this.chartResponseData.izlazneTransakcijePoDrzavi.forEach(
+            poOsobi => {
+              this.pieChartLabelsI.push(poOsobi.drzava);
+              this.pieChartDataI.push(poOsobi.iznos);
+            }
+          );
+          this.chartResponseData.ulazneTransakcijePoDrzavi.forEach(
+            poOsobi => {
+              this.pieChartLabelsU.push(poOsobi.drzava);
+              this.pieChartDataU.push(poOsobi.iznos);
+            }
+          );
+        }
+      )
+    }
   }
 
   chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
@@ -113,33 +133,9 @@ export class ChartOverviewComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  addUser() {
-    console.log('Chart', 'addUser')
-    this.barChartDataU[0].data = []
-    for (let u = 1; u <= this.barChartLabelsU.length; u++) {
-      this.barChartDataU[0].data.push(this.rndmm(this.entriesMin, this.entriesMax) * 1000)
-    }
-    this.barChartDataI[0].data = []
-    for (let i = 1; i <= this.barChartLabelsI.length; i++) {
-      this.barChartDataI[0].data.push(this.rndmm(this.entriesMin, this.entriesMax) * 1000)
-    }
+  ngOnDestroy(): void {}
 
-    this.pieChartLabelsU = []
-    this.pieChartLabelsU.push(this.pieChartLabels[0])
-    for (let i = 1; i <= 5; i++) {
-      this.pieChartLabelsU.push(this.pieChartLabels[this.rndmm(1, this.pieChartLabels.length - 1)])
-    }
-    this.pieChartLabelsI = []
-    this.pieChartLabelsI.push(this.pieChartLabels[0])
-    for (let i = 1; i <= 5; i++) {
-      this.pieChartLabelsI.push(this.pieChartLabels[this.rndmm(1, this.pieChartLabels.length - 1)])
-    }
-
-    this.shuffle(this.pieChartDataUx)
-    this.pieChartDataU = this.pieChartDataUx
-    this.shuffle(this.pieChartDataIx)
-    this.pieChartDataI = this.pieChartDataIx
-  }
+  addUser() { }
 
   expandView() {
     console.log('Chart', 'expandViewAction')
