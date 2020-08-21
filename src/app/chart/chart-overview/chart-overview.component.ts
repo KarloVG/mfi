@@ -93,7 +93,7 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
   barChartLabelsI: Label[] = [];
 
   barChartColorU: Color[] = [
-    { backgroundColor: 'rgb(255,99,71)' }
+    { backgroundColor: 'rgb(250,128,114)' }
   ];
   barChartColorI: Color[] = [
     { backgroundColor: 'rgb(0,191,255)' }
