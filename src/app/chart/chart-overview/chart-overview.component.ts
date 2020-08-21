@@ -20,17 +20,25 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
   chartResponseData: IChartResponse;
   constructor(
     private chartService: ChartService
-  ) {}
+  ) { }
 
+  zbrojIsplata: number = 0;
+  zbrojUplata: number = 0;
   pieChartOptions: ChartOptions = {
     responsive: true,
     legend: {
-      position: 'top',
+      position: 'bottom',
     },
     plugins: {
       datalabels: {
         formatter: (value, ctx) => {
-          return value + ' Kn';
+          let sum = 0;
+          let dataArr = ctx.chart.data.datasets[0].data;
+          dataArr.forEach(data => {
+              sum += data;
+          });
+          let percentage = (value*100 / sum).toFixed(2)+"%";
+          return percentage;
         },
       },
     }
@@ -38,12 +46,8 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
   pieChartType: ChartType = 'pie';
   pieChartLegend = true;
   pieChartPlugins = [pluginDataLabels];
-
-  colors = ['rgb(0,206,209)', 'rgb(30,144,255)', 'rgb(239, 192, 80)','rgb(136, 176, 75)', 'rgb(68, 184, 172)', 'rgb(225, 93, 68)', 'rgb(89, 160, 0)'
-  , 'rgb(255, 160, 0)', 'rgb(255, 230, 0)', 'rgb(255, 137, 255)', 'rgb(17, 137, 255)', 'rgb(185, 77, 0)', 'rgb(185, 77, 120)', 'rgb(185, 77, 34)', 'rgb(185, 255, 0)'
-  , 'rgb(230, 117, 0)'];
-  pieChartColorsI = [{ backgroundColor: [this.colors[Math.floor(Math.random() * this.colors.length)], this.colors[Math.floor(Math.random() * this.colors.length)], this.colors[Math.floor(Math.random() * this.colors.length)], this.colors[Math.floor(Math.random() * this.colors.length)], this.colors[Math.floor(Math.random() * this.colors.length)]]}];
-  pieChartColorsU = [{ backgroundColor: [this.colors[Math.floor(Math.random() * this.colors.length)], this.colors[Math.floor(Math.random() * this.colors.length)], this.colors[Math.floor(Math.random() * this.colors.length)], this.colors[Math.floor(Math.random() * this.colors.length)], this.colors[Math.floor(Math.random() * this.colors.length)]]}];
+  pieChartColorsI = [{ backgroundColor: ['rgb(135,206,250)', 'rgb(255,215,0)', 'rgb(255,127,80)', 'rgb(147,112,219)', 'rgb(169,169,169)', 'rgb(154,205,50)', 'rgb(124,252,0)'] }];
+  pieChartColorsU = [{ backgroundColor: ['rgb(154,205,50)', 'rgb(169,169,169)', 'rgb(124,252,0)', 'rgb(147,112,219)', 'rgb(255,215,0)', 'rgb(255,127,80)', 'rgb(135,206,250)'] }];
 
   pieChartLabelsU: Label[] = [];
   pieChartLabelsI: Label[] = [];
@@ -52,7 +56,28 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
 
   barChartOptions: ChartOptions = {
     responsive: true,
-    scales: { xAxes: [{}], yAxes: [{}] },
+    scales: {
+      xAxes: [{
+        stacked: true,
+        ticks: {
+          fontColor: 'black',
+          fontSize: 15,
+          min: 0,
+          beginAtZero: true,
+
+        }
+      }],
+      yAxes: [{
+        stacked: true,
+        ticks: {
+          fontColor: 'black',
+          fontSize: 13
+        },
+        gridLines: {
+          color: '#5f5e5e'
+        }
+      }]
+    },
     plugins: {
       datalabels: {
         anchor: 'end',
@@ -68,10 +93,10 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
   barChartLabelsI: Label[] = [];
 
   barChartColorU: Color[] = [
-    { backgroundColor: this.colors[Math.floor(Math.random() * this.colors.length)] }
+    { backgroundColor: 'rgb(255,99,71)' }
   ];
   barChartColorI: Color[] = [
-    { backgroundColor: this.colors[Math.floor(Math.random() * this.colors.length)] }
+    { backgroundColor: 'rgb(0,191,255)' }
   ];
 
   barChartDataU: ChartDataSets[] = [{ data: [], label: 'Uplate' }]
@@ -80,7 +105,7 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
   entriesMin: number = 1
   entriesMax: number = 90
 
-  onChangeOsobaOrIzvod(event) {
+  onChangeOsobaOrIzvod(event): void {
     this.pieChartDataI = [];
     this.pieChartDataU = [];
     this.pieChartLabelsI = [];
@@ -89,8 +114,10 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
     this.barChartDataU[0].data = [];
     this.barChartLabelsI = [];
     this.barChartLabelsU = [];
-    
-    if(event.osobaID) {
+    this.zbrojIsplata = 0;
+    this.zbrojUplata = 0;
+
+    if (event.osobaID) {
       this.chartService.getChartData(event.osobaID, event.izvodID).pipe(untilComponentDestroyed(this)).subscribe(
         data => {
           this.chartResponseData = data;
@@ -98,12 +125,14 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
             poOsobi => {
               this.barChartLabelsU.push(poOsobi.osoba);
               this.barChartDataU[0].data.push(poOsobi.iznos);
+              this.zbrojUplata += poOsobi.iznos;
             }
           );
           this.chartResponseData.izlazneTransakcijePoOsobi.forEach(
             poOsobi => {
               this.barChartLabelsI.push(poOsobi.osoba);
               this.barChartDataI[0].data.push(poOsobi.iznos);
+              this.zbrojIsplata += poOsobi.iznos;
             }
           );
           this.chartResponseData.izlazneTransakcijePoDrzavi.forEach(
@@ -131,9 +160,9 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
     console.log(event, active);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
   addUser() { }
 
@@ -151,29 +180,5 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
   }
   export() {
     console.log('Chart', 'exportAction')
-  }
-
-  shuffle(array) {
-    let counter = array.length;
-
-    // While there are elements in the array
-    while (counter > 0) {
-        // Pick a random index
-        let index = Math.floor(Math.random() * counter);
-
-        // Decrease counter by 1
-        counter--;
-
-        // And swap the last element with it
-        let temp = array[counter];
-        array[counter] = array[index];
-        array[index] = temp;
-    }
-
-    return array;
-  }
-
-  rndmm(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min)
   }
 }

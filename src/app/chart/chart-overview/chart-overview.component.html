@@ -17,6 +17,9 @@
   <div id="chart-area">
     <div class="row">
       <div class="col-sm-6">
+        <p class="text-center font-weight-bold">
+          Ukupan iznos uplata: {{ zbrojUplata }} kn
+        </p>
         <div style="display:block;">
           <canvas baseChart 
             [datasets]="barChartDataU"
@@ -30,6 +33,9 @@
         </div>
       </div>
       <div class="col-sm-6">
+        <p class="text-center font-weight-bold">
+          Ukupan iznos isplata: {{ zbrojIsplata}} kn
+        </p>
         <div style="display:block;">
           <canvas baseChart
             [datasets]="barChartDataI"
@@ -47,6 +53,9 @@
 
     <div class="row">
       <div class="col-sm-4 offset-sm-1">
+        <p class="text-center font-weight-bold">
+          Uplate po zemljama
+        </p>
         <div class="chart">
           <canvas baseChart
             [data]="pieChartDataU"
@@ -60,6 +69,9 @@
         </div>
       </div>
       <div class="col-sm-4 offset-sm-1">
+        <p class="text-center font-weight-bold">
+          Isplate po zemljama
+        </p>
         <div class="chart">
           <canvas baseChart
             [data]="pieChartDataI"
