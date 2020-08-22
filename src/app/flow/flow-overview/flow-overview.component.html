@@ -10,42 +10,41 @@
   </app-visualisation-toolbar>
   <!-- [addUserAction]="addUser.bind(this)" -->
 
-  <form [formGroup]="flowFormGroup" (ngSubmit)="onSelectTimespan()">
-    <div class="col-lg-6 col-md-6 col-sm-12 offset-3 mt-1">
-      <h6 class="mb-3">Vremenski period u dijagramu<span class="text-danger">*</span></h6>
-      <div class="input-group">
-        <label class="radio radio-outline-primary mr-3" *ngFor="let choice of timespanChoices">
-          <input type="radio" name="timespanChoice" [value]="choice.id" formControlName="timespanChoice"
-            (change)="changeGraphTimespan($event)">
+  <form [formGroup]="flowFormGroup">
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-3 row">
+      <label for="date" class="col-sm-3">
+        Vremenski period<span class="text-danger">*</span>
+      </label>
+      <div class="col-sm-8 input-group d-flex align-items-center justify-content-between">
+        <label class="radio radio-outline-primary" *ngFor="let choice of timespanChoices">
+          <input type="radio" name="TimespanChoice" [value]="choice.id" formControlName="TimespanChoice"
+            (change)="changeGraphTimespan(choice.id)" [ngClass]="{'is-invalid': TimespanChoice.invalid && (TimespanChoice.dirty || TimespanChoice.touched)}">
           <span>{{ choice.name }}</span>
           <span class="checkmark"></span>
         </label>
       </div>
     </div>
-    <div class="col-lg-12 row mb-4">
-      <label for="date" class="col-sm-12 mb-2 col-form-label">
-        Datum otvaranja predmeta<span class="text-danger">*</span>
+    <div class="col-lg-6 col-md-6 col-sm-12 row my-3">
+      <label for="dateFrom" class="col-sm-3 col-form-label">
+        Datum tijeka<span class="text-danger">*</span>
       </label>
-      <label for="dateFrom" class="col-sm-2 col-form-label">
-        od
-      </label>
-      <div class="col-sm-4 input-group">
+      <div class="col-sm-3 input-group">
         <input class="form-control" placeholder="dan.mjesec.godina" name="dp2" formControlName="DatumOd" ngbDatepicker
-          #d2="ngbDatepicker" [readonly]="true" [minDate]="{year: 2000, month: 1, day: 1}" placement="top"
-          [maxDate]="dynamicToday">
+          #d2="ngbDatepicker" [readonly]="true" [minDate]="{year: 2015, month: 1, day: 1}" placement="bottom"
+          [maxDate]="dynamicToday" [ngClass]="{'is-invalid': DatumOd.invalid && (DatumOd.dirty || DatumOd.touched)}">
         <div class="input-group-append">
           <button class="btn btn-outline-secondary calendar-box" (click)="d2.toggle()" type="button"><span
               class="fas fa-calendar"></span></button>
         </div>
+        <div class="invalid-feedback">Polje je obavezno</div>
       </div>
-      <div class="invalid-feedback">Polje je obavezno</div>
       <label for="dateTo" class="col-sm-2 col-form-label text-center">
         do
       </label>
-      <div class="col-sm-4 input-group">
+      <div class="col-sm-3 input-group">
         <input class="form-control" placeholder="dan.mjesec.godina" name="dp1" formControlName="DatumDo" ngbDatepicker
-          #d1="ngbDatepicker" [readonly]="true" placement="top" [minDate]="{year: 2000, month: 1, day: 1}"
-          [maxDate]="dynamicToday">
+          #d1="ngbDatepicker" [readonly]="true" placement="bottom" [minDate]="{year: 2015, month: 1, day: 1}"
+          [maxDate]="dynamicToday" [ngClass]="{'is-invalid': DatumDo.invalid && (DatumDo.dirty || DatumDo.touched)}">
         <div class="input-group-append">
           <button class="btn btn-outline-secondary calendar-box" (click)="d1.toggle()" type="button"><span
               class="fas fa-calendar"></span></button>
@@ -58,15 +57,25 @@
   <div id="chart-area">
     <div class="col-sm-10 pb-3 mb-3">
       <div class="chart d-block">
-        <canvas baseChart [datasets]="barChartDataU" [labels]="barChartLabels" [options]="barChartOptions"
-          [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+        <canvas baseChart 
+          [datasets]="barChartDataU" 
+          [labels]="barChartLabelsU" 
+          [options]="barChartOptions"
+          [plugins]="barChartPlugins" 
+          [legend]="barChartLegend" 
+          [chartType]="barChartType">
         </canvas>
       </div>
     </div>
     <div class="col-sm-10">
       <div class="chart d-block">
-        <canvas baseChart [datasets]="barChartDataI" [labels]="barChartLabels" [options]="barChartOptions"
-          [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+        <canvas baseChart 
+          [datasets]="barChartDataI" 
+          [labels]="barChartLabelsI" 
+          [options]="barChartOptions"
+          [plugins]="barChartPlugins" 
+          [legend]="barChartLegend" 
+          [chartType]="barChartType">
         </canvas>
       </div>
     </div>

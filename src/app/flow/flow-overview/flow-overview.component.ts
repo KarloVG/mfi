@@ -2,15 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ChartType, ChartOptions, ChartDataSets } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
-import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 import { ITimespanChoice } from '../models/timespan-choice';
 import { FlowService } from '../services/flow.service';
-import { IOsobaDropdown } from 'src/app/statement-base/models/osoba-dropdown';
 import { NgbDateParserFormatter, NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateCustomParserFormatter } from 'src/app/shared/utils/ngb-date-custom-parser-formatter';
 import { CustomDatepickerI18n } from 'src/app/shared/utils/custom-date-picker-i18n';
-import { ITimepickerDate, MONTHS, YEARS } from '../models/timepicker-date';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-flow-overview',
@@ -28,14 +25,13 @@ export class FlowOverviewComponent implements OnInit {
 
   // flow group
   flowFormGroup: FormGroup = this.formBuilder.group({
-    timespanChoice: [4, Validators.required],
+    TimespanChoice: [4, Validators.required],
     DatumOd: [null, Validators.required],
     DatumDo: [null, Validators.required]
   });
 
   // basic graph vars
   displayType: string = 'flow'
-  
   barChartOptions: ChartOptions = {
     responsive: true,
     scales: { xAxes: [{}], yAxes: [{}] },
@@ -46,6 +42,8 @@ export class FlowOverviewComponent implements OnInit {
       }
     }
   };
+  barChartLabelsI: Label[] = [];
+  barChartLabelsU: Label[] = [];
   barChartType: ChartType = 'bar';
   barChartLegend = true;
   barChartPlugins = [pluginDataLabels];
@@ -62,39 +60,35 @@ export class FlowOverviewComponent implements OnInit {
     month: this.dynamicDate.getMonth() + 1,
     day: this.dynamicDate.getDate()
   }
-  timespanChoice: number = 4;
   timespanChoices: ITimespanChoice[] = [
     {
       id: 1,
       name: '1 sat',
-      inputName:"1sat"
+      inputName: "1sat"
     },
     {
       id: 2,
       name: '1 dan',
-      inputName:"1dan"
+      inputName: "1dan"
     },
     {
       id: 3,
       name: '1 tjedan',
-      inputName:"1tjedan"
+      inputName: "1tjedan"
     },
     {
       id: 4,
       name: '1 mjesec',
-      inputName:"1mjesec"
+      inputName: "1mjesec"
     },
     {
       id: 5,
       name: '1 godina',
-      inputName:"1godina"
+      inputName: "1godina"
     }
   ];
   selectedTimespan: number;
   choosenDate: any;
-  months: ITimepickerDate[] = MONTHS;
-  years: ITimepickerDate[] = YEARS;
-  barChartLabels: Label[] = []; 
 
   // uplate
   barChartDataU: ChartDataSets[] = [{ data: [], label: 'Uplate' }];
@@ -116,9 +110,9 @@ export class FlowOverviewComponent implements OnInit {
   constructor(
     private flowService: FlowService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
@@ -130,40 +124,46 @@ export class FlowOverviewComponent implements OnInit {
 
   // output from child component
   onChangeOsobaOrIzvod(event) {
-    this.barChartDataU[0].data.push(this.rndmm(this.entriesMin, this.entriesMax) * 1000)
-    this.barChartDataI[0].data.push(-1 * this.rndmm(this.entriesMin, this.entriesMax) * 1000)
-    if(event.osobaID && event.izvodID) {
-      this.flowService.getGraphData(event.osobaID, event.izvodID, this.timespanChoice).subscribe(
-        data => { 
-          console.log(data);
-          
-        }
-      );
+    if (this.flowFormGroup.valid) {
+      if (event.osobaID) {
+        this.barChartLabelsU = [];
+        this.barChartDataU[0].data = [];
+        this.flowService.getGraphData(event.osobaID, event.izvodID, this.flowFormGroup).subscribe(
+          data => {
+            data.forEach(
+              element => {
+                console.log(element)
+                this.barChartLabelsU.push(element.datum.toString())
+                this.barChartDataU[0].data.push(element.ukupanIznos)
+              }
+            )
+          }
+        );
+      }
+      console.log('validna forma');
+    } else {
+      console.log('invalidna forma');
+      this.flowFormGroup.markAllAsTouched();
+      // triggers invalid-feedback class
+      return;
     }
   }
 
-  onSelectTimespan() {
-
-  }
-  
-  onChangeDate () {
+  onChangeDate() {
     console.log(this.selectedTimespan)
   }
 
   changeGraphTimespan(timespan: number) {
-    this.selectedTimespan = null;
-    if(this.timespanChoice) {
-      if(this.timespanChoice == 1) {
+    if (timespan == 1) {
 
-      } else if(this.timespanChoice == 2) {
+    } else if (timespan == 2) {
 
-      } else if(this.timespanChoice == 3) {
-        
-      } else if(this.timespanChoice == 4) {
-        
-      } else if(this.timespanChoice == 5) {
-        
-      }
+    } else if (timespan == 3) {
+
+    } else if (timespan == 4) {
+
+    } else if (timespan == 5) {
+
     }
     // this.flowService.getGraphData()
   }
@@ -184,7 +184,13 @@ export class FlowOverviewComponent implements OnInit {
     console.log('Flow', 'exportAction')
   }
 
-  rndmm(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min)
+  get TimespanChoice(): AbstractControl {
+    return this.flowFormGroup.get('TimespanChoice');
+  }
+  get DatumOd(): AbstractControl {
+    return this.flowFormGroup.get('DatumOd');
+  }
+  get DatumDo(): AbstractControl {
+    return this.flowFormGroup.get('DatumDo');
   }
 }
