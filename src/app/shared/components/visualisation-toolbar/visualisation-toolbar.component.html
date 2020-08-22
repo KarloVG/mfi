@@ -4,7 +4,7 @@
     <form class="col-sm-7 row" #visualisationForm="ngForm" (ngSubmit)="passDataToParent()" id="loginForm">
       <div class="col-sm-6">
         <div class="form-group row mb-1">
-          <label for="osobazavizualizaciju" class="col-sm-5 col-form-label">Osoba za vizualizaciju</label>
+          <label for="osobazavizualizaciju" class="col-sm-5 col-form-label">Osoba za vizualizaciju<span class="text-danger">*</span></label>
           <div class="col-sm-7">
             <ng-select [items]="osobe" bindLabel="naziv" placeholder="Odabir osobe" [(ngModel)]="selectedOsoba"
               (change)="onChangeActiveOsoba($event)" name="ctrl"

@@ -10,6 +10,7 @@ import { NgbDateParserFormatter, NgbDatepickerI18n } from '@ng-bootstrap/ng-boot
 import { NgbDateCustomParserFormatter } from 'src/app/shared/utils/ngb-date-custom-parser-formatter';
 import { CustomDatepickerI18n } from 'src/app/shared/utils/custom-date-picker-i18n';
 import { ITimepickerDate, MONTHS, YEARS } from '../models/timepicker-date';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-flow-overview',
@@ -25,9 +26,16 @@ export class FlowOverviewComponent implements OnInit {
   moduleName: string = 'Vremenski tijek transakcija';
   moduleFontIcon: string = 'fas fa-clock';
 
+  // flow group
+  flowFormGroup: FormGroup = this.formBuilder.group({
+    timespanChoice: [4, Validators.required],
+    DatumOd: [null, Validators.required],
+    DatumDo: [null, Validators.required]
+  });
+
   // basic graph vars
   displayType: string = 'flow'
-
+  
   barChartOptions: ChartOptions = {
     responsive: true,
     scales: { xAxes: [{}], yAxes: [{}] },
@@ -86,9 +94,7 @@ export class FlowOverviewComponent implements OnInit {
   choosenDate: any;
   months: ITimepickerDate[] = MONTHS;
   years: ITimepickerDate[] = YEARS;
-
-  // graph label
-  barChartLabels: Label[] = ['Sij', 'Velj', 'Ožu', 'Tra', 'Svi', 'Lip', 'Srp', 'Kol', 'Ruj', 'Lis', 'Stu', 'Pro'];
+  barChartLabels: Label[] = []; 
 
   // uplate
   barChartDataU: ChartDataSets[] = [{ data: [], label: 'Uplate' }];
@@ -108,7 +114,8 @@ export class FlowOverviewComponent implements OnInit {
   entriesMax: number = 90
 
   constructor(
-    private flowService: FlowService
+    private flowService: FlowService,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {}
