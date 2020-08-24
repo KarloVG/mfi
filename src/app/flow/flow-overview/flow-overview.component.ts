@@ -34,11 +34,32 @@ export class FlowOverviewComponent implements OnInit {
   displayType: string = 'flow'
   barChartOptions: ChartOptions = {
     responsive: true,
-    scales: { xAxes: [{}], yAxes: [{}] },
+    scales: {
+      xAxes: [
+        {
+          stacked: true,
+          ticks: {
+            fontColor: 'black',
+            fontSize: 13
+          },
+          gridLines: {
+            color: '#5f5e5e'
+          }
+        }],
+      yAxes: [{
+        stacked: true,
+        ticks: {
+          fontColor: 'black',
+          fontSize: 15,
+          min: 0,
+          beginAtZero: true,
+        }
+      }]
+    },
     plugins: {
       datalabels: {
         anchor: 'end',
-        align: 'end',
+        align: 'top'
       }
     }
   };
@@ -47,11 +68,16 @@ export class FlowOverviewComponent implements OnInit {
   barChartType: ChartType = 'bar';
   barChartLegend = true;
   barChartPlugins = [pluginDataLabels];
-  chartColors: Array<any> = [
-    {
-      backgroundColor: ['#d13537', '#b000b5']
-    }
+  barChartColorU: Color[] = [
+    { backgroundColor: 'rgb(250,128,114)' }
   ];
+  barChartColorI: Color[] = [
+    { backgroundColor: 'rgb(0,191,255)' }
+  ];
+  // uplate
+  barChartDataU: ChartDataSets[] = [{ data: [], label: 'Uplate' }];
+  // isplate
+  barChartDataI: ChartDataSets[] = [{ data: [], label: 'Isplate' }];
 
   //timespan vars
   private dynamicDate = new Date();
@@ -87,20 +113,6 @@ export class FlowOverviewComponent implements OnInit {
       inputName: "1godina"
     }
   ];
-  selectedTimespan: number;
-  choosenDate: any;
-
-  // uplate
-  barChartDataU: ChartDataSets[] = [{ data: [], label: 'Uplate' }];
-  barChartDataUx: ChartDataSets[] = [
-    { data: [21000, 60000, 24000, 77000, 11000, 44000, 21000, 60000, 24000, 77000, 11000, 44000], label: 'Uplate' }
-  ];
-
-  // isplate
-  barChartDataI: ChartDataSets[] = [{ data: [], label: 'Isplate' }];
-  barChartDataIx: ChartDataSets[] = [
-    { data: [-21000, -11000, -60000, -44000, -24000, -77000, -11000, -21000, -24000, -77000, -60000, -44000], label: 'Isplate' }
-  ];
 
   //app visualisation event emitterr
 
@@ -126,17 +138,17 @@ export class FlowOverviewComponent implements OnInit {
   onChangeOsobaOrIzvod(event) {
     if (this.flowFormGroup.valid) {
       if (event.osobaID) {
-        this.barChartLabelsU = [];
-        this.barChartDataU[0].data = [];
         this.flowService.getGraphData(event.osobaID, event.izvodID, this.flowFormGroup).subscribe(
           data => {
-            data.forEach(
-              element => {
-                console.log(element)
-                this.barChartLabelsU.push(element.datum.toString())
-                this.barChartDataU[0].data.push(element.ukupanIznos)
-              }
-            )
+            this.barChartLabelsU = [];
+            this.barChartDataU[0].data = []
+            this.barChartLabelsI = [];
+            this.barChartDataI[0].data = [];
+
+            this.barChartLabelsU = data.labeleU;
+            this.barChartDataU[0].data = data.iznosiU;
+            this.barChartLabelsI = data.labeleI;
+            this.barChartDataI[0].data = data.iznosiI;
           }
         );
       }
@@ -150,7 +162,7 @@ export class FlowOverviewComponent implements OnInit {
   }
 
   onChangeDate() {
-    console.log(this.selectedTimespan)
+    console.log('changed date')
   }
 
   changeGraphTimespan(timespan: number) {

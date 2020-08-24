@@ -26,8 +26,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             errorMessage = `Error: ${error.error.message}`;
           } else {
             // server-side error
-            console.error('HEI', error)
-            errorMessage = error ? error.error ? error.error.response : 'Kontaktirajte administratora' : 'Kontaktirajte administratora';
+            errorMessage = error ? error.error : 'Kontaktirajte administratora';
           }
           this.toastr.error(errorMessage ? errorMessage : 'Kontaktirajte administratora', 'Pogreška', {
             progressBar: true,

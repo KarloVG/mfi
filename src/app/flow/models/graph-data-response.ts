@@ -1,7 +1,10 @@
 import { IGraphList } from './graph-list';
 
 export interface IGraphDataResponse {
-    datum: number
-    ukupanIznos: number
-    lista: IGraphList[];
+    labeleI: string[];
+    iznosiI: number[];
+    podaciI: IGraphList[];
+    labeleU: string[];
+    iznosiU: number[];
+    podaciU: IGraphList[];
 }

@@ -44,7 +44,7 @@
       <div class="col-sm-3 input-group">
         <input class="form-control" placeholder="dan.mjesec.godina" name="dp1" formControlName="DatumDo" ngbDatepicker
           #d1="ngbDatepicker" [readonly]="true" placement="bottom" [minDate]="{year: 2015, month: 1, day: 1}"
-          [maxDate]="dynamicToday" [ngClass]="{'is-invalid': DatumDo.invalid && (DatumDo.dirty || DatumDo.touched)}">
+          [ngClass]="{'is-invalid': DatumDo.invalid && (DatumDo.dirty || DatumDo.touched)}">
         <div class="input-group-append">
           <button class="btn btn-outline-secondary calendar-box" (click)="d1.toggle()" type="button"><span
               class="fas fa-calendar"></span></button>
@@ -62,7 +62,8 @@
           [labels]="barChartLabelsU" 
           [options]="barChartOptions"
           [plugins]="barChartPlugins" 
-          [legend]="barChartLegend" 
+          [legend]="barChartLegend"
+          [colors]="barChartColorU"
           [chartType]="barChartType">
         </canvas>
       </div>
@@ -74,7 +75,8 @@
           [labels]="barChartLabelsI" 
           [options]="barChartOptions"
           [plugins]="barChartPlugins" 
-          [legend]="barChartLegend" 
+          [legend]="barChartLegend"
+          [colors]="barChartColorI"
           [chartType]="barChartType">
         </canvas>
       </div>

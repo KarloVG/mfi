@@ -15,7 +15,7 @@ export class FlowService {
     private readonly CONTROLLER_NAME = 'FinancijskaTransakcija';
     constructor(private http: HttpClient, private urlHelper: UrlHelperService) { }
 
-    getGraphData(idOsoba: number, idIzvod: number, flowGroup: FormGroup): Observable<IGraphDataResponse[]> {
+    getGraphData(idOsoba: number, idIzvod: number, flowGroup: FormGroup): Observable<IGraphDataResponse> {
         const request: ICreateGraphDataRequest = {
             osobaID: idOsoba,
             izvodID: idIzvod,
@@ -23,7 +23,9 @@ export class FlowService {
             datumOd: createMidnightTime(flowGroup.value.DatumOd),
             datumDo: createBeforeMidnightTime(flowGroup.value.DatumDo)
         }
+        console.log(createBeforeMidnightTime(flowGroup.value.DatumOd))
+        console.log(createBeforeMidnightTime(flowGroup.value.DatumDo))
         const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'graph');
-        return this.http.post<IGraphDataResponse[]>(url, request);
+        return this.http.post<IGraphDataResponse>(url, request);
     }
 }
