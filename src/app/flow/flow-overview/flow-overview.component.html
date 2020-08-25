@@ -8,7 +8,6 @@
     [notificationsAction]="notifications.bind(this)" [filterAction]="filter.bind(this)"
     [exportAction]="export.bind(this)">
   </app-visualisation-toolbar>
-  <!-- [addUserAction]="addUser.bind(this)" -->
 
   <form [formGroup]="flowFormGroup">
     <div class="col-lg-6 col-md-6 col-sm-12 mt-3 row">
@@ -57,11 +56,11 @@
   <div id="chart-area">
     <div class="col-sm-10 pb-3 mb-3">
       <div class="chart d-block">
-        <canvas baseChart 
-          [datasets]="barChartDataU" 
-          [labels]="barChartLabelsU" 
+        <canvas baseChart
+          [datasets]="barChartDataU"
+          [labels]="barChartLabelsU"
           [options]="barChartOptions"
-          [plugins]="barChartPlugins" 
+          [plugins]="barChartPlugins"
           [legend]="barChartLegend"
           [colors]="barChartColorU"
           [chartType]="barChartType">
@@ -70,11 +69,11 @@
     </div>
     <div class="col-sm-10">
       <div class="chart d-block">
-        <canvas baseChart 
-          [datasets]="barChartDataI" 
-          [labels]="barChartLabelsI" 
+        <canvas baseChart
+          [datasets]="barChartDataI"
+          [labels]="barChartLabelsI"
           [options]="barChartOptions"
-          [plugins]="barChartPlugins" 
+          [plugins]="barChartPlugins"
           [legend]="barChartLegend"
           [colors]="barChartColorI"
           [chartType]="barChartType">

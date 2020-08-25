@@ -9,7 +9,7 @@
       <div>
         <strong class="text-dark">Osoba u fokusu</strong>
       </div>
-      <div class="h5 text-info"><strong>{{node.user.name}}, OIB: {{node.user.oib}}</strong></div>
+      <div class="h5 text-info"><strong>{{node.naziv}}, ID: {{node.idBroj}}</strong></div>
       <div>
         <span class="mr-2">Ukupan iznos uplata:</span>
         <strong *ngIf="node.user.totalIn">{{node.user.totalIn|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
@@ -21,6 +21,7 @@
         <span *ngIf="!node.user.totalOut">n/a</span>
       </div>
     </section>
+    <!--
     <section *ngIf="!isSelectedActiveUser">
       <div>
         <strong class="text-dark">Transakcije prema osobi u fokusu</strong>
@@ -35,15 +36,20 @@
         <strong>{{focusTransactionAmount|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
       </div>
     </section>
+    -->
   </div>
+
   <div class="card-body mt-3">
     <section *ngFor="let account of accounts; let i = index">
       <div class="text-info">Račun {{i+1}}</div>
       <div class="card mb-2">
         <div class="card-body">
-          <div>Broj računa: <strong>{{account.accNo}}</strong></div>
+          <pre>{{account|json}}</pre>
+          <div>Broj računa: <strong>{{account.brojRacuna}}</strong></div>
           <div>SWIFT/BIC banke: <span>{{account.swift}}</span></div>
+          <!--
           <div>Naziv banke: <span>{{account.bank}}</span>, Država: <span>{{account.country}}</span></div>
+          -->
           <hr>
           <div>
             <span class="mr-1">Uplate na račun:</span>
@@ -70,4 +76,5 @@
       </div>
     </section>
   </div>
+
 </div>

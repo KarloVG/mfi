@@ -120,6 +120,7 @@ export class DiagramService {
     this.edges = edges
     this.data = data
     this.network = network
+    console.log('GLBX', this.network, this.nodes, this.edges)
   }
 
   getAllUsers() {
@@ -129,6 +130,7 @@ export class DiagramService {
   getPerson(id) {
     const person = this.allUsers.find(itm => { return itm.id === id })
     const accountIdList = this.allAccs.filter(itm => { return itm.userId === id }).map(itm => { return itm.id })
+    console.log('GPX', id, person, accountIdList)
     return {
       id: person.osobaID,
       label: person.naziv + '\r\nOIB: ' + person.idBroj,
@@ -353,7 +355,6 @@ export class DiagramService {
   }
 
   addNode(node: any) {
-    console.log('NX', node)
     this.nodes.update(node)
   }
   addNodes(nodeArray: any) {

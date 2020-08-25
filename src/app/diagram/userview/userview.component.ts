@@ -26,6 +26,7 @@ export class UserviewComponent implements OnInit {
     this.focusAccounts = this.activeUser.accounts
     this.accounts = this.isSelectedActiveUser? this.node.accounts : this.linkedAccounts
 
+    /*
     this.node.accounts.forEach(acc => {
       this.linkedInbound.push(...acc.transactions.transactions.inbound.filter(itm => { return this.focusAccounts.indexOf(itm.dest) > -1 }))
       this.linkedOutbound.push(...acc.transactions.transactions.outbound.filter(itm => { return this.focusAccounts.indexOf(itm.dest) > -1 }))
@@ -33,6 +34,7 @@ export class UserviewComponent implements OnInit {
     })
     this.focusTransactionCount = this.linkedOutbound.length
     this.focusTransactionAmount = this.diaSvc.getTotals(this.linkedOutbound)
+    */
     console.log('ACX', this.linkedAccounts, this.accounts)
   }
 

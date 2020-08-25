@@ -82,10 +82,11 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     let idx = ctx.nodes[0]
     this.edgeActive = null
     this.nodeActive = this.nodes.get(idx)
+    console.log('SNX', this.nodeActive)
     if (this.nodeActive.type === 'user') {
       this.isSelectedActiveUser = this.nodeActive.id === this.activeUser.id
-      this.nodeActive.user = this.diaSvc.getPerson(this.nodeActive.id)
-      this.nodeActive.accounts = this.nodeActive.user.accounts.map(itm => { return this.diaSvc.getAccounts(itm) })
+      this.nodeActive.user = this.nodeActive
+      this.nodeActive.accounts = this.nodeActive.izvodi
     } else if (this.nodeActive.type === 'account') {
       this.nodeActive.account = this.diaSvc.getAccounts(this.nodeActive.id)
       this.nodeActive.account.user = this.diaSvc.getPerson(this.nodeActive.account.userId)
@@ -118,16 +119,41 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
 
   addUser(userId, typeId) {
     if (this.nodes.length > 0 || this.edges.length > 0) { this.clearNetwork() }
-    let person = this.usersList.find(usr => { return usr.osobaID === userId})
-    const accounts = this.diaSvc.getUserAccounts(userId)
-    console.log('DSX', person, accounts)
+    let person = this.usersList.find(usr => { return usr.osobaID === userId })
+    person.id = person.osobaID
+    person.type = 'user'
 
+    //const accounts = this.diaSvc.getUserAccounts(userId)
+    const accounts = person.izvodi.map(itm => {
+      itm.label = itm.brojRacuna + '\r\n' + itm.swift
+      itm.type = 'account'
+      itm.shape = 'box'
+      itm.id = person.id * 1000 + itm.izvodID
+      return itm
+    })
+    const accountLinks = accounts.map(itm => {
+      return {
+        from: person.id,
+        to: itm.id,
+        type: 'accountOwner'
+      }
+    })
+    const accountsNodes = {
+      nodes: accounts,
+      edges: accountLinks
+    }
+
+    console.log('DSX', person, accountsNodes)
     person.label = person.naziv + '\r\n(ID: ' + person.idBroj + ')'
 
     this.diaSvc.addNode(person)
-    this.diaSvc.addNodes(accounts)
+    this.diaSvc.addNodes(accountsNodes)
     this.activeUser = person
     this.isSelectedActiveUser = false
+  }
+
+  onChangeOsobaOrIzvod(event): void {
+    this.addUser(event.osobaID, event.izvodID)
   }
 
   clearNetwork() {
@@ -137,7 +163,6 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   }
 
   inspectNode(ctx) {
-    //console.log('INSPEX', ctx)
     if (ctx.nodes.length) { // is node
       this.selectNode(ctx)
     } else { // is edge
@@ -197,12 +222,12 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   }
 
   notifications() {
-    console.log('Chart', 'notificationsAction')
+    console.log('Diagram', 'notificationsAction')
   }
   filter() {
-    console.log('Chart', 'filtersAction')
+    console.log('Diagram', 'filtersAction')
   }
   export() {
-    console.log('Chart', 'exportAction')
+    console.log('Diagram', 'exportAction')
   }
 }
