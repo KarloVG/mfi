@@ -64,7 +64,7 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
           fontSize: 15,
           min: 0,
           beginAtZero: true,
-
+          callback: function(label: number){return  label.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' HRK';}
         }
       }],
       yAxes: [{

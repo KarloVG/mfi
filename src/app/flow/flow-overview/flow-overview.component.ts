@@ -113,12 +113,6 @@ export class FlowOverviewComponent implements OnInit {
       inputName: "1godina"
     }
   ];
-
-  //app visualisation event emitterr
-
-  entriesMin: number = 1
-  entriesMax: number = 90
-
   constructor(
     private flowService: FlowService,
     private formBuilder: FormBuilder
@@ -163,21 +157,6 @@ export class FlowOverviewComponent implements OnInit {
 
   onChangeDate() {
     console.log('changed date')
-  }
-
-  changeGraphTimespan(timespan: number) {
-    if (timespan == 1) {
-
-    } else if (timespan == 2) {
-
-    } else if (timespan == 3) {
-
-    } else if (timespan == 4) {
-
-    } else if (timespan == 5) {
-
-    }
-    // this.flowService.getGraphData()
   }
 
   expandView() {

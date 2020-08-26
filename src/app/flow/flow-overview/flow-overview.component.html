@@ -17,7 +17,7 @@
       <div class="col-sm-8 input-group d-flex align-items-center justify-content-between">
         <label class="radio radio-outline-primary" *ngFor="let choice of timespanChoices">
           <input type="radio" name="TimespanChoice" [value]="choice.id" formControlName="TimespanChoice"
-            (change)="changeGraphTimespan(choice.id)" [ngClass]="{'is-invalid': TimespanChoice.invalid && (TimespanChoice.dirty || TimespanChoice.touched)}">
+          [ngClass]="{'is-invalid': TimespanChoice.invalid && (TimespanChoice.dirty || TimespanChoice.touched)}">
           <span>{{ choice.name }}</span>
           <span class="checkmark"></span>
         </label>

@@ -35,8 +35,16 @@
                 {{ value | date: 'dd.MM.yyyy'}}
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Br. transakcija (U/I)" prop="brojTransakcija" [width]="120"></ngx-datatable-column>
-        <ngx-datatable-column name="Iznos transakcija (U/I)" prop="iznosTransakcija" [width]="120"></ngx-datatable-column>
+        <ngx-datatable-column name="Br. transakcija (U/I)" prop="brojTransakcija" [width]="120">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                <span>{{ value }} ({{ row.brojUplata }}/{{ row.brojIsplata }})</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Iznos transakcija (U/I)" prop="iznosTransakcija" [width]="120">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{ value | currency:'HRK':'symbol':'4.2-2':'hr'}} ({{ row.iznosUplata | currency:'HRK':'symbol':'4.2-2':'hr' }} / {{ row.iznosIsplata | currency:'HRK':'symbol':'4.2-2':'hr' }})
+            </ng-template>
+        </ngx-datatable-column>
         <ngx-datatable-column name="actions" [width]="130" [resizeable]="false" [sortable]="false" [draggable]="false"
             [canAutoResize]="false">
             <ng-template ngx-datatable-header-template>

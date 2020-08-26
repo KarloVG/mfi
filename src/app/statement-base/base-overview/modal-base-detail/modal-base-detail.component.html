@@ -42,13 +42,13 @@
                                     Broj dolaznih transakcija(uplate): <strong>{{ izvod.brojUplata }}</strong>
                                 </li>
                                 <li class="list-group-item">
-                                    Ukupan iznos uplata: <strong>{{ izvod.iznosUplata }}</strong>
+                                    Ukupan iznos uplata: <strong>{{ izvod.iznosUplata | currency:'HRK':'symbol':'4.2-2':'hr' }}</strong>
                                 </li>
                                 <li class="list-group-item">
                                     Broj odlaznih transakcija(isplata): <strong>{{ izvod.brojIsplata }}</strong>
                                 </li>
                                 <li class="list-group-item">
-                                    Ukupan iznos isplata: <strong>{{ izvod.iznosIsplata }}</strong>
+                                    Ukupan iznos isplata: <strong>{{ izvod.iznosIsplata | currency:'HRK':'symbol':'4.2-2':'hr' }}</strong>
                                 </li>
                             </ul>
                         </div>
@@ -80,9 +80,17 @@
                     <ngx-datatable-column name="Referentni broj" prop="t_REF" [width]="130"></ngx-datatable-column>
                     <ngx-datatable-column name="Vrsta" prop="t_VR" [width]="120"></ngx-datatable-column>
                     <ngx-datatable-column name="Opis" prop="t_DESC" [width]="170"></ngx-datatable-column>
-                    <ngx-datatable-column name="Iznos" prop="t_IZ" [width]="120"></ngx-datatable-column>
+                    <ngx-datatable-column name="Iznos" prop="t_IZ" [width]="120">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{ value | currency:'':'':'4.2-2':'hr'}}
+                        </ng-template>
+                    </ngx-datatable-column>
                     <ngx-datatable-column name="Valuta" prop="t_VL" [width]="120"></ngx-datatable-column>
-                    <ngx-datatable-column name="Konvertirani iznos" prop="t_KONV_IZ" [width]="120"></ngx-datatable-column>
+                    <ngx-datatable-column name="Konvertirani iznos" prop="t_KONV_IZ" [width]="120">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{ value | currency:'HRK':'symbol':'4.2-2':'hr'}}
+                        </ng-template>
+                    </ngx-datatable-column>
                     <ngx-datatable-column name="Smjer" prop="t_DIR" [width]="120"></ngx-datatable-column>
                     <ngx-datatable-column name="Broj računa" prop="b_RN" [width]="120"></ngx-datatable-column>
                     <ngx-datatable-column name="SWIFT/BIC" prop="b_FIS" [width]="120"></ngx-datatable-column>
