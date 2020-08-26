@@ -3,6 +3,7 @@ import {Network, DataSet, Node, Edge, IdType} from 'vis'
 import {DiagramService} from 'src/app/shared/services/diagram.service'
 import {SubjectService} from 'src/app/shared/services/subject.service'
 import {BaseService} from 'src/app/statement-base/services/base.service'
+import {untilComponentDestroyed} from '@w11k/ngx-componentdestroyed';
 
 import {registerLocaleData} from '@angular/common';
 import localeHr from '@angular/common/locales/hr';
@@ -82,16 +83,14 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     let idx = ctx.nodes[0]
     this.edgeActive = null
     this.nodeActive = this.nodes.get(idx)
-    console.log('SNX', this.nodeActive)
     if (this.nodeActive.type === 'user') {
       this.isSelectedActiveUser = this.nodeActive.id === this.activeUser.id
       this.nodeActive.user = this.nodeActive
       this.nodeActive.accounts = this.nodeActive.izvodi
     } else if (this.nodeActive.type === 'account') {
-      this.nodeActive.account = this.diaSvc.getAccounts(this.nodeActive.id)
-      this.nodeActive.account.user = this.diaSvc.getPerson(this.nodeActive.account.userId)
-      this.isSelectedActiveUser = this.activeUser.id === this.nodeActive.account.userId
-      delete this.nodeActive.account.transactions
+      //this.nodeActive.account = this.diaSvc.getAccounts(this.nodeActive.id)
+      //this.nodeActive.account.user = this.diaSvc.getPerson(this.nodeActive.account.userId)
+      //this.isSelectedActiveUser = this.activeUser.id === this.nodeActive.account.userId
     }
   }
   deselectNode(ctx) {
@@ -108,7 +107,10 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     this.isSelectedActiveUser = false
     if (idx) {
       let edge = this.edges.get(idx)
-      this.edgeActive = this.diaSvc.getTransactions(edge)
+      console.log('EGX', edge)
+      if (edge.type !== 'accountOwner') {
+        this.edgeActive = this.diaSvc.getTransactions(edge)
+      }
     }
   }
   deselectEdge(ctx) {
@@ -144,7 +146,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     }
 
     console.log('DSX', person, accountsNodes)
-    person.label = person.naziv + '\r\n(ID: ' + person.idBroj + ')'
+    person.label = person.naziv + (person.idBroj? ('\r\n(ID: ' + person.idBroj + ')') : '')
 
     this.diaSvc.addNode(person)
     this.diaSvc.addNodes(accountsNodes)
@@ -176,12 +178,15 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
       const node = this.nodes.get(nidx)
       if (node.type === 'account') {
         if (!this.expanded.has(node.id)) {
+          console.log('EXPAND', node)
+          /*
           let nodes = this.diaSvc.findConnectedNodes(node, this.activeUser.id)
           this.diaSvc.addNodes(nodes)
           this.expanded.add(node.id)
           nodes.nodes.forEach(itm => {
             this.expanded.add(itm.id)
           })
+          */
         } else {
           let nx
           try {

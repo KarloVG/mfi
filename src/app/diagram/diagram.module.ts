@@ -18,7 +18,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     AccountviewComponent,
     TransactionviewComponent,
     ModalTransactionviewDetailComponent,
-    ModalAccountviewDetailComponent
+    ModalAccountviewDetailComponent,
   ],
   imports: [
     CommonModule,

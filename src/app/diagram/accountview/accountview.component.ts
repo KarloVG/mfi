@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import { DiagramService } from 'src/app/shared/services/diagram.service'
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalAccountviewDetailComponent } from './modal-accountview-detail/modal-accountview-detail.component';
+import {DiagramService} from 'src/app/shared/services/diagram.service'
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ModalAccountviewDetailComponent} from './modal-accountview-detail/modal-accountview-detail.component';
 
 @Component({
   selector: 'app-accountview',
@@ -29,6 +29,7 @@ export class AccountviewComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
+    console.log('INX', this.node, this.activeUser)
     this.focusAccounts = this.activeUser.accounts
   }
 
@@ -38,7 +39,7 @@ export class AccountviewComponent implements OnInit {
 
   expandAccountDetails(): void {
     const modalRef = this.ngbModalService.open(ModalAccountviewDetailComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
-    modalRef.componentInstance.inputUser = this.node.account.user;
-    modalRef.componentInstance.node = this.node;
+    modalRef.componentInstance.inputUser = this.activeUser
+    modalRef.componentInstance.izvod = this.node;
   }
 }

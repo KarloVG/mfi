@@ -22,7 +22,7 @@ export class ModalBaseDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.izvod)
+    console.log('IZVOD', this.izvod)
     this.getBaseDetail();
   }
 
