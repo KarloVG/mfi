@@ -1,4 +1,7 @@
 import {Injectable} from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { UrlHelperService } from 'src/app/shared/services/url-helper.service';
 import {Network, DataSet, Node, Edge, IdType} from 'vis'
 import {BaseService} from 'src/app/statement-base/services/base.service'
 import {SubjectService} from 'src/app/shared/services/subject.service'
@@ -8,38 +11,11 @@ import {SubjectService} from 'src/app/shared/services/subject.service'
 })
 
 export class DiagramService {
+  private readonly CONTROLLER_NAME = 'Dijagram';
+
   public allUsers = []
-  public allAccs = [
-    {id: 2001, userId: 7, accNo: 'HR100123', swift: 'ZABAHR2X', bank: 'ZABA', country: 'HR'}, // Marko Marković
-    {id: 2002, userId: 7, accNo: 'HR100987', swift: 'ZABAHR2X', bank: 'ZABA', country: 'HR'}, // Marko Marković
-    {id: 2003, userId: 7, accNo: 'HR200456', swift: 'PBZGHR2X', bank: 'PBZ',  country: 'HR'}, // Marko Marković
-    {id: 2004, userId: 7, accNo: 'HR300333', swift: 'HPBZHR2X', bank: 'HPB',  country: 'HR'}, // Marko Marković
-    {id: 2005, userId: 8, accNo: '123456',   swift: 'BOFAUS3N', bank: 'BOFA', country: 'US'}, // Petar Petrović
-    {id: 2006, userId: 8, accNo: 'HR100246', swift: 'ZABAHR2X', bank: 'ZABA', country: 'HR'}, // Petar Petrović
-    {id: 2007, userId: 103, accNo: 'HR200678', swift: 'ZABAHR2X', bank: 'ZABA', country: 'HR'}, // Dobra tvrtka d.o.o.
-  ]
-  public allTrans = [
-    {id: 30001, transactionId: 30001, accId: 2001, transaction: 'Uplata',  amount: 3500,  dest: null, direction: 1},
-    {id: 30002, transactionId: 30002, accId: 2001, transaction: 'Isplata', amount: 5000,  dest: null, direction: -1},
-    {id: 30003, transactionId: 30003, accId: 2001, transaction: 'Isplata', amount: 3250,  dest: null, direction: -1},
-    {id: 30004, transactionId: 30004, accId: 2002, transaction: 'Isplata', amount: 25000, dest: null, direction: -1},
-
-    {id: 30005, transactionId: 30005, accId: 2003, transaction: 'Uplata',  amount: 10000, dest: 2006, direction: 1}, // HR200456 PBZ <- HR100246 ZABA, Marko <- Petar
-    {id: 30006, transactionId: 30006, accId: 2003, transaction: 'Uplata',  amount: 7000,  dest: 2007, direction: 1}, // HR200456 PBZ <- HR200678 ZABA, Marko <- Tvrtka
-    {id: 30007, transactionId: 30007, accId: 2003, transaction: 'Uplata',  amount: 1500,  dest: 2007, direction: 1}, // HR200456 PBZ <- HR200678 ZABA, Marko <- Tvrtka
-    {id: 30008, transactionId: 30008, accId: 2003, transaction: 'Uplata',  amount: 1250,  dest: 2007, direction: 1}, // HR200456 PBZ <- HR200678 ZABA, Marko <- Tvrtka
-    {id: 30009, transactionId: 30009, accId: 2003, transaction: 'Isplata', amount: 74100, dest: 2005, direction: -1}, // HR200456 PBZ -> BOFA123456, Marko -> Petar
-    {id: 30009, transactionId: 30009, accId: 2003, transaction: 'Uplata',  amount: 100,   dest: 2005, direction: 1}, // HR200456 PBZ <- BOFA123456, Marko <- Petar
-
-    {id: 30010, transactionId: 30010, accId: 2005, transaction: 'Uplata',  amount: 74100, dest: 2003, direction: 1}, // BOFA123456 <- HR200456 PBZ, Petar <- Marko
-    {id: 30010, transactionId: 30010, accId: 2005, transaction: 'Isplata', amount: 100,   dest: 2003, direction: -1}, // BOFA123456 -> HR200456 PBZ, Petar -> Marko
-
-    {id: 30011, transactionId: 30011, accId: 2006, transaction: 'Isplata', amount: 10000, dest: 2003, direction: -1}, // HR100246 -> HR200456, Petar -> Marko
-
-    {id: 30012, transactionId: 30012, accId: 2007, transaction: 'Isplata', amount: 7000, dest: 2003, direction: -1}, // HR200678 -> HR200456, Tvrtka -> Marko
-    {id: 30013, transactionId: 30013, accId: 2007, transaction: 'Isplata', amount: 1500, dest: 2003, direction: -1}, // HR200678 -> HR200456, Tvrtka -> Marko
-    {id: 30014, transactionId: 30014, accId: 2007, transaction: 'Isplata', amount: 1250, dest: 2003, direction: -1}, // HR200678 -> HR200456, Tvrtka -> Marko
-  ]
+  public allAccs = []
+  public allTrans = []
   network: Network
   nodes: Node = new DataSet([])
   edges: Edge = new DataSet([])
@@ -101,6 +77,8 @@ export class DiagramService {
   subjectId
 
   constructor(
+    private http: HttpClient,
+    private urlHelper: UrlHelperService,
     private subjectService: SubjectService,
     private baseService: BaseService,
   ) {
@@ -121,6 +99,18 @@ export class DiagramService {
     this.data = data
     this.network = network
     console.log('GLBX', this.network, this.nodes, this.edges)
+  }
+
+  //getChartData(idOsoba: number, idIzvod?: number,): Observable<IChartResponse> {
+  getTransactionData(idOsoba: number, idIzvod?: number,): Observable<any> {
+      //const request: IChartRequest = {
+      const request: any = {
+          osobaID: idOsoba,
+          izvodID: idIzvod,
+      }
+      const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'chart');
+      //return this.http.post<IChartResponse>(url, request);
+      return this.http.post<any>(url, request);
   }
 
   getAllUsers() {
@@ -218,11 +208,11 @@ export class DiagramService {
     }
   }
 
-  getTotals(transactions) {
+  getTotals(transactions, key = 'amount') {
     if (transactions.length < 1) { return null }
-    if (transactions.length == 1) { return transactions[0].amount }
+    if (transactions.length == 1) { return transactions[0][key] }
     if (transactions.length > 1) {
-      return transactions.reduce((pval, cval) => { return (pval.amount? pval.amount : pval) + cval.amount})
+      return transactions.reduce((pval, cval) => { return (pval[key]? pval[key] : pval) + cval[key]})
     }
   }
 
