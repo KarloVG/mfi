@@ -26,16 +26,12 @@ export class UserviewComponent implements OnInit {
     this.focusAccounts = this.activeUser.accounts
     this.accounts = this.isSelectedActiveUser? this.node.accounts : this.linkedAccounts
 
-    /*
-    this.node.accounts.forEach(acc => {
-      this.linkedInbound.push(...acc.transactions.transactions.inbound.filter(itm => { return this.focusAccounts.indexOf(itm.dest) > -1 }))
-      this.linkedOutbound.push(...acc.transactions.transactions.outbound.filter(itm => { return this.focusAccounts.indexOf(itm.dest) > -1 }))
-      if (this.linkedInbound.length > 0 || this.linkedOutbound.length > 0) { this.linkedAccounts.push(acc) }
-    })
-    this.focusTransactionCount = this.linkedOutbound.length
-    this.focusTransactionAmount = this.diaSvc.getTotals(this.linkedOutbound)
-    */
-    console.log('ACX', this.linkedAccounts, this.accounts)
+    this.node.countIn = this.accounts.map(itm => { return itm.brojUplata }).reduce((p, c) => { return p + c })
+    this.node.countOut = this.accounts.map(itm => { return itm.brojIsplata }).reduce((p, c) => { return p + c })
+    this.node.totalIn = this.diaSvc.getTotals(this.accounts, 'iznosUplata')
+    this.node.totalOut = this.diaSvc.getTotals(this.accounts, 'iznosIsplata')
+
+    console.log('ACX', this.linkedAccounts, this.accounts, this.node)
   }
 
   closeInfobox() {

@@ -8,13 +8,17 @@
     <section>
       <div>
           <span class="mr-2">Polazni račun:</span>
+          <!--
           <strong>{{node.accounts[node.connection.arrows.from? 'to' : 'from'].accNo}}</strong>
           <span class="ml-1">{{node.accounts[node.connection.arrows.from? 'to' : 'from'].swift}}</span>
+          -->
       </div>
       <div>
           <span class="mr-2">Završni račun:</span>
+          <!--
           <strong>{{node.accounts[node.connection.arrows.from? 'from' : 'to'].accNo}}</strong>
           <span class="ml-1">{{node.accounts[node.connection.arrows.from? 'from' : 'to'].swift}}</span>
+          -->
       </div>
     </section>
   </div>
@@ -22,6 +26,7 @@
     <div class="card mb-2" *ngIf="showMoreData">
       <div class="card-body">
         <span class="h5">Zajednički podaci transakcija</span>
+        <!--
         <div>
           <span class="mr-1">Platitelj:</span>
           <strong>{{node.accounts[node.connection.arrows.from? 'to' : 'from'].user.name}}</strong>
@@ -48,11 +53,14 @@
           <span class="mr-1">Država primatelja:</span>
           <strong>{{node.accounts[node.connection.arrows.from? 'from' : 'to'].country}}</strong>
         </div>
+        -->
       </div>
       <div class="card-body">
         <div>
           <strong class="h5">Transakcije</strong>
+          <!--
           <pre>{{node.accounts[node.connection.arrows.from? 'from' : 'to'].transactions|json}}</pre>
+          -->
         </div>
       </div>
     </div>

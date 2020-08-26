@@ -1,0 +1,114 @@
+{
+    "nodes": {
+        "1": {
+            "label": "Marko Markic",
+            "type": "user",
+            "id": "1"
+        },
+        "1001": {
+            "label": "HR1234",
+            "type": "account",
+            "id": "1001",
+            "shape": "box"
+        },
+        "1002": {
+            "label": "HR2345",
+            "type": "account",
+            "id": "1002",
+            "shape": "box"
+        },
+        "2001": {
+            "label": "HR9876",
+            "type": "connectedAccount",
+            "id": "2001",
+            "shape": "box",
+            "color": {
+                "border": "#372",
+                "background": "#6c5",
+                "highlight": {
+                    "border": "#372",
+                    "background": "#7e5"
+                }
+            }
+        },
+        "2": {
+            "label": "Dobra Tvrtka",
+            "type": "connectedUser",
+            "id": "2",
+            "color": {
+                "border": "#372",
+                "background": "#6c5",
+                "highlight": {
+                    "border": "#372",
+                    "background": "#7e5"
+                }
+            }
+        },
+    },
+    "edges": {
+        "100001": {
+            "from": "1",
+            "to": "1001",
+            "type": "accountOwner",
+            "id": "100001",
+            "dashes": true,
+            "color": {
+                "color": "#aaa",
+                "highlight": "#777",
+                "hover": "#ccc"
+            }
+        },
+        "100002": {
+            "from": "1",
+            "to": "1002",
+            "type": "accountOwner",
+            "id": "100002",
+            "dashes": true,
+            "color": {
+                "color": "#aaa",
+                "highlight": "#777",
+                "hover": "#ccc"
+            }
+        },
+        "100003": {
+            "from": "2",
+            "to": "2001",
+            "type": "accountOwner",
+            "id": "100003",
+            "dashes": true,
+            "color": {
+                "color": "#aaa",
+                "highlight": "#777",
+                "hover": "#ccc"
+            }
+        },
+        "100004": {
+            "from": "1001",
+            "to": "2001",
+            "type": "transactionInbound",
+            "id": "100004",
+            "arrows": {
+                "from": { "enabled": true }
+            },
+            "color": {
+                "color": "#aaa",
+                "highlight": "#777",
+                "hover": "#ccc"
+            }
+        },
+        "100005": {
+            "from": "1001",
+            "to": "2001",
+            "type": "transactionOutbound",
+            "id": "100005",
+            "arrows": {
+                "to": { "enabled": true }
+            },
+            "color": {
+                "color": "#aaa",
+                "highlight": "#777",
+                "hover": "#ccc"
+            }
+        },
+    }
+}

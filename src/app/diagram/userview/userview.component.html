@@ -5,20 +5,20 @@
         <small class="fas fa-times"></small>
       </a>
     </span>
-    <section *ngIf="isSelectedActiveUser">
+    <section class="mb-5 pb-5" *ngIf="isSelectedActiveUser">
       <div>
         <strong class="text-dark">Osoba u fokusu</strong>
       </div>
-      <div class="h5 text-info"><strong>{{node.naziv}}, ID: {{node.idBroj}}</strong></div>
+      <div class="h5 text-info"><strong>{{node.naziv}}</strong><span *ngIf="node.idBroj">, ID: {{node.idBroj}}</span></div>
       <div>
-        <span class="mr-2">Ukupan iznos uplata:</span>
-        <strong *ngIf="node.user.totalIn">{{node.user.totalIn|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
-        <span *ngIf="!node.user.totalIn">n/a</span>
+        <span class="mr-2">Ukupan iznos uplata<span class="ml-1" *ngIf="node.countIn">({{node.countIn}})</span>:</span>
+        <strong *ngIf="node.totalIn">{{node.totalIn|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+        <span *ngIf="!node.totalIn">n/a</span>
       </div>
       <div>
-        <span class="mr-2">Ukupan iznos isplata:</span>
-        <strong *ngIf="node.user.totalOut">{{node.user.totalOut|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
-        <span *ngIf="!node.user.totalOut">n/a</span>
+        <span class="mr-2">Ukupan iznos isplata<span class="ml-1" *ngIf="node.countOut">({{node.countOut}})</span>:</span>
+        <strong *ngIf="node.totalOut">{{node.totalOut|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+        <span *ngIf="!node.totalOut">n/a</span>
       </div>
     </section>
     <!--
@@ -44,7 +44,6 @@
       <div class="text-info">Račun {{i+1}}</div>
       <div class="card mb-2">
         <div class="card-body">
-          <pre>{{account|json}}</pre>
           <div>Broj računa: <strong>{{account.brojRacuna}}</strong></div>
           <div>SWIFT/BIC banke: <span>{{account.swift}}</span></div>
           <!--
@@ -53,24 +52,24 @@
           <hr>
           <div>
             <span class="mr-1">Uplate na račun:</span>
-            <strong *ngIf="account.transactions.totals.inbound.count != 0">{{account.transactions.totals.inbound.count}}</strong>
-            <span *ngIf="account.transactions.totals.inbound.count == 0">n/a</span>
+            <strong *ngIf="account.brojUplata">{{account.brojUplata}}</strong>
+            <span *ngIf="!account.brojUplata">n/a</span>
           </div>
           <div>
             <span class="mr-1">Ukupan iznos uplata:</span>
-            <strong *ngIf="account.transactions.totals.inbound.amount">{{account.transactions.totals.inbound.amount|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
-            <span *ngIf="!account.transactions.totals.inbound.amount">n/a</span>
+            <strong *ngIf="account.iznosUplata">{{account.iznosUplata|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+            <span *ngIf="!account.iznosUplata">n/a</span>
           </div>
           <hr>
           <div>
             <span class="mr-1">Isplate s računa:</span>
-            <strong *ngIf="account.transactions.totals.outbound.count != 0">{{account.transactions.totals.outbound.count}}</strong>
-            <span *ngIf="account.transactions.totals.outbound.count == 0">n/a</span>
+            <strong *ngIf="account.brojIsplata">{{account.brojIsplata}}</strong>
+            <span *ngIf="!account.brojIsplata">n/a</span>
           </div>
           <div>
             <span class="mr-1">Ukupan iznos isplata:</span>
-            <strong *ngIf="account.transactions.totals.outbound.amount">{{account.transactions.totals.outbound.amount|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
-            <span *ngIf="!account.transactions.totals.outbound.amount">n/a</span>
+            <strong *ngIf="account.iznosIsplata">{{account.iznosIsplata|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+            <span *ngIf="!account.iznosIsplata">n/a</span>
           </div>
         </div>
       </div>
