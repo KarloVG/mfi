@@ -30,6 +30,10 @@ export class AccountviewComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('INX', this.node, this.activeUser)
+
+    if (this.node.data.hasOwnProperty('iznosTransakcija') && this.node.data.hasOwnProperty('iznosUplata') && !this.node.data.hasOwnProperty('iznosIsplata')) {
+      this.node.data.iznosIsplata = this.node.data.iznosTransakcija - this.node.data.iznosUplata
+    }
     this.focusAccounts = this.activeUser.accounts
   }
 
@@ -40,6 +44,6 @@ export class AccountviewComponent implements OnInit {
   expandAccountDetails(): void {
     const modalRef = this.ngbModalService.open(ModalAccountviewDetailComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
     modalRef.componentInstance.inputUser = this.activeUser
-    modalRef.componentInstance.izvod = this.node;
+    modalRef.componentInstance.izvod = this.node.data;
   }
 }

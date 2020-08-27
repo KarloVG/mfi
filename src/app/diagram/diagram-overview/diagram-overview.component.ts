@@ -83,14 +83,12 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     let idx = ctx.nodes[0]
     this.edgeActive = null
     this.nodeActive = this.nodes.get(idx)
+    //console.log('SNX', this.nodeActive, this.nodeActive.id, this.activeUser.id)
     if (this.nodeActive.type === 'user') {
       this.isSelectedActiveUser = this.nodeActive.id === this.activeUser.id
-      this.nodeActive.user = this.nodeActive
-      this.nodeActive.accounts = this.nodeActive.izvodi
+      //this.nodeActive.user = this.nodeActive
     } else if (this.nodeActive.type === 'account') {
-      //this.nodeActive.account = this.diaSvc.getAccounts(this.nodeActive.id)
-      //this.nodeActive.account.user = this.diaSvc.getPerson(this.nodeActive.account.userId)
-      //this.isSelectedActiveUser = this.activeUser.id === this.nodeActive.account.userId
+      // not needed any more?
     }
   }
   deselectNode(ctx) {
@@ -120,38 +118,33 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   }
 
   addUser(userId, typeId) {
+    console.log('ADX', userId, typeId)
     if (this.nodes.length > 0 || this.edges.length > 0) { this.clearNetwork() }
-    let person = this.usersList.find(usr => { return usr.osobaID === userId })
-    person.id = person.osobaID
-    person.type = 'user'
 
-    //const accounts = this.diaSvc.getUserAccounts(userId)
-    const accounts = person.izvodi.map(itm => {
-      itm.label = itm.brojRacuna + '\r\n' + itm.swift
-      itm.type = 'account'
-      itm.shape = 'box'
-      itm.id = person.id * 1000 + itm.izvodID
-      return itm
-    })
-    const accountLinks = accounts.map(itm => {
-      return {
-        from: person.id,
-        to: itm.id,
-        type: 'accountOwner'
+    this.diaSvc.getDiagramData(userId, 0).pipe(untilComponentDestroyed(this)).subscribe(
+      data => {
+        console.log('DDX', data)
+        const nk = Object.getOwnPropertyNames(data.nodes)
+        const ek = Object.getOwnPropertyNames(data.edges)
+        let nodes = []
+        let edges = []
+        nk.forEach(key => { nodes.push(data.nodes[key]) })
+        ek.forEach(key => { edges.push(data.edges[key]) })
+
+        const dataContainer = nodes.find(itm => { return itm.hasOwnProperty('data') })
+
+        nodes.forEach(itm => { // replace with map
+          const izvod = dataContainer.data.izvodi.find(iz => { return iz.brojRacuna === itm.label })
+          if (izvod) { itm.data = izvod }
+        })
+
+        this.nodes.add(nodes)
+        this.edges.add(edges)
+
+        this.activeUser = dataContainer
+        this.isSelectedActiveUser = false
       }
-    })
-    const accountsNodes = {
-      nodes: accounts,
-      edges: accountLinks
-    }
-
-    console.log('DSX', person, accountsNodes)
-    person.label = person.naziv + (person.idBroj? ('\r\n(ID: ' + person.idBroj + ')') : '')
-
-    this.diaSvc.addNode(person)
-    this.diaSvc.addNodes(accountsNodes)
-    this.activeUser = person
-    this.isSelectedActiveUser = false
+    )
   }
 
   onChangeOsobaOrIzvod(event): void {

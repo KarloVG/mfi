@@ -101,16 +101,25 @@ export class DiagramService {
     console.log('GLBX', this.network, this.nodes, this.edges)
   }
 
-  //getChartData(idOsoba: number, idIzvod?: number,): Observable<IChartResponse> {
+  /*
   getTransactionData(idOsoba: number, idIzvod?: number,): Observable<any> {
-      //const request: IChartRequest = {
-      const request: any = {
-          osobaID: idOsoba,
-          izvodID: idIzvod,
-      }
-      const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'chart');
-      //return this.http.post<IChartResponse>(url, request);
-      return this.http.post<any>(url, request);
+    const request: any = { // IChartRequest
+      osobaID: idOsoba,
+      izvodID: idIzvod,
+    }
+    const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'initial');
+    return this.http.post<any>(url, request); // <IChartResponse>
+  }
+  */
+
+  getDiagramData(idOsoba, idIzvod): Observable<any> {
+    const request = {
+      osobaID: idOsoba,
+      izvodID: idIzvod,
+    }
+
+    const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'initial');
+    return this.http.post<any>(url, request); // <IChartResponse>
   }
 
   getAllUsers() {

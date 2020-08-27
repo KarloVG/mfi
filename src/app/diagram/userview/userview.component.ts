@@ -23,15 +23,21 @@ export class UserviewComponent implements OnInit {
 
   constructor(private diaSvc: DiagramService) {}
   ngOnInit(): void {
-    this.focusAccounts = this.activeUser.accounts
-    this.accounts = this.isSelectedActiveUser? this.node.accounts : this.linkedAccounts
+    this.focusAccounts = this.activeUser.izvodi
+    this.accounts = this.isSelectedActiveUser? this.node.data.izvodi : this.linkedAccounts
+
+    console.log('UVX', this.node, this.activeUser)
+    this.accounts.forEach(acc => {
+      if (acc.hasOwnProperty('iznosTransakcija') && acc.hasOwnProperty('iznosUplata') && !acc.hasOwnProperty('iznosIsplata')) {
+        acc.iznosIsplata = acc.iznosTransakcija - acc.iznosUplata
+      }
+    })
 
     this.node.countIn = this.accounts.map(itm => { return itm.brojUplata }).reduce((p, c) => { return p + c })
     this.node.countOut = this.accounts.map(itm => { return itm.brojIsplata }).reduce((p, c) => { return p + c })
     this.node.totalIn = this.diaSvc.getTotals(this.accounts, 'iznosUplata')
     this.node.totalOut = this.diaSvc.getTotals(this.accounts, 'iznosIsplata')
-
-    console.log('ACX', this.linkedAccounts, this.accounts, this.node)
+    //console.log('ACX', this.linkedAccounts, this.accounts, this.node)
   }
 
   closeInfobox() {

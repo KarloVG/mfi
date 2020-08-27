@@ -6,49 +6,49 @@
       </a>
     </span>
     <section *ngIf="isSelectedActiveUser">
-      <div>Broj računa: <strong>{{node.brojRacuna}}</strong></div>
-      <div>SWIFT/BIC banke: <span>{{node.swift}}</span></div>
-      <div>Naziv banke: <span>{{node.banka}}</span></div>
+      <div>Broj računa: <strong>{{node.data.brojRacuna}}</strong></div>
+      <div>SWIFT/BIC banke: <span>{{node.data.swift}}</span></div>
+      <div>Naziv banke: <span>{{node.data.banka}}</span></div>
     </section>
     <section *ngIf="!isSelectedActiveUser">
-      <div><strong>Račun: {{node.brojRacuna}}</strong></div>
+      <div><strong>Račun: {{node.data.brojRacuna}}</strong></div>
     </section>
   </div>
   <div class="card-body" *ngIf="node.type === 'account'">
     <div class="card mb-2">
       <div class="card-body">
         <div *ngIf="!isSelectedActiveUser">
-          <div>Broj računa: <strong>{{node.brojRacuna}}</strong></div>
-          <div>SWIFT/BIC banke: <span>{{node.swift}}</span></div>
-          <div>Naziv banke: <span>{{node.banka}}</span></div>
+          <div>Broj računa: <strong>{{node.data.brojRacuna}}</strong></div>
+          <div>SWIFT/BIC banke: <span>{{node.data.swift}}</span></div>
+          <div>Naziv banke: <span>{{node.data.banka}}</span></div>
           <hr>
         </div>
         <div>
           <span class="mr-1">Isplate s računa:</span>
-          <strong *ngIf="node.brojIsplata != 0">{{node.brojIsplata}}</strong>
-          <span *ngIf="node.brojIsplata == 0">n/a</span>
+          <strong *ngIf="node.data.brojIsplata != 0">{{node.data.brojIsplata}}</strong>
+          <span *ngIf="node.data.brojIsplata == 0">n/a</span>
         </div>
         <div>
           <span class="mr-1">Ukupan iznos isplata:</span>
-          <strong *ngIf="node.iznosIsplata">{{node.iznosIsplata|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
-          <span *ngIf="!node.iznosIsplata">n/a</span>
+          <strong *ngIf="node.data.iznosIsplata">{{node.data.iznosIsplata|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+          <span *ngIf="!node.data.iznosIsplata">n/a</span>
         </div>
         <div>
           <hr>
           <div>
             <span class="mr-1">Ukupno transakcija po računu:</span>
-            <strong *ngIf="node.brojTransakcija">{{node.brojTransakcija}}</strong>
-            <span *ngIf="!node.brojTransakcija">n/a</span>
+            <strong *ngIf="node.data.brojTransakcija">{{node.data.brojTransakcija}}</strong>
+            <span *ngIf="!node.data.brojTransakcija">n/a</span>
           </div>
           <div>
             <span class="mr-1">Ukupan iznos svih uplata:</span>
-            <strong *ngIf="node.iznosUplata">{{node.iznosUplata|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
-            <span *ngIf="!node.iznosUplata">n/a</span>
+            <strong *ngIf="node.data.iznosUplata">{{node.data.iznosUplata|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+            <span *ngIf="!node.data.iznosUplata">n/a</span>
           </div>
           <div>
             <span class="mr-1">Ukupan iznos svih isplata:</span>
-            <strong *ngIf="node.iznosIsplata">{{node.iznosIsplata|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
-            <span *ngIf="!node.iznosIsplata">n/a</span>
+            <strong *ngIf="node.data.iznosIsplata">{{node.data.iznosIsplata|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+            <span *ngIf="!node.data.iznosIsplata">n/a</span>
           </div>
         </div>
       </div>
