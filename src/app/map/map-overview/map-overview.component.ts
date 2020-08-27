@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { tileLayer, latLng, circle, polygon } from 'leaflet';
+import {Component, OnInit} from '@angular/core';
+import {tileLayer, latLng, circle, polygon, marker, Layer} from 'leaflet';
+
+import {countriesLatLng} from '../countries'
 
 @Component({
   selector: 'app-map-overview',
@@ -10,30 +12,50 @@ export class MapOverviewComponent implements OnInit {
   moduleName: string = 'Prikaz informacija na mapi';
   moduleFontIcon: string = 'fas fa-map';
   displayType: string = 'map'
+  countriesLatLng: any[]
 
   map
   options = {
     layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
+      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' }),
     ],
-    zoom: 9,
+    zoom: 5,
     center: latLng(45.763081899999996, 15.9966221)
   };
 
   layersControl = {
     overlays: {
-      'Oznake': circle([ 45.76308, 15.99662 ], { radius: 5000 }),
+      'Oznake': marker([45.76308, 15.99662])
     }
   }
 
+  // circle([ 45.76308, 15.99662 ], { radius: 5000 })
+  // marker([ 46.879966, -121.726909 ]
+
   zoom: number
 
-  constructor() {}
+  constructor() {
+    Object.assign(this, {countriesLatLng})
+    console.log('CLX', countriesLatLng)
+  }
 
   ngOnInit(): void {}
 
   onMapReady(map) {
     this.map = map
+    /*
+    const layer = Layer.marker(this.markerAtCountry('HR'))
+    console.log('LYX', layer)
+
+    this.map.addLayer(layer)
+    */
+
+    console.log('LXX', this.map)
+  }
+
+  markerAtCountry(country) {
+    const cdata = countriesLatLng.find(c => { return c.code === country })
+    return marker([cdata.lat, cdata.lng])
   }
 
   zoomControl(evt) {
