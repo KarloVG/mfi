@@ -71,7 +71,7 @@ export class InnerBaseComponent implements OnInit, OnDestroy {
 
   showInnerBaseDetail(row: IInnerbaseItem): void {
       const modalRef = this.ngbModalService.open(ModalBaseDetailComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
-      console.log(row);
+      // console.log('IBDX', row);
       modalRef.componentInstance.izvod = row;
   }
 
