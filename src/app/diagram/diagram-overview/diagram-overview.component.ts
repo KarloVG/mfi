@@ -83,12 +83,24 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     let idx = ctx.nodes[0]
     this.edgeActive = null
     this.nodeActive = this.nodes.get(idx)
-    //console.log('SNX', this.nodeActive, this.nodeActive.id, this.activeUser.id)
+    console.log('SNX', this.nodeActive, this.nodeActive.id, this.activeUser.id)
     if (this.nodeActive.type === 'user') {
       this.isSelectedActiveUser = this.nodeActive.id === this.activeUser.id
-      //this.nodeActive.user = this.nodeActive
-    } else if (this.nodeActive.type === 'account') {
-      // not needed any more?
+    } else if (this.nodeActive.type === 'account' || this.nodeActive.type === 'connectedAccount') {
+      if (this.nodeActive.type === 'connectedAccount') {
+        this.nodeActive.data = {
+          brojRacuna: this.nodeActive.label? this.nodeActive.label : this.nodeActive.id,
+          swift: null,
+          banka: null,
+          brojIsplata: null,
+          brojUplata: null,
+          iznosIsplata: null,
+          iznosUplata: null,
+          brojTransakcija: null,
+        }
+      }
+      console.log('CNX')
+      this.isSelectedActiveUser = false
     }
   }
   deselectNode(ctx) {
@@ -124,27 +136,37 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     this.diaSvc.getDiagramData(userId, 0).pipe(untilComponentDestroyed(this)).subscribe(
       data => {
         console.log('DDX', data)
-        const nk = Object.getOwnPropertyNames(data.nodes)
-        const ek = Object.getOwnPropertyNames(data.edges)
-        let nodes = []
-        let edges = []
-        nk.forEach(key => { nodes.push(data.nodes[key]) })
-        ek.forEach(key => { edges.push(data.edges[key]) })
+        let payload = this.transformNodesEdges(data)
 
-        const dataContainer = nodes.find(itm => { return itm.hasOwnProperty('data') })
+        const dataContainer = payload.nodes.find(itm => { return itm.hasOwnProperty('data') })
 
-        nodes.forEach(itm => { // replace with map
+        payload.nodes.forEach(itm => { // replace with map
           const izvod = dataContainer.data.izvodi.find(iz => { return iz.brojRacuna === itm.label })
+          const osoba = itm.hasOwnProperty('data')
           if (izvod) { itm.data = izvod }
+          if (osoba) { itm.label = itm.label.replace(/\s\(/gi, '\r\n(') }
         })
 
-        this.nodes.add(nodes)
-        this.edges.add(edges)
+        this.nodes.add(payload.nodes)
+        this.edges.add(payload.edges)
 
         this.activeUser = dataContainer
         this.isSelectedActiveUser = false
       }
     )
+  }
+
+  transformNodesEdges(data) {
+    const nk = Object.getOwnPropertyNames(data.nodes)
+    const ek = Object.getOwnPropertyNames(data.edges)
+    let nodes = []
+    let edges = []
+    nk.forEach(key => { nodes.push(data.nodes[key]) })
+    ek.forEach(key => { edges.push(data.edges[key]) })
+    return {
+      nodes: nodes,
+      edges: edges
+    }
   }
 
   onChangeOsobaOrIzvod(event): void {
@@ -172,14 +194,17 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
       if (node.type === 'account') {
         if (!this.expanded.has(node.id)) {
           console.log('EXPAND', node)
-          /*
-          let nodes = this.diaSvc.findConnectedNodes(node, this.activeUser.id)
-          this.diaSvc.addNodes(nodes)
-          this.expanded.add(node.id)
-          nodes.nodes.forEach(itm => {
-            this.expanded.add(itm.id)
-          })
-          */
+          const izvodId = 0
+          this.diaSvc.getExpandData(this.activeUser.id, izvodId, node.label).pipe(untilComponentDestroyed(this)).subscribe(
+            data => {
+              console.log('ENX', data)
+              let payload = this.transformNodesEdges(data)
+
+              this.nodes.add(payload.nodes)
+              this.edges.add(payload.edges)
+            }
+          )
+
         } else {
           let nx
           try {

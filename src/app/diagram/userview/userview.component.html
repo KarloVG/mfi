@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-body -pb-4 -mb-4">
+  <div class="card-body">
     <span class="text-right pull-right">
       <a class="close" aria-label="Close" (click)="closeInfobox()">
         <small class="fas fa-times"></small>
@@ -9,6 +9,10 @@
       <div>
         <strong class="text-dark">Osoba u fokusu</strong>
       </div>
+      <div>
+        <span>{{node.label}}</span>
+      </div>
+      <hr/>
       <div class="h5 text-info"><strong>{{node.naziv}}</strong><span *ngIf="node.idBroj">, ID: {{node.idBroj}}</span></div>
       <div>
         <span class="mr-2">Ukupan iznos uplata<span class="ml-1" *ngIf="node.countIn">({{node.countIn}})</span>:</span>
@@ -21,12 +25,13 @@
         <span *ngIf="!node.totalOut">n/a</span>
       </div>
     </section>
-    <!--
+    <!-- -->
     <section *ngIf="!isSelectedActiveUser">
       <div>
         <strong class="text-dark">Transakcije prema osobi u fokusu</strong>
       </div>
-      <div class="h5 text-info"><strong>{{node.user.name}}, OIB: {{node.user.oib}}</strong></div>
+      <div class="h5 text-info"><strong>{{node.label}}, ID: {{node.id}}</strong></div>
+      <!-- --
       <div>
         <span class="mr-2">Transakcije prema osobi u fokusu:</span>
         <strong>{{focusTransactionCount}}</strong>
@@ -35,11 +40,11 @@
         <span class="mr-2">Iznos prema osobi u fokusu:</span>
         <strong>{{focusTransactionAmount|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
       </div>
+      -- -->
     </section>
-    -->
   </div>
 
-  <div class="card-body mt-3">
+  <div class="card-body">
     <section *ngFor="let account of accounts; let i = index">
       <div class="text-info">Račun {{i+1}}</div>
       <div class="card mb-2">

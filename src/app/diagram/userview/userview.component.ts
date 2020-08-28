@@ -33,10 +33,18 @@ export class UserviewComponent implements OnInit {
       }
     })
 
-    this.node.countIn = this.accounts.map(itm => { return itm.brojUplata }).reduce((p, c) => { return p + c })
-    this.node.countOut = this.accounts.map(itm => { return itm.brojIsplata }).reduce((p, c) => { return p + c })
-    this.node.totalIn = this.diaSvc.getTotals(this.accounts, 'iznosUplata')
-    this.node.totalOut = this.diaSvc.getTotals(this.accounts, 'iznosIsplata')
+    console.log('UIX', this.accounts)
+    if (this.accounts.length) {
+      this.node.countIn = this.accounts.map(itm => { return itm.brojUplata }).reduce((p, c) => { return p + c })
+      this.node.countOut = this.accounts.map(itm => { return itm.brojIsplata }).reduce((p, c) => { return p + c })
+      this.node.totalIn = this.diaSvc.getTotals(this.accounts, 'iznosUplata')
+      this.node.totalOut = this.diaSvc.getTotals(this.accounts, 'iznosIsplata')
+    } else {
+      this.node.countIn = null
+      this.node.countOut = null
+      this.node.totalIn = null
+      this.node.totalOut = null
+    }
     //console.log('ACX', this.linkedAccounts, this.accounts, this.node)
   }
 

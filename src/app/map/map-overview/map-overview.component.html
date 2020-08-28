@@ -16,12 +16,13 @@
   <div id="map-area">
     <div class="map-canvas"
       leaflet
+      [leafletLayers]="layers"
       [leafletOptions]="options"
-      [leafletLayersControl]="layersControl"
       [(leafletZoom)]="zoom"
       (leafletMapZoom)="zoomControl($event)"
       (leafletClick)="mapClick($event)"
       (leafletMapReady)="onMapReady($event)">
+      <!--[leafletLayersControl]="layersControl"-->
     </div>
   </div>
 </div>

@@ -35,5 +35,4 @@ export class ModalBaseDetailComponent implements OnInit {
   exitModal(): void {
     this.modal.dismiss();
   }
-
 }
