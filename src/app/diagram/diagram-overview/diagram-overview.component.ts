@@ -83,9 +83,10 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     let idx = ctx.nodes[0]
     this.edgeActive = null
     this.nodeActive = this.nodes.get(idx)
-    console.log('SNX', this.nodeActive, this.nodeActive.id, this.activeUser.id)
+    console.log('SNX[%s]', this.nodeActive.type, this.nodeActive, this.nodeActive.id, this.activeUser.id)
     if (this.nodeActive.type === 'user') {
       this.isSelectedActiveUser = this.nodeActive.id === this.activeUser.id
+      this.nodeActive.id = this.nodeActive.id.replace(/(connectedAccount\d{1,})$/gi, '')
     } else if (this.nodeActive.type === 'account' || this.nodeActive.type === 'connectedAccount') {
       if (this.nodeActive.type === 'connectedAccount') {
         this.nodeActive.data = {

@@ -26,14 +26,12 @@ export class UserviewComponent implements OnInit {
     this.focusAccounts = this.activeUser.izvodi
     this.accounts = this.isSelectedActiveUser? this.node.data.izvodi : this.linkedAccounts
 
-    //console.log('UVX', this.node, this.activeUser)
     this.accounts.forEach(acc => {
       if (acc.hasOwnProperty('iznosTransakcija') && acc.hasOwnProperty('iznosUplata') && !acc.hasOwnProperty('iznosIsplata')) {
         acc.iznosIsplata = acc.iznosTransakcija - acc.iznosUplata
       }
     })
 
-    console.log('UIX', this.accounts)
     if (this.accounts.length) {
       this.node.countIn = this.accounts.map(itm => { return itm.brojUplata }).reduce((p, c) => { return p + c })
       this.node.countOut = this.accounts.map(itm => { return itm.brojIsplata }).reduce((p, c) => { return p + c })

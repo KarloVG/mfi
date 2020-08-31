@@ -5,12 +5,12 @@
 <div>
   <app-visualisation-toolbar
     [displayType]="displayType"
-    [addUserAction]="addUser.bind(this)"
     [expandViewAction]="expandView.bind(this)"
     [contractViewAction]="contractView.bind(this)"
     [notificationsAction]="notifications.bind(this)"
     [filterAction]="filter.bind(this)"
-    [exportAction]="export.bind(this)">
+    [exportAction]="export.bind(this)"
+    (childNotification)="onChangeOsobaOrIzvod($event)">
   </app-visualisation-toolbar>
 
   <div id="map-area">

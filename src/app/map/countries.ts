@@ -81,7 +81,8 @@ export var countriesLatLng = [
     "code": "AU",
     "lat": -25.274398,
     "lng": 133.775136,
-    "name": "Australija"
+    "name": "Australija",
+    "radius": 700000
   },
   {
     "code": "AW",
@@ -171,7 +172,8 @@ export var countriesLatLng = [
     "code": "BR",
     "lat": -14.235004,
     "lng": -51.92528,
-    "name": "Brazil"
+    "name": "Brazil",
+    "radius": 700000
   },
   {
     "code": "BS",
@@ -213,7 +215,8 @@ export var countriesLatLng = [
     "code": "CA",
     "lat": 56.130366,
     "lng": -106.346771,
-    "name": "Kanada"
+    "name": "Kanada",
+    "radius": 750000
   },
   {
     "code": "CC",
@@ -273,7 +276,8 @@ export var countriesLatLng = [
     "code": "CN",
     "lat": 35.86166,
     "lng": 104.195397,
-    "name": "Kina"
+    "name": "Kina",
+    "radius": 600000
   },
   {
     "code": "CO",
@@ -439,6 +443,12 @@ export var countriesLatLng = [
   },
   {
     "code": "GB",
+    "lat": 55.378051,
+    "lng": -3.435973,
+    "name": "Ujedinjeno Kraljevstvo"
+  },
+  {
+    "code": "UK",
     "lat": 55.378051,
     "lng": -3.435973,
     "name": "Ujedinjeno Kraljevstvo"
@@ -735,7 +745,8 @@ export var countriesLatLng = [
     "code": "KZ",
     "lat": 48.019573,
     "lng": 66.923684,
-    "name": "Kazahstan"
+    "name": "Kazahstan",
+    "radius": 400000
   },
   {
     "code": "LA",
@@ -1125,7 +1136,8 @@ export var countriesLatLng = [
     "code": "RU",
     "lat": 61.52401,
     "lng": 105.318756,
-    "name": "Rusija"
+    "name": "Rusija",
+    "radius": 1050000
   },
   {
     "code": "RW",
@@ -1359,7 +1371,8 @@ export var countriesLatLng = [
     "code": "US",
     "lat": 37.09024,
     "lng": -95.712891,
-    "name": "Sjedinjene Države"
+    "name": "Sjedinjene Države",
+    "radius": 900000
   },
   {
     "code": "UY",
