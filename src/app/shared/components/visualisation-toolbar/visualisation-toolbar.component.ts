@@ -69,7 +69,8 @@ export class VisualisationToolbarComponent implements OnInit {
     this.subjectId = +this.subjectService.hasToken();
     this.visualisationService.getOsobaDropdown().subscribe(
       data => {  this.osobe = data;  }
-    )
+    );
+    this.hasActiveFilter();
   }
 
   passDataToParent() {
