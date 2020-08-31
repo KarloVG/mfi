@@ -1,4 +1,4 @@
-<!-- <div class="modal-header modal-gray">
+<div class="modal-header modal-gray">
     <h4 class="modal-title" id="modal-title">Filtriranje podataka</h4>
     <a class="close" aria-label="Close" (click)="modal.close(null)">
         <span class="fas fa-times"></span>
@@ -20,13 +20,13 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="Banka">Banka</label>
-                <ng-select [items]="banks" bindLabel="name" bindValue="name" labelForId="state" placeholder="Izaberi..."
+                <ng-select [items]="banks" bindLabel="naziv" bindValue="naziv" labelForId="state" placeholder="Izaberi..."
                     clearAllText="Clear" formControlName="Banka">
                 </ng-select>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="Drzava">Država</label>
-                <ng-select [items]="countries" bindLabel="name" bindValue="name" labelForId="state" placeholder="Izaberi..."
+                <ng-select [items]="countries" bindLabel="hR_NAME" bindValue="hR_NAME" labelForId="state" placeholder="Izaberi..."
                     clearAllText="Clear" formControlName="Drzava">
                 </ng-select>
             </div>
@@ -46,13 +46,13 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="BankaB">Banka</label>
-                <ng-select [items]="banks" bindLabel="name" bindValue="name" labelForId="state" placeholder="Izaberi..."
+                <ng-select [items]="banks" bindLabel="naziv" bindValue="naziv" labelForId="state" placeholder="Izaberi..."
                     clearAllText="Clear" formControlName="BankaB">
                 </ng-select>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="DrzavaB">Država</label>
-                <ng-select [items]="countries" bindLabel="name" bindValue="name" labelForId="state" placeholder="Izaberi..."
+                <ng-select [items]="countries" bindLabel="hR_NAME" bindValue="hR_NAME" labelForId="state" placeholder="Izaberi..."
                     clearAllText="Clear" formControlName="DrzavaB">
                 </ng-select>
             </div>
@@ -120,4 +120,4 @@
         <button type="button" class="btn btn-outline-info mr-auto" (click)="exitModal()">Poništi filter</button>
         <button type="submit" class="btn btn-info">Potvrdi</button>
     </div>
-</form> -->
+</form>

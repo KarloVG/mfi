@@ -7,6 +7,13 @@ import { CustomDatepickerI18n } from '../../utils/custom-date-picker-i18n';
 import { NgbDateCustomParserFormatter } from '../../utils/ngb-date-custom-parser-formatter';
 import { LocalStoreFilterService } from '../../services/local-store-filter.service';
 import { IFilterCriteria } from '../../models/filter-criteria';
+import { Observable, forkJoin } from 'rxjs';
+import { BankService } from '../../services/bank-service';
+import { IBank } from '../../models/bank';
+import { TransactionTypeService } from '../../services/transaction-type-service';
+import { ITransactionType } from '../../models/transaction-type';
+import { ICountry } from '../../models/country';
+import { CountryService } from '../../services/country-service';
 
 @Component({
   selector: 'app-modal-filter',
@@ -37,72 +44,65 @@ export class ModalFilterComponent implements OnInit {
     VrstaTransakcije: null
   });
 
-  // banks: ISimpleDropdownItem[] = [{
-  //   id: 1,
-  //   name: 'PRIVREDNA BANKA ZAGREB d.d.'
-  // },
-  // {
-  //   id: 2,
-  //   name: 'HRVATSKA POŠTANSKA BANKA d.d.'
-  // },{
-  //   id: 3,
-  //   name: 'J&T banka d.d. Varaždin'
-  // }];
+  forkObservable: Observable<any>;
+  banks: Observable<IBank[]>;
+  transactionTypes: Observable<ITransactionType[]>;
+  countries: Observable<ICountry[]>;
 
-  // countries: ISimpleDropdownItem[] = [{
-  //   id: 1,
-  //   name: 'Hrvatska'
-  // },{
-  //   id: 2,
-  //   name: 'Kosovo'
-  // },{
-  //   id: 3,
-  //   name: 'Tažikistan'
-  // }];
-
-  // directions: ISimpleDropdownItem[] = [{
-  //   id: 1,
-  //   name: 'Ulazni'
-  // },{
-  //   id: 2,
-  //   name: 'Izlazni'
-  // }]
-
-  // transactionTypes: ISimpleDropdownItem[] = [{
-  //   id: 1,
-  //   name: 'Bankovna'
-  // },{
-  //   id: 1,
-  //   name: 'Novčana'
-  // }]
+  directions: ITransactionType[] = [{
+    id: 1,
+    name: 'Ulazni'
+  },{
+    id: 2,
+    name: 'Izlazni'
+  }]
   
   constructor(
     public modal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private localStoreFilterService: LocalStoreFilterService
+    private localStoreFilterService: LocalStoreFilterService,
+    private transactionTypeService: TransactionTypeService,
+    private bankService: BankService,
+    private countryService: CountryService
     ) {}
 
   ngOnInit(): void {
-    const filterValues = this.localStoreFilterService.hasToken()
-    if(filterValues) {
-      this.filterFormGroup.patchValue({
-        Naziv: filterValues.Naziv ? filterValues.Naziv : '',
-        NazivB: filterValues.NazivB ? filterValues.NazivB : '',
-        BrojRacuna: filterValues.BrojRacuna ? filterValues.BrojRacuna : '',
-        BrojRacunaB: filterValues.BrojRacunaB ? filterValues.BrojRacunaB : '',
-        Banka: filterValues.Banka ? filterValues.Banka : null,
-        BankaB: filterValues.BankaB ? filterValues.BankaB : null,
-        Drzava: filterValues.Drzava ? filterValues.Drzava : null,
-        DrzavaB: filterValues.DrzavaB ? filterValues.DrzavaB : null,
-        DatumTrasakcijeOd: filterValues.DatumTrasakcijeOd ? new Date(filterValues.DatumTrasakcijeOd) : '',
-        DatumTrasakcijeDo: filterValues.DatumTrasakcijeDo ? new Date(filterValues.DatumTrasakcijeDo) : '',
-        IznosOd: filterValues.IznosOd ? filterValues.IznosOd : '',
-        IznosDo: filterValues.IznosDo ? filterValues.IznosDo : '',
-        Smjer: filterValues.Smjer ? filterValues.Smjer : null,
-        VrstaTransakcije: filterValues.VrstaTransakcije ? filterValues.VrstaTransakcije : null,
-      });
-    }
+    //fork join
+    this.forkObservable = forkJoin(
+      this.transactionTypeService.getTransactionType(),
+      this.bankService.getBanke(),
+      this.countryService.getCountries(),
+    );
+
+    this.forkObservable.subscribe(([transactions, banks, countries]) => {
+      this.transactionTypes  = transactions;
+      this.banks = banks;
+      this.countries = countries
+
+      // after values come 
+      const filterValues = this.localStoreFilterService.hasToken();
+      if(filterValues) {
+        this.filterFormGroup.patchValue({
+          Naziv: filterValues.Naziv ? filterValues.Naziv : '',
+          NazivB: filterValues.NazivB ? filterValues.NazivB : '',
+          BrojRacuna: filterValues.BrojRacuna ? filterValues.BrojRacuna : '',
+          BrojRacunaB: filterValues.BrojRacunaB ? filterValues.BrojRacunaB : '',
+          Banka: filterValues.Banka ? filterValues.Banka : null,
+          BankaB: filterValues.BankaB ? filterValues.BankaB : null,
+          Drzava: filterValues.Drzava ? filterValues.Drzava : null,
+          DrzavaB: filterValues.DrzavaB ? filterValues.DrzavaB : null,
+          DatumTrasakcijeOd: filterValues.DatumTrasakcijeOd ? new Date(filterValues.DatumTrasakcijeOd) : '',
+          DatumTrasakcijeDo: filterValues.DatumTrasakcijeDo ? new Date(filterValues.DatumTrasakcijeDo) : '',
+          IznosOd: filterValues.IznosOd ? filterValues.IznosOd : '',
+          IznosDo: filterValues.IznosDo ? filterValues.IznosDo : '',
+          Smjer: filterValues.Smjer ? filterValues.Smjer : null,
+          VrstaTransakcije: filterValues.VrstaTransakcije ? filterValues.VrstaTransakcije : null,
+        });
+      }
+      console.log(this.transactionTypes, this.banks, this.countries)
+    });
+
   }
 
   onSubmit(): void {
