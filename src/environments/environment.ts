@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://financijske-istrage.fleksbit.org:88/api'
+  baseUrl: 'https://localhost:5001/api'
 };
 
 /*

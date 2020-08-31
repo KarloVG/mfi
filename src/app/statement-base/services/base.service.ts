@@ -2,15 +2,12 @@ import { UrlHelperService } from 'src/app/shared/services/url-helper.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IBaseExtract } from '../models/base-extract';
 import { ISimpleDropdownItem } from 'src/app/shared/models/simple-dropdown-item';
 import { IBaseItem } from '../models/base-item';
 import { ICreateOsobaRequest } from '../models/create-osoba-request';
 import { LocalStoreSubjectService } from 'src/app/shared/services/local-store-subject.service';
 import { IEditOsobaRequest } from '../models/edit-osoba-request';
 import { IOsobaDropdown } from '../models/osoba-dropdown';
-import { IOsoba } from '../models/osoba';
-import { IGetIzvodRequest } from '../models/get-izvod-request';
 import { ITablicaIzvod } from 'src/app/table/models/tablica-izvod';
 
 @Injectable({
@@ -18,9 +15,8 @@ import { ITablicaIzvod } from 'src/app/table/models/tablica-izvod';
 })
 export class BaseService {
 
-  private readonly BASE_ITEMS = 'Osoba';
   private readonly OSOBA_CONTROLLER = 'Osoba';
-  private readonly IZVOD_CONTROLLER = 'izvod';
+  private readonly IZVOD_CONTROLLER = 'Izvod';
   private readonly IDENTIFICATION_CONTROLLER = 'VrstaIdBroja';
 
   constructor(
@@ -32,7 +28,8 @@ export class BaseService {
   getBaseItems(): Observable<IBaseItem[]> {
     const token = this.subjectLocalService.hasToken();
     if(token) {
-      const url = this.urlHelper.getUrl(this.BASE_ITEMS, 'predmet', token);
+      const url = this.urlHelper.getUrl(this.OSOBA_CONTROLLER, 'predmet', token);
+      console.log(url);
       return this.http.get<IBaseItem[]>(url);
     }
   }
@@ -48,7 +45,7 @@ export class BaseService {
   getOsobeDropdown(): Observable<IOsobaDropdown[]> {
     const token = this.subjectLocalService.hasToken();
     if(token) {
-      const url = this.urlHelper.getUrl(this.BASE_ITEMS, 'odabirOsobe', token);
+      const url = this.urlHelper.getUrl(this.OSOBA_CONTROLLER, 'odabirOsobe', token);
       return this.http.get<IOsobaDropdown[]>(url);
     }
   }
