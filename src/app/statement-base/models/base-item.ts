@@ -4,7 +4,7 @@ import { IBaseExtract } from './base-extract';
 export interface IBaseItem {
     osobaID: number,
     naziv: string,
-    izvodi: IBaseExtract[],
+    izvodi?: IBaseExtract[],
     uvezeneIzliste?: number,
     brojTransakcija?: number,
     brojIsplata?: number,

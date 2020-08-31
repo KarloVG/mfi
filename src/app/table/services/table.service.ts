@@ -15,6 +15,7 @@ import { IPagedResult } from 'src/app/shared/models/pagination/paged-result';
 export class TableService {
 
   private readonly CONTROLLER_NAME = 'FinancijskaTransakcija';
+  private readonly IZVOD_CONTROLLER = 'Izvod';
 
   constructor(
     private http: HttpClient,
@@ -22,7 +23,7 @@ export class TableService {
     private subjectLocalService: LocalStoreSubjectService
   ) { }
 
-  getTransakcijeFromIzvod(paginationRequest: IPaginationBase): Observable<any> {
+  getTransakcijeFromIzvod(paginationRequest: IPaginationBase): Observable<IPagedResult<IFinancijskaTransakcija>> {
     const token = this.subjectLocalService.hasToken();
     if (token) {
       const request = {
@@ -33,6 +34,14 @@ export class TableService {
       }
       const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'paginated');
       return this.http.post<IPagedResult<IFinancijskaTransakcija>>(url, request);
+    }
+  }
+
+  getAllTransakcije(): Observable<IFinancijskaTransakcija[]> {
+    const token = this.subjectLocalService.hasToken();
+    if (token) {
+      const url = this.urlHelper.getUrl(this.IZVOD_CONTROLLER, 'transakcije', token);
+      return this.http.get<IFinancijskaTransakcija[]>(url);
     }
   }
 }

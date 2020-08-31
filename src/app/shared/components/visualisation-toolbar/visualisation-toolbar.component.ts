@@ -6,6 +6,11 @@ import {BaseService} from 'src/app/statement-base/services/base.service'
 import { VisualisationToolbarService } from '../../services/visualisation-toolbar.service';
 import { IOsobaDropdown } from '../../models/osoba-dropdown';
 import { IIzvodDropdown } from '../../models/izvod-dropdown';
+import { ModalFilterComponent } from '../modal-filter/modal-filter.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { LocalStoreFilterService } from '../../services/local-store-filter.service';
+import { IFilterCriteria } from '../../models/filter-criteria';
 
 interface Types {
   id: string
@@ -37,7 +42,6 @@ export class VisualisationToolbarComponent implements OnInit {
   @Input() expandViewAction: any
   @Input() contractViewAction: any
   @Input() notificationsAction: any
-  @Input() filterAction: any
   @Input() exportAction: any
 
   @Output() childNotification: EventEmitter<any> = new EventEmitter<any>();
@@ -48,18 +52,25 @@ export class VisualisationToolbarComponent implements OnInit {
 
   selectedIzvod: IIzvodDropdown;
   izvodi: IIzvodDropdown[] = [];
-  subjectId: number
+  subjectId: number;
 
+  isActiveFilter: boolean = false;
+  modalFilterValues: IFilterCriteria;
+  
   constructor(
     private subjectService: SubjectService,
-    private visualisationService: VisualisationToolbarService
+    private visualisationService: VisualisationToolbarService,
+    private ngbModalService: NgbModal,
+    private toastr: ToastrService,
+    private localStorageFilterService: LocalStoreFilterService
   ) { }
 
   ngOnInit(): void {
     this.subjectId = +this.subjectService.hasToken();
     this.visualisationService.getOsobaDropdown().subscribe(
       data => {  this.osobe = data;  }
-    )
+    );
+    this.hasActiveFilter();
   }
 
   passDataToParent() {
@@ -82,6 +93,39 @@ export class VisualisationToolbarComponent implements OnInit {
     } else {
       this.izvodi = [];
       this.selectedIzvod = null;
+    }
+  }
+
+  filterAction() {
+    const modalRef = this.ngbModalService.open(ModalFilterComponent, { size: 'xl', backdrop: 'static', keyboard: false });
+    modalRef.result.then((result) => {
+      if (result) {
+        this.toastr.success('Polja filtera spremljena', 'Uspjeh', {
+          progressBar: true
+        })
+        this.isActiveFilter = true;
+      } else if(result == false) {
+        this.toastr.warning('Polja filtera su obrisana', 'Pažnja', {
+          progressBar: true
+        });
+        this.isActiveFilter = false;
+      } else {
+        this.toastr.warning('Polja filtera nisu spremljena/uređena', 'Pažnja', {
+          progressBar: true
+        })
+      }
+      this.hasActiveFilter();
+    });
+  }
+
+  hasActiveFilter() {
+    console.log('hAFx', this.localStorageFilterService.hasToken())
+    if(this.localStorageFilterService.hasToken()) {
+      this.modalFilterValues = JSON.parse(localStorage['filter_fields']);
+      this.isActiveFilter = true;
+    } else {
+      this.modalFilterValues = null;
+      this.isActiveFilter = false;
     }
   }
 }

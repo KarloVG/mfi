@@ -43,14 +43,14 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
         this.baseItems = data;
         this.staticValue = data;
         this.baseItems.forEach(el => {
-          el.uvezeneIzliste = el.izvodi.length;
+          el.uvezeneIzliste = el.izvodi ? el.izvodi.length : 0;
           el.iznosUplata = 0;
           el.iznosIsplata = 0;
           el.brojTransakcija = 0;
           el.brojIsplata = 0;
           el.brojUplata = 0;
           el.iznosTransakcija = 0;
-          if(el.izvodi.length) {
+          if(el.izvodi && el.izvodi.length) {
             el.izvodi.forEach(izv => {
               el.iznosUplata += izv.iznosUplata;
               el.iznosIsplata += izv.iznosIsplata;
