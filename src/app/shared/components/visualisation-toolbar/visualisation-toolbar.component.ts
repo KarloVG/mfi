@@ -56,7 +56,7 @@ export class VisualisationToolbarComponent implements OnInit {
 
   isActiveFilter: boolean = false;
   modalFilterValues: IFilterCriteria;
-  
+
   constructor(
     private subjectService: SubjectService,
     private visualisationService: VisualisationToolbarService,
@@ -77,7 +77,7 @@ export class VisualisationToolbarComponent implements OnInit {
     if(this.selectedOsoba && this.selectedOsoba.osobaID) {
       this.childNotification.emit({
           osobaID: this.selectedOsoba.osobaID,
-          izvodID: this.selectedIzvod ? this.selectedIzvod.izvodID : null 
+          izvodID: this.selectedIzvod ? this.selectedIzvod.izvodID : null
       });
     } else {
       this.visualisationForm.form.controls['ctrl'].markAsTouched();

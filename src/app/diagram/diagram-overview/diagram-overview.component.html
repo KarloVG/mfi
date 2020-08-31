@@ -9,9 +9,9 @@
     [expandViewAction]="expandView.bind(this)"
     [contractViewAction]="contractView.bind(this)"
     [notificationsAction]="notifications.bind(this)"
-    [filterAction]="filter.bind(this)"
     [exportAction]="export.bind(this)"
     (childNotification)="onChangeOsobaOrIzvod($event)">
+    <!--[filterAction]="filter.bind(this)"-->
   </app-visualisation-toolbar>
 
   <div class="infobox float-left col-sm-3" *ngIf="nodeActive !== null">

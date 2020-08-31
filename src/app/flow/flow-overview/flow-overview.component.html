@@ -5,8 +5,9 @@
 <div>
   <app-visualisation-toolbar (childNotification)="onChangeOsobaOrIzvod($event)" [displayType]="displayType"
     [expandViewAction]="expandView.bind(this)" [contractViewAction]="contractView.bind(this)"
-    [notificationsAction]="notifications.bind(this)" [filterAction]="filter.bind(this)"
+    [notificationsAction]="notifications.bind(this)"
     [exportAction]="export.bind(this)">
+    <!--[filterAction]="filter.bind(this)"-->
   </app-visualisation-toolbar>
 
   <form [formGroup]="flowFormGroup">

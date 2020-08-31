@@ -9,16 +9,16 @@
     [expandViewAction]="expandView.bind(this)"
     [contractViewAction]="contractView.bind(this)"
     [notificationsAction]="notifications.bind(this)"
-    [filterAction]="filter.bind(this)"
     [exportAction]="export.bind(this)"
     (childNotification)="onChangeOsobaOrIzvod($event)">
+    <!--[filterAction]="filter.bind(this)"-->
   </app-visualisation-toolbar>
 
   <div id="chart-area">
     <div class="row">
       <div class="col-sm-6">
         <p class="text-center font-weight-bold">
-          Ukupan iznos uplata: 
+          Ukupan iznos uplata:
           <span *ngIf="zbrojUplata; else nemaUplata">{{ zbrojUplata | currency:'HRK':'symbol':'4.2-2':'hr' }}</span>
           <ng-template #nemaUplata>
             0,00 HRK
