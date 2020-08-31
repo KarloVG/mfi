@@ -34,7 +34,7 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
   displayType: string = 'table'
 
   financijskeTransakcije: IFinancijskaTransakcija[] = [];
-  staticValue: IFinancijskaTransakcija[] = [];
+  staticValue: IPagedResult<IFinancijskaTransakcija>;
 
   //selection
   SelectionType = SelectionType;
@@ -111,7 +111,7 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
     let searchVal = this.filterValue.toLowerCase()
     let keys = Object.keys(this.pagedResult.model[0]);
     let colsAmt = keys.length + 1;
-    this.pagedResult.model = this.staticValue.filter(function (item) {
+    this.pagedResult.model = this.staticValue.model.filter(function (item) {
       for (let i = 0; i < colsAmt; i++) {
         if (item[keys[i]] != null && item[keys[i]].toString().toLowerCase().indexOf(searchVal) !== -1 || !searchVal) {
           return true;
@@ -129,7 +129,7 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
 
   removeFilter(): void {
     this.filterValue = '';
-    this.pagedResult.model = this.staticValue;
+    this.pagedResult.model = this.staticValue.model;
   }
 
   openFilterModal() {
@@ -166,55 +166,59 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
   }
 
   exportAsXLSX(): void {
-    // if (this.financijskeTransakcije && this.financijskeTransakcije.length > 0) {
-    //   let excelRows = [];
-    //   let columnWidth = [];
-    //   this.financijskeTransakcije.forEach(row => {
-    //     excelRows.push({
-    //       'Broj računa A': row.BrojRacunaA,
-    //       'SWIFT A': row.SWIFTA,
-    //       'Banka A': row.BankaA,
-    //       'Država': row.DrzavaA,
-    //       'NazivA': row.NazivA,
-    //       'Datum transakcije': new DateOnlyPipe('en-US').transform(row.DatumTransakcije),
-    //       'Referentni broj': row.ReferentniBroj,
-    //       'Vrsta transakcije': row.VrstaTransakcije,
-    //       'Valuta': row.Valuta,
-    //       'Cijena u kn': row.CijenaKn,
-    //       'Smjer': row.Smjer,
-    //       'Broj računa B': row.BrojRacunaB,
-    //       'SWIFT B': row.SWIFTB,
-    //       'Banka B': row.BankaB,
-    //       'Država B': row.DrzavaB,
-    //       'Naziv B': row.NazivB
-    //     });
-
-    //     columnWidth.push(
-    //       { wch: 50 },//A
-    //       { wch: 15 },//B
-    //       { wch: 15 },//C
-    //       { wch: 10 },//D
-    //       { wch: 25 },//E
-    //       { wch: 20 },//F
-    //       { wch: 15 },//G
-    //       { wch: 20 },//H
-    //       { wch: 15 },//I
-    //       { wch: 15 },//J
-    //       { wch: 15 },//K
-    //       { wch: 50 },//L
-    //       { wch: 15 },//M
-    //       { wch: 15 },//N
-    //       { wch: 10 },//O
-    //       { wch: 25 },//P
-    //     )
-    //   })
-    //   this.excelService.exportAsExcelFile(excelRows, 'popis_A_liste', columnWidth);
-    // } else {
-    //   this.toastr.error('Morate imati barem 1 redak u tablici kako bi se excel mogao popuniti!', 'Pogreška!', {
-    //     progressBar: true,
-    //     timeOut: 6000
-    //   });
-    // }
+    this.tableService.getAllTransakcije().pipe(take(1)).subscribe(
+      data => {
+        if (data && data.length > 0) {
+          console.log(data)
+          let excelRows = [];
+          let columnWidth = [];
+          data.forEach(row => {
+            excelRows.push({
+              'Broj računa A': row.a_RN,
+              'SWIFT A': row.a_FIS,
+              'Banka A': row.a_FIN,
+              'Država': row.a_FID,
+              'Naziv A': row.a_NA,
+              'Datum transakcije': row.t_DV,
+              'Referentni broj': row.t_REF,
+              'Vrsta transakcije': row.t_VR,
+              'Valuta': row.t_VL,
+              'Cijena u kn': row.t_KONV_IZ,
+              'Smjer': row.t_DIR,
+              'Broj računa B': row.b_RN,
+              'SWIFT B': row.a_FIS,
+              'Banka B': row.a_FIN,
+              'Država B': row.a_FID,
+              'Naziv B': row.b_NA
+            });
+    
+            columnWidth.push(
+              { wch: 50 },//A
+              { wch: 15 },//B
+              { wch: 15 },//C
+              { wch: 10 },//D
+              { wch: 25 },//E
+              { wch: 20 },//F
+              { wch: 15 },//G
+              { wch: 20 },//H
+              { wch: 15 },//I
+              { wch: 15 },//J
+              { wch: 15 },//K
+              { wch: 50 },//L
+              { wch: 15 },//M
+              { wch: 15 },//N
+              { wch: 10 },//O
+              { wch: 25 },//P
+            )
+          })
+          this.excelService.exportAsExcelFile(excelRows, 'popis_A_liste', columnWidth);
+        } else {
+          this.toastr.error('Morate imati barem 1 redak u tablici kako bi se excel mogao popuniti!', 'Pogreška!', {
+            progressBar: true,
+            timeOut: 6000
+          });
+        }
+      }
+    );
   }
-
 }
