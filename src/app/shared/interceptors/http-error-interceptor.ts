@@ -29,8 +29,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             errorMessage = error ? error.error : 'Kontaktirajte administratora';
           }
           this.toastr.error(errorMessage ? errorMessage : 'Kontaktirajte administratora', 'Pogreška', {
-            progressBar: true,
-            timeOut: 7500
+            closeButton: true,
+            extendedTimeOut: 0,
+            timeOut: 0,
+            tapToDismiss: false
           });
           return throwError(errorMessage);
         })
