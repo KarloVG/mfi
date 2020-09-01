@@ -84,7 +84,7 @@
             <td>{{ korisnik.get('Prezime').value }}</td>
             <td>{{ korisnik.get('LoginName').value }}</td>
             <td>
-              <button type="button" class="btn btn-outline-danger btn-sm px-3 py-1" (click)="removePermission(korisnik,userIndex)">
+              <button type="button" class="btn btn-outline-danger btn-sm px-3 py-1" (click)="removePermission(korisnik,userIndex)" [disabled]="predmetKorisnici.length == 1">
                 <small class="fas fa-trash"></small>
                 <span class="ml-2">Briši</span>
               </button>
