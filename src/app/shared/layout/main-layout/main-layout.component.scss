@@ -1,7 +1,21 @@
-.sidebar-holder {
-  max-width: 105px;
+.sidebar-holder { max-width: 105px; }
+
+@media (min-width: 1351px) {
+  #main-holder { max-width: 93.7%; }
 }
 
-#main-holder {
-  max-width: 93.7%;
+@media (min-width: 988px) and (max-width: 1350px) {
+  #main-holder { max-width: 91%; }
+}
+
+@media (min-width: 730px) and (max-width: 987px) {
+  #main-holder { max-width: 88%; }
+}
+
+@media (min-width: 530px) and (max-width: 731px) {
+  #main-holder { max-width: 80%; }
+}
+
+@media (max-width: 529px) {
+  #main-holder { max-width: 78%; }
 }

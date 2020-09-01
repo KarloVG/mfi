@@ -50,10 +50,10 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
   }
 
   polyOpts = {
-    smoothFactor: 7,
-    weight: 3,
+    smoothFactor: 8,
+    weight: 8,
     color: '#444',
-    dashArray: '4 6'
+    dashArray: '8 12'
   }
 
   circleOpts = {
@@ -101,25 +101,29 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
     this.mapSvc.getInitialData(osobaId).pipe(untilComponentDestroyed(this)).subscribe(
       data => {
         data.forEach(itm => {
-          const markerFrom = this.markerAtCountry(itm.firstCountry)
-          const markerTo = this.markerAtCountry(itm.secondCountry)
+          //const markerFrom = this.markerAtCountry(itm.firstCountry)
+          //const markerTo = this.markerAtCountry(itm.secondCountry)
+          const cFrom = this.getCountryData(itm.firstCountry)
+          const cTo = this.getCountryData(itm.secondCountry)
+
+          const markerFrom = this.vizualizeCountry(itm.firstCountry, itm.direction)
+          const markerTo = this.vizualizeCountry(itm.secondCountry, itm.direction)
           const link = this.linkCountries(itm.firstCountry, itm.secondCountry)
+          markerFrom.bindTooltip(cFrom.name).openTooltip()
+          markerTo.bindTooltip(cTo.name).openTooltip()
           markerFrom.addTo(this.map)
           markerTo.addTo(this.map)
           link.addTo(this.map)
-
-          const cFrom = this.getCountryData(itm.firstCountry)
-          const cTo = this.getCountryData(itm.secondCountry)
 
           const tplFrom = '<strong>{{country}}</strong><br/>Ukupno isplata iz {{code}}: <strong>{{brojIsplata}}</strong><br/>Ukupan iznos isplata iz {{code}}: <strong>{{totalIsplata}}</strong>'
           const tplTo = '<strong>{{country}}</strong><br/>Ukupno uplata u {{code}}: <strong>{{brojUplata}}</strong><br/>Ukupan iznos uplata iz {{code}}: <strong>{{totalUplata}}</strong>'
           const tfrom = tplFrom.replace(/{{country}}/gi, cFrom.name).replace(/{{code}}/gi, cFrom.code).replace(/{{brojIsplata}}/gi, itm.brojIsplata).replace(/{{totalIsplata}}/gi, itm.totalIsplata)
           const tto = tplTo.replace(/{{country}}/gi, cTo.name).replace(/{{code}}/gi, cTo.code).replace(/{{brojUplata}}/gi, itm.brojUplata).replace(/{{totalUplata}}/gi, itm.totalUplata)
           console.log('GIDx', itm)
-          console.log(' FRMx', tfrom)
-          console.log(' TOxx', tto)
-          markerFrom.bindPopup(tfrom).openPopup()
-          markerTo.bindPopup(tto).openPopup()
+          console.log(' - FRMx', tfrom)
+          console.log(' - TOxx', tto)
+          markerFrom.bindPopup(tfrom) //.openPopup()
+          markerTo.bindPopup(tto) //.openPopup()
           link.bindPopup('Transakcije {{codeFrom}} &harr; {{codeTo}}: <strong>{{brojTransakcija}}</strong>'.replace(/{{codeFrom}}/gi, cFrom.code).replace(/{{codeTo}}/gi, cTo.code).replace(/{{brojTransakcija}}/gi, itm.brojUplata + itm.brojIsplata))//.openPopup()
 
           //this.dataMap
