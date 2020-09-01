@@ -1,4 +1,9 @@
 <span [class]="moduleFontIcon"></span>
-<strong class="ml-2">
-    {{ moduleName }} - podaci za razdoblje od: 10.1.2019. do 17.11.2019 (ukupno: 10 mjeseci)
+<strong class="ml-2" *ngIf="dateObject; else noDate">
+    {{ moduleName }} - podaci za razdoblje od:{{ dateObject.minDate }} do {{ dateObject.maxDate }} (ukupno: {{ dateObject.dateDifference }} mjeseci)
 </strong>
+<ng-template #noDate>
+    <strong class="ml-2">
+        {{ moduleName }} - podaci za razdoblje zahtjevaju minimalno 1 izvod u bazi
+    </strong>
+</ng-template>
