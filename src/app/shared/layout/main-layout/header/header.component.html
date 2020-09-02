@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom d-flex justify-content-between">
   <div id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item active">
@@ -8,5 +8,27 @@
         </a>
       </li>
     </ul>
+  </div>
+  <div class="d-flex justify-content-between">
+    <h5 *ngIf="predmet; else noPredmet" class="font-weight-bold m-0 mr-3">
+      Predmet: {{ predmet.nazivPredmeta }}
+      <br>
+      <p class="text-muted text-center m-0">{{ predmet.brojPredmeta }}</p>
+    </h5>
+    <ng-template #noPredmet>
+      <p class="text-info text-uppercase d-flex justify-content-end flex-column m-0 mr-3">
+        Predmet nije otvoren
+      </p>
+    </ng-template>
+
+    <div>
+      <div class="text-center">
+        <button class="btn btn-outline-primary btn-user" style="cursor:default;">
+          <i class="fas fa-user"></i>
+        </button>
+      </div>
+      <p class="text-muted text-center m-0 text-uppercase">Ime i prezime</p>
+    </div>
+
   </div>
 </nav>
