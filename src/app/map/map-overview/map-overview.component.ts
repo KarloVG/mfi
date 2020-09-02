@@ -94,21 +94,27 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
   }
 
   template = {
-    from: '<div class="mb-1"><strong>{{country}}</strong><br/>Ukupno isplata iz {{code}}: <strong>{{ukupnoIsplata}}</strong><br/>Ukupan iznos isplata iz {{code}}: <strong>{{iznosIsplata}}</strong></div>',
-    to: '<div class=""><strong>{{country}}</strong><br/>Ukupno uplata u {{code}}: <strong>{{ukupnoUplata}}</strong><br/>Ukupan iznos uplata iz {{code}}: <strong>{{iznosUplata}}</strong></div>',
-    link: '<div>Transakcije {{codeFrom}} &harr; {{codeTo}}: <strong>{{ukupnoTransakcija}}</strong></div>',
+    header: `<div class="my-1"><strong>{{country}}</strong><hr class="my-1"/></div>`,
+    from: `<div class="my-1">
+      Ukupno <span class="text-success">isplata</span> iz {{codeFrom}} u {{codeTo}}: <strong>{{ukupnoIsplata}}</strong><br/>
+      Ukupan iznos <span class="text-success">isplata</span> iz {{codeFrom}} u {{codeTo}}: <strong>{{iznosIsplata}}</strong>
+    </div>`,
+    to: `<div class="my-1">
+      Ukupno <span class="text-info">uplata</span> iz {{codeTo}} u {{codeFrom}}: <strong>{{ukupnoUplata}}</strong><br/>
+      Ukupan iznos <span class="text-info">uplata</span> iz {{codeTo}} u {{codeFrom}}: <strong>{{iznosUplata}}</strong>
+    </div>`,
+    link: `<div class="my-1">Transakcije {{codeFrom}} &harr; {{codeTo}}: <strong>{{ukupnoTransakcija}}</strong></div>`,
   }
 
-
   addUser(osobaId, izvodId) {
-    console.log('Init map data...', osobaId)
-    this.activeUser = {
-      id: osobaId
-    }
+    console.log('Init map data', osobaId)
+    this.activeUser = { id: osobaId }
     let cmap = {}
+    let markers = []
+    let markersObj = []
     this.mapSvc.getInitialData(osobaId).pipe(untilComponentDestroyed(this)).subscribe(
       data => {
-        //console.log('ADX', data)
+        console.log('ADX', data)
         data.forEach(drzava => {
           cmap[drzava.drzava] = []
           //console.log('ADX2', drzava)
@@ -120,41 +126,46 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
             const markerFrom = this.vizualizeCountry(drzava.drzava, itm.smjer)
             const markerTo = this.vizualizeCountry(itm.drzavaB, itm.smjer)
             const link = this.linkCountries(drzava.drzava, itm.drzavaB)
-            markerFrom.bindTooltip(cFrom.name).openTooltip()
-            markerTo.bindTooltip(cTo.name).openTooltip()
-            markerFrom.addTo(this.map)
-            markerTo.addTo(this.map)
+            if (markers.indexOf(cFrom.code) < 0) {
+              markerFrom.bindTooltip(cFrom.name)
+              markerFrom.addTo(this.map)
+              markers.push(cFrom.code)
+              markersObj.push({code: cFrom.code, obj: markerFrom})
+            }
+            if (markers.indexOf(cTo.code) < 0) {
+              markerTo.bindTooltip(cTo.name)
+              markerTo.addTo(this.map)
+              markers.push(cTo.code)
+              markersObj.push({code: cTo.code, obj: markerTo})
+            }
             link.addTo(this.map)
 
-            let tfrom
-            let tto
-            let ttxt = ''
-            if (itm.smjer === 'out' || itm.smjer === 'inout') {
-              //tfrom = this.template.from.replace(/{{country}}/gi, cFrom.name).replace(/{{code}}/gi, cFrom.code).replace(/{{ukupnoIsplata}}/gi, itm.ukupnoIsplata).replace(/{{iznosIsplata}}/gi, itm.iznosIsplata)
-              ttxt += this.template.from.replace(/{{country}}/gi, cTo.name).replace(/{{code}}/gi, cTo.code).replace(/{{ukupnoIsplata}}/gi, itm.ukupnoIsplata).replace(/{{iznosIsplata}}/gi, itm.iznosIsplata)
-            }
-            if (itm.smjer === 'in' || itm.smjer === 'inout') {
-              //tto = this.template.to.replace(/{{country}}/gi, cTo.name).replace(/{{code}}/gi, cTo.code).replace(/{{ukupnoUplata}}/gi, itm.ukupnoUplata).replace(/{{iznosUplata}}/gi, itm.iznosUplata)
-              ttxt += this.template.to.replace(/{{country}}/gi, cTo.name).replace(/{{code}}/gi, cTo.code).replace(/{{ukupnoUplata}}/gi, itm.ukupnoUplata).replace(/{{iznosUplata}}/gi, itm.iznosUplata)
-            }
+            //console.log('GIDx', itm)
             let tlx = this.template.link.replace(/{{codeFrom}}/gi, cFrom.code).replace(/{{codeTo}}/gi, cTo.code).replace(/{{ukupnoTransakcija}}/gi, itm.ukupnoUplata + itm.ukupnoIsplata)
-            console.log('GIDx', itm)
-            //console.log(' - FRMx', tfrom)
-            //console.log(' - TOxx', tto)
-            cmap[itm.drzavaB].push({
-              //from: tfrom,
-              //to: tto,
-              text: ttxt,
-              link: tlx
-            })
-            //markerFrom.bindPopup(tfrom)
-            markerFrom.bindPopup(ttxt)
-            //markerTo.bindPopup(tto)
-            markerTo.bindPopup(ttxt)
-            link.bindPopup(tlx)//.openPopup()
+            let thdr = this.template.header.replace(/{{country}}/gi, cTo.name)
+            let ttxt = thdr
+            if (itm.smjer === 'out') {
+              ttxt += this.template.from.replace(/{{codeFrom}}/gi, cTo.code).replace(/{{codeTo}}/gi, cFrom.code).replace(/{{ukupnoIsplata}}/gi, itm.ukupnoIsplata).replace(/{{iznosIsplata}}/gi, itm.iznosIsplata)
+              cmap[itm.drzavaB].push(ttxt)
+            }
+            if (itm.smjer === 'in') {
+              ttxt += this.template.to.replace(/{{codeFrom}}/gi, cTo.code).replace(/{{codeTo}}/gi, cFrom.code).replace(/{{ukupnoUplata}}/gi, itm.ukupnoUplata).replace(/{{iznosUplata}}/gi, itm.iznosUplata)
+              cmap[itm.drzavaB].push(ttxt)
+            }
+            if (itm.smjer === 'inout') {
+              ttxt += this.template.from.replace(/{{codeFrom}}/gi, cFrom.code).replace(/{{codeTo}}/gi, cTo.code).replace(/{{ukupnoIsplata}}/gi, itm.ukupnoIsplata).replace(/{{iznosIsplata}}/gi, itm.iznosIsplata)
+              ttxt += this.template.to.replace(/{{codeFrom}}/gi, cTo.code).replace(/{{codeTo}}/gi, cFrom.code).replace(/{{ukupnoUplata}}/gi, itm.ukupnoUplata).replace(/{{iznosUplata}}/gi, itm.iznosUplata)
+              cmap[itm.drzavaB].push(ttxt)
+            }
+            link.bindPopup(tlx)
           })
         })
-        console.log('CMPX', cmap)
+        Object.getOwnPropertyNames(cmap).forEach(itm => {
+          const marker = markersObj.find(mx => { return mx.code === itm })
+          marker.obj.bindPopup(cmap[itm].join('<br/>'))
+        })
+        //console.log('CMPX', cmap)
+        //console.log('MRX', markersObj)
       }
     )
   }
@@ -162,8 +173,6 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
   onMapReady(map) {
     this.map = map
     this.isMapReady = true
-    //const vmk = this.vizualizeCountry('au', 'inout')
-    //vmk.addTo(this.map)
   }
 
   markerAtCountry(country) {
