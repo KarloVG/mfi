@@ -101,11 +101,12 @@ export class DiagramService {
     console.log('GLBX', this.network, this.nodes, this.edges)
   }
 
-  getExpandData(idOsoba: number, idIzvod: number, broj_Racuna: string): Observable<any> {
+  getExpandData(idOsoba: number, idIzvod: number, broj_Racuna: string, nodeID: string): Observable<any> {
     const request: any = {
       izvod_ID: idIzvod,
       osoba_ID: idOsoba,
-      broj_Racuna: broj_Racuna
+      broj_Racuna: broj_Racuna,
+      id: nodeID
     }
     const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'nestedData')
     return this.http.post<any>(url, request)

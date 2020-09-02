@@ -196,7 +196,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
         if (!this.expanded.has(node.id)) {
           console.log('EXPAND', node)
           const izvodId = 0
-          this.diaSvc.getExpandData(this.activeUser.id, izvodId, node.label).pipe(untilComponentDestroyed(this)).subscribe(
+          this.diaSvc.getExpandData(this.activeUser.id, izvodId, node.label, node.id).pipe(untilComponentDestroyed(this)).subscribe(
             data => {
               console.log('ENX', data)
               let payload = this.transformNodesEdges(data)
