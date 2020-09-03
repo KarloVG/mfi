@@ -17,12 +17,4 @@ export class MapDataService {
         const url = this.urlHelper.getUrl(this.MAP_CONTROLLER_NAME, idOsoba)
         return this.http.get(url)
     }
-
-    getIzvodByList(listArray): Observable<any> {
-        const request = {
-          listaIzvoda: listArray
-        }
-        const url = this.urlHelper.getUrl(this.IZVOD_CONTROLLER_NAME, 'byList')
-        return this.http.post(url, request)
-    }
 }

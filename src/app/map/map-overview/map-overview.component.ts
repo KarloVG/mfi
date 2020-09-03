@@ -162,15 +162,12 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
               ttxt += this.template.to.replace(/{{codeFrom}}/gi, cTo.code).replace(/{{codeTo}}/gi, cFrom.code).replace(/{{ukupnoUplata}}/gi, itm.ukupnoUplata).replace(/{{iznosUplata}}/gi, itm.iznosUplata)
               cmap[itm.drzavaB].push(ttxt)
             }
-            //link.bindPopup(tlx)
           })
         })
         Object.getOwnPropertyNames(cmap).forEach(itm => {
           const marker = markersObj.find(mx => { return mx.code === itm })
           marker.obj.bindPopup(cmap[itm].join('<br/>'))
         })
-        //console.log('CMPX', cmap)
-        //console.log('MRX', markersObj)
       }
     )
   }
@@ -204,9 +201,8 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
     if (res[1] && res[2]) {
       let drzavaData = rawData.find(itm => { return itm.drzava === res[1] })
       let transData = drzavaData.listaDrzava.find(itm => { return itm.drzavaB === res[2] })
-      this.mapSvc.getIzvodByList(transData.listaIzvodID).pipe(untilComponentDestroyed(this)).subscribe(
+      this.baseService.getIzvodByList(transData.listaIzvodID).pipe(untilComponentDestroyed(this)).subscribe(
         data => {
-          //console.log('LIX', data)
           this.showTransactionDetails(data.filter(itm => { return itm.a_FID === res[2] || itm.b_FID === res[2] }))
           this.expandView()
           this.contractView()

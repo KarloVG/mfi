@@ -15,7 +15,9 @@ export class ModalBaseDetailComponent implements OnInit {
   @Input() izvod: IInnerbaseItem;
   @Input() isMap: boolean = false
   isLoading: boolean = true;
-  baseTransactions: IInnerBaseDetail[] = [];
+  //baseTransactions: IInnerBaseDetail[] = [];
+  // ugly, but works; nije mi se dalo kopati po tome dublje
+  baseTransactions: any = [];
 
   constructor(
     private modal: NgbActiveModal,
@@ -27,7 +29,7 @@ export class ModalBaseDetailComponent implements OnInit {
     if (!this.isMap) {
       this.getBaseDetail()
     } else {
-      this.baseTransactions = this.izvod
+      this.baseTransactions = this.izvod as any
       this.isLoading = false
     }
   }

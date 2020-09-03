@@ -1,13 +1,15 @@
 import {Component, OnInit, OnDestroy} from '@angular/core'
 import {Network, DataSet, Node, Edge, IdType} from 'vis'
 import {DiagramService} from 'src/app/shared/services/diagram.service'
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap'
 import {SubjectService} from 'src/app/shared/services/subject.service'
 import {BaseService} from 'src/app/statement-base/services/base.service'
-import {untilComponentDestroyed} from '@w11k/ngx-componentdestroyed';
+import {ModalBaseDetailComponent} from 'src/app/statement-base/base-overview/modal-base-detail/modal-base-detail.component'
+import {untilComponentDestroyed} from '@w11k/ngx-componentdestroyed'
 
-import {registerLocaleData} from '@angular/common';
-import localeHr from '@angular/common/locales/hr';
-registerLocaleData(localeHr, 'hr');
+import {registerLocaleData} from '@angular/common'
+import localeHr from '@angular/common/locales/hr'
+registerLocaleData(localeHr, 'hr')
 
 interface Users {
   osobaID: string
@@ -48,6 +50,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     private diaSvc: DiagramService,
     private subjectService: SubjectService,
     private baseService: BaseService,
+    private ngbModalService: NgbModal
   ) {
     this.subjectId = +this.subjectService.hasToken()
     this.baseService.getBaseItems().subscribe(
@@ -83,24 +86,32 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     let idx = ctx.nodes[0]
     this.edgeActive = null
     this.nodeActive = this.nodes.get(idx)
-    console.log('SNX[%s]', this.nodeActive.type, this.nodeActive, this.nodeActive.id, this.activeUser.id)
+    console.log('SN[%s]', this.nodeActive.type, this.nodeActive, this.nodeActive.id, this.activeUser.id)
     if (this.nodeActive.type === 'user') {
       this.isSelectedActiveUser = this.nodeActive.id === this.activeUser.id
       this.nodeActive.id = this.nodeActive.id.replace(/(connectedAccount\d{1,})$/gi, '')
     } else if (this.nodeActive.type === 'account' || this.nodeActive.type === 'connectedAccount') {
       if (this.nodeActive.type === 'connectedAccount') {
-        this.nodeActive.data = {
-          brojRacuna: this.nodeActive.label? this.nodeActive.label : this.nodeActive.id,
-          swift: null,
-          banka: null,
-          brojIsplata: null,
-          brojUplata: null,
-          iznosIsplata: null,
-          iznosUplata: null,
-          brojTransakcija: null,
-        }
+        const RN = this.nodeActive.label
+        this.baseService.getIzvodByList(this.nodeActive.listaIzvoda).pipe(untilComponentDestroyed(this)).subscribe(
+          data => {
+            console.log('BSDX', data)
+            this.showConnectedAccountData(data.filter(itm => { return itm.a_RN === RN || itm.b_RN === RN }))
+            /*
+            this.nodeActive.data = {
+              brojRacuna: this.nodeActive.label? this.nodeActive.label : this.nodeActive.id,
+              swift: null,
+              banka: null,
+              brojIsplata: null,
+              brojUplata: null,
+              iznosIsplata: null,
+              iznosUplata: null,
+              brojTransakcija: null,
+            }
+            */
+          }
+        )
       }
-      console.log('CNX')
       this.isSelectedActiveUser = false
     }
   }
@@ -118,7 +129,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     this.isSelectedActiveUser = false
     if (idx) {
       let edge = this.edges.get(idx)
-      console.log('EGX', edge)
+      //console.log('SE', edge)
       if (edge.type !== 'accountOwner') {
         this.edgeActive = this.diaSvc.getTransactions(edge)
       }
@@ -131,12 +142,12 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   }
 
   addUser(userId, typeId) {
-    console.log('ADX', userId, typeId)
+    //console.log('ADX', userId, typeId)
     if (this.nodes.length > 0 || this.edges.length > 0) { this.clearNetwork() }
 
     this.diaSvc.getDiagramData(userId, 0).pipe(untilComponentDestroyed(this)).subscribe(
       data => {
-        console.log('DDX', data)
+        //console.log('DDX', data)
         let payload = this.transformNodesEdges(data)
 
         const dataContainer = payload.nodes.find(itm => { return itm.hasOwnProperty('data') })
@@ -194,18 +205,17 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
       const node = this.nodes.get(nidx)
       if (node.type === 'account') {
         if (!this.expanded.has(node.id)) {
-          console.log('EXPAND', node)
+          //console.log('EXPAND', node)
           const izvodId = 0
           this.diaSvc.getExpandData(this.activeUser.id, izvodId, node.label, node.id).pipe(untilComponentDestroyed(this)).subscribe(
             data => {
-              console.log('ENX', data)
+              //console.log('ENX', data)
               let payload = this.transformNodesEdges(data)
 
               this.nodes.add(payload.nodes)
               this.edges.add(payload.edges)
             }
           )
-
         } else {
           let nx
           try {
@@ -216,7 +226,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
           }
         }
       } else if (node.type === 'user') {
-        console.log('USRx', node, node.id, this.activeUser.id)
+        //console.log('USRx', node, node.id, this.activeUser.id)
       }
     }
   }
@@ -226,19 +236,21 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     this.edgeActive = null
     this.isSelectedActiveUser = false
     this.network.unselectAll()
-    console.log('Closed infobox')
   }
 
   expandView() {
     this.viewLevel++
-    console.log('EXPAND', this.viewLevel)
-    console.log('TXX', this.nodes, this.edges)
   }
   contractView() {
     this.viewLevel--
-    if (this.viewLevel < 0) { this.viewLevel = 0}
-    console.log('CONTRACT', this.viewLevel)
-    console.log('TXX', this.nodes, this.edges)
+    if (this.viewLevel < 0) { this.viewLevel = 0 }
+  }
+
+  showConnectedAccountData(izvod): void {
+    const modalRef = this.ngbModalService.open(ModalBaseDetailComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
+    modalRef.componentInstance.izvod = izvod
+    modalRef.componentInstance.isMap = true
+    //console.log('REF', modalRef)
   }
 
   rndmm(min, max) {

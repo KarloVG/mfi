@@ -84,4 +84,12 @@ export class BaseService {
     const url = this.urlHelper.getUrl(this.OSOBA_CONTROLLER, id.toString());
     return this.http.delete<any>(url);
   }
+
+  getIzvodByList(listArray): Observable<any> {
+      const request = {
+        listaIzvoda: listArray
+      }
+      const url = this.urlHelper.getUrl(this.IZVOD_CONTROLLER, 'byList')
+      return this.http.post(url, request)
+  }
 }

@@ -26,7 +26,8 @@
       [isSelectedActiveUser]="isSelectedActiveUser"
       [activeUser]="activeUser"
       (close)="onClosed()"
-      *ngIf="nodeActive.type === 'account' || nodeActive.type === 'connectedAccount'">
+      *ngIf="nodeActive.type === 'account'">
+      <!--*ngIf="nodeActive.type === 'account' || nodeActive.type === 'connectedAccount'">-->
     </app-accountview>
   </div>
   <div class="infobox float-left col-sm-3" *ngIf="edgeActive !== null">
