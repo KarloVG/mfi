@@ -3,6 +3,7 @@ import { LocalStoreSubjectService } from '../../services/local-store-subject.ser
 import { ToolbarInfoService } from '../../services/toolbar-info.service';
 import { take } from 'rxjs/operators';
 import { IToolbarInfo } from '../../models/toolbar-info';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-toolbar-info',
@@ -18,7 +19,8 @@ export class ToolbarInfoComponent implements OnInit {
 
   constructor(
     private localSubjectService: LocalStoreSubjectService,
-    private toolbarInfoService: ToolbarInfoService
+    private toolbarInfoService: ToolbarInfoService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -29,7 +31,16 @@ export class ToolbarInfoComponent implements OnInit {
     const token = this.localSubjectService.hasToken();
     if(token) {
       this.toolbarInfoService.getToolbarData(token).pipe(take(1)).subscribe(
-        data => { this.dateObject = data; console.log(this.dateObject) }
+        data => { 
+          if(data.maxDate && data.minDate) 
+          { 
+            this.dateObject = data; 
+          } else {
+            this.toastr.warning("Predmet ne sadrži izvod", 'Pažnja', {
+              progressBar: true,
+              timeOut: 5000
+            });
+          }}
       )
     }
   }

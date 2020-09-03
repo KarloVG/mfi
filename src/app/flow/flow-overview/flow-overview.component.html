@@ -2,11 +2,11 @@
   <app-toolbar-info [moduleFontIcon]="moduleFontIcon" [moduleName]="moduleName"></app-toolbar-info>
 </header>
 
-<div>
+<div #screen>
   <app-visualisation-toolbar (childNotification)="onChangeOsobaOrIzvod($event)" [displayType]="displayType"
     [expandViewAction]="expandView.bind(this)" [contractViewAction]="contractView.bind(this)"
     [notificationsAction]="notifications.bind(this)"
-    [exportAction]="export.bind(this)">
+    [exportAction]="export.bind(this)" (isExportActive)="exportPicture($event)">
     <!--[filterAction]="filter.bind(this)"-->
   </app-visualisation-toolbar>
 

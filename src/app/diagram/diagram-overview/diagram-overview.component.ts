@@ -1,11 +1,13 @@
-import {Component, OnInit, OnDestroy} from '@angular/core'
+import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core'
 import {Network, DataSet, Node, Edge, IdType} from 'vis'
 import {DiagramService} from 'src/app/shared/services/diagram.service'
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap'
 import {SubjectService} from 'src/app/shared/services/subject.service'
 import {BaseService} from 'src/app/statement-base/services/base.service'
-import {ModalBaseDetailComponent} from 'src/app/statement-base/base-overview/modal-base-detail/modal-base-detail.component'
 import {untilComponentDestroyed} from '@w11k/ngx-componentdestroyed'
+import {ModalBaseDetailComponent} from 'src/app/statement-base/base-overview/modal-base-detail/modal-base-detail.component'
+import { NgxCaptureService } from 'ngx-capture';
+import { BaseToBlobService } from 'src/app/shared/services/base-to-blob-service'
 
 import {registerLocaleData} from '@angular/common'
 import localeHr from '@angular/common/locales/hr'
@@ -26,6 +28,8 @@ interface Users {
   styleUrls: ['./diagram-overview.component.scss']
 })
 export class DiagramOverviewComponent implements OnInit, OnDestroy {
+  @ViewChild('screen', { static: true }) screen: any;
+
   nodes: Node = new DataSet([])
   edges: Edge = new DataSet([])
   network: Network
@@ -44,13 +48,15 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   moduleFontIcon: string = 'fas fa-sitemap'
   displayType: string = 'diagram'
 
-  subjectId: number
+  subjectId: number;
 
   public constructor(
     private diaSvc: DiagramService,
     private subjectService: SubjectService,
     private baseService: BaseService,
-    private ngbModalService: NgbModal
+    private ngbModalService: NgbModal,
+    private captureService: NgxCaptureService,
+    private baseToBlobService: BaseToBlobService
   ) {
     this.subjectId = +this.subjectService.hasToken()
     this.baseService.getBaseItems().subscribe(
@@ -183,6 +189,17 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
 
   onChangeOsobaOrIzvod(event): void {
     this.addUser(event.osobaID, event.izvodID)
+  }
+
+  exportPicture(event) {
+    if(event) {
+      this.captureService.getImage(this.screen.nativeElement, true).then(img => {
+        const replaceValue = img.replace('data:image/png;base64,', '');
+        const convertedFile = this.baseToBlobService.base64toBlob(replaceValue);
+        const url= URL.createObjectURL(convertedFile);
+        window.open(url, '_blank');
+      });
+    }
   }
 
   clearNetwork() {

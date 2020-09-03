@@ -2,7 +2,7 @@
     <app-toolbar-info [moduleFontIcon]="moduleFontIcon" [moduleName]="moduleName"></app-toolbar-info>
 </header>
 
-<div>
+<div #screen>
   <app-visualisation-toolbar
     [displayType]="displayType"
     [addUserAction]="addUser.bind(this)"
@@ -10,7 +10,8 @@
     [contractViewAction]="contractView.bind(this)"
     [notificationsAction]="notifications.bind(this)"
     [exportAction]="export.bind(this)"
-    (childNotification)="onChangeOsobaOrIzvod($event)">
+    (childNotification)="onChangeOsobaOrIzvod($event)"
+    (isExportActive)="exportPicture($event)">
     <!--[filterAction]="filter.bind(this)"-->
   </app-visualisation-toolbar>
 

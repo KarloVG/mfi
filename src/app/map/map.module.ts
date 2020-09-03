@@ -4,6 +4,7 @@ import { MapRoutingModule } from './map-routing.module';
 import { MapOverviewComponent } from './map-overview/map-overview.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet'
+import { NgxCaptureModule } from 'ngx-capture';
 
 @NgModule({
   declarations: [MapOverviewComponent],
@@ -11,7 +12,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet'
     CommonModule,
     MapRoutingModule,
     SharedModule,
-    LeafletModule
+    LeafletModule,
+    NgxCaptureModule
   ]
 })
 export class MapModule {}
