@@ -7,9 +7,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import {ModalBaseDetailComponent} from 'src/app/statement-base/base-overview/modal-base-detail/modal-base-detail.component'
 
 @NgModule({
-  declarations: [],
+  declarations: [ModalBaseDetailComponent],
   imports: [
     CommonModule,
     NgbModule,
@@ -19,6 +20,7 @@ import { FormsModule } from '@angular/forms';
     NgSelectModule,
     FormsModule
   ],
-  exports: [CommonModule,NgbModule, LayoutModule, NgxDatatableModule, SharedComponentsModule]
+  entryComponents: [ModalBaseDetailComponent],
+  exports: [CommonModule,NgbModule, LayoutModule, NgxDatatableModule, SharedComponentsModule, ModalBaseDetailComponent]
 })
 export class SharedModule {}

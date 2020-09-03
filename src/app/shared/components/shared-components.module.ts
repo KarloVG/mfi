@@ -20,7 +20,7 @@ const components = [
   PageNotFoundComponent,
   FilterAlertComponent,
   VisualisationToolbarComponent,
-  ToolbarInfoComponent,
+  ToolbarInfoComponent
 ];
 
 @NgModule({
@@ -40,4 +40,4 @@ const components = [
     }
   ]
 })
-export class SharedComponentsModule { }
+export class SharedComponentsModule {}

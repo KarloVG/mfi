@@ -30,7 +30,7 @@ export class AccountviewComponent implements OnInit, OnDestroy {
     private diaSvc: DiagramService,
     private finTranSvc: FinancijskaTransakcijaService,
     private ngbModalService: NgbModal
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     console.log('INX', this.node, this.activeUser)

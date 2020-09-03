@@ -13,6 +13,7 @@ import { take } from 'rxjs/operators';
 export class ModalBaseDetailComponent implements OnInit {
 
   @Input() izvod: IInnerbaseItem;
+  @Input() isMap: boolean = false
   isLoading: boolean = true;
   baseTransactions: IInnerBaseDetail[] = [];
 
@@ -22,8 +23,13 @@ export class ModalBaseDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // console.log('IZVOD', this.izvod)
-    this.getBaseDetail();
+    //console.log('IZVOD', this.izvod)
+    if (!this.isMap) {
+      this.getBaseDetail()
+    } else {
+      this.baseTransactions = this.izvod
+      this.isLoading = false
+    }
   }
 
   getBaseDetail() {

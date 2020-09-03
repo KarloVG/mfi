@@ -11,7 +11,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet'
     CommonModule,
     MapRoutingModule,
     SharedModule,
-    LeafletModule,
+    LeafletModule
   ]
 })
 export class MapModule {}

@@ -2,6 +2,8 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {tileLayer, latLng, circle, polygon, marker, circleMarker, polyline, rectangle} from 'leaflet';
 import {SubjectService} from 'src/app/shared/services/subject.service'
 import {BaseService} from 'src/app/statement-base/services/base.service'
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap'
+import {ModalBaseDetailComponent} from 'src/app/statement-base/base-overview/modal-base-detail/modal-base-detail.component'
 import {untilComponentDestroyed} from '@w11k/ngx-componentdestroyed';
 import {MapDataService} from '../services/map-data.service'
 
@@ -27,6 +29,7 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
   subjectId: number
 
   dataMap = {}
+  rawData = []
 
   map: any
   isMapReady: boolean = false
@@ -39,7 +42,7 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
 
   options = {
     layers: this.layers,
-    zoom: 5,
+    zoom: 3,
     center: latLng(45.763081899999996, 15.9966221)
   };
 
@@ -51,9 +54,9 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
 
   polyOpts = {
     smoothFactor: 8,
-    weight: 8,
+    weight: 6,
     color: '#444',
-    dashArray: '8 12'
+    //dashArray: '8 12'
   }
 
   circleOpts = {
@@ -72,6 +75,7 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
     private subjectService: SubjectService,
     private baseService: BaseService,
     private mapSvc: MapDataService,
+    private ngbModalService: NgbModal
   ) {
     Object.assign(this, {countriesLatLng})
     this.subjectId = +this.subjectService.hasToken()
@@ -103,7 +107,9 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
       Ukupno <span class="text-info">uplata</span> iz {{codeTo}} u {{codeFrom}}: <strong>{{ukupnoUplata}}</strong><br/>
       Ukupan iznos <span class="text-info">uplata</span> iz {{codeTo}} u {{codeFrom}}: <strong>{{iznosUplata}}</strong>
     </div>`,
-    link: `<div class="my-1">Transakcije {{codeFrom}} &harr; {{codeTo}}: <strong>{{ukupnoTransakcija}}</strong></div>`,
+    link: `<div class="m-2">
+      Transakcije {{codeFrom}} &harr; {{codeTo}}: <strong>{{ukupnoTransakcija}}</strong>
+    </div>`,
   }
 
   addUser(osobaId, izvodId) {
@@ -114,7 +120,8 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
     let markersObj = []
     this.mapSvc.getInitialData(osobaId).pipe(untilComponentDestroyed(this)).subscribe(
       data => {
-        console.log('ADX', data)
+        this.rawData = data
+        console.log('ADX', this.rawData)
         data.forEach(drzava => {
           cmap[drzava.drzava] = []
           //console.log('ADX2', drzava)
@@ -125,7 +132,7 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
 
             const markerFrom = this.vizualizeCountry(drzava.drzava, itm.smjer)
             const markerTo = this.vizualizeCountry(itm.drzavaB, itm.smjer)
-            const link = this.linkCountries(drzava.drzava, itm.drzavaB)
+            const link = this.linkCountries(drzava.drzava, itm.drzavaB, 'Transakcije ', ': <strong>' + (itm.ukupnoUplata + itm.ukupnoIsplata) + '</strong>', 'code')
             if (markers.indexOf(cFrom.code) < 0) {
               markerFrom.bindTooltip(cFrom.name)
               markerFrom.addTo(this.map)
@@ -140,8 +147,6 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
             }
             link.addTo(this.map)
 
-            //console.log('GIDx', itm)
-            let tlx = this.template.link.replace(/{{codeFrom}}/gi, cFrom.code).replace(/{{codeTo}}/gi, cTo.code).replace(/{{ukupnoTransakcija}}/gi, itm.ukupnoUplata + itm.ukupnoIsplata)
             let thdr = this.template.header.replace(/{{country}}/gi, cTo.name)
             let ttxt = thdr
             if (itm.smjer === 'out') {
@@ -157,7 +162,7 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
               ttxt += this.template.to.replace(/{{codeFrom}}/gi, cTo.code).replace(/{{codeTo}}/gi, cFrom.code).replace(/{{ukupnoUplata}}/gi, itm.ukupnoUplata).replace(/{{iznosUplata}}/gi, itm.iznosUplata)
               cmap[itm.drzavaB].push(ttxt)
             }
-            link.bindPopup(tlx)
+            //link.bindPopup(tlx)
           })
         })
         Object.getOwnPropertyNames(cmap).forEach(itm => {
@@ -182,22 +187,41 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
     return mrk
   }
 
-  linkCountries(fromCountry, toCountry) {
+  linkCountries(fromCountry, toCountry, textPre = null, textPost = null, type:string = 'name') {
     const cFrom = this.getCountryData(fromCountry)
     const cTo = this.getCountryData(toCountry)
     const ply = polyline([cFrom, cTo], this.polyOpts)
-    ply.bindTooltip(cFrom.name + ' &harr; ' + cTo.name).openTooltip()
+    ply.bindTooltip((textPre? textPre : '') + cFrom[type] + ' &harr; ' + cTo[type] + (textPost? textPost : '')).openTooltip()
+    ply.on('click', evt => { this.tooltipHandler(evt, this.rawData)})
+    //console.log('Poly [%s]-[%s] center:', cFrom.code, cTo.code, ply.getCenter())
     return ply
   }
 
+  tooltipHandler(evt, rawData) {
+    const tooltipText = evt.target._tooltip._content
+    const rgx = new RegExp('^[T\\w\\s]{1,}([A-Z]{2})\\s\\&harr;\\s([A-Z]{2})[:\\s<>a-z0-9/]{1,}', 'gi')
+    const res = rgx.exec(tooltipText)
+    if (res[1] && res[2]) {
+      let drzavaData = rawData.find(itm => { return itm.drzava === res[1] })
+      let transData = drzavaData.listaDrzava.find(itm => { return itm.drzavaB === res[2] })
+      this.mapSvc.getIzvodByList(transData.listaIzvodID).pipe(untilComponentDestroyed(this)).subscribe(
+        data => {
+          //console.log('LIX', data)
+          this.showTransactionDetails(data.filter(itm => { return itm.a_FID === res[2] || itm.b_FID === res[2] }))
+          this.expandView()
+          this.contractView()
+        }
+      )
+    }
+  }
+
   vizualizeCountry(country, type) {
-    const cmll = this.getCountryData(country)
+    const countryData = this.getCountryData(country)
     const vcDefaultOpts = {color: '#555', fillColor: '#aaa'}
     let typeOpts = this.circleOptsTypes[type]
     typeOpts = typeOpts? typeOpts : vcDefaultOpts
-    const cmk = circle(cmll, {radius: cmll.radius || 100000, ...typeOpts, ...this.circleOpts})
-    //console.log('VCX', cmll, cmll.radius || 100000, cmk)
-    return cmk
+    const circleViz = circle(countryData, {radius: countryData.radius || 100000, ...typeOpts, ...this.circleOpts})
+    return circleViz
   }
 
   getCountryData(code) {
@@ -207,23 +231,26 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
   zoomControl(evt) {
     this.zoom = this.map.getZoom()
   }
-  mapClick(evt) {
-    console.log('CLICK!', evt)
-  }
+  mapClick(evt) {}
 
   expandView() {
     this.zoom = this.map.getZoom()
     this.zoom++
     if (this.zoom > this.maxZoom) { this.zoom = this.maxZoom }
-    //console.log('ZOOM+', this.zoom)
     this.map.setZoom(this.zoom)
   }
   contractView() {
     this.zoom = this.map.getZoom()
     this.zoom--
     if (this.zoom < 2) { this.zoom = 2 }
-    //console.log('ZOOM-', this.zoom)
     this.map.setZoom(this.zoom)
+  }
+
+  showTransactionDetails(izvod): void {
+    const modalRef = this.ngbModalService.open(ModalBaseDetailComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
+    modalRef.componentInstance.izvod = izvod
+    modalRef.componentInstance.isMap = true
+    //console.log('REF', modalRef)
   }
 
   notifications() {

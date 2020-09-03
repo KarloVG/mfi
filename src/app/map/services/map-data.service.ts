@@ -8,11 +8,21 @@ import { Observable } from 'rxjs';
 })
 export class MapDataService {
 
-    private readonly CONTROLLER_NAME = 'Map';
+    private readonly MAP_CONTROLLER_NAME = 'Map';
+    private readonly IZVOD_CONTROLLER_NAME = 'Izvod';
+
     constructor(private http: HttpClient, private urlHelper: UrlHelperService) { }
 
     getInitialData(idOsoba: any): Observable<any> {
-        const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, idOsoba)
+        const url = this.urlHelper.getUrl(this.MAP_CONTROLLER_NAME, idOsoba)
         return this.http.get(url)
+    }
+
+    getIzvodByList(listArray): Observable<any> {
+        const request = {
+          listaIzvoda: listArray
+        }
+        const url = this.urlHelper.getUrl(this.IZVOD_CONTROLLER_NAME, 'byList')
+        return this.http.post(url, request)
     }
 }

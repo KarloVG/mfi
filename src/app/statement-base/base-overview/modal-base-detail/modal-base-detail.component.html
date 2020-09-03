@@ -7,7 +7,7 @@
 
 <div class="modal-body">
     <ngb-tabset #t="ngbTabset" class="nav-tabss">
-        <ngb-tab id="tab-selectbyid1" title="Detalji o izvodu">
+        <ngb-tab id="tab-selectbyid1" title="Detalji o izvodu" *ngIf="isMap === false">
             <ng-template ngbTabContent>
                 <div class="card mt-3">
                     <div class="card-header">
@@ -56,6 +56,7 @@
                 </div>
             </ng-template>
         </ngb-tab>
+
         <ngb-tab id="tab-selectbyid2">
             <ng-template ngbTabTitle>
                 Financijske transakcije na izvodu
