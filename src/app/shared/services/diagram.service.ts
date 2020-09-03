@@ -121,10 +121,6 @@ export class DiagramService {
     return this.http.post<any>(url, request)
   }
 
-  getAllUsers() {
-    return this.allUsers
-  }
-
   getPerson(id) {
     const person = this.allUsers.find(itm => { return itm.id === id })
     const accountIdList = this.allAccs.filter(itm => { return itm.userId === id }).map(itm => { return itm.id })
@@ -139,38 +135,6 @@ export class DiagramService {
       totalIn: person.totalIn,
       totalOut: person.totalOut,
       accounts: accountIdList
-    }
-  }
-
-  getUserAccounts(id) {
-    const accsList = this.allAccs.filter(itm => { return itm.userId === id })
-    let nodes = []
-    let edges = []
-    accsList.forEach(itm => {
-      const trans = this.getAccountTransactions(itm.id)
-      nodes.push({
-        ...{
-          id: itm.id,
-          label: itm.accNo + '\r\n' + itm.swift,
-          type: 'account',
-          mass: 1,
-          transactions: trans
-        },
-        ...this.options.account
-      })
-      edges.push({
-        ...{
-          from: id,
-          to: itm.id,
-          type: 'accountOwner'
-        },
-        ...this.options.accountOwner
-      })
-    })
-
-    return {
-      nodes: nodes,
-      edges: edges
     }
   }
 
@@ -224,95 +188,6 @@ export class DiagramService {
     }
   }
 
-  findConnectedNodes(node, activeUserId?) {
-    const acc = this.getAccounts(node.id)
-    let trIn = acc.transactions.transactions.inbound
-    let trOut = acc.transactions.transactions.outbound
-    let accsInList = [...new Set(trIn.flatMap(itm => { return itm.dest}))]
-    let accsOutList = [...new Set(trOut.flatMap(itm => { return itm.dest}))]
-
-    let nodes = []
-    let edges = []
-    if (accsInList[0] === null) { accsInList = [] }
-    if (accsInList.length > 1) {
-      accsInList.forEach(itm => {
-        let itmAcc = this.getAccounts(itm)
-        const trans = this.getAccountTransactions(itm)
-        let type = 'account'
-        if (activeUserId) {
-          try {
-            type = itmAcc.userId === activeUserId? 'account' : 'connectedAccount'
-          } catch(e) {
-            type = 'account'
-          }
-        }
-        nodes.push({
-          ...{
-            id: itmAcc.id, // HERE
-            label: itmAcc.accNo + '\r\n' + itmAcc.swift,
-            type: 'account',
-            mass: 1,
-            account: itmAcc,
-            transactions: trans,
-          },
-          ...this.options[type]
-        })
-        edges.push({
-          ...{
-            from: node.id,
-            to: itmAcc.id,
-            title: accsInList.length,
-            label: accsInList.length,
-            type: 'transactionInbound'
-          },
-          ...this.options.transactionInbound
-        })
-      })
-    }
-    if (accsOutList[0] === null) { accsOutList = [] }
-    if (accsOutList.length > 1) {
-      accsOutList.forEach(itm => {
-        let itmAcc = this.getAccounts(itm)
-        const trans = this.getAccountTransactions(itm)
-        console.log('HLOx', itm, itmAcc, trans)
-        let type = 'account'
-        if (activeUserId) {
-          try {
-            type = itmAcc.userId === activeUserId? 'account' : 'connectedAccount'
-          } catch(e) {
-            type = 'account'
-          }
-        }
-        nodes.push({
-          ...{
-            id: itmAcc.id, // HERE
-            label: itmAcc.accNo + '\r\n' + itmAcc.swift,
-            type: 'account',
-            mass: 1,
-            account: itmAcc,
-            transactions: trans,
-          },
-          ...this.options[type]
-        })
-        edges.push({
-          ...{
-            from: node.id,
-            to: itmAcc.id,
-            title: accsOutList.length,
-            label: accsOutList.length,
-            type: 'transactionOutbound'
-          },
-          ...this.options.transactionOutbound
-        })
-      })
-    }
-
-    return {
-      nodes: nodes,
-      edges: edges
-    }
-  }
-
   findParentUser(node, activeUserId?) {
     let user = this.getPerson(node.account.userId)
     let accounts = this.intersect(this.nodes.getIds(), user.accounts)
@@ -352,9 +227,6 @@ export class DiagramService {
     }
   }
 
-  addNode(node: any) {
-    this.nodes.update(node)
-  }
   addNodes(nodeArray: any) {
     if (nodeArray instanceof Array) {
       nodeArray.forEach(itm => {
@@ -370,9 +242,6 @@ export class DiagramService {
     } else {
       console.warn('Error in input format.', nodeArray)
     }
-  }
-  addEdge(edge) {
-    this.edges.update(edge)
   }
 
   private intersect(a, b) {
