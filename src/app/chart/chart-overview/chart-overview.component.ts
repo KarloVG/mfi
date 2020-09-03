@@ -1,10 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ChartType, ChartOptions, ChartDataSets } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { ChartService } from '../services/chart-service';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { IChartResponse } from '../models/chart-response';
+import { NgxCaptureService } from 'ngx-capture';
+import { BaseToBlobService } from 'src/app/shared/services/base-to-blob-service';
 
 @Component({
   selector: 'app-chart-overview',
@@ -19,9 +21,12 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
 
   chartResponseData: IChartResponse;
   constructor(
-    private chartService: ChartService
+    private chartService: ChartService,
+    private captureService: NgxCaptureService,
+    private baseToBlobService: BaseToBlobService
   ) { }
 
+  @ViewChild('screen', { static: true }) screen: any;
   zbrojIsplata: number = 0;
   zbrojUplata: number = 0;
   pieChartOptions: ChartOptions = {
@@ -149,6 +154,17 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
           );
         }
       )
+    }
+  }
+
+  exportPicture(event) {
+    if(event) {
+      this.captureService.getImage(this.screen.nativeElement, true).then(img => {
+        const replaceValue = img.replace('data:image/png;base64,', '');
+        const convertedFile = this.baseToBlobService.base64toBlob(replaceValue);
+        const url= URL.createObjectURL(convertedFile);
+        window.open(url, '_blank');
+      });
     }
   }
 

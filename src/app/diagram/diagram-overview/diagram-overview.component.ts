@@ -1,12 +1,13 @@
-import {Component, OnInit, OnDestroy} from '@angular/core'
+import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core'
 import {Network, DataSet, Node, Edge, IdType} from 'vis'
 import {DiagramService} from 'src/app/shared/services/diagram.service'
 import {SubjectService} from 'src/app/shared/services/subject.service'
 import {BaseService} from 'src/app/statement-base/services/base.service'
 import {untilComponentDestroyed} from '@w11k/ngx-componentdestroyed';
-
+import { NgxCaptureService } from 'ngx-capture';
 import {registerLocaleData} from '@angular/common';
 import localeHr from '@angular/common/locales/hr';
+import { BaseToBlobService } from 'src/app/shared/services/base-to-blob-service'
 registerLocaleData(localeHr, 'hr');
 
 interface Users {
@@ -42,12 +43,15 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   moduleFontIcon: string = 'fas fa-sitemap'
   displayType: string = 'diagram'
 
-  subjectId: number
+  @ViewChild('screen', { static: true }) screen: any;
+  subjectId: number;
 
   public constructor(
     private diaSvc: DiagramService,
     private subjectService: SubjectService,
     private baseService: BaseService,
+    private captureService: NgxCaptureService,
+    private baseToBlobService: BaseToBlobService
   ) {
     this.subjectId = +this.subjectService.hasToken()
     this.baseService.getBaseItems().subscribe(
@@ -172,6 +176,17 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
 
   onChangeOsobaOrIzvod(event): void {
     this.addUser(event.osobaID, event.izvodID)
+  }
+
+  exportPicture(event) {
+    if(event) {
+      this.captureService.getImage(this.screen.nativeElement, true).then(img => {
+        const replaceValue = img.replace('data:image/png;base64,', '');
+        const convertedFile = this.baseToBlobService.base64toBlob(replaceValue);
+        const url= URL.createObjectURL(convertedFile);
+        window.open(url, '_blank');
+      });
+    }
   }
 
   clearNetwork() {

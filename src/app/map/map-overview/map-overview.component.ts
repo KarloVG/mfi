@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import {tileLayer, latLng, circle, polygon, marker, circleMarker, polyline, rectangle} from 'leaflet';
 import {SubjectService} from 'src/app/shared/services/subject.service'
 import {BaseService} from 'src/app/statement-base/services/base.service'
@@ -10,6 +10,8 @@ import localeHr from '@angular/common/locales/hr';
 registerLocaleData(localeHr, 'hr');
 
 import {countriesLatLng} from '../countries'
+import { NgxCaptureService } from 'ngx-capture';
+import { BaseToBlobService } from 'src/app/shared/services/base-to-blob-service';
 
 @Component({
   selector: 'app-map-overview',
@@ -21,7 +23,7 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
   moduleFontIcon: string = 'fas fa-map';
   displayType: string = 'map'
   countriesLatLng: any[]
-
+  @ViewChild('screen', { static: true }) screen: any;
   activeUser: any
   usersList: any[]
   subjectId: number
@@ -72,6 +74,8 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
     private subjectService: SubjectService,
     private baseService: BaseService,
     private mapSvc: MapDataService,
+    private captureService: NgxCaptureService,
+    private baseToBlobService: BaseToBlobService
   ) {
     Object.assign(this, {countriesLatLng})
     this.subjectId = +this.subjectService.hasToken()
@@ -180,6 +184,17 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
     const mrk = marker([cdata.lat, cdata.lng])
     mrk.bindTooltip(cdata.name).openTooltip()
     return mrk
+  }
+
+  exportPicture(event) {
+    if(event) {
+      this.captureService.getImage(this.screen.nativeElement, true).then(img => {
+        const replaceValue = img.replace('data:image/png;base64,', '');
+        const convertedFile = this.baseToBlobService.base64toBlob(replaceValue);
+        const url= URL.createObjectURL(convertedFile);
+        window.open(url, '_blank');
+      });
+    }
   }
 
   linkCountries(fromCountry, toCountry) {

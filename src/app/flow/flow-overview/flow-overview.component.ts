@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartType, ChartOptions, ChartDataSets } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
@@ -8,6 +8,8 @@ import { NgbDateParserFormatter, NgbDatepickerI18n } from '@ng-bootstrap/ng-boot
 import { NgbDateCustomParserFormatter } from 'src/app/shared/utils/ngb-date-custom-parser-formatter';
 import { CustomDatepickerI18n } from 'src/app/shared/utils/custom-date-picker-i18n';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { BaseToBlobService } from 'src/app/shared/services/base-to-blob-service';
+import { NgxCaptureService } from 'ngx-capture';
 
 @Component({
   selector: 'app-flow-overview',
@@ -29,6 +31,8 @@ export class FlowOverviewComponent implements OnInit {
     DatumOd: [null, Validators.required],
     DatumDo: [null, Validators.required]
   });
+  
+  @ViewChild('screen', { static: true }) screen: any;
 
   // basic graph vars
   displayType: string = 'flow'
@@ -115,7 +119,9 @@ export class FlowOverviewComponent implements OnInit {
   ];
   constructor(
     private flowService: FlowService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private baseToBlobService: BaseToBlobService,
+    private captureService: NgxCaptureService
   ) { }
 
   ngOnInit(): void { }
@@ -152,6 +158,17 @@ export class FlowOverviewComponent implements OnInit {
       this.flowFormGroup.markAllAsTouched();
       // triggers invalid-feedback class
       return;
+    }
+  }
+
+  exportPicture(event) {
+    if(event) {
+      this.captureService.getImage(this.screen.nativeElement, true).then(img => {
+        const replaceValue = img.replace('data:image/png;base64,', '');
+        const convertedFile = this.baseToBlobService.base64toBlob(replaceValue);
+        const url= URL.createObjectURL(convertedFile);
+        window.open(url, '_blank');
+      });
     }
   }
 

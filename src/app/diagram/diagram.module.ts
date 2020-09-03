@@ -10,6 +10,7 @@ import { TransactionviewComponent } from './transactionview/transactionview.comp
 import { ModalTransactionviewDetailComponent } from './transactionview/modal-transactionview-detail/modal-transactionview-detail.component';
 import { ModalAccountviewDetailComponent } from './accountview/modal-accountview-detail/modal-accountview-detail.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { NgxCaptureModule } from 'ngx-capture';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     DiagramRoutingModule,
     FormsModule,
     SharedModule,
+    NgxCaptureModule
   ],
   entryComponents: [ ModalTransactionviewDetailComponent, ModalAccountviewDetailComponent ]
 })

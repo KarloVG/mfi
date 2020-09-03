@@ -45,6 +45,7 @@ export class VisualisationToolbarComponent implements OnInit {
   @Input() exportAction: any
 
   @Output() childNotification: EventEmitter<any> = new EventEmitter<any>();
+  @Output() isExportActive: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   typesList: Types[]
   osobe: IOsobaDropdown[] = [];
@@ -71,6 +72,10 @@ export class VisualisationToolbarComponent implements OnInit {
       data => {  this.osobe = data;  }
     );
     this.hasActiveFilter();
+  }
+
+  exportPicture() {
+    this.isExportActive.emit(true);
   }
 
   passDataToParent() {
