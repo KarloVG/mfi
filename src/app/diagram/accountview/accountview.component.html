@@ -5,16 +5,16 @@
         <small class="fas fa-times"></small>
       </a>
     </span>
-    <section *ngIf="isSelectedActiveUser">
+    <section *ngIf="isSelectedActiveUser && node.data">
       <div>Broj računa: <strong>{{node.data.brojRacuna}}</strong></div>
       <div>SWIFT/BIC banke: <span>{{node.data.swift}}</span></div>
       <div>Naziv banke: <span>{{node.data.banka}}</span></div>
     </section>
-    <section *ngIf="!isSelectedActiveUser">
+    <section *ngIf="!isSelectedActiveUser && node.data">
       <div><strong>Račun: {{node.data.brojRacuna}}</strong></div>
     </section>
   </div>
-  <div class="card-body" *ngIf="node.type === 'account'">
+  <div class="card-body" *ngIf="(node.type === 'account' || node.type === 'connectedAccount') && node.data">
     <div class="card mb-2">
       <div class="card-body">
         <div *ngIf="!isSelectedActiveUser">
