@@ -14,6 +14,8 @@ registerLocaleData(localeHr, 'hr');
 import {countriesLatLng} from '../countries'
 import { NgxCaptureService } from 'ngx-capture';
 import { BaseToBlobService } from 'src/app/shared/services/base-to-blob-service';
+import domtoimage from 'dom-to-image';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-map-overview',
@@ -79,9 +81,7 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
     private subjectService: SubjectService,
     private baseService: BaseService,
     private mapSvc: MapDataService,
-    private ngbModalService: NgbModal,
-    private captureService: NgxCaptureService,
-    private baseToBlobService: BaseToBlobService
+    private ngbModalService: NgbModal
   ) {
     Object.assign(this, {countriesLatLng})
     this.subjectId = +this.subjectService.hasToken()
@@ -191,14 +191,13 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
   }
 
   exportPicture(event) {
-    if(event) {
-      this.captureService.getImage(this.screen.nativeElement, true).then(img => {
-        const replaceValue = img.replace('data:image/png;base64,', '');
-        const convertedFile = this.baseToBlobService.base64toBlob(replaceValue);
-        const url= URL.createObjectURL(convertedFile);
-        window.open(url, '_blank');
-      });
-    }
+    domtoimage.toJpeg(document.getElementById('screen'), { quality: 0.95 })
+    .then(function (dataUrl) {
+        var link = document.createElement('a');
+        link.download = 'mapa_' + formatDate(new Date(), 'dd-MM-yyyy', 'hr');;
+        link.href = dataUrl;
+        link.click();
+    });
   }
 
   linkCountries(fromCountry, toCountry, textPre = null, textPost = null, type:string = 'name') {
