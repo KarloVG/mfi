@@ -10,11 +10,10 @@
     </ul>
   </div>
   <div class="d-flex justify-content-between">
-    <h5 *ngIf="predmet; else noPredmet" class="font-weight-bold m-0 mr-3">
-      Predmet: {{ predmet.nazivPredmeta }}
-      <br>
-      <p class="text-muted text-center m-0">{{ predmet.brojPredmeta }}</p>
-    </h5>
+    <div *ngIf="predmet; else noPredmet" class="font-weight-bold h6 m-0 mr-3 mt-2">
+      <div class="mb-1">Predmet: {{ predmet.nazivPredmeta }}</div>
+      <div class="text-muted text-center m-0">{{ predmet.brojPredmeta }}</div>
+    </div>
     <ng-template #noPredmet>
       <p class="text-info text-uppercase d-flex justify-content-end flex-column m-0 mr-3">
         Predmet nije otvoren
@@ -23,7 +22,7 @@
 
     <div>
       <div class="text-center">
-        <button class="btn btn-outline-primary btn-user" style="cursor:default;">
+        <button class="btn btn-outline-primary btn-user" style="cursor: default;">
           <i class="fas fa-user"></i>
         </button>
       </div>

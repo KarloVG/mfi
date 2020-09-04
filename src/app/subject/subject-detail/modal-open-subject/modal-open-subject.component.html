@@ -8,12 +8,12 @@
     <form [formGroup]="existingSubjectGroup" (ngSubmit)="onSubmit()" #myForm="ngForm">
         <div class="card-body">
             <div class="filter-group">
-                <h6 class="mb-3">Filter predmeta</h6>
+                <h6 class="mb-3"><strong>Filter predmeta</strong></h6>
                 <div class="form-group row mb-3">
                     <label for="StatusPredmeta" class="col-sm-4 col-form-label">
                         Status predmeta
                     </label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-8 col-md-6 col-lg-4">
                         <ng-select [items]="subjectStatuses" bindLabel="name" bindValue="statusPredmetaID" labelForId="state"
                             placeholder="Izaberi..." clearAllText="Clear" formControlName="StatusPredmeta"
                             [ngClass]="{'is-invalid': StatusPredmeta.invalid && (StatusPredmeta.dirty || StatusPredmeta.touched || myForm.submitted)}">
@@ -24,10 +24,8 @@
                     <label for="Email" class="col-sm-12 mb-2 col-form-label">
                         Datum otvaranja predmeta
                     </label>
-                    <label for="Email" class="col-sm-2 col-form-label">
-                        od
-                    </label>
-                    <div class="col-sm-4 input-group">
+                    <label for="DatumOtvaranjaOd" class="col-sm-2 mb-1 col-form-label">od</label>
+                    <div class="col-sm-10 col-md-10 col-lg-4 mb-1 input-group">
                         <input class="form-control" placeholder="dan.mjesec.godina" name="dp2"
                             formControlName="DatumOtvaranjaOd" ngbDatepicker #d2="ngbDatepicker" [readonly]="true"
                             [minDate]="{year: 2000, month: 1, day: 1}" placement="top">
@@ -36,10 +34,8 @@
                                 type="button"><span class="fas fa-calendar"></span></button>
                         </div>
                     </div>
-                    <label for="Email" class="col-sm-2 col-form-label text-center">
-                        do
-                    </label>
-                    <div class="col-sm-4 input-group">
+                    <label for="DatumOtvaranjaDo" class="col-sm-2 mb-1 col-form-label text-center">do</label>
+                    <div class="col-sm-10 col-md-10 col-lg-4 mb-1 input-group">
                         <input class="form-control" placeholder="dan.mjesec.godina" name="dp1"
                             formControlName="DatumOtvaranjaDo" ngbDatepicker #d1="ngbDatepicker" [readonly]="true" placement="top"
                             [minDate]="{year: 2000, month: 1, day: 1}">
@@ -51,7 +47,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4 offset-8">
+                    <div class="col-sm-12 col-lg-4 offset-lg-8">
                         <button type="button" class="btn btn-outline-secondary" (click)="clearFilters()">
                           <span class="fas fa-times"></span>
                           <span class="ml-2">Poništi</span>
