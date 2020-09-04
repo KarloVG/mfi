@@ -5,6 +5,7 @@ import { UrlHelperService } from 'src/app/shared/services/url-helper.service';
 import {Network, DataSet, Node, Edge, IdType} from 'vis'
 import {BaseService} from 'src/app/statement-base/services/base.service'
 import {SubjectService} from 'src/app/shared/services/subject.service'
+import { IDiagramAccountDetailResponse } from 'src/app/diagram/models/DiagramAccountDetailResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -91,6 +92,15 @@ export class DiagramService {
         console.warn('ERR', err)
       }
     )
+  }
+
+  getDiagramAccountDetail(ListaIzvoda: number[], BrojRacuna: string): Observable<IDiagramAccountDetailResponse> {
+    const url = this.CONTROLLER_NAME + 'accountDetail';
+    const request = {
+      listaIzvoda: ListaIzvoda,
+      brojRacuna: BrojRacuna
+    };
+    return this.http.post<IDiagramAccountDetailResponse>(url, request)
   }
 
   assignNetwork(network, data, nodes, edges) {
