@@ -221,7 +221,7 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
         data => {
           this.showTransactionDetails(data.filter(itm => { return itm.a_FID === res[2] || itm.b_FID === res[2] }))
           this.expandView()
-          this.contractView()
+          setTimeout(() => { this.contractView() },50)
         }
       )
     }
