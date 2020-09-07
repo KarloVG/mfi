@@ -135,10 +135,10 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   }
 
   addUser(userId, typeId) {
-    //console.log('ADX', userId, typeId)
+    console.log('ADX', userId, typeId)
     if (this.nodes.length > 0 || this.edges.length > 0) { this.clearNetwork() }
 
-    this.diaSvc.getDiagramData(userId, 0).pipe(untilComponentDestroyed(this)).subscribe(
+    this.diaSvc.getDiagramData(userId, typeId).pipe(untilComponentDestroyed(this)).subscribe(
       data => {
         //console.log('DDX', data)
         let payload = this.transformNodesEdges(data)
