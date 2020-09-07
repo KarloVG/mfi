@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { BaseDetailService } from 'src/app/statement-base/services/base-detail.service';
 import { IInnerBaseDetail } from 'src/app/statement-base/models/inner-base-detail';
 import { take } from 'rxjs/operators';
@@ -17,7 +17,7 @@ import { TableService } from '../services/table.service';
 import { IPagedResult } from 'src/app/shared/models/pagination/paged-result';
 import { BasePaginationComponent } from 'src/app/shared/components/base-pagination/base-pagination.component';
 import { IPaginationBase } from 'src/app/shared/models/pagination/pagination-base';
-import { SelectionType } from '@swimlane/ngx-datatable';
+import { SelectionType, DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-table-overview',
@@ -26,7 +26,6 @@ import { SelectionType } from '@swimlane/ngx-datatable';
 })
 export class TableOverviewComponent extends BasePaginationComponent implements OnInit, OnDestroy {
 
-  filterValue: string;
   isActiveFilter: boolean = false;
   modalFilterValues: IFilterCriteria;
   moduleName: string = 'Tablica financijskih transakcija';
@@ -34,7 +33,6 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
   displayType: string = 'table'
 
   financijskeTransakcije: IFinancijskaTransakcija[] = [];
-  staticValue: IPagedResult<IFinancijskaTransakcija>;
 
   //selection
   SelectionType = SelectionType;
@@ -45,6 +43,7 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
   readonly pageSize = 10;
   pagedResult: IPagedResult<IFinancijskaTransakcija>;
   paginationRequest: IPaginationBase;
+  @ViewChild(DatatableComponent, { static: false }) table: DatatableComponent;
 
   constructor(
     private ngbModalService: NgbModal,
@@ -72,12 +71,10 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
     pagination methods
   */
   fetchPage() {
-    console.log('tu')
     this.tableService.getTransakcijeFromIzvod(this.paginationRequest).pipe(
       untilComponentDestroyed(this)).subscribe(pagedResult => {
         this.isLoading = false;
         this.pagedResult = pagedResult;
-        this.staticValue = pagedResult;
       });
   }
 
@@ -89,8 +86,10 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
 
   onSort(event) {
     this.isLoading = true;
-    const orderByValue = event.newValue === 'asc' ? event.column.name : `-${event.column.name}`;
+    const orderByValue = event.newValue === 'asc' ? event.column.prop : `-${event.column.prop}`;
     this.paginationRequest.orderBy = orderByValue;
+    this.table.bodyComponent.updateOffsetY(this.currentPage);
+    this.table.offset = this.currentPage;
     this.fetchPage();
   }
 
@@ -106,20 +105,6 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
   /* 
     component methods
   */
-
-  filterUserTable(): void {
-    let searchVal = this.filterValue.toLowerCase()
-    let keys = Object.keys(this.pagedResult.model[0]);
-    let colsAmt = keys.length + 1;
-    this.pagedResult.model = this.staticValue.model.filter(function (item) {
-      for (let i = 0; i < colsAmt; i++) {
-        if (item[keys[i]] != null && item[keys[i]].toString().toLowerCase().indexOf(searchVal) !== -1 || !searchVal) {
-          return true;
-        }
-      }
-    });
-  }
-
   onSelect({ selected }) {
     console.log('Select Event', selected, this.selected);
 
@@ -128,8 +113,9 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
   }
 
   removeFilter(): void {
-    this.filterValue = '';
-    this.pagedResult.model = this.staticValue.model;
+    this.paginationRequest.searchString = '';
+    this.paginationRequest.page = 1;
+    this.fetchPage();
   }
 
   openFilterModal() {

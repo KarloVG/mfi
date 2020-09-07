@@ -27,6 +27,7 @@ export class TableService {
     const token = this.subjectLocalService.hasToken();
     if (token) {
       const request = {
+        searchString: paginationRequest.searchString,
         pageSize: paginationRequest.pageSize,
         pageNumber: paginationRequest.page,
         orderBy: paginationRequest.orderBy,

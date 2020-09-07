@@ -25,16 +25,16 @@ export class ModalAccountviewDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getBaseDetail()
+    // this.getBaseDetail()
   }
 
-  getBaseDetail() {
-    this.baseDetailService.getBaseDetailById(this.izvod.izvodID).pipe(take(1)).subscribe(data => {
-      this.baseTransactions = data;
-      this.isLoading = false;
-      console.log('DDX', this.baseTransactions);
-    })
-  }
+  // getBaseDetail() {
+  //   this.baseDetailService.getBaseDetailById(this.izvod.izvodID).pipe(take(1)).subscribe(data => {
+  //     this.baseTransactions = data;
+  //     this.isLoading = false;
+  //     console.log('DDX', this.baseTransactions);
+  //   })
+  // }
 
   exitModal(): void {
     this.modal.dismiss();

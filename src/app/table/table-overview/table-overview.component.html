@@ -57,11 +57,11 @@
     <div class="container-fluid px-0">
         <div class="row mb-4">
             <div class="col-lg-4 col-md-4 col-sm-4">
-                <input type="text" class="form-control form-rounded" [(ngModel)]="filterValue"
+                <input type="text" class="form-control form-rounded" [(ngModel)]="paginationRequest.searchString"
                     placeholder="Upišite pojam pretrage">
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4">
-                <button type="button" class="mr-3 btn btn-primary" (click)="filterUserTable()">
+                <button type="button" class="mr-3 btn btn-primary" (click)="fetchPage()">
                     <span class="fas fa-search"></span>
                     <span class="ml-2">Traži</span>
                 </button>
@@ -74,7 +74,7 @@
         <ngx-datatable class="material mt-3" columnMode="force" [headerHeight]="'auto'" [footerHeight]="50"
             [rowHeight]="'auto'" [loadingIndicator]="isLoading" [externalPaging]="true" [rows]="pagedResult?.model"
             [count]="pagedResult?.itemsCount" [offset]="currentPage" limit="{{pageSize}}" [virtualization]="true" (page)="setPage($event)"
-            [selected]="selected"   [selectionType]="SelectionType.multi" (select)="onSelect($event)"
+            [selected]="selected"   [selectionType]="SelectionType.multi" (select)="onSelect($event)" (sort)="onSort($event)" [externalSorting]="true"
             [messages]="{
             emptyMessage:'Nema rezultata',
             totalMessage: pagedResult ? pagedResult.message : 'Ukupan broj'
