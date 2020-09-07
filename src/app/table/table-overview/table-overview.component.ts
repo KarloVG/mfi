@@ -18,6 +18,7 @@ import { IPagedResult } from 'src/app/shared/models/pagination/paged-result';
 import { BasePaginationComponent } from 'src/app/shared/components/base-pagination/base-pagination.component';
 import { IPaginationBase } from 'src/app/shared/models/pagination/pagination-base';
 import { SelectionType, DatatableComponent } from '@swimlane/ngx-datatable';
+import { ITopbarTableInfo } from '../models/topbar-table-info';
 
 @Component({
   selector: 'app-table-overview',
@@ -31,7 +32,7 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
   moduleName: string = 'Tablica financijskih transakcija';
   moduleFontIcon: string = 'fas fa-table';
   displayType: string = 'table'
-
+  topTableBarInfo: ITopbarTableInfo;
   financijskeTransakcije: IFinancijskaTransakcija[] = [];
 
   //selection
@@ -60,6 +61,7 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
       page: this.currentPage + 1,
       pageSize: this.pageSize
     };
+    this.getTopbarTableInfo();
     this.hasActiveFilter();
     this.fetchPage();
     // this.getIzvod();
@@ -67,6 +69,13 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
 
   ngOnDestroy() { }
 
+  getTopbarTableInfo() {
+    this.tableService.getTopInfoByPredmetId().pipe(take(1)).subscribe(
+      data => {
+        this.topTableBarInfo = data;
+      }
+    )
+  }
   /* 
     pagination methods
   */

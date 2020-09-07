@@ -90,9 +90,9 @@
                     <ngx-datatable-column name="Država računa" prop="a_FID" [width]="100"></ngx-datatable-column>
                     <ngx-datatable-column name="Naziv vlasnika rač. A" prop="a_NA" [width]="130"></ngx-datatable-column>
                     <ngx-datatable-column name="Datum / vrijeme" prop="t_DV" [width]="100">
-                        <!-- <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                            {{ value | date: 'dd.MM.yyyy'}}
-                        </ng-template> -->
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{ value | date: 'dd.MM.yyyy HH:mm'}}
+                        </ng-template>
                     </ngx-datatable-column>
                     <ngx-datatable-column name="Referentni broj" prop="t_REF" [width]="130"></ngx-datatable-column>
                     <ngx-datatable-column name="Vrsta" prop="t_VR" [width]="120"></ngx-datatable-column>

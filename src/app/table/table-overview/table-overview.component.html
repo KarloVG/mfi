@@ -31,19 +31,19 @@
     <ul class="list-group list-group-horizontal">
         <li class="list-group-item d-flex justify-content-between">
             <small>Ukupni broj zapisa</small>
-            <span class="badge badge-primary badge-pill ml-5">{{ pagedResult?.itemsCount ? pagedResult.itemsCount : 0}}</span>
+            <span class="badge badge-primary badge-pill ml-5">{{ topTableBarInfo.brojTransakcija }}</span>
         </li>
         <li class="list-group-item d-flex justify-content-between">
             <small>Dolazne transakcije</small>
-            <span class="badge badge-primary badge-pill ml-5">1</span>
+            <span class="badge badge-primary badge-pill ml-5">{{ topTableBarInfo.brojUplata }}</span>
         </li>
         <li class="list-group-item d-flex justify-content-between">
             <small>Odlazne transakcije</small>
-            <span class="badge badge-primary badge-pill ml-5">1</span>
+            <span class="badge badge-primary badge-pill ml-5">{{ topTableBarInfo.brojIsplata }}</span>
         </li>
         <li class="list-group-item d-flex justify-content-between">
             <small>Broj uvezenih izvoda</small>
-            <span class="badge badge-primary badge-pill ml-5">1</span>
+            <span class="badge badge-primary badge-pill ml-5">{{ topTableBarInfo.brojIzvoda }}</span>
         </li>
         <!-- <li class="list-group-item p-0">
             <button type="button" class="btn btn-primary" title="Prikaz uvezenih izvoda">
@@ -86,9 +86,9 @@
             <ngx-datatable-column name="Naziv vlasnika rač. A" prop="a_NA" [width]="130">
             </ngx-datatable-column>
             <ngx-datatable-column name="Datum / vrijeme" prop="t_DV" [width]="100">
-                <!-- <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    {{ value | date: 'dd.MM.yyyy'}}
-                </ng-template> -->
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ value | date: 'dd.MM.yyyy HH:mm'}}
+                </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column name="Referentni broj" prop="t_REF" [width]="130"></ngx-datatable-column>
             <ngx-datatable-column name="Vrsta" prop="t_VR" [width]="120"></ngx-datatable-column>
