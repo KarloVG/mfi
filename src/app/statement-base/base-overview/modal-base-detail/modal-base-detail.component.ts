@@ -20,8 +20,10 @@ export class ModalBaseDetailComponent extends BasePaginationComponent implements
 
   @Input() izvod: IInnerbaseItem;
   @Input() listaIzvodID: number[];
-  @Input() isMap: boolean = false
+  @Input() isMap: boolean = false;
+  @Input() isDiagram: boolean = false
   @Input() brojRacuna: string;
+  @Input() drzava: string;
   isLoading: boolean = true;
   //baseTransactions: IInnerBaseDetail[] = [];
   // ugly, but works; nije mi se dalo kopati po tome dublje
@@ -58,7 +60,13 @@ export class ModalBaseDetailComponent extends BasePaginationComponent implements
 
   fetchPage() {
     if(this.isMap) {
-      this.baseDetailService.getBaseDetailByListId(this.paginationRequest,this.listaIzvodID, this.brojRacuna).pipe(
+      this.baseDetailService.getBaseDetailForMap(this.paginationRequest,this.listaIzvodID, this.drzava).pipe(
+        untilComponentDestroyed(this)).subscribe(pagedResult => {
+          this.isLoading = false;
+          this.pagedResult = pagedResult;
+        });
+    } else if(this.isDiagram) {
+      this.baseDetailService.getBaseDetailForDiagram(this.paginationRequest,this.listaIzvodID, this.brojRacuna).pipe(
         untilComponentDestroyed(this)).subscribe(pagedResult => {
           this.isLoading = false;
           this.pagedResult = pagedResult;

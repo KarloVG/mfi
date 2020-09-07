@@ -47,7 +47,7 @@ export class AccountviewComponent implements OnInit, OnDestroy {
     } else if (this.node.type === 'connectedAccount') {
       const modalRef = this.ngbModalService.open(ModalBaseDetailComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
       modalRef.componentInstance.brojRacuna = this.node.label
-      modalRef.componentInstance.isMap = true
+      modalRef.componentInstance.isDiagram = true
       modalRef.componentInstance.listaIzvodID = this.node.listaIzvoda
     }
   }
