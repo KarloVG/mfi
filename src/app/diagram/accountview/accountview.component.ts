@@ -50,6 +50,7 @@ export class AccountviewComponent implements OnInit, OnDestroy {
           const modalRef = this.ngbModalService.open(ModalBaseDetailComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
           modalRef.componentInstance.izvod = data
           modalRef.componentInstance.isMap = true
+          modalRef.componentInstance.listaIzvodID = this.node.listaIzvoda
         }
       )
     }

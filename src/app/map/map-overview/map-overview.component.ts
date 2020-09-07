@@ -219,7 +219,8 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
       let transData = drzavaData.listaDrzava.find(itm => { return itm.drzavaB === res[2] })
       this.baseService.getIzvodByList(transData.listaIzvodID).pipe(untilComponentDestroyed(this)).subscribe(
         data => {
-          this.showTransactionDetails(data.filter(itm => { return itm.a_FID === res[2] || itm.b_FID === res[2] }))
+          //this.showTransactionDetails(data.filter(itm => { return itm.a_FID === res[2] || itm.b_FID === res[2] }), transData.listaIzvodID)
+          this.showTransactionDetails(data, transData.listaIzvodID)
           this.expandView()
           setTimeout(() => { this.contractView() },50)
         }
@@ -258,11 +259,11 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
     this.map.setZoom(this.zoom)
   }
 
-  showTransactionDetails(izvod): void {
+  showTransactionDetails(izvod, listaIzvodID): void {
     const modalRef = this.ngbModalService.open(ModalBaseDetailComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
     modalRef.componentInstance.izvod = izvod
     modalRef.componentInstance.isMap = true
-    //console.log('REF', modalRef)
+    modalRef.componentInstance.listaIzvodID = listaIzvodID
   }
 
   notifications() {

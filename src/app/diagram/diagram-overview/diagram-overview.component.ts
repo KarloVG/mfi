@@ -250,13 +250,6 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     if (this.viewLevel < 0) { this.viewLevel = 0 }
   }
 
-  showConnectedAccountData(izvod): void {
-    const modalRef = this.ngbModalService.open(ModalBaseDetailComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
-    modalRef.componentInstance.izvod = izvod
-    modalRef.componentInstance.isMap = true
-    //console.log('REF', modalRef)
-  }
-
   rndmm(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
   }
