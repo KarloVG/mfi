@@ -16,6 +16,7 @@ import { IPaginationBase } from 'src/app/shared/models/pagination/pagination-bas
 export class BaseDetailService {
 
   private readonly IZVOD_CONTROLLER = 'izvod';
+  private readonly DIAGRAM_CONTROLLER = 'dijagram';
   constructor(
     private http: HttpClient, 
     private urlHelper: UrlHelperService,
@@ -36,7 +37,23 @@ export class BaseDetailService {
       const url = this.urlHelper.getUrl(this.IZVOD_CONTROLLER, 'transakcije');
       return this.http.post<IPagedResult<IFinancijskaTransakcija>>(url, request);
     }
-    
+  }
+
+  getBaseDetailByListId(paginationRequest: IPaginationBase,listOfId: number[], label): Observable<IPagedResult<IFinancijskaTransakcija>> {
+    const token = this.subjectService.hasToken();
+    if(token) {
+      const request = {
+        brojRacuna: label,
+        searchString: paginationRequest.searchString,
+        pageSize: paginationRequest.pageSize,
+        pageNumber: paginationRequest.page,
+        orderBy: paginationRequest.orderBy,
+        predmetID: token,
+        listaIzvoda: listOfId
+      }
+      const url = this.urlHelper.getUrl(this.DIAGRAM_CONTROLLER, 'accountDetailListPaginated');
+      return this.http.post<IPagedResult<IFinancijskaTransakcija>>(url, request);
+    }
   }
 
 }

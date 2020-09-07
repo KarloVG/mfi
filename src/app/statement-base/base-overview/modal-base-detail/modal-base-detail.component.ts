@@ -19,7 +19,9 @@ import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 export class ModalBaseDetailComponent extends BasePaginationComponent implements OnInit, OnDestroy {
 
   @Input() izvod: IInnerbaseItem;
+  @Input() listaIzvodID: number[];
   @Input() isMap: boolean = false
+  @Input() brojRacuna: string;
   isLoading: boolean = true;
   //baseTransactions: IInnerBaseDetail[] = [];
   // ugly, but works; nije mi se dalo kopati po tome dublje
@@ -45,13 +47,7 @@ export class ModalBaseDetailComponent extends BasePaginationComponent implements
       page: this.currentPage + 1,
       pageSize: this.pageSize
     };
-    if (!this.isMap) {
-      this.fetchPage();
-    } else {
-      console.log(this.izvod)
-      this.baseTransactions = this.izvod as any
-      this.isLoading = false
-    }
+    this.fetchPage();
   }
 
   removeFilter(): void {
@@ -61,11 +57,19 @@ export class ModalBaseDetailComponent extends BasePaginationComponent implements
   }
 
   fetchPage() {
-    this.baseDetailService.getBaseDetailById(this.paginationRequest,this.izvod.izvodID).pipe(
-      untilComponentDestroyed(this)).subscribe(pagedResult => {
-        this.isLoading = false;
-        this.pagedResult = pagedResult;
-      });
+    if(this.isMap) {
+      this.baseDetailService.getBaseDetailByListId(this.paginationRequest,this.listaIzvodID, this.brojRacuna).pipe(
+        untilComponentDestroyed(this)).subscribe(pagedResult => {
+          this.isLoading = false;
+          this.pagedResult = pagedResult;
+        });
+    } else {
+      this.baseDetailService.getBaseDetailById(this.paginationRequest,this.izvod.izvodID).pipe(
+        untilComponentDestroyed(this)).subscribe(pagedResult => {
+          this.isLoading = false;
+          this.pagedResult = pagedResult;
+        });
+    }
   }
 
   setPage(pageInfo) {
