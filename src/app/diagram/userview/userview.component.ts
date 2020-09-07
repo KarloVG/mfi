@@ -21,8 +21,20 @@ export class UserviewComponent implements OnInit {
 
   accounts: any[]
 
+  areDetailsExpanded: boolean = false
+
   constructor(private diaSvc: DiagramService) {}
   ngOnInit(): void {
+    this.setup()
+  }
+
+  ngOnChanges(changes) {
+    if (changes.node.firstChange === false && changes.node.currentValue.label !== changes.node.previousValue.label) {
+      this.setup()
+    }
+  }
+
+  setup() {
     this.focusAccounts = this.activeUser.izvodi
     this.accounts = this.isSelectedActiveUser? this.node.data.izvodi : this.linkedAccounts
 
@@ -44,6 +56,13 @@ export class UserviewComponent implements OnInit {
       this.node.totalOut = null
     }
     //console.log('ACX', this.linkedAccounts, this.accounts, this.node)
+  }
+
+  expandAccountsInfo() {
+    this.areDetailsExpanded = true
+  }
+  contractAccountsInfo() {
+    this.areDetailsExpanded = false
   }
 
   closeInfobox() {

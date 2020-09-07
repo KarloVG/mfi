@@ -40,7 +40,7 @@
     </section>
   </div>
 
-  <div class="card-body">
+  <div class="card-body" *ngIf="areDetailsExpanded">
     <section *ngFor="let account of accounts; let i = index">
       <div class="text-info">Račun {{i+1}}</div>
       <div class="card mb-2">
@@ -75,6 +75,39 @@
         </div>
       </div>
     </section>
+    <div class="text-center my-3">
+      <button type="button" class="btn btn-secondary" title="Prikaz manje detalja računa i transakcija" (click)="contractAccountsInfo()">
+        <span class="fas fa-arrow-up"></span>
+        <span class="ml-2">Prikaži manje</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="card-body" *ngIf="!areDetailsExpanded">
+    <div class="card mb-2">
+      <div class="card-body">
+        <section>
+          <div>Broj korištenih računa: <strong>{{accounts.length}}</strong></div>
+          <hr/>
+        </section>
+        <section *ngIf="!isSelectedActiveUser">
+          <div>Broj transakcija prema osobi u fokusu: <strong>{{node.countOut}}</strong></div>
+          <div>Transakcija prema osobi u fokusu: <strong>{{accounts.length|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong></div>
+          <hr/>
+        </section>
+        <section>
+          <div>Ukupno transakcija po svim računima: <strong>{{node.countOut + node.countIn}}</strong></div>
+          <div>Ukupan iznos svih uplata: <strong>{{node.totalIn|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong></div>
+          <div>Ukupan iznos svih isplata: <strong>{{node.totalOut|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong></div>
+        </section>
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <button type="button" class="btn btn-secondary" title="Prikaz više detalja računa i transakcija" (click)="expandAccountsInfo()">
+        <span class="fas fa-arrow-down"></span>
+        <span class="ml-2">Prikaži više</span>
+      </button>
+    </div>
   </div>
 
 </div>
