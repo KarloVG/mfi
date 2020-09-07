@@ -98,23 +98,10 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
       this.nodeActive.id = this.nodeActive.id.replace(/(connectedAccount\d{1,})$/gi, '')
     } else if (this.nodeActive.type === 'account' || this.nodeActive.type === 'connectedAccount') {
       if (this.nodeActive.type === 'connectedAccount') {
-        const RN = this.nodeActive.label
-        this.baseService.getIzvodByList(this.nodeActive.listaIzvoda).pipe(untilComponentDestroyed(this)).subscribe(
+        this.diaSvc.getDiagramAccountDetail(this.nodeActive.listaIzvoda, this.nodeActive.label).pipe(untilComponentDestroyed(this)).subscribe(
           data => {
-            console.log('BSDX', data)
-            this.showConnectedAccountData(data.filter(itm => { return itm.a_RN === RN || itm.b_RN === RN }))
-            /*
-            this.nodeActive.data = {
-              brojRacuna: this.nodeActive.label? this.nodeActive.label : this.nodeActive.id,
-              swift: null,
-              banka: null,
-              brojIsplata: null,
-              brojUplata: null,
-              iznosIsplata: null,
-              iznosUplata: null,
-              brojTransakcija: null,
-            }
-            */
+            //console.log('GDADx', data)
+            this.nodeActive.data = data
           }
         )
       }

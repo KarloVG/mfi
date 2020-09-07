@@ -95,11 +95,20 @@ export class DiagramService {
   }
 
   getDiagramAccountDetail(ListaIzvoda: number[], BrojRacuna: string): Observable<IDiagramAccountDetailResponse> {
-    const url = this.CONTROLLER_NAME + 'accountDetail';
     const request = {
       listaIzvoda: ListaIzvoda,
       brojRacuna: BrojRacuna
     };
+    const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'accountDetail')
+    return this.http.post<IDiagramAccountDetailResponse>(url, request)
+  }
+
+  getDiagramAccountDetailList(ListaIzvoda: number[], BrojRacuna: string): Observable<IDiagramAccountDetailResponse> {
+    const request = {
+      listaIzvoda: ListaIzvoda,
+      brojRacuna: BrojRacuna
+    };
+    const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'accountDetailList')
     return this.http.post<IDiagramAccountDetailResponse>(url, request)
   }
 
