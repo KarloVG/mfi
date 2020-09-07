@@ -16,6 +16,8 @@ import { IPaginationBase } from 'src/app/shared/models/pagination/pagination-bas
 export class BaseDetailService {
 
   private readonly IZVOD_CONTROLLER = 'izvod';
+  private readonly DIAGRAM_CONTROLLER = 'dijagram';
+  private readonly MAP_CONTROLLER = 'map';
   constructor(
     private http: HttpClient, 
     private urlHelper: UrlHelperService,
@@ -36,7 +38,41 @@ export class BaseDetailService {
       const url = this.urlHelper.getUrl(this.IZVOD_CONTROLLER, 'transakcije');
       return this.http.post<IPagedResult<IFinancijskaTransakcija>>(url, request);
     }
-    
+  }
+
+  getBaseDetailForDiagram(paginationRequest: IPaginationBase,listOfId: number[], label): Observable<IPagedResult<IFinancijskaTransakcija>> {
+    const token = this.subjectService.hasToken();
+    if(token) {
+      const request = {
+        brojRacuna: label,
+        searchString: paginationRequest.searchString,
+        pageSize: paginationRequest.pageSize,
+        pageNumber: paginationRequest.page,
+        orderBy: paginationRequest.orderBy,
+        predmetID: token,
+        listaIzvoda: listOfId
+      }
+      const url = this.urlHelper.getUrl(this.DIAGRAM_CONTROLLER, 'accountDetailListPaginated');
+      return this.http.post<IPagedResult<IFinancijskaTransakcija>>(url, request);
+    }
+  }
+
+  getBaseDetailForMap(paginationRequest: IPaginationBase,listOfId: number[], drzava: string): Observable<IPagedResult<IFinancijskaTransakcija>> {
+    const token = this.subjectService.hasToken();
+    if(token) {
+      const request = {
+        searchString: paginationRequest.searchString,
+        pageSize: paginationRequest.pageSize,
+        pageNumber: paginationRequest.page,
+        orderBy: paginationRequest.orderBy,
+        predmetID: token,
+        listaIzvoda: listOfId,
+        drzava: drzava
+      }
+      console.log(request)
+      const url = this.urlHelper.getUrl(this.MAP_CONTROLLER, 'mapDetailPaginated');
+      return this.http.post<IPagedResult<IFinancijskaTransakcija>>(url, request);
+    }
   }
 
 }

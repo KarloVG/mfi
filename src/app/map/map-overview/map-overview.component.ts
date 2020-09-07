@@ -217,14 +217,12 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
     if (res[1] && res[2]) {
       let drzavaData = rawData.find(itm => { return itm.drzava === res[1] })
       let transData = drzavaData.listaDrzava.find(itm => { return itm.drzavaB === res[2] })
-      this.baseService.getIzvodByList(transData.listaIzvodID).pipe(untilComponentDestroyed(this)).subscribe(
-        data => {
-          //this.showTransactionDetails(data.filter(itm => { return itm.a_FID === res[2] || itm.b_FID === res[2] }), transData.listaIzvodID)
-          this.showTransactionDetails(data, transData.listaIzvodID)
-          this.expandView()
-          setTimeout(() => { this.contractView() },50)
-        }
-      )
+      const modalRef = this.ngbModalService.open(ModalBaseDetailComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
+      modalRef.componentInstance.drzava = res[2];
+      modalRef.componentInstance.isMap = true;
+      modalRef.componentInstance.listaIzvodID = transData.listaIzvodID;
+      this.expandView();
+      setTimeout(() => { this.contractView() },50);
     }
   }
 
@@ -257,13 +255,6 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
     this.zoom--
     if (this.zoom < 2) { this.zoom = 2 }
     this.map.setZoom(this.zoom)
-  }
-
-  showTransactionDetails(izvod, listaIzvodID): void {
-    const modalRef = this.ngbModalService.open(ModalBaseDetailComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });
-    modalRef.componentInstance.izvod = izvod
-    modalRef.componentInstance.isMap = true
-    modalRef.componentInstance.listaIzvodID = listaIzvodID
   }
 
   notifications() {
