@@ -41,7 +41,6 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
     this.baseService.getBaseItems().pipe(untilComponentDestroyed(this)).subscribe(
       data => {
         this.baseItems = data;
-        this.staticValue = data;
         this.baseItems.forEach(el => {
           el.uvezeneIzliste = el.izvodi ? el.izvodi.length : 0;
           el.iznosUplata = 0;
@@ -60,6 +59,7 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
               el.brojUplata += izv.brojUplata;
             });
           }
+          setTimeout(() => {this.staticValue = [...this.baseItems];}, 100)
         });
         console.log('TBI', this.baseItems)
         this.isLoading = false;
@@ -71,23 +71,16 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
   }
 
   filterUserTable() {
-    let searchVal = this.filterValue.toLowerCase()
-    let keys = ["Osoba"];
-    let colsAmt = keys.length + 1;
-    this.baseItems = this.staticValue.filter(function (item) {
-      for (let i = 0; i < colsAmt; i++) {
-        if (item[keys[i]]) {
-          if (
-            item[keys[i]] != null &&
-            item[keys[i]].Naziv.toLowerCase().indexOf(searchVal) !== -1) {
-            return true;
-          }
-        } else {
-          if (item[keys[i]] != null && item[keys[i]].toString().toLowerCase().indexOf(searchVal) !== -1) {
-            return true;
-          }
+    let inputValue = this.filterValue.toLowerCase().replace(".", "");
+    let searchVal = inputValue.replace(",", "");
+    let colsAmt = 10;
+    let keys = ["naziv", "idBroj", "uvezeneIzliste", "iznosUplata","iznosTransakcija", "iznosIsplata", "brojUplata", "brojTransakcija", "brojIsplata"];
+
+    this.baseItems = this.staticValue.filter(function(item){
+      for (let i=0; i<colsAmt; i++){
+        if (item[keys[i]] != null && item[keys[i]].toString().toLowerCase().indexOf(searchVal) !== -1 || !searchVal){
+          return true;
         }
-        return false;
       }
     });
   }
