@@ -9,6 +9,7 @@ import { IGetTransakcijeRequest } from '../models/get-transakcije-request';
 import { IFinancijskaTransakcija } from 'src/app/shared/models/financijska-transakcija';
 import { IPagedResult } from 'src/app/shared/models/pagination/paged-result';
 import { IPaginationBase } from 'src/app/shared/models/pagination/pagination-base';
+import { LocalStoreFilterService } from 'src/app/shared/services/local-store-filter.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,14 +20,15 @@ export class BaseDetailService {
   private readonly DIAGRAM_CONTROLLER = 'dijagram';
   private readonly MAP_CONTROLLER = 'map';
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private urlHelper: UrlHelperService,
-    private subjectService: LocalStoreSubjectService
-    ) { }
+    private subjectService: LocalStoreSubjectService,
+    private filterService: LocalStoreFilterService
+  ) { }
 
-  getBaseDetailById(paginationRequest: IPaginationBase,id: number): Observable<IPagedResult<IFinancijskaTransakcija>> {
+  getBaseDetailById(paginationRequest: IPaginationBase, id: number): Observable<IPagedResult<IFinancijskaTransakcija>> {
     const token = this.subjectService.hasToken();
-    if(token) {
+    if (token) {
       const request = {
         searchString: paginationRequest.searchString,
         pageSize: paginationRequest.pageSize,
@@ -40,9 +42,9 @@ export class BaseDetailService {
     }
   }
 
-  getBaseDetailForDiagram(paginationRequest: IPaginationBase,listOfId: number[], label): Observable<IPagedResult<IFinancijskaTransakcija>> {
+  getBaseDetailForDiagram(paginationRequest: IPaginationBase, listOfId: number[], label): Observable<IPagedResult<IFinancijskaTransakcija>> {
     const token = this.subjectService.hasToken();
-    if(token) {
+    if (token) {
       const request = {
         brojRacuna: label,
         searchString: paginationRequest.searchString,
@@ -57,9 +59,10 @@ export class BaseDetailService {
     }
   }
 
-  getBaseDetailForMap(paginationRequest: IPaginationBase,listOfId: number[], drzava: string): Observable<IPagedResult<IFinancijskaTransakcija>> {
+  getBaseDetailForMap(paginationRequest: IPaginationBase, listOfId: number[], drzava: string): Observable<IPagedResult<IFinancijskaTransakcija>> {
     const token = this.subjectService.hasToken();
-    if(token) {
+    const filterToken = this.filterService.hasToken();
+    if (token) {
       const request = {
         searchString: paginationRequest.searchString,
         pageSize: paginationRequest.pageSize,
@@ -67,7 +70,27 @@ export class BaseDetailService {
         orderBy: paginationRequest.orderBy,
         predmetID: token,
         listaIzvoda: listOfId,
-        drzava: drzava
+        drzava: drzava,
+        filterValues: null
+      }
+
+      if (filterToken) {
+        request.filterValues = {
+          A_NA: filterToken.Naziv,
+          B_NA: filterToken.NazivB,
+          T_DIR: filterToken.Smjer,
+          A_RN: filterToken.BrojRacuna,
+          B_RN: filterToken.BrojRacunaB,
+          A_FIN: filterToken.Banka,
+          B_FIN: filterToken.BankaB,
+          T_DV_od: filterToken.DatumTrasakcijeOd,
+          T_DV_do: filterToken.DatumTrasakcijeDo,
+          A_FID: filterToken.Drzava,
+          B_FID: filterToken.DrzavaB,
+          T_VR: filterToken.VrstaTransakcije,
+          T_KONV_IZ_od: filterToken.IznosOd,
+          T_KONV_IZ_do: filterToken.IznosDo
+        };
       }
       console.log(request)
       const url = this.urlHelper.getUrl(this.MAP_CONTROLLER, 'mapDetailPaginated');

@@ -9,7 +9,7 @@ export interface IFinancijskaTransakcija {
     a_FID: string,
     a_NA: string,
     a_ID: string,
-    t_DV: string,
+    t_DV: Date | string,
     t_REF: string,
     t_VR: string,
     t_IZ: string,

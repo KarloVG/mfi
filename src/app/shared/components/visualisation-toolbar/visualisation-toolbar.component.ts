@@ -46,6 +46,7 @@ export class VisualisationToolbarComponent implements OnInit {
 
   @Output() childNotification: EventEmitter<any> = new EventEmitter<any>();
   @Output() isExportActive: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() isFilterModified: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   typesList: Types[]
   osobe: IOsobaDropdown[] = [];
@@ -120,6 +121,7 @@ export class VisualisationToolbarComponent implements OnInit {
         })
       }
       this.hasActiveFilter();
+
     });
   }
 
