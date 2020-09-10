@@ -14,6 +14,7 @@ import { TransactionTypeService } from '../../services/transaction-type-service'
 import { ITransactionType } from '../../models/transaction-type';
 import { ICountry } from '../../models/country';
 import { CountryService } from '../../services/country-service';
+import { countriesLatLng } from 'src/app/map/countries';
 
 @Component({
   selector: 'app-modal-filter',
@@ -47,7 +48,7 @@ export class ModalFilterComponent implements OnInit {
   forkObservable: Observable<any>;
   banks: Observable<IBank[]>;
   transactionTypes: Observable<ITransactionType[]>;
-  countries: Observable<ICountry[]>;
+  countries: ICountry[];
 
   directions: ITransactionType[] = [{
     id: 1,
@@ -64,21 +65,21 @@ export class ModalFilterComponent implements OnInit {
     private localStoreFilterService: LocalStoreFilterService,
     private transactionTypeService: TransactionTypeService,
     private bankService: BankService,
-    private countryService: CountryService
+    // private countryService: CountryService
     ) {}
 
   ngOnInit(): void {
     //fork join
+    this.countries = countriesLatLng;
     this.forkObservable = forkJoin(
       this.transactionTypeService.getTransactionType(),
       this.bankService.getBanke(),
-      this.countryService.getCountries(),
+      // this.countryService.getCountries(),
     );
 
     this.forkObservable.subscribe(([transactions, banks, countries]) => {
       this.transactionTypes  = transactions;
       this.banks = banks;
-      this.countries = countries
 
       // after values come 
       const filterValues = this.localStoreFilterService.hasToken();

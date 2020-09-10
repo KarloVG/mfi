@@ -9,6 +9,7 @@ import { ITablicaIzvod } from '../models/tablica-izvod';
 import { IPaginationBase } from 'src/app/shared/models/pagination/pagination-base';
 import { IPagedResult } from 'src/app/shared/models/pagination/paged-result';
 import { ITopbarTableInfo } from '../models/topbar-table-info';
+import { LocalStoreFilterService } from 'src/app/shared/services/local-store-filter.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,18 +22,39 @@ export class TableService {
   constructor(
     private http: HttpClient,
     private urlHelper: UrlHelperService,
-    private subjectLocalService: LocalStoreSubjectService
+    private subjectLocalService: LocalStoreSubjectService,
+    private filterService: LocalStoreFilterService
   ) { }
 
   getTransakcijeFromIzvod(paginationRequest: IPaginationBase): Observable<IPagedResult<IFinancijskaTransakcija>> {
-    const token = this.subjectLocalService.hasToken();
-    if (token) {
-      const request = {
+    const subjectToken = this.subjectLocalService.hasToken();
+    const filterToken = this.filterService.hasToken();
+    if (subjectToken) {
+      let request = {
         searchString: paginationRequest.searchString,
         pageSize: paginationRequest.pageSize,
         pageNumber: paginationRequest.page,
         orderBy: paginationRequest.orderBy,
-        predmetID: token
+        predmetID: subjectToken,
+        filterValues: null
+      };
+      if(filterToken) {
+        request.filterValues = {
+          A_NA: filterToken.Naziv,
+          B_NA: filterToken.NazivB,
+          T_DIR: filterToken.Smjer,
+          A_RN: filterToken.BrojRacuna,
+          B_RN: filterToken.BrojRacunaB,
+          A_FIN: filterToken.Banka,
+          B_FIN: filterToken.BankaB,
+          T_DV_od: filterToken.DatumTrasakcijeOd,
+          T_DV_do: filterToken.DatumTrasakcijeDo,
+          A_FID: filterToken.Drzava,
+          B_FID: filterToken.DrzavaB,
+          T_VR: filterToken.VrstaTransakcije,
+          T_KONV_IZ_od: filterToken.IznosOd,
+          T_KONV_IZ_do: filterToken.IznosDo
+        };
       }
       const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'paginated');
       return this.http.post<IPagedResult<IFinancijskaTransakcija>>(url, request);

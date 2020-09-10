@@ -135,11 +135,15 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
           progressBar: true
         })
         this.isActiveFilter = true;
+        this.paginationRequest.page = 1;
+        this.fetchPage();
       } else if(result == false) {
         this.toastr.warning('Polja filtera su obrisana', 'Pažnja', {
           progressBar: true
         });
         this.isActiveFilter = false;
+        this.paginationRequest.page = 1;
+        this.fetchPage();
       } else {
         this.toastr.warning('Polja filtera nisu spremljena/uređena', 'Pažnja', {
           progressBar: true

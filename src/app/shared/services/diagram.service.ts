@@ -6,6 +6,7 @@ import {Network, DataSet, Node, Edge, IdType} from 'vis'
 import {BaseService} from 'src/app/statement-base/services/base.service'
 import {SubjectService} from 'src/app/shared/services/subject.service'
 import { IDiagramAccountDetailResponse } from 'src/app/diagram/models/DiagramAccountDetailResponse';
+import { LocalStoreFilterService } from './local-store-filter.service';
 
 @Injectable({
   providedIn: 'root'
@@ -82,6 +83,7 @@ export class DiagramService {
     private urlHelper: UrlHelperService,
     private subjectService: SubjectService,
     private baseService: BaseService,
+    private filterService: LocalStoreFilterService
   ) {
     this.subjectId = +this.subjectService.hasToken()
     this.baseService.getBaseItems().subscribe(
@@ -95,10 +97,31 @@ export class DiagramService {
   }
 
   getDiagramAccountDetail(ListaIzvoda: number[], BrojRacuna: string): Observable<IDiagramAccountDetailResponse> {
-    const request = {
+
+    const filterToken = this.filterService.hasToken();
+    let request = {
       listaIzvoda: ListaIzvoda,
-      brojRacuna: BrojRacuna
+      brojRacuna: BrojRacuna,
+      filterValues: null
     };
+    if(filterToken) {
+      request.filterValues = {
+        A_NA: filterToken.Naziv,
+        B_NA: filterToken.NazivB,
+        T_DIR: filterToken.Smjer,
+        A_RN: filterToken.BrojRacuna,
+        B_RN: filterToken.BrojRacunaB,
+        A_FIN: filterToken.Banka,
+        B_FIN: filterToken.BankaB,
+        T_DV_od: filterToken.DatumTrasakcijeOd,
+        T_DV_do: filterToken.DatumTrasakcijeDo,
+        A_FID: filterToken.Drzava,
+        B_FID: filterToken.DrzavaB,
+        T_VR: filterToken.VrstaTransakcije,
+        T_KONV_IZ_od: filterToken.IznosOd,
+        T_KONV_IZ_do: filterToken.IznosDo
+      };
+    }
     const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'accountDetail')
     return this.http.post<IDiagramAccountDetailResponse>(url, request)
   }
@@ -121,20 +144,43 @@ export class DiagramService {
   }
 
   getExpandData(idOsoba: number, idIzvod: number, broj_Racuna: string, nodeID: string): Observable<any> {
-    const request: any = {
+    const filterToken = this.filterService.hasToken();
+    let request: any = {
       izvod_ID: idIzvod,
       osoba_ID: idOsoba,
       broj_Racuna: broj_Racuna,
-      id: nodeID
+      id: nodeID,
+      filterValues: null
+    }
+
+    if(filterToken) {
+      request.filterValues = {
+        A_NA: filterToken.Naziv,
+        B_NA: filterToken.NazivB,
+        T_DIR: filterToken.Smjer,
+        A_RN: filterToken.BrojRacuna,
+        B_RN: filterToken.BrojRacunaB,
+        A_FIN: filterToken.Banka,
+        B_FIN: filterToken.BankaB,
+        T_DV_od: filterToken.DatumTrasakcijeOd,
+        T_DV_do: filterToken.DatumTrasakcijeDo,
+        A_FID: filterToken.Drzava,
+        B_FID: filterToken.DrzavaB,
+        T_VR: filterToken.VrstaTransakcije,
+        T_KONV_IZ_od: filterToken.IznosOd,
+        T_KONV_IZ_do: filterToken.IznosDo
+      };
+      console.log(request.filterValues)
     }
     const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'nestedData')
     return this.http.post<any>(url, request)
   }
 
   getDiagramData(idOsoba, idIzvod): Observable<any> {
-    const request = {
+    let request = {
       osobaID: idOsoba,
       izvodID: idIzvod,
+      filterValues: null
     }
     const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'initial')
     return this.http.post<any>(url, request)

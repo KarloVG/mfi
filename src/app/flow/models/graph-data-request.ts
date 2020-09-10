@@ -4,4 +4,5 @@ export interface ICreateGraphDataRequest {
     timespanID: number
     datumOd: Date | string;
     datumDo: Date | string;
+    filterValues?: any
 }
