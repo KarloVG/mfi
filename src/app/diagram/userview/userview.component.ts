@@ -74,10 +74,10 @@ export class UserviewComponent implements OnInit {
   showAccountInfo(brRacuna) {
     console.log('EEK', brRacuna)
     console.log('DTX', this.node.data.izvodi)
-    //const izvod = this.node.data.izvodi.find(itm => { console.log('->', itm); return itm.brojRacuna == brRacuna })
+    const izvod = this.node.data.izvodi.find(itm => { return itm.brojRacuna == brRacuna })
     const izvodi = this.node.data.izvodi.map(itm => { return itm.izvodID })
-    console.log('RX', izvodi)
-    this.diaSvc.getDiagramAccountDetailList(izvodi, brRacuna).pipe(untilComponentDestroyed(this)).subscribe(
+    console.log('RX', izvod.izvodID)
+    this.diaSvc.getDiagramAccountDetail(izvodi, brRacuna).pipe(untilComponentDestroyed(this)).subscribe(
       data => {
         console.log('GDADx', data)
         const modalRef = this.ngbModalService.open(ModalBaseDetailComponent, { size: 'xl', backdrop: 'static', keyboard: false, windowClass: 'largeModalClass' });

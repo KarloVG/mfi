@@ -1,11 +1,15 @@
 <section class="infobar row no-gutters mb-2">
   <div class="col-sm-12 py-2 row ml-0 bg-light border-bottom">
 
-    <form class="col-sm-7 mb-2 row" #visualisationForm="ngForm" (ngSubmit)="passDataToParent()" id="loginForm">
-      <div class="col-sm-6">
+    <form class="col-12 col-md-12 col-lg-8 col-xl-8 mb-2 row" #visualisationForm="ngForm" (ngSubmit)="passDataToParent()" id="loginForm">
+      <div class="col-sm-6 col-md-5 col-lg-5">
         <div class="form-group row mb-1">
-          <label for="osobazavizualizaciju" class="col-sm-5 col-form-label">Osoba za vizualizaciju<span class="text-danger">*</span></label>
-          <div class="col-sm-7">
+          <label for="osobazavizualizaciju" class="col-sm-5 col-lg-6 col-form-label">
+            <span class="d-inline mr-1">Osoba</span>
+            <span class="d-inline d-sm-none d-xl-inline">za vizualizaciju</span>
+            <span class="d-inline text-danger">*</span>
+          </label>
+          <div class="col-sm-7 col-lg-6">
             <ng-select [items]="osobe" bindLabel="naziv" placeholder="Odabir osobe" [(ngModel)]="selectedOsoba"
               (change)="onChangeActiveOsoba($event)" name="ctrl"
               [ngClass]="{'is-invalid': ctrl.invalid && (ctrl.dirty || ctrl.touched)}" #ctrl="ngModel" required>
@@ -14,9 +18,11 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-5">
+      <div class="col-sm-5 col-md-5 col-lg-5 mb-1">
         <div class="form-group row mb-1">
-          <label for="racunizavizualizaciju" class="col-sm-5 col-form-label">Račun za vizualizaciju</label>
+          <label for="racunizavizualizaciju" class="col-sm-5 col-form-label">
+            Račun <span class="d-inline d-sm-none d-xl-inline">za vizualizaciju</span>
+          </label>
           <div class="col-sm-7">
             <ng-select [items]="izvodi" bindLabel="brojRacuna" placeholder="Odabir računa osobe" name="ctrl2"
               [(ngModel)]="selectedIzvod" #ctrl2="ngModel">
@@ -25,36 +31,37 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-1">
+      <div class="col-sm-1 col-md-2 col-lg-2">
         <button type="button" type="submit" class="btn btn-secondary mr-3" title="Dodaj na dijagram">
-          <span class="fas fa-user-plus"></span>
+          <span class="fas fa-user-plus d-inline"></span>
+          <span class="ml-2 d-inline d-sm-none d-xl-inline">Dodaj</span>
         </button>
       </div>
     </form>
 
-    <div class="col-sm-5 text-right">
+    <div class="col-12 col-md-12 col-lg-4 col-xl-4 text-right">
       <button type="button" class="btn btn-secondary mr-3 mb-1" title="Prikaži +1" *ngIf="displayType === 'diagram'"
         (click)="expandViewAction()">
-        <span class="fas fa-arrow-circle-up"></span>
-        <span class="ml-2 d--none">Prikaži</span>
-        <span class="ml-1 d--none">+1</span>
+        <span class="fas fa-arrow-alt-circle-up"></span>
+        <span class="ml-2 d-none d-lg-inline">Prikaži</span>
+        <span class="ml-1 d-none d-sm-inline">+1</span>
       </button>
       <button type="button" class="btn btn-secondary mr-3 mb-1" title="Prikaži +1" *ngIf="displayType === 'diagram'"
         (click)="contractViewAction()">
-        <span class="fas fa-arrow-circle-down"></span>
-        <span class="ml-2 d--none">Prikaži</span>
-        <span class="ml-1 d--none">-1</span>
+        <span class="fas fa-arrow-alt-circle-down"></span>
+        <span class="ml-2 d-none d-lg-inline">Prikaži</span>
+        <span class="ml-1 d-none d-sm-inline">-1</span>
       </button>
 
       <button type="button" class="btn btn-secondary mr-3 mb-1" title="Približi" *ngIf="displayType === 'map'"
         (click)="expandViewAction()">
         <span class="fas fa-search-plus"></span>
-        <span class="ml-2 d--none">Približi</span>
+        <span class="ml-2 d-none d-sm-inline d-lg-none d-xl-inline">Približi</span>
       </button>
       <button type="button" class="btn btn-secondary mr-3 mb-1" title="Udalji" *ngIf="displayType === 'map'"
         (click)="contractViewAction()">
         <span class="fas fa-search-minus"></span>
-        <span class="ml-2 d--none">Udalji</span>
+        <span class="ml-2 d-none d-sm-inline d-lg-none d-xl-inline">Udalji</span>
       </button>
 
       <button type="button" class="btn btn-secondary mr-3 mb-1" disabled title="Alarmiranje"
@@ -68,7 +75,7 @@
       </button>
       <button type="button" class="btn btn-secondary mr-3 mb-1" title="Filtriranje" (click)="filterAction()">
         <span class="fas fa-filter"></span>
-        <span class="ml-2 d--none">Filtriranje</span>
+        <span class="ml-2 d-none d-sm-inline d-lg-inline">Filtriranje</span>
       </button>
     </div>
   </div>

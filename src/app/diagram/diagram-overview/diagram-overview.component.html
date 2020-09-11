@@ -14,7 +14,7 @@
     (isExportActive)="exportPicture($event)">
   </app-visualisation-toolbar>
 
-  <div class="infobox float-left col-sm-3" *ngIf="nodeActive !== null">
+  <div class="infobox float-left col-sm-7 col-md-6 col-lg-5 col-xl-3" *ngIf="nodeActive !== null">
     <app-userview
       [node]="nodeActive"
       [isSelectedActiveUser]="isSelectedActiveUser"
@@ -30,7 +30,7 @@
       *ngIf="nodeActive.type === 'account' || nodeActive.type === 'connectedAccount'">
     </app-accountview>
   </div>
-  <div class="infobox float-left col-sm-3" *ngIf="edgeActive !== null">
+  <div class="infobox float-left col-sm-7 col-md-6 col-lg-5 col-xl-3" *ngIf="edgeActive !== null">
     <app-transactionview
       [node]="edgeActive"
       (close)="onClosed()">

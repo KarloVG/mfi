@@ -1,28 +1,29 @@
 <div class="card">
-  <div class="card-body">
+  <div class="card-body mb-2 pb-3">
     <span class="text-right pull-right">
       <a class="close" aria-label="Close" (click)="closeInfobox()">
         <small class="fas fa-times"></small>
       </a>
     </span>
-    <section class="py-2" *ngIf="isSelectedActiveUser">
+
+    <section class="pt-2 pb-4 d-block" *ngIf="isSelectedActiveUser">
       <div><strong class="text-dark">Osoba u fokusu</strong></div>
       <div *ngIf="!node.data"><span class="h5 text-info">{{node.label}}</span></div>
       <div class="h5 text-info" *ngIf="node.data"><strong>{{node.data.naziv}}</strong><span *ngIf="node.idBroj">, ID: {{node.data.idBroj}}</span></div>
       <hr/>
-      <div>
-        <span class="mr-2">Ukupan iznos uplata<span class="ml-1" *ngIf="node.countIn">({{node.countIn}})</span>:</span>
-        <strong *ngIf="node.totalIn">{{node.totalIn|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+      <div class="d-block pb-1">
+        <span class="text-nowrap mr-2">Ukupan iznos uplata<span class="ml-1" *ngIf="node.countIn">({{node.countIn}})</span>:</span>
+        <strong class="text-nowrap" *ngIf="node.totalIn">{{node.totalIn|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
         <span *ngIf="!node.totalIn">n/a</span>
       </div>
-      <div>
-        <span class="mr-2">Ukupan iznos isplata<span class="ml-1" *ngIf="node.countOut">({{node.countOut}})</span>:</span>
-        <strong *ngIf="node.totalOut">{{node.totalOut|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+      <div class="d-block pb-1">
+        <span class="text-nowrap mr-2">Ukupan iznos isplata<span class="ml-1" *ngIf="node.countOut">({{node.countOut}})</span>:</span>
+        <strong class="text-nowrap" *ngIf="node.totalOut">{{node.totalOut|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
         <span *ngIf="!node.totalOut">n/a</span>
       </div>
     </section>
-    <!-- -->
-    <section *ngIf="!isSelectedActiveUser">
+
+    <section class="pt-2 pb-4 d-block" *ngIf="!isSelectedActiveUser">
       <div>
         <strong class="text-dark">Transakcije prema osobi u fokusu</strong>
       </div>
@@ -40,36 +41,36 @@
     </section>
   </div>
 
-  <div class="card-body" *ngIf="areDetailsExpanded">
+  <div class="card-body mt-2 mt-sm-4 mt-md-4 mt-xl-4" *ngIf="areDetailsExpanded">
     <section class="py-2" *ngFor="let account of accounts; let i = index">
-      <div class="text-info"><strong>Račun {{i+1}}</strong></div>
+      <div class="text-info pt-3 pb-2"><strong>Račun {{i+1}}</strong></div>
       <div class="card mb-2">
         <div class="card-body">
-          <div>Broj računa: <strong>{{account.brojRacuna}}</strong></div>
-          <div>SWIFT/BIC banke: <span>{{account.swift}}</span></div>
+          <div><span class="text-nowrap mr-2">Broj računa:</span><strong class="text-nowrap">{{account.brojRacuna}}</strong></div>
+          <div><span class="text-nowrap mr-2">SWIFT/BIC banke:</span><span class="text-nowrap">{{account.swift}}</span></div>
           <!--
           <div>Naziv banke: <span>{{account.bank}}</span>, Država: <span>{{account.country}}</span></div>
           -->
           <hr>
           <div>
-            <span class="mr-1">Uplate na račun:</span>
+            <span class="text-nowrap mr-1">Uplate na račun:</span>
             <strong *ngIf="account.brojUplata">{{account.brojUplata}}</strong>
             <span *ngIf="!account.brojUplata">n/a</span>
           </div>
           <div>
-            <span class="mr-1">Ukupan iznos uplata:</span>
-            <strong *ngIf="account.iznosUplata">{{account.iznosUplata|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+            <span class="text-nowrap mr-1">Ukupan iznos uplata:</span>
+            <strong class="text-nowrap" *ngIf="account.iznosUplata">{{account.iznosUplata|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
             <span *ngIf="!account.iznosUplata">n/a</span>
           </div>
           <hr>
           <div>
-            <span class="mr-1">Isplate s računa:</span>
+            <span class="text-nowrap mr-1">Isplate s računa:</span>
             <strong *ngIf="account.brojIsplata">{{account.brojIsplata}}</strong>
             <span *ngIf="!account.brojIsplata">n/a</span>
           </div>
           <div>
-            <span class="mr-1">Ukupan iznos isplata:</span>
-            <strong *ngIf="account.iznosIsplata">{{account.iznosIsplata|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
+            <span class="text-nowrap mr-1">Ukupan iznos isplata:</span>
+            <strong class="text-nowrap" *ngIf="account.iznosIsplata">{{account.iznosIsplata|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong>
             <span *ngIf="!account.iznosIsplata">n/a</span>
           </div>
           <hr>
@@ -90,7 +91,7 @@
     </div>
   </div>
 
-  <div class="card-body" *ngIf="!areDetailsExpanded">
+  <div class="card-body mt-0 mt-sm-0 mt-md-0 mt-xl-0" *ngIf="!areDetailsExpanded">
     <div class="card mb-2">
       <div class="card-body">
         <section>
@@ -99,13 +100,13 @@
         </section>
         <section *ngIf="!isSelectedActiveUser">
           <div>Broj transakcija prema osobi u fokusu: <strong>{{node.countOut}}</strong></div>
-          <div>Transakcija prema osobi u fokusu: <strong>{{accounts.length|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong></div>
+          <div>Transakcija prema osobi u fokusu: <strong class="text-nowrap">{{accounts.length|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong></div>
           <hr/>
         </section>
         <section>
           <div>Ukupno transakcija po svim računima: <strong>{{node.countOut + node.countIn}}</strong></div>
-          <div>Ukupan iznos svih uplata: <strong>{{node.totalIn|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong></div>
-          <div>Ukupan iznos svih isplata: <strong>{{node.totalOut|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong></div>
+          <div><span class="text-nowrap mr-2">Ukupan iznos svih uplata:</span><strong class="text-nowrap">{{node.totalIn|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong></div>
+          <div><span class="text-nowrap mr-2">Ukupan iznos svih isplata:</span><strong class="text-nowrap">{{node.totalOut|currency:'HRK':'symbol':'4.2-2':'hr'}}</strong></div>
         </section>
       </div>
     </div>

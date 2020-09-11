@@ -5,6 +5,7 @@
         <small class="fas fa-times"></small>
       </a>
     </span>
+
     <section *ngIf="isSelectedActiveUser && node.data">
       <div>Broj računa: <strong>{{node.data.brojRacuna}}</strong></div>
       <div>SWIFT/BIC banke: <span>{{node.data.swift}}</span></div>
