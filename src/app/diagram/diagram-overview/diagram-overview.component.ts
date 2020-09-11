@@ -33,7 +33,31 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   nodes: Node = new DataSet([])
   edges: Edge = new DataSet([])
   network: Network
-  options = {}
+  options = {
+    physics: {
+      barnesHut: {
+        gravitationalConstant: -4000,
+        centralGravity: 0.01,
+        springLength: 95,
+        springConstant: 0.04,
+        damping: 0.09
+      },
+      repulsion: {
+        centralGravity: 0.1,
+        springLength: 5,
+        springConstant: 0.05,
+        nodeDistance: 1000,
+        damping: 0.01
+      },
+      hierarchicalRepulsion: {
+        centralGravity: 0.5,
+        springLength: 1500,
+        springConstant: 0.01,
+        nodeDistance: 60,
+        damping: 0.09
+      }
+    }
+  }
   data: any
   nodeActive: any = null
   edgeActive: any = null
