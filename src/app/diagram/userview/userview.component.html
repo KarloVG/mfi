@@ -1,12 +1,12 @@
 <div class="card">
-  <div class="card-body mb-2 pb-3">
+  <div class="card-body">
     <span class="text-right pull-right">
       <a class="close" aria-label="Close" (click)="closeInfobox()">
         <small class="fas fa-times"></small>
       </a>
     </span>
 
-    <section class="pt-2 pb-4 d-block" *ngIf="isSelectedActiveUser">
+    <section *ngIf="isSelectedActiveUser">
       <div><strong class="text-dark">Osoba u fokusu</strong></div>
       <div *ngIf="!node.data"><span class="h5 text-info">{{node.label}}</span></div>
       <div class="h5 text-info" *ngIf="node.data"><strong>{{node.data.naziv}}</strong><span *ngIf="node.idBroj">, ID: {{node.data.idBroj}}</span></div>
@@ -23,7 +23,7 @@
       </div>
     </section>
 
-    <section class="pt-2 pb-4 d-block" *ngIf="!isSelectedActiveUser">
+    <section *ngIf="!isSelectedActiveUser">
       <div>
         <strong class="text-dark">Transakcije prema osobi u fokusu</strong>
       </div>
@@ -41,9 +41,9 @@
     </section>
   </div>
 
-  <div class="card-body mt-2 mt-sm-4 mt-md-4 mt-xl-4" *ngIf="areDetailsExpanded">
-    <section class="py-2" *ngFor="let account of accounts; let i = index">
-      <div class="text-info pt-3 pb-2"><strong>Račun {{i+1}}</strong></div>
+  <div class="card-body" *ngIf="areDetailsExpanded">
+    <section class="pb-1" *ngFor="let account of accounts; let i = index">
+      <div class="text-info pb-1"><strong>Račun {{i+1}}</strong></div>
       <div class="card mb-2">
         <div class="card-body">
           <div><span class="text-nowrap mr-2">Broj računa:</span><strong class="text-nowrap">{{account.brojRacuna}}</strong></div>
@@ -83,7 +83,7 @@
         </div>
       </div>
     </section>
-    <div class="text-center my-3">
+    <div class="text-center my-2">
       <button type="button" class="btn btn-secondary" title="Prikaz manje detalja računa i transakcija" (click)="contractAccountsInfo()">
         <span class="fas fa-arrow-up"></span>
         <span class="ml-2">Prikaži manje</span>
@@ -91,8 +91,8 @@
     </div>
   </div>
 
-  <div class="card-body mt-0 mt-sm-0 mt-md-0 mt-xl-0" *ngIf="!areDetailsExpanded">
-    <div class="card mb-2">
+  <div class="card-body" *ngIf="!areDetailsExpanded">
+    <div class="card">
       <div class="card-body">
         <section>
           <div>Broj korištenih računa: <strong>{{accounts.length}}</strong></div>
@@ -110,7 +110,7 @@
         </section>
       </div>
     </div>
-    <div class="text-center mt-4">
+    <div class="text-center mt-2">
       <button type="button" class="btn btn-secondary" title="Prikaz više detalja računa i transakcija" (click)="expandAccountsInfo()">
         <span class="fas fa-arrow-down"></span>
         <span class="ml-2">Prikaži više</span>
