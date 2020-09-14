@@ -20,6 +20,7 @@ export class InnerBaseComponent implements OnInit, OnDestroy {
   isLoading: boolean = true;
   innerItems: IInnerbaseItem[] = [];
   columns: any[] = EXPANDED_COLUMNS;
+  isTableActive: boolean = true;
 
   constructor(
     private innerService: InnerBaseService,
@@ -51,12 +52,14 @@ export class InnerBaseComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.class = true; // text danger
       modalRef.result.then((result) => {
         if (result) {
+          this.isTableActive = false;
           this.innerService.deleteInnerBaseItem(row.izvodID).pipe(untilComponentDestroyed(this)).subscribe(
             data => {
               this.getInnerItemsById();
               this.toastr.success('Detalj izvoda je obrisan', 'Uspjeh', {
                 progressBar: true
               });
+              this.isTableActive = true;
             },
             error => {  console.error('dIBIe', error)  }
           )

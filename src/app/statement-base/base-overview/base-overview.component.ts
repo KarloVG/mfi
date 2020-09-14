@@ -23,6 +23,7 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
   baseItems: IBaseItem[] = [];
   staticValue: IBaseItem[] = [];
   peopleOnSubject: ISimpleDropdownItem[] = [];
+  isTableActive: boolean = true;
 
   constructor(
     private baseService: BaseService,
@@ -146,10 +147,12 @@ export class BaseOverviewComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.class = true; // text danger
       modalRef.result.then((result) => {
         if (result) {
+          this.isTableActive = false;
           this.baseService.deletePersonOnBase(row.osobaID).subscribe(data => {
             this.toastr.success('Osoba na predmetu je izbrisana', 'Uspjeh', {
               progressBar: true
             });
+            this.isTableActive = true;
             this.getBaseItems();
           })
         } else {
