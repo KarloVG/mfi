@@ -36,25 +36,25 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   options = {
     physics: {
       barnesHut: {
-        gravitationalConstant: -4000,
+        gravitationalConstant: -8000,
         centralGravity: 0.01,
         springLength: 95,
-        springConstant: 0.04,
+        springConstant: 0.1,
         damping: 0.09
       },
       repulsion: {
-        centralGravity: 0.1,
+        centralGravity: -8000,
         springLength: 5,
-        springConstant: 0.05,
+        springConstant: 0.1,
         nodeDistance: 1000,
         damping: 0.01
       },
       hierarchicalRepulsion: {
-        centralGravity: 0.5,
+        centralGravity: -8000,
         springLength: 1500,
-        springConstant: 0.01,
-        nodeDistance: 60,
-        damping: 0.09
+        springConstant: 0.1,
+        nodeDistance: 200,
+        damping: 0.01
       }
     }
   }
