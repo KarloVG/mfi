@@ -1,4 +1,8 @@
 .card {
   max-height: 78vh;
   overflow: auto;
+
+  .card-body {
+    min-height: unset;
+  }
 }
