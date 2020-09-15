@@ -116,7 +116,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     let idx = ctx.nodes[0]
     this.edgeActive = null
     this.nodeActive = this.nodes.get(idx)
-    //console.log('SN[%s]', this.nodeActive.type, this.nodeActive, this.nodeActive.id, this.activeUser.id)
+    console.log('SN[%s]', this.nodeActive.type, this.nodeActive, this.nodeActive.id, this.activeUser.id)
     if (this.nodeActive.type === 'user') {
       this.isSelectedActiveUser = this.nodeActive.id === this.activeUser.id
       this.nodeActive.id = this.nodeActive.id.replace(/(connectedAccount\d{1,})$/gi, '')
@@ -235,7 +235,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
       const nidx = ctx.nodes[0]
       const node = this.nodes.get(nidx)
       if (node.type === 'account') {
-        //console.log('EXPAND', node, this.expanded.get(node.id) === null)
+        console.log('EXPAND[%s]', node.type, node, this.expanded.get(node.id) === null)
         if (this.expanded.get(node.id) === null) {
           const izvodId = 0
           this.diaSvc.getExpandData(this.activeUser.id, izvodId, node.label, node.id).pipe(untilComponentDestroyed(this)).subscribe(
@@ -250,7 +250,24 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
           )
         }
       } else if (node.type === 'user') {
-        //console.log('USRx', node, node.id, this.activeUser.id)
+        if (node.personIdentificator) {
+          const idParts = node.id.split(';')
+          console.log('IPX', idParts, idParts.length, idParts[idParts.length - 1])
+          if (idParts && idParts.length === 3) { // It works just fine™!
+            const brojRacuna = idParts[idParts.length - 1]
+            //console.log('USRx', node, node.personIdentificator, brojRacuna, node.id)
+            this.diaSvc.getExpandUserData(node.personIdentificator, brojRacuna, node.id).pipe(untilComponentDestroyed(this)).subscribe(
+              data => {
+                //console.log('ENX', data)
+                let payload = this.transformNodesEdges(data)
+                this.expanded.add(node)
+
+                this.nodes.add(payload.nodes)
+                this.edges.add(payload.edges)
+              }
+            )
+          }
+        }
       }
     }
   }

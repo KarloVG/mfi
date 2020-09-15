@@ -170,9 +170,41 @@ export class DiagramService {
         T_KONV_IZ_od: filterToken.IznosOd,
         T_KONV_IZ_do: filterToken.IznosDo
       };
-      console.log(request.filterValues)
+      console.log('FilterValues', request.filterValues)
     }
     const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'nestedData')
+    return this.http.post<any>(url, request)
+  }
+
+  getExpandUserData(person_Identificator: string, broj_Racuna: string, nodeID: string): Observable<any> {
+    const filterToken = this.filterService.hasToken();
+    let request: any = {
+      person_Identificator: person_Identificator,
+      broj_Racuna: broj_Racuna,
+      id: nodeID,
+      filterValues: null
+    }
+
+    if(filterToken) {
+      request.filterValues = {
+        A_NA: filterToken.Naziv,
+        B_NA: filterToken.NazivB,
+        T_DIR: filterToken.Smjer,
+        A_RN: filterToken.BrojRacuna,
+        B_RN: filterToken.BrojRacunaB,
+        A_FIN: filterToken.Banka,
+        B_FIN: filterToken.BankaB,
+        T_DV_od: filterToken.DatumTrasakcijeOd,
+        T_DV_do: filterToken.DatumTrasakcijeDo,
+        A_FID: filterToken.Drzava,
+        B_FID: filterToken.DrzavaB,
+        T_VR: filterToken.VrstaTransakcije,
+        T_KONV_IZ_od: filterToken.IznosOd,
+        T_KONV_IZ_do: filterToken.IznosDo
+      };
+      console.log('FilterValues', request.filterValues)
+    }
+    const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'nestedPersonData')
     return this.http.post<any>(url, request)
   }
 
