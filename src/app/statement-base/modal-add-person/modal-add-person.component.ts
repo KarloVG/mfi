@@ -20,7 +20,7 @@ export class ModalAddPersonComponent implements OnInit {
     osobaID: [''],
     naziv: ['', Validators.required],
     tipOsobe: [null, Validators.required],
-    idBroj: [''],
+    idBroj: ['', [Validators.required, Validators.minLength(5)]],
     vrstaIdBroja: [null]
   })
   identificationTypes: ISimpleDropdownItem[] = [];
@@ -85,15 +85,6 @@ export class ModalAddPersonComponent implements OnInit {
           this.modal.close(true);
         })
       }
-    }
-  }
-
-  onChangeIDType(event) {
-    const idNumber = this.idBroj.value ? this.idBroj.value : '';
-    if (event && event.id) {
-      this.reactiveFormService.setValidatorAfterViewInit(this.personGroup, idNumber, 'idBroj');
-    } else {
-      this.reactiveFormService.removeValidatorAfterViewInit(this.personGroup, '', 'idBroj');
     }
   }
 

@@ -35,7 +35,7 @@
                     Vrsta ID broja
                 </label>
                 <ng-select [items]="identificationTypes" bindLabel="name" bindValue="id" labelForId="vrstaIdBroja"
-                    placeholder="Izaberi..." clearAllText="Clear" formControlName="vrstaIdBroja" (change)="onChangeIDType($event)"
+                    placeholder="Izaberi..." clearAllText="Clear" formControlName="vrstaIdBroja"
                     [ngClass]="{'is-invalid': vrstaIdBroja.invalid && (vrstaIdBroja.dirty || vrstaIdBroja.touched || myForm.submitted)}">
                 </ng-select>
             </div>
