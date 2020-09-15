@@ -38,22 +38,22 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
       barnesHut: {
         gravitationalConstant: -8000,
         centralGravity: 0.01,
-        springLength: 95,
+        springLength: 200,
         springConstant: 0.1,
-        damping: 0.09
+        damping: 0.1
       },
       repulsion: {
         centralGravity: -8000,
-        springLength: 5,
+        springLength: 200,
         springConstant: 0.1,
-        nodeDistance: 1000,
+        nodeDistance: 5000,
         damping: 0.01
       },
       hierarchicalRepulsion: {
         centralGravity: -8000,
         springLength: 1500,
         springConstant: 0.1,
-        nodeDistance: 200,
+        nodeDistance: 5000,
         damping: 0.01
       }
     }
@@ -64,7 +64,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
 
   activeUser: any
   usersList: any[]
-  expanded = new Set([])
+  expanded = new DataSet([])
   isSelectedActiveUser: boolean = false
 
   viewLevel = 1
@@ -116,7 +116,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     let idx = ctx.nodes[0]
     this.edgeActive = null
     this.nodeActive = this.nodes.get(idx)
-    console.log('SN[%s]', this.nodeActive.type, this.nodeActive, this.nodeActive.id, this.activeUser.id)
+    //console.log('SN[%s]', this.nodeActive.type, this.nodeActive, this.nodeActive.id, this.activeUser.id)
     if (this.nodeActive.type === 'user') {
       this.isSelectedActiveUser = this.nodeActive.id === this.activeUser.id
       this.nodeActive.id = this.nodeActive.id.replace(/(connectedAccount\d{1,})$/gi, '')
@@ -235,26 +235,19 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
       const nidx = ctx.nodes[0]
       const node = this.nodes.get(nidx)
       if (node.type === 'account') {
-        if (!this.expanded.has(node.id)) {
-          //console.log('EXPAND', node)
+        //console.log('EXPAND', node, this.expanded.get(node.id) === null)
+        if (this.expanded.get(node.id) === null) {
           const izvodId = 0
           this.diaSvc.getExpandData(this.activeUser.id, izvodId, node.label, node.id).pipe(untilComponentDestroyed(this)).subscribe(
             data => {
               //console.log('ENX', data)
               let payload = this.transformNodesEdges(data)
+              this.expanded.add(node)
 
               this.nodes.add(payload.nodes)
               this.edges.add(payload.edges)
             }
           )
-        } else {
-          let nx
-          try {
-            nx = this.diaSvc.findParentUser(node, this.activeUser.id)
-          } catch(e) {}
-          if (nx) {
-            this.diaSvc.addNodes(nx)
-          }
         }
       } else if (node.type === 'user') {
         //console.log('USRx', node, node.id, this.activeUser.id)
