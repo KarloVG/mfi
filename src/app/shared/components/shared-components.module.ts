@@ -12,6 +12,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { FilterAlertComponent } from './filter-alert/filter-alert.component';
 import { VisualisationToolbarComponent } from './visualisation-toolbar/visualisation-toolbar.component';
 import { ToolbarInfoComponent } from './toolbar-info/toolbar-info.component';
+import { ModalCanClearViewComponent } from './modal-can-clearview/modal-can-clearview.component';
 
 const components = [
   ConfirmationModalComponent,
@@ -20,7 +21,8 @@ const components = [
   PageNotFoundComponent,
   FilterAlertComponent,
   VisualisationToolbarComponent,
-  ToolbarInfoComponent
+  ToolbarInfoComponent,
+  ModalCanClearViewComponent,
 ];
 
 @NgModule({

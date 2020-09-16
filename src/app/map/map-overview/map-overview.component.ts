@@ -6,6 +6,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap'
 import {ModalBaseDetailComponent} from 'src/app/statement-base/base-overview/modal-base-detail/modal-base-detail.component'
 import {untilComponentDestroyed} from '@w11k/ngx-componentdestroyed';
 import {MapDataService} from '../services/map-data.service'
+import { ModalCanClearViewComponent } from 'src/app/shared/components/modal-can-clearview/modal-can-clearview.component';
 
 import {registerLocaleData} from '@angular/common';
 import localeHr from '@angular/common/locales/hr';
@@ -119,7 +120,24 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
   }
 
   addUser(osobaId, izvodId) {
-    console.log('Init map data', osobaId)
+    console.log('Init map data', osobaId, typeof this.activeUser, typeof this.activeUser === 'object')
+    if (typeof this.activeUser === 'object') {
+      // alert for cleanup!
+      const modalRef = this.ngbModalService.open(ModalCanClearViewComponent, { backdrop: 'static', keyboard: false });
+      modalRef.result.then((result) => {
+        if (result == true) {
+          return false
+        } else if (result == false) {
+          this.clearMap()
+          this.setupUserMap(osobaId, izvodId)
+        }
+      })
+    } else {
+      this.setupUserMap(osobaId, izvodId)
+    }
+  }
+
+  setupUserMap(osobaId, izvodId) {
     this.activeUser = { id: osobaId }
     let cmap = {}
     let markers = []
@@ -176,6 +194,14 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
         })
       }
     )
+  }
+
+  clearMap() {
+    this.map.eachLayer((layer) => {
+      if (!layer.hasOwnProperty('_url')) {
+        layer.remove()
+      }
+    })
   }
 
   onMapReady(map) {

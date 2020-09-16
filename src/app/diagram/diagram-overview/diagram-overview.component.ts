@@ -8,6 +8,7 @@ import {untilComponentDestroyed} from '@w11k/ngx-componentdestroyed'
 import {ModalBaseDetailComponent} from 'src/app/statement-base/base-overview/modal-base-detail/modal-base-detail.component'
 import { NgxCaptureService } from 'ngx-capture';
 import { BaseToBlobService } from 'src/app/shared/services/base-to-blob-service'
+import { ModalCanClearViewComponent } from 'src/app/shared/components/modal-can-clearview/modal-can-clearview.component';
 
 import {registerLocaleData} from '@angular/common'
 import localeHr from '@angular/common/locales/hr'
@@ -162,9 +163,21 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     //console.log('ADX', userId, typeId)
     if (this.nodes.length > 0 || this.edges.length > 0) {
       // alert for cleanup!
-      this.clearNetwork()
+      const modalRef = this.ngbModalService.open(ModalCanClearViewComponent, { backdrop: 'static', keyboard: false });
+      modalRef.result.then((result) => {
+        if (result == true) {
+          return false
+        } else if (result == false) {
+          this.clearNetwork()
+          this.setupNewDiagram(userId, typeId)
+        }
+      })
+    } else {
+      this.setupNewDiagram(userId, typeId)
     }
+  }
 
+  setupNewDiagram(userId, typeId) {
     this.diaSvc.getDiagramData(userId, typeId).pipe(untilComponentDestroyed(this)).subscribe(
       data => {
         //console.log('DDX', data)

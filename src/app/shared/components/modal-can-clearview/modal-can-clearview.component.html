@@ -1,0 +1,29 @@
+<div class="modal-header" style="background: rgb(220, 53, 69); color: white;">
+    <h4 class="modal-title" id="modal-title">Brisanje postojećeg pregleda</h4>
+    <a class="close" aria-label="Close" (click)="modal.close(null)">
+        <span class="fas fa-times"></span>
+    </a>
+</div>
+<div class="modal-body" *ngIf="subjectName; else newEntry">
+    <p>
+        U trenutnom pregledu napravljene su određene promjene.<br>
+        Molimo vas odaberite želite li izbrisati trenutne promjene.
+    </p>
+</div>
+<ng-template #newEntry>
+    <div class="modal-body">
+        <p>
+            Molimo vas odaberite želite li izbrisati trenutne promjene.
+        </p>
+    </div>
+</ng-template>
+<div class="modal-footer px-0">
+    <button type="button" class="btn btn-outline-danger mr-auto" (click)="modal.close(false)">
+        <span class="fas fa-trash"></span>
+        <span class="ml-2">Izbriši</span>
+    </button>
+    <button type="button" ngbAutofocus class="btn btn-primary" (click)="modal.close(true)">
+        <span class="fas fa-times"></span>
+        <span class="ml-2">Odustani</span>
+    </button>
+</div>

@@ -97,7 +97,6 @@ export class DiagramService {
   }
 
   getDiagramAccountDetail(ListaIzvoda: number[], BrojRacuna: string): Observable<IDiagramAccountDetailResponse> {
-
     const filterToken = this.filterService.hasToken();
     let request = {
       listaIzvoda: ListaIzvoda,
@@ -132,6 +131,35 @@ export class DiagramService {
       brojRacuna: BrojRacuna
     };
     const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'accountDetailList')
+    return this.http.post<IDiagramAccountDetailResponse>(url, request)
+  }
+
+  getDiagramPersonAccountDetail(osobaId: string, BrojRacuna: string): Observable<IDiagramAccountDetailResponse> {
+    const filterToken = this.filterService.hasToken();
+    let request = {
+      osobaId: osobaId,
+      brojRacuna: BrojRacuna,
+      filterValues: null
+    };
+    if(filterToken) {
+      request.filterValues = {
+        A_NA: filterToken.Naziv,
+        B_NA: filterToken.NazivB,
+        T_DIR: filterToken.Smjer,
+        A_RN: filterToken.BrojRacuna,
+        B_RN: filterToken.BrojRacunaB,
+        A_FIN: filterToken.Banka,
+        B_FIN: filterToken.BankaB,
+        T_DV_od: filterToken.DatumTrasakcijeOd,
+        T_DV_do: filterToken.DatumTrasakcijeDo,
+        A_FID: filterToken.Drzava,
+        B_FID: filterToken.DrzavaB,
+        T_VR: filterToken.VrstaTransakcije,
+        T_KONV_IZ_od: filterToken.IznosOd,
+        T_KONV_IZ_do: filterToken.IznosDo
+      };
+    }
+    const url = this.urlHelper.getUrl(this.CONTROLLER_NAME, 'personDetail')
     return this.http.post<IDiagramAccountDetailResponse>(url, request)
   }
 
