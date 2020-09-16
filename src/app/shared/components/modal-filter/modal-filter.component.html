@@ -11,23 +11,23 @@
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="Naziv">Ime / naziv</label>
                 <input type="text" class="form-control" id="Naziv" name="Naziv"
-                    placeholder="Ime / naziv osobe" formControlName="Naziv">
+                    placeholder="Ime / naziv osobe" autocomplete="off" formControlName="Naziv">
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="BrojRacuna">Račun</label>
                 <input type="text" class="form-control" id="BrojRacuna" name="BrojRacuna"
-                    placeholder="Broj računa" formControlName="BrojRacuna">
+                    placeholder="Broj računa" autocomplete="off" formControlName="BrojRacuna">
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="Banka">Banka</label>
                 <ng-select [items]="banks" bindLabel="naziv" bindValue="skraceniNaziv" labelForId="state" placeholder="Izaberi..."
-                    clearAllText="Clear" formControlName="Banka">
+                    clearAllText="Clear" autocomplete="off" formControlName="Banka">
                 </ng-select>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="Drzava">Država</label>
                 <ng-select [items]="countries" bindLabel="name" bindValue="code" labelForId="state" placeholder="Izaberi..."
-                    clearAllText="Clear" formControlName="Drzava">
+                    clearAllText="Clear" autocomplete="off" formControlName="Drzava">
                 </ng-select>
             </div>
         </div>
@@ -37,23 +37,23 @@
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="NazivB">Ime / naziv</label>
                 <input type="text" class="form-control" id="NazivB" name="NazivB"
-                    placeholder="Mjesec, npr. 14. mjesec" formControlName="NazivB">
+                    placeholder="Mjesec, npr. 14. mjesec" autocomplete="off" formControlName="NazivB">
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="BrojRacunaB">Račun</label>
                 <input type="text" class="form-control" id="BrojRacunaB" name="BrojRacunaB"
-                    placeholder="Mjesec, npr. 14. mjesec" formControlName="BrojRacunaB">
+                    placeholder="Mjesec, npr. 14. mjesec" autocomplete="off" formControlName="BrojRacunaB">
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="BankaB">Banka</label>
                 <ng-select [items]="banks" bindLabel="naziv" bindValue="skraceniNaziv" labelForId="state" placeholder="Izaberi..."
-                    clearAllText="Clear" formControlName="BankaB">
+                    clearAllText="Clear" formControlName="BankaB" autocomplete="off">
                 </ng-select>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="DrzavaB">Država</label>
                 <ng-select [items]="countries" bindLabel="name" bindValue="code" labelForId="state" placeholder="Izaberi..."
-                    clearAllText="Clear" formControlName="DrzavaB">
+                    clearAllText="Clear" formControlName="DrzavaB" autocomplete="off">
                 </ng-select>
             </div>
         </div>
@@ -63,13 +63,13 @@
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="Smjer">Smjer transakcije</label>
                 <ng-select [items]="directions" bindLabel="name" bindValue="name" labelForId="state" placeholder="Izaberi..."
-                    clearAllText="Clear" formControlName="Smjer">
+                    clearAllText="Clear" formControlName="Smjer" autocomplete="off">
                 </ng-select>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                 <label for="VrstaTransakcije">Vrsta transakcije</label>
                 <ng-select [items]="transactionTypes" bindLabel="name" bindValue="name" labelForId="state" placeholder="Izaberi..."
-                    clearAllText="Clear" formControlName="VrstaTransakcije">
+                    clearAllText="Clear" formControlName="VrstaTransakcije" autocomplete="off">
                 </ng-select>
             </div>
             <div class="input-group mb-4">
@@ -104,14 +104,14 @@
                 </label>
                 <div class="col-sm-5 input-group">
                     <input type="number" class="form-control" id="IznosOd" name="IznosOd"
-                    placeholder="10000" formControlName="IznosOd">
+                    placeholder="10000" formControlName="IznosOd" autocomplete="off">
                 </div>
                 <label class="col-sm-2 text-center">
                     do
                 </label>
                 <div class="col-sm-5 input-group">
                     <input type="number" class="form-control" id="IznosDo" name="IznosDo"
-                    placeholder="100000" formControlName="IznosDo">
+                    placeholder="100000" formControlName="IznosDo" autocomplete="off">
                 </div>
             </div>
         </div>
