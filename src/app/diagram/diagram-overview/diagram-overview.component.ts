@@ -12,6 +12,7 @@ import { ModalCanClearViewComponent } from 'src/app/shared/components/modal-can-
 
 import {registerLocaleData} from '@angular/common'
 import localeHr from '@angular/common/locales/hr'
+import { ToastrService } from 'ngx-toastr'
 registerLocaleData(localeHr, 'hr')
 
 interface Users {
@@ -77,21 +78,20 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
 
   public constructor(
     private diaSvc: DiagramService,
-    private subjectService: SubjectService,
-    private baseService: BaseService,
     private ngbModalService: NgbModal,
     private captureService: NgxCaptureService,
-    private baseToBlobService: BaseToBlobService
+    private baseToBlobService: BaseToBlobService,
+    private toastr: ToastrService
   ) {
-    this.subjectId = +this.subjectService.hasToken()
-    this.baseService.getBaseItems().subscribe(
-      data => {
-        this.usersList = data
-      },
-      err => {
-        console.warn('ERR', err)
-      }
-    )
+    // this.subjectId = +this.subjectService.hasToken()
+    // this.baseService.getBaseItems().subscribe(
+    //   data => {
+    //     this.usersList = data
+    //   },
+    //   err => {
+    //     console.warn('ERR', err)
+    //   }
+    // )
   }
 
   public ngOnInit(): void {
@@ -180,6 +180,11 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   setupNewDiagram(userId, typeId) {
     this.diaSvc.getDiagramData(userId, typeId).pipe(untilComponentDestroyed(this)).subscribe(
       data => {
+        if(Object.keys(data.nodes).length === 0 && data.nodes.constructor === Object && Object.keys(data.edges).length === 0 && data.edges.constructor === Object) {
+          this.toastr.warning('Ne postoje rezultati prema zadanim parametrima pretrage', 'Pažnja', {
+            progressBar: true
+          });
+        }
         //console.log('DDX', data)
         let payload = this.transformNodesEdges(data)
 
@@ -253,6 +258,12 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
           const izvodId = 0
           this.diaSvc.getExpandData(this.activeUser.id, izvodId, node.label, node.id).pipe(untilComponentDestroyed(this)).subscribe(
             data => {
+              console.log(data.nodes, data.edges)
+              if(Object.keys(data.nodes).length === 0 && data.nodes.constructor === Object && Object.keys(data.edges).length === 0 && data.edges.constructor === Object) {
+                this.toastr.warning('Ne postoje rezultati prema zadanim parametrima pretrage', 'Pažnja', {
+                  progressBar: true
+                });
+              }
               //console.log('ENX', data)
               let payload = this.transformNodesEdges(data)
               this.expanded.add(node)
@@ -271,6 +282,11 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
             //console.log('USRx', node, node.personIdentificator, brojRacuna, node.id)
             this.diaSvc.getExpandUserData(node.personIdentificator, brojRacuna, node.id).pipe(untilComponentDestroyed(this)).subscribe(
               data => {
+                if(Object.keys(data.nodes).length === 0 && data.nodes.constructor === Object && Object.keys(data.edges).length === 0 && data.edges.constructor === Object) {
+                  this.toastr.warning('Ne postoje rezultati prema zadanim parametrima pretrage', 'Pažnja', {
+                    progressBar: true
+                  });
+                }
                 //console.log('ENX', data)
                 let payload = this.transformNodesEdges(data)
                 this.expanded.add(node)

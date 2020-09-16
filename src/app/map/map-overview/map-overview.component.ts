@@ -17,6 +17,7 @@ import { NgxCaptureService } from 'ngx-capture';
 import { BaseToBlobService } from 'src/app/shared/services/base-to-blob-service';
 import domtoimage from 'dom-to-image';
 import {formatDate} from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-map-overview',
@@ -79,21 +80,20 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private subjectService: SubjectService,
-    private baseService: BaseService,
     private mapSvc: MapDataService,
-    private ngbModalService: NgbModal
+    private ngbModalService: NgbModal,
+    private toastr: ToastrService
   ) {
     Object.assign(this, {countriesLatLng})
-    this.subjectId = +this.subjectService.hasToken()
-    this.baseService.getBaseItems().subscribe(
-      data => {
-        this.usersList = data
-      },
-      err => {
-        console.warn('ERR', err)
-      }
-    )
+    // this.subjectId = +this.subjectService.hasToken()
+    // this.baseService.getBaseItems().subscribe(
+    //   data => {
+    //     this.usersList = data
+    //   },
+    //   err => {
+    //     console.warn('ERR', err)
+    //   }
+    // )
   }
 
   ngOnInit(): void {}
@@ -145,7 +145,11 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
     this.mapSvc.getInitialData(osobaId).pipe(untilComponentDestroyed(this)).subscribe(
       data => {
         this.rawData = data
-        console.log('ADX', this.rawData)
+        if(!data.listaDrzava) {
+          this.toastr.warning('Ne postoje rezultati prema zadanim parametrima pretrage', 'Pažnja', {
+            progressBar: true
+          });
+        }
         data.forEach(drzava => {
           cmap[drzava.drzava] = []
           //console.log('ADX2', drzava)

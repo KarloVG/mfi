@@ -7,6 +7,7 @@ import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { IChartResponse } from '../models/chart-response';
 import { NgxCaptureService } from 'ngx-capture';
 import { BaseToBlobService } from 'src/app/shared/services/base-to-blob-service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-chart-overview',
@@ -23,7 +24,8 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
   constructor(
     private chartService: ChartService,
     private captureService: NgxCaptureService,
-    private baseToBlobService: BaseToBlobService
+    private baseToBlobService: BaseToBlobService,
+    private toastr: ToastrService
   ) { }
 
   @ViewChild('screen', { static: true }) screen: any;
@@ -126,32 +128,44 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
       this.chartService.getChartData(event.osobaID, event.izvodID).pipe(untilComponentDestroyed(this)).subscribe(
         data => {
           this.chartResponseData = data;
-          this.chartResponseData.ulazneTransakcijePoOsobi.forEach(
-            poOsobi => {
-              this.barChartLabelsU.push(poOsobi.osoba);
-              this.barChartDataU[0].data.push(poOsobi.iznos);
-              this.zbrojUplata += poOsobi.iznos;
+          if(this.chartResponseData.ulazneOsobeData && this.chartResponseData.ulazneOsobeLabels) {
+            this.barChartLabelsU = this.chartResponseData.ulazneOsobeLabels;
+            this.barChartDataU[0].data = this.chartResponseData.ulazneOsobeData;
+            this.chartResponseData.ulazneOsobeData.forEach(
+              item => {
+                this.zbrojUplata += item;
+              }
+            );
+          }
+          if(this.chartResponseData.izlazneOsobeData && this.chartResponseData.izlazneOsobeLabels) {
+            this.barChartLabelsI = this.chartResponseData.izlazneOsobeLabels;
+            this.barChartDataI[0].data = this.chartResponseData.izlazneOsobeData;
+            this.chartResponseData.izlazneOsobeData.forEach(
+              item => {
+                this.zbrojIsplata += item;
+              }
+            );
+          }
+          if(this.chartResponseData.izlazneDrzaveData && this.chartResponseData.izlazneDrzaveLabels) {
+            this.pieChartLabelsI = this.chartResponseData.izlazneDrzaveLabels;
+            this.pieChartDataI = this.chartResponseData.izlazneDrzaveData;
+          }
+          if(this.chartResponseData.ulazneDrzaveData && this.chartResponseData.ulazneDrzaveLabels) {
+            this.pieChartLabelsU = this.chartResponseData.ulazneDrzaveLabels;
+            this.pieChartDataU = this.chartResponseData.ulazneDrzaveData;
+          }
+          if(this.chartResponseData.ulazneOsobeLabels.length == 0 &&
+            this.chartResponseData.ulazneOsobeData.length == 0 &&
+            this.chartResponseData.izlazneOsobeLabels.length == 0 &&
+            this.chartResponseData.izlazneOsobeData.length == 0 &&
+            this.chartResponseData.ulazneDrzaveLabels.length == 0 &&
+            this.chartResponseData.ulazneDrzaveData.length == 0 &&
+            this.chartResponseData.izlazneDrzaveLabels.length == 0 &&
+            this.chartResponseData.izlazneDrzaveData.length == 0) {
+              this.toastr.warning('Ne postoje rezultati prema zadanim parametrima pretrage', 'Pažnja', {
+                progressBar: true
+              });
             }
-          );
-          this.chartResponseData.izlazneTransakcijePoOsobi.forEach(
-            poOsobi => {
-              this.barChartLabelsI.push(poOsobi.osoba);
-              this.barChartDataI[0].data.push(poOsobi.iznos);
-              this.zbrojIsplata += poOsobi.iznos;
-            }
-          );
-          this.chartResponseData.izlazneTransakcijePoDrzavi.forEach(
-            poOsobi => {
-              this.pieChartLabelsI.push(poOsobi.drzava);
-              this.pieChartDataI.push(poOsobi.iznos);
-            }
-          );
-          this.chartResponseData.ulazneTransakcijePoDrzavi.forEach(
-            poOsobi => {
-              this.pieChartLabelsU.push(poOsobi.drzava);
-              this.pieChartDataU.push(poOsobi.iznos);
-            }
-          );
         }
       )
     }
