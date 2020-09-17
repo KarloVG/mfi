@@ -28,7 +28,7 @@
       </a>
       <li class="sidebar-list-item text-center px-0 py-0" *ngFor="let menu of menus">
           <a routerLinkActive="is-active" type="button" class="menu-button btn btn-block py-3"
-            routerLink="{{menu.path}}"
+            (click)="navigateToPath(menu.path)"
             [title]="menu.descr"
             [attr.disabled]="isDisabledDropdown ? true : null" >
           <span class="menu-icon d-block fas fa-2x" [ngClass]="menu.icon"></span>
