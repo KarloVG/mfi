@@ -19,6 +19,8 @@ import { BasePaginationComponent } from 'src/app/shared/components/base-paginati
 import { IPaginationBase } from 'src/app/shared/models/pagination/pagination-base';
 import { SelectionType, DatatableComponent } from '@swimlane/ngx-datatable';
 import { ITopbarTableInfo } from '../models/topbar-table-info';
+import { AlarmService } from 'src/app/shared/services/alarm.service';
+import { IAlarmResponse } from 'src/app/shared/models/alarm-response';
 
 @Component({
   selector: 'app-table-overview',
@@ -40,6 +42,9 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
   selected = [];
   isSelectActive: boolean = false;
 
+  //alarm
+  alarmItems: IAlarmResponse[];
+
   // pagination
   readonly pageSize = 10;
   pagedResult: IPagedResult<IFinancijskaTransakcija>;
@@ -51,7 +56,8 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
     private toastr: ToastrService,
     private excelService: ExcelService,
     private localStorageFilterService: LocalStoreFilterService,
-    private tableService: TableService
+    private tableService: TableService,
+    private alarmService: AlarmService
   ) { 
     super();
   }
@@ -64,6 +70,7 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
     this.getTopbarTableInfo();
     this.hasActiveFilter();
     this.fetchPage();
+    this.getAlarmInfo();
     // this.getIzvod();
   }
 
@@ -111,12 +118,31 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
     }
   }
 
+  getAlarmInfo():void {
+    this.alarmService.getAlarmInformation().pipe(take(1)).subscribe(
+      data => {
+        if(data && data.length) {
+          this.alarmItems = data;
+          if(this.pagedResult && this.pagedResult.model) {
+            this.alarmItems.forEach(
+              element => {
+                const alarmSelectedItems = this.pagedResult.model.filter(x => x.a_RN == element.drugiARN);
+                if(alarmSelectedItems && alarmSelectedItems.length) {
+                  this.selected = alarmSelectedItems;
+                }
+              }
+            )
+          }
+        }
+      }
+    )
+  }
+
   /* 
     component methods
   */
   onSelect({ selected }) {
     console.log('Select Event', selected, this.selected);
-
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }

@@ -26,7 +26,8 @@ export class SidebarComponent implements OnInit {
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        var withNoDigits = event.url.replace(/[0-9]/g, '');
+        let withNoDigits = event.url.replace(/[0-9]/g, '');
+        console.log(withNoDigits)
         if(withNoDigits == '/subject//edit' || withNoDigits == '/subject/add' || withNoDigits == '/welcome') {
           this.isDisabledDropdown = true;
         } else {
@@ -35,6 +36,12 @@ export class SidebarComponent implements OnInit {
       }
     });
   }
+
+  navigateToPath(path) {
+    if(this.isDisabledDropdown == false) {
+      this.router.navigate([path])
+    }
+  } 
 
   ngOnInit(): void {
     this.navService.publishNavigationChange();
