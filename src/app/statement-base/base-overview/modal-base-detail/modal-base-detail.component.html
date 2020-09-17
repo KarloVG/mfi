@@ -39,13 +39,13 @@
                                     Izvršenje DO datuma: <strong>{{ izvod.datumVrijemeDo | date: 'dd.MM.yyyy' }}</strong>
                                 </li>
                                 <li class="list-group-item">
-                                    Broj dolaznih transakcija(uplate): <strong>{{ izvod.brojUplata }}</strong>
+                                    Broj dolaznih transakcija (uplate): <strong>{{ izvod.brojUplata }}</strong>
                                 </li>
                                 <li class="list-group-item">
                                     Ukupan iznos uplata: <strong>{{ izvod.iznosUplata | currency:'HRK':'symbol':'4.2-2':'hr' }}</strong>
                                 </li>
                                 <li class="list-group-item">
-                                    Broj odlaznih transakcija(isplata): <strong>{{ izvod.brojIsplata }}</strong>
+                                    Broj odlaznih transakcija (isplata): <strong>{{ izvod.brojIsplata }}</strong>
                                 </li>
                                 <li class="list-group-item">
                                     Ukupan iznos isplata: <strong>{{ izvod.iznosIsplata | currency:'HRK':'symbol':'4.2-2':'hr' }}</strong>
@@ -62,7 +62,7 @@
                 Financijske transakcije na izvodu
             </ng-template>
             <ng-template ngbTabContent>
-                <div class="row mb-4 d-flex justify-content-end">
+                <div class="row mb-2 mt-2 d-flex justify-content-end">
                     <div class="col-lg-4 col-md-4 col-sm-4">
                         <input type="text" class="form-control form-rounded" [(ngModel)]="paginationRequest.searchString"
                             placeholder="Upišite pojam pretrage">

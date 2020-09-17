@@ -24,6 +24,7 @@ export class ModalBaseDetailComponent extends BasePaginationComponent implements
   @Input() isDiagram: boolean = false
   @Input() brojRacuna: string;
   @Input() drzava: string;
+  @Input() isARN: boolean = false
   isLoading: boolean = true;
   //baseTransactions: IInnerBaseDetail[] = [];
   // ugly, but works; nije mi se dalo kopati po tome dublje
@@ -66,7 +67,7 @@ export class ModalBaseDetailComponent extends BasePaginationComponent implements
           this.pagedResult = pagedResult;
         });
     } else if(this.isDiagram) {
-      this.baseDetailService.getBaseDetailForDiagram(this.paginationRequest,this.listaIzvodID, this.brojRacuna).pipe(
+      this.baseDetailService.getBaseDetailForDiagram(this.paginationRequest,this.listaIzvodID, this.brojRacuna, this.isARN).pipe(
         untilComponentDestroyed(this)).subscribe(pagedResult => {
           this.isLoading = false;
           this.pagedResult = pagedResult;
