@@ -121,11 +121,14 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     if (this.nodeActive.type === 'user') {
       this.isSelectedActiveUser = this.nodeActive.id === this.activeUser.id
       this.nodeActive.id = this.nodeActive.id.replace(/(connectedAccount\d{1,})$/gi, '')
+      //console.log('NX1', Object.getOwnPropertyNames(this.nodeActive), this.nodeActive)
+      //console.log('NX2', Object.getOwnPropertyNames(this.nodes.get(idx)), this.nodes.get(idx))
+
     } else if (this.nodeActive.type === 'account' || this.nodeActive.type === 'connectedAccount') {
       if (this.nodeActive.type === 'connectedAccount') {
-        this.diaSvc.getDiagramAccountDetail(this.nodeActive.listaIzvoda, this.nodeActive.label).pipe(untilComponentDestroyed(this)).subscribe(
+        this.diaSvc.getDiagramAccountDetail(this.nodeActive.listaIzvoda, this.nodeActive.label, this.nodeActive.isARN).pipe(untilComponentDestroyed(this)).subscribe(
           data => {
-            //console.log('GDADx', data)
+            //console.log('GDADxx', data)
             this.nodeActive.data = data
           }
         )
@@ -252,8 +255,8 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     if (ctx.nodes.length) {
       const nidx = ctx.nodes[0]
       const node = this.nodes.get(nidx)
+      console.log('EXPAND[%s]', node.type, node, this.expanded.get(node.id) === null)
       if (node.type === 'account') {
-        console.log('EXPAND[%s]', node.type, node, this.expanded.get(node.id) === null)
         if (this.expanded.get(node.id) === null) {
           const izvodId = 0
           this.diaSvc.getExpandData(this.activeUser.id, izvodId, node.label, node.id).pipe(untilComponentDestroyed(this)).subscribe(

@@ -96,11 +96,12 @@ export class DiagramService {
     )
   }
 
-  getDiagramAccountDetail(ListaIzvoda: number[], BrojRacuna: string): Observable<IDiagramAccountDetailResponse> {
+  getDiagramAccountDetail(ListaIzvoda: number[], BrojRacuna: string, isARN: boolean = false): Observable<IDiagramAccountDetailResponse> {
     const filterToken = this.filterService.hasToken();
     let request = {
       listaIzvoda: ListaIzvoda,
       brojRacuna: BrojRacuna,
+      isARN: isARN,
       filterValues: null
     };
     if(filterToken) {
