@@ -8,4 +8,5 @@ export interface IDiagramAccountDetailResponse {
     brojUplata: number
     iznosUplata: number
     iznosTransakcija: number
+    nazivOsobe?: string
 }

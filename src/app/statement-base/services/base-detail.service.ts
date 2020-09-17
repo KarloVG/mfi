@@ -42,7 +42,7 @@ export class BaseDetailService {
     }
   }
 
-  getBaseDetailForDiagram(paginationRequest: IPaginationBase, listOfId: number[], label): Observable<IPagedResult<IFinancijskaTransakcija>> {
+  getBaseDetailForDiagram(paginationRequest: IPaginationBase, listOfId: number[], label, isARN: boolean = false): Observable<IPagedResult<IFinancijskaTransakcija>> {
     const token = this.subjectService.hasToken();
     if (token) {
       const request = {
@@ -52,7 +52,8 @@ export class BaseDetailService {
         pageNumber: paginationRequest.page,
         orderBy: paginationRequest.orderBy,
         predmetID: token,
-        listaIzvoda: listOfId
+        listaIzvoda: listOfId,
+        isARN: isARN,
       }
       const url = this.urlHelper.getUrl(this.DIAGRAM_CONTROLLER, 'accountDetailListPaginated');
       return this.http.post<IPagedResult<IFinancijskaTransakcija>>(url, request);
