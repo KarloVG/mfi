@@ -10,6 +10,7 @@ import { CustomDatepickerI18n } from 'src/app/shared/utils/custom-date-picker-i1
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { BaseToBlobService } from 'src/app/shared/services/base-to-blob-service';
 import { NgxCaptureService } from 'ngx-capture';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-flow-overview',
@@ -121,7 +122,8 @@ export class FlowOverviewComponent implements OnInit {
     private flowService: FlowService,
     private formBuilder: FormBuilder,
     private baseToBlobService: BaseToBlobService,
-    private captureService: NgxCaptureService
+    private captureService: NgxCaptureService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void { }
@@ -149,6 +151,11 @@ export class FlowOverviewComponent implements OnInit {
             this.barChartDataU[0].data = data.iznosiU;
             this.barChartLabelsI = data.labeleI;
             this.barChartDataI[0].data = data.iznosiI;
+            if(data.labeleU.length == 0 && data.iznosiU.length == 0 && data.labeleI.length == 0 && data.iznosiI.length == 0) {
+              this.toastr.warning('Ne postoje rezultati prema zadanim parametrima pretrage', 'Pažnja', {
+                progressBar: true
+              });
+            }
           }
         );
       }

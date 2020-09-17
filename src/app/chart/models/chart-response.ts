@@ -1,9 +1,13 @@
-import { IChartDrzava } from './chart-drzava';
-import { IChartOsoba } from './chart-osoba';
+// import { IChartDrzava } from './chart-drzava';
+// import { IChartOsoba } from './chart-osoba';
 
 export interface IChartResponse {
-    izlazneTransakcijePoDrzavi: IChartDrzava[];
-    izlazneTransakcijePoOsobi: IChartOsoba[];
-    ulazneTransakcijePoDrzavi: IChartDrzava[];
-    ulazneTransakcijePoOsobi: IChartOsoba[];
+    ulazneOsobeLabels: string[];
+    ulazneOsobeData: number[];
+    izlazneOsobeLabels: string[];
+    izlazneOsobeData: number[];
+    ulazneDrzaveLabels: string[];
+    ulazneDrzaveData: number[];
+    izlazneDrzaveLabels: string[];
+    izlazneDrzaveData: number[];
 }
