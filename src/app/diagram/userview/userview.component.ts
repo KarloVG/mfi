@@ -35,14 +35,22 @@ export class UserviewComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    if (changes.node.firstChange === false && changes.node.currentValue.label !== changes.node.previousValue.label) {
-      this.setup()
+    //console.log('CHX', changes, changes.node.currentValue.type, changes.node.currentValue.id, changes.node.previousValue.id, changes.node.currentValue.id !== changes.node.previousValue.id)
+    try {
+      if (changes.node.firstChange === false && changes.node.currentValue.id !== changes.node.previousValue.id) {
+        this.setup()
+      } else if (changes.node.firstChange === false && changes.node.currentValue.type === 'user' && changes.node.currentValue.id === changes.node.previousValue.id) {
+         this.node = {...this.node, ...changes.node.previousValue}
+      }
+    } catch (e) {
+      console.warn('Got E.', e)
     }
   }
 
   setup() {
     this.focusAccounts = this.activeUser.izvodi
     this.accounts = this.isSelectedActiveUser? this.node.data.izvodi : this.linkedAccounts
+    console.log('ACX', this.accounts)
 
     this.accounts.forEach(acc => {
       if (acc.hasOwnProperty('iznosTransakcija') && acc.hasOwnProperty('iznosUplata') && !acc.hasOwnProperty('iznosIsplata')) {
@@ -55,12 +63,13 @@ export class UserviewComponent implements OnInit {
       this.node.countOut = this.accounts.map(itm => { return itm.brojIsplata }).reduce((p, c) => { return p + c })
       this.node.totalIn = this.diaSvc.getTotals(this.accounts, 'iznosUplata')
       this.node.totalOut = this.diaSvc.getTotals(this.accounts, 'iznosIsplata')
-    } else {
+    } /*else {
       this.node.countIn = null
       this.node.countOut = null
       this.node.totalIn = null
       this.node.totalOut = null
     }
+    */
     //console.log('ACX', this.linkedAccounts, this.accounts, this.node)
   }
 
