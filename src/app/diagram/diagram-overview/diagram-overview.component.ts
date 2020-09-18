@@ -113,6 +113,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {}
 
   selectNode(ctx) {
+    if (this.nodeActive !== null && this.nodeActive.id === this.nodes.get(ctx.nodes[0]).id) { return false }
     this.nodeActive = null
     let idx = ctx.nodes[0]
     this.edgeActive = null
@@ -121,9 +122,6 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     if (this.nodeActive.type === 'user') {
       this.isSelectedActiveUser = this.nodeActive.id === this.activeUser.id
       this.nodeActive.id = this.nodeActive.id.replace(/(connectedAccount\d{1,})$/gi, '')
-      //console.log('NX1', Object.getOwnPropertyNames(this.nodeActive), this.nodeActive)
-      //console.log('NX2', Object.getOwnPropertyNames(this.nodes.get(idx)), this.nodes.get(idx))
-
     } else if (this.nodeActive.type === 'account' || this.nodeActive.type === 'connectedAccount') {
       if (this.nodeActive.type === 'connectedAccount') {
         this.diaSvc.getDiagramAccountDetail(this.nodeActive.listaIzvoda, this.nodeActive.label, this.nodeActive.isARN).pipe(untilComponentDestroyed(this)).subscribe(
