@@ -10,7 +10,7 @@
                 <span class="ml-2">Izvoz u Excel</span>
             </button>
         </div>
-        <div class="col-4 offset-6 d-flex justify-content-between">
+        <div class="col-4 offset-6 d-flex justify-content-between" (click)="activateAlarm()">
             <button type="button" class="btn btn-secondary">
                 <span class="fas fa-bell"></span>
                 <span class="ml-2">Alarmiranje</span>
@@ -74,7 +74,7 @@
         <ngx-datatable class="material mt-3" columnMode="force" [headerHeight]="'auto'" [footerHeight]="50"
             [rowHeight]="'auto'" [loadingIndicator]="isLoading" [externalPaging]="true" [rows]="pagedResult?.model"
             [count]="pagedResult?.itemsCount" [offset]="currentPage" limit="{{pageSize}}" [virtualization]="true" (page)="setPage($event)"
-            [selected]="selected"   [selectionType]="SelectionType.multi" (select)="onSelect($event)" (sort)="onSort($event)" [externalSorting]="true"
+            [selected]="selected" [selectionType]="SelectionType.multi" (sort)="onSort($event)" [externalSorting]="true" [selectCheck]='checkSelectable'
             [messages]="{
             emptyMessage:'Nema rezultata',
             totalMessage: pagedResult ? pagedResult.message : 'Ukupan broj'

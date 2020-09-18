@@ -40,9 +40,11 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
   //selection
   SelectionType = SelectionType;
   selected = [];
+  initialSelection = [];
   isSelectActive: boolean = false;
 
   //alarm
+  isAlarmActive: boolean = false;
   alarmItems: IAlarmResponse[];
 
   // pagination
@@ -58,7 +60,7 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
     private localStorageFilterService: LocalStoreFilterService,
     private tableService: TableService,
     private alarmService: AlarmService
-  ) { 
+  ) {
     super();
   }
 
@@ -70,8 +72,6 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
     this.getTopbarTableInfo();
     this.hasActiveFilter();
     this.fetchPage();
-    this.getAlarmInfo();
-    // this.getIzvod();
   }
 
   ngOnDestroy() { }
@@ -91,6 +91,9 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
       untilComponentDestroyed(this)).subscribe(pagedResult => {
         this.isLoading = false;
         this.pagedResult = pagedResult;
+        if (this.isAlarmActive) {
+          this.getAlarmInfo();
+        }
       });
   }
 
@@ -118,17 +121,28 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
     }
   }
 
-  getAlarmInfo():void {
+  activateAlarm(): void {
+    this.selected = [];
+    this.initialSelection = [];
+    this.isAlarmActive = !this.isAlarmActive;
+    if (this.isAlarmActive) {
+      this.getAlarmInfo();
+    }
+  }
+
+  getAlarmInfo() {
     this.alarmService.getAlarmInformation().pipe(take(1)).subscribe(
       data => {
-        if(data && data.length) {
+        if (data && data.length) {
           this.alarmItems = data;
-          if(this.pagedResult && this.pagedResult.model) {
+          console.log(data);
+          if (this.pagedResult && this.pagedResult.model) {
             this.alarmItems.forEach(
               element => {
                 const alarmSelectedItems = this.pagedResult.model.filter(x => x.a_RN == element.drugiARN);
-                if(alarmSelectedItems && alarmSelectedItems.length) {
+                if (alarmSelectedItems && alarmSelectedItems.length) {
                   this.selected = alarmSelectedItems;
+                  this.initialSelection = alarmSelectedItems;
                 }
               }
             )
@@ -141,10 +155,9 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
   /* 
     component methods
   */
-  onSelect({ selected }) {
-    console.log('Select Event', selected, this.selected);
-    this.selected.splice(0, this.selected.length);
-    this.selected.push(...selected);
+
+  checkSelectable(row, column, value) {
+    this.selected = [...this.initialSelection];
   }
 
   removeFilter(): void {
@@ -163,7 +176,7 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
         this.isActiveFilter = true;
         this.paginationRequest.page = 1;
         this.fetchPage();
-      } else if(result == false) {
+      } else if (result == false) {
         this.toastr.warning('Polja filtera su obrisana', 'Pažnja', {
           progressBar: true
         });
@@ -181,7 +194,7 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
 
   hasActiveFilter() {
     console.log('hAFx', this.localStorageFilterService.hasToken())
-    if(this.localStorageFilterService.hasToken()) {
+    if (this.localStorageFilterService.hasToken()) {
       this.modalFilterValues = JSON.parse(localStorage['filter_fields']);
       this.isActiveFilter = true;
     } else {
@@ -216,7 +229,7 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
               'Država B': row.a_FID,
               'Naziv B': row.b_NA
             });
-    
+
             columnWidth.push(
               { wch: 50 },//A
               { wch: 15 },//B
