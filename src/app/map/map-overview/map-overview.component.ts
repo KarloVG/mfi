@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
-import {tileLayer, latLng, circle, polygon, marker, circleMarker, polyline, rectangle} from 'leaflet';
+import {tileLayer, latLng, circle, polygon, marker, circleMarker, polyline, rectangle, layerGroup} from 'leaflet';
 import {SubjectService} from 'src/app/shared/services/subject.service'
 import {BaseService} from 'src/app/statement-base/services/base.service'
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap'
@@ -152,11 +152,10 @@ export class MapOverviewComponent implements OnInit, OnDestroy {
         }
         data.forEach(drzava => {
           cmap[drzava.drzava] = []
-          //console.log('ADX2', drzava)
           const cFrom = this.getCountryData(drzava.drzava)
           drzava.listaDrzava.forEach(itm => {
             const cTo = this.getCountryData(itm.drzavaB)
-            if (!cmap[itm.drzavaB]) {cmap[itm.drzavaB] = []}
+            if (!cmap[itm.drzavaB]) { cmap[itm.drzavaB] = [] }
 
             const markerFrom = this.vizualizeCountry(drzava.drzava, itm.smjer)
             const markerTo = this.vizualizeCountry(itm.drzavaB, itm.smjer)

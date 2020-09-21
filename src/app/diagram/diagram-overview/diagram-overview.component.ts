@@ -58,6 +58,22 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
         nodeDistance: 5000,
         damping: 0.01
       }
+    },
+    defaultColor: {
+      background: '#97c2fc',
+      border: '#2b7ce9',
+      highlight: {
+        background: '#d2e5ff',
+        border: '#2b7ce9'
+      }
+    },
+    alarmedColor: {
+      background: '#cb5',
+      border: '#711',
+      highlight: {
+        background: '#fd6',
+        border: '#a11'
+      }
     }
   }
   data: any
@@ -118,6 +134,23 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     let idx = ctx.nodes[0]
     this.edgeActive = null
     this.nodeActive = this.nodes.get(idx)
+
+    const srcEvt = ctx.event.srcEvent
+    console.log('CTX', this.nodeActive, this.nodeActive.alarmed)
+    if (srcEvt.ctrlKey === true) {
+      const id = this.nodeActive.id
+      if (this.nodeActive.alarmed === true) {
+        let origLook = this.nodeActive.origLook
+        if (!origLook) { origLook = this.options.defaultColor }
+        console.log('RLX', origLook)
+        this.nodes.update({ id: id, shadow: true, color: origLook, alarmed: false })
+      } else {
+        const origLook = this.nodeActive.color
+        console.log('OLX', origLook)
+        this.nodes.update({ id: id, shadow: true, color: this.options.alarmedColor, origLook: origLook, alarmed: true })
+      }
+    }
+
     console.log('SN[%s]', this.nodeActive.type, this.nodeActive, this.nodeActive.id, this.activeUser.id)
     if (this.nodeActive.type === 'user') {
       this.isSelectedActiveUser = this.nodeActive.id === this.activeUser.id
