@@ -6,11 +6,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TableOverviewComponent } from './table-overview/table-overview.component';
 import { ExcelService } from '../shared/services/fake-excel.service';
+import { ModalTableAlarmComponent } from './table-overview/modal-table-alarm/modal-table-alarm.component';
 
 
 @NgModule({
   declarations: [
-    TableOverviewComponent
+    TableOverviewComponent,
+    ModalTableAlarmComponent
   ],
   imports: [
     CommonModule,
@@ -20,6 +22,7 @@ import { ExcelService } from '../shared/services/fake-excel.service';
     ReactiveFormsModule,
     NgSelectModule
   ],
+  entryComponents: [ModalTableAlarmComponent],
   exports: [TableRoutingModule],
   providers: [ExcelService]
 })

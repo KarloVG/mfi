@@ -74,11 +74,14 @@
         <ngx-datatable class="material mt-3" columnMode="force" [headerHeight]="'auto'" [footerHeight]="50"
             [rowHeight]="'auto'" [loadingIndicator]="isLoading" [externalPaging]="true" [rows]="pagedResult?.model"
             [count]="pagedResult?.itemsCount" [offset]="currentPage" limit="{{pageSize}}" [virtualization]="true" (page)="setPage($event)"
-            [selected]="selected" [selectionType]="SelectionType.multi" (sort)="onSort($event)" [externalSorting]="true" [selectCheck]='checkSelectable'
+            [selected]="selected" [selectionType]="SelectionType.multi" (sort)="onSort($event)" [externalSorting]="true" [selectCheck]='checkSelectable.bind(this)'
             [messages]="{
             emptyMessage:'Nema rezultata',
             totalMessage: pagedResult ? pagedResult.message : 'Ukupan broj'
         }">
+            <span>
+                
+            </span>
             <ngx-datatable-column name="Broj računa" prop="a_RN" [width]="200"></ngx-datatable-column>
             <ngx-datatable-column name="SWIFT/BIC" prop="a_FIS" [width]="120"></ngx-datatable-column>
             <ngx-datatable-column name="Banka računa" prop="a_FIN" [width]="100"></ngx-datatable-column>
