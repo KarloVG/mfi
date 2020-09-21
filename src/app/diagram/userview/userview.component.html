@@ -83,7 +83,7 @@
         </div>
       </div>
     </section>
-    <div class="text-center my-2">
+    <div class="text-center my-2" *ngIf="isSelectedActiveUser">
       <button type="button" class="btn btn-secondary" title="Prikaz manje detalja računa i transakcija" (click)="contractAccountsInfo()">
         <span class="fas fa-arrow-up"></span>
         <span class="ml-2">Prikaži manje</span>
@@ -91,8 +91,8 @@
     </div>
   </div>
 
-  <div class="card-body" *ngIf="!areDetailsExpanded">
-    <div class="card">
+  <div class="card-body" *ngIf="isSelectedActiveUser">
+    <div class="card" *ngIf="!areDetailsExpanded">
       <div class="card-body">
         <section>
           <div>Broj korištenih računa: <strong>{{accounts.length}}</strong></div>
@@ -110,7 +110,7 @@
         </section>
       </div>
     </div>
-    <div class="text-center mt-2">
+    <div class="text-center mt-2" *ngIf="!areDetailsExpanded">
       <button type="button" class="btn btn-secondary" title="Prikaz više detalja računa i transakcija" (click)="expandAccountsInfo()">
         <span class="fas fa-arrow-down"></span>
         <span class="ml-2">Prikaži više</span>
