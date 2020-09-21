@@ -11,10 +11,16 @@
             </button>
         </div>
         <div class="col-4 offset-6 d-flex justify-content-between" (click)="activateAlarm()">
-            <button type="button" class="btn btn-secondary">
+            <button type="button" class="btn btn-secondary" *ngIf="!isAlarmActive; else alarmActive">
                 <span class="fas fa-bell"></span>
                 <span class="ml-2">Alarmiranje</span>
             </button>
+            <ng-template #alarmActive>
+                <button type="button" class="btn btn-warning">
+                    <span class="fas fa-bell-slash"></span>
+                    <span class="ml-2">Alarmiranje</span>
+                </button>
+            </ng-template>
             <button type="button" class="btn btn-secondary" (click)="openFilterModal()">
                 <span class="fas fa-filter"></span>
                 <span class="ml-2">Filtriranje</span>
@@ -74,15 +80,18 @@
         <ngx-datatable class="material mt-3" columnMode="force" [headerHeight]="'auto'" [footerHeight]="50"
             [rowHeight]="'auto'" [loadingIndicator]="isLoading" [externalPaging]="true" [rows]="pagedResult?.model"
             [count]="pagedResult?.itemsCount" [offset]="currentPage" limit="{{pageSize}}" [virtualization]="true" (page)="setPage($event)"
-            [selected]="selected" [selectionType]="SelectionType.multi" (sort)="onSort($event)" [externalSorting]="true" [selectCheck]='checkSelectable'
+            [selected]="selected" [selectionType]="SelectionType.multi" (sort)="onSort($event)" [externalSorting]="true" [selectCheck]='checkSelectable.bind(this)'
             [messages]="{
             emptyMessage:'Nema rezultata',
             totalMessage: pagedResult ? pagedResult.message : 'Ukupan broj'
         }">
-            <ngx-datatable-column name="Broj računa" prop="a_RN" [width]="200"></ngx-datatable-column>
-            <ngx-datatable-column name="SWIFT/BIC" prop="a_FIS" [width]="120"></ngx-datatable-column>
-            <ngx-datatable-column name="Banka računa" prop="a_FIN" [width]="100"></ngx-datatable-column>
-            <ngx-datatable-column name="Država računa" prop="a_FID" [width]="100"></ngx-datatable-column>
+            <span>
+                
+            </span>
+            <ngx-datatable-column name="Broj računa" prop="a_RN" [width]="200" disabled></ngx-datatable-column>
+            <ngx-datatable-column name="SWIFT/BIC" prop="a_FIS" [width]="120" disabled></ngx-datatable-column>
+            <ngx-datatable-column name="Banka računa" prop="a_FIN" [width]="100" disabled></ngx-datatable-column>
+            <ngx-datatable-column name="Država računa" prop="a_FID" [width]="100" disabled></ngx-datatable-column>
             <ngx-datatable-column name="Naziv vlasnika rač. A" prop="a_NA" [width]="130">
             </ngx-datatable-column>
             <ngx-datatable-column name="Datum / vrijeme" prop="t_DV" [width]="100">

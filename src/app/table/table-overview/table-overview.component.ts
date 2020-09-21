@@ -17,10 +17,11 @@ import { TableService } from '../services/table.service';
 import { IPagedResult } from 'src/app/shared/models/pagination/paged-result';
 import { BasePaginationComponent } from 'src/app/shared/components/base-pagination/base-pagination.component';
 import { IPaginationBase } from 'src/app/shared/models/pagination/pagination-base';
-import { SelectionType, DatatableComponent } from '@swimlane/ngx-datatable';
+import { SelectionType, DatatableComponent, DataTableSelectionComponent } from '@swimlane/ngx-datatable';
 import { ITopbarTableInfo } from '../models/topbar-table-info';
 import { AlarmService } from 'src/app/shared/services/alarm.service';
 import { IAlarmResponse } from 'src/app/shared/models/alarm-response';
+import { ModalTableAlarmComponent } from './modal-table-alarm/modal-table-alarm.component';
 
 @Component({
   selector: 'app-table-overview',
@@ -127,6 +128,7 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
     this.isAlarmActive = !this.isAlarmActive;
     if (this.isAlarmActive) {
       this.getAlarmInfo();
+      console.log('tutut')
     }
   }
 
@@ -135,14 +137,17 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
       data => {
         if (data && data.length) {
           this.alarmItems = data;
-          console.log(data);
           if (this.pagedResult && this.pagedResult.model) {
             this.alarmItems.forEach(
               element => {
-                const alarmSelectedItems = this.pagedResult.model.filter(x => x.a_RN == element.drugiARN);
+                const alarmSelectedItems = this.pagedResult.model.filter(function (x) {
+                  return x.a_RN == element.drugiARN || x.b_RN == element.drugiARN
+                    || x.a_NA == element.drugiANA || x.b_NA == element.drugiANA
+                    || x.b_ID == element.drugiAID || x.a_ID == element.drugiAID
+                });
                 if (alarmSelectedItems && alarmSelectedItems.length) {
-                  this.selected = alarmSelectedItems;
-                  this.initialSelection = alarmSelectedItems;
+                  this.selected = [...alarmSelectedItems];
+                  this.initialSelection = [...alarmSelectedItems];
                 }
               }
             )
@@ -155,9 +160,13 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
   /* 
     component methods
   */
-
   checkSelectable(row, column, value) {
     this.selected = [...this.initialSelection];
+    if(this.alarmItems) {
+      const modalRef = this.ngbModalService.open(ModalTableAlarmComponent, { backdrop: 'static', keyboard: false });
+      modalRef.componentInstance.alarmItems = this.alarmItems;
+      modalRef.componentInstance.row = row;
+    }
   }
 
   removeFilter(): void {
