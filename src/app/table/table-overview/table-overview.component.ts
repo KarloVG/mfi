@@ -128,6 +128,7 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
     this.isAlarmActive = !this.isAlarmActive;
     if (this.isAlarmActive) {
       this.getAlarmInfo();
+      console.log('tutut')
     }
   }
 
@@ -145,8 +146,8 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
                     || x.b_ID == element.drugiAID || x.a_ID == element.drugiAID
                 });
                 if (alarmSelectedItems && alarmSelectedItems.length) {
-                  this.selected = alarmSelectedItems;
-                  this.initialSelection = alarmSelectedItems;
+                  this.selected = [...alarmSelectedItems];
+                  this.initialSelection = [...alarmSelectedItems];
                 }
               }
             )
@@ -166,7 +167,6 @@ export class TableOverviewComponent extends BasePaginationComponent implements O
       modalRef.componentInstance.alarmItems = this.alarmItems;
       modalRef.componentInstance.row = row;
     }
-    
   }
 
   removeFilter(): void {

@@ -56,14 +56,9 @@ export class ModalAddPersonComponent implements OnInit {
           osobaID: this.osoba.osobaID,
           naziv: this.osoba.naziv,
           tipOsobe: this.osoba.tipOsobe,
+          vrstaIdBroja: this.osoba.vrstaIdBroja,
+          idBroj: this.osoba.idBroj
         });
-        if (this.osoba.vrstaIdBroja) {
-          const vrsta = this.osoba.vrstaIdBroja;
-          this.personGroup.patchValue({ vrstaIdBroja: vrsta });
-          this.reactiveFormService.setValidatorAfterViewInit(this.personGroup, this.osoba.idBroj, 'idBroj');
-        } else if (this.osoba.idBroj) {
-          this.personGroup.patchValue({ idBroj: this.osoba.idBroj });
-        }
       }
     })
   }
