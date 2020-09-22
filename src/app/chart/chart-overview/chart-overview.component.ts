@@ -8,6 +8,14 @@ import { IChartResponse } from '../models/chart-response';
 import { NgxCaptureService } from 'ngx-capture';
 import { BaseToBlobService } from 'src/app/shared/services/base-to-blob-service';
 import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SaveStateService } from 'src/app/shared/services/save-state.service';
+import { SaveStateDeterminator } from 'src/app/shared/services/save-state-determinator';
+import { ISaveStateResponse } from 'src/app/shared/models/save-state-response';
+import { take } from 'rxjs/operators';
+import { CanComponentDeactivate } from 'src/app/shared/services/confirm-exit-popup-guard';
+import { Observable, Subject } from 'rxjs';
+import { ModalSaveStateComponent } from 'src/app/shared/components/modal-save-state/modal-save-state.component';
 
 @Component({
   selector: 'app-chart-overview',
@@ -15,17 +23,26 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./chart-overview.component.scss']
 })
 
-export class ChartOverviewComponent implements OnInit, OnDestroy {
+export class ChartOverviewComponent implements OnInit, OnDestroy, CanComponentDeactivate {
+  
   moduleName: string = 'Graf financijskih transakcija';
   moduleFontIcon: string = 'fas fa-chart-pie';
   displayType: string = 'chart';
-
+  // save state
+  savedState: ISaveStateResponse;
+  private confimationSubject = new Subject<boolean>();
   chartResponseData: IChartResponse;
+  osobaID: number;
+  izvodID: number;
+
   constructor(
     private chartService: ChartService,
     private captureService: NgxCaptureService,
     private baseToBlobService: BaseToBlobService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private ngbModalService: NgbModal,
+    private saveStateService: SaveStateService,
+    private saveStateDeterminator: SaveStateDeterminator
   ) { }
 
   @ViewChild('screen', { static: true }) screen: any;
@@ -125,6 +142,8 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
     this.zbrojUplata = 0;
 
     if (event.osobaID) {
+      this.osobaID = event.osobaID;
+      this.izvodID = event.izvodID;
       this.chartService.getChartData(event.osobaID, event.izvodID).pipe(untilComponentDestroyed(this)).subscribe(
         data => {
           this.chartResponseData = data;
@@ -190,7 +209,70 @@ export class ChartOverviewComponent implements OnInit, OnDestroy {
     console.log(event, active);
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.saveStateService.getSavedState('graf').pipe(take(1)).subscribe(
+      data => {
+        this.savedState = data
+        if(this.savedState) {
+          const jsonValues = JSON.parse(this.savedState.stanjeDijagrama);
+          this.barChartLabelsU = jsonValues.barChartLabelsU;
+          this.barChartDataU[0].data = jsonValues.barChartDataU;
+          this.barChartLabelsI = jsonValues.barChartLabelsI;
+          this.barChartDataI[0].data = jsonValues.barChartDataI;
+          this.pieChartLabelsI = jsonValues.pieChartLabelsI;
+          this.pieChartDataI = jsonValues.pieChartDataI;
+          this.pieChartLabelsU = jsonValues.pieChartLabelsU;
+          this.pieChartDataU = jsonValues.pieChartDataU;
+          this.osobaID = jsonValues.osobaID;
+          this.izvodID = jsonValues.izvodID;
+          this.zbrojUplata = jsonValues.zbrojUplata;
+          this.zbrojIsplata = jsonValues.zbrojIsplata;
+          this.saveStateDeterminator.changeOsobaOrIzvod({osobaID: this.osobaID, izvodID: this.izvodID})
+        }
+      }
+    )
+  }
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if(this.barChartLabelsU.length || this.barChartDataU[0].data.length ||this.barChartLabelsI.length || this.barChartDataI[0].data.length
+      || this.pieChartLabelsI.length || this.pieChartLabelsU.length || this.pieChartDataI.length || this.pieChartDataU.length)
+    {
+      const modalRef = this.ngbModalService.open(ModalSaveStateComponent, { backdrop: 'static', keyboard: false });
+      modalRef.componentInstance.componentName = 'graf';
+      modalRef.result.then((result) => {
+        if (result == true) {
+          //pospremi api
+          const requestData = JSON.stringify({
+            osobaID: this.osobaID,
+            izvodID: this.izvodID,
+            barChartLabelsU: this.barChartLabelsU,
+            barChartDataU: this.barChartDataU[0].data,
+            barChartLabelsI: this.barChartLabelsI,
+            barChartDataI: this.barChartDataI[0].data,
+            pieChartLabelsI: this.pieChartLabelsI,
+            pieChartDataI: this.pieChartDataI,
+            pieChartLabelsU: this.pieChartLabelsU,
+            pieChartDataU: this.pieChartDataU,
+            zbrojUplata: this.zbrojUplata,
+            zbrojIsplata: this.zbrojIsplata
+          });
+          this.saveStateService.saveState(requestData, 'graf').pipe(take(1)).subscribe();
+          this.confimationSubject.next(true);
+        } else if (result == false) {
+          //nemoj pospremiti
+          this.toastr.warning('Stanje predmeta nije pohranjeno', 'Pažnja', {
+            progressBar: true
+          });
+          this.confimationSubject.next(true);
+        } else {
+          this.confimationSubject.next(false);
+        }
+      });
+      return this.confimationSubject;
+    } else {
+      return true;
+    } 
+  }
 
   ngOnDestroy(): void { }
 
