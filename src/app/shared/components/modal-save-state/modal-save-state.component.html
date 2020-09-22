@@ -1,0 +1,21 @@
+<div class="modal-header" style="background: rgb(220, 53, 69); color: white;">
+    <h4 class="modal-title" id="modal-title">Spremanje stanja "{{ componentName }}"</h4>
+    <a class="close" aria-label="Close" (click)="modal.close(null)">
+        <span class="fas fa-times"></span>
+    </a>
+</div>
+<div class="modal-body">
+    <p>
+        <strong>Stanje nije pohranjeno.</strong> Molimo vas odaberite želite li pohraniti stanje {{ componentName }} prije zatvaranja.
+    </p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger mr-auto" (click)="modal.close(false)">
+        <span class="fas fa-times"></span>
+        <span class="ml-2">Zatvori bez spremanja</span>
+    </button>
+    <button type="button" ngbAutofocus class="btn btn-primary" (click)="modal.close(true)">
+        <span class="fas fa-save"></span>
+        <span class="ml-2">Spremi i zatvori</span>
+    </button>
+</div>

@@ -13,6 +13,7 @@ import { FilterAlertComponent } from './filter-alert/filter-alert.component';
 import { VisualisationToolbarComponent } from './visualisation-toolbar/visualisation-toolbar.component';
 import { ToolbarInfoComponent } from './toolbar-info/toolbar-info.component';
 import { ModalCanClearViewComponent } from './modal-can-clearview/modal-can-clearview.component';
+import { ModalSaveStateComponent } from './modal-save-state/modal-save-state.component';
 
 const components = [
   ConfirmationModalComponent,
@@ -22,7 +23,7 @@ const components = [
   FilterAlertComponent,
   VisualisationToolbarComponent,
   ToolbarInfoComponent,
-  ModalCanClearViewComponent,
+  ModalCanClearViewComponent
 ];
 
 @NgModule({

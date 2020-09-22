@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, ViewChild} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild, AfterViewInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router'
 import {SubjectService} from 'src/app/shared/services/subject.service'
 import {SubjectApiService} from 'src/app/subject/services/subject.service'
@@ -11,6 +11,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStoreFilterService } from '../../services/local-store-filter.service';
 import { IFilterCriteria } from '../../models/filter-criteria';
+import { SaveStateDeterminator } from '../../services/save-state-determinator';
+import { first, take } from 'rxjs/operators';
 
 interface Types {
   id: string
@@ -51,11 +53,10 @@ export class VisualisationToolbarComponent implements OnInit {
   typesList: Types[]
   osobe: IOsobaDropdown[] = [];
   selectedOsoba: IOsobaDropdown;
-
   selectedIzvod: IIzvodDropdown;
   izvodi: IIzvodDropdown[] = [];
   subjectId: number;
-
+  isAPIactivated: boolean = false;
   isActiveFilter: boolean = false;
   modalFilterValues: IFilterCriteria;
 
@@ -64,14 +65,34 @@ export class VisualisationToolbarComponent implements OnInit {
     private visualisationService: VisualisationToolbarService,
     private ngbModalService: NgbModal,
     private toastr: ToastrService,
-    private localStorageFilterService: LocalStoreFilterService
+    private localStorageFilterService: LocalStoreFilterService,
+    private saveStateDeterminator: SaveStateDeterminator
   ) { }
 
   ngOnInit(): void {
     this.subjectId = +this.subjectService.hasToken();
     this.visualisationService.getOsobaDropdown().subscribe(
-      data => {  this.osobe = data;  }
+      osobe => {  
+        this.osobe = osobe;
+        this.saveStateDeterminator.osobaAndIzvod.subscribe(
+          data => {
+            if(data.osobaID && !this.isAPIactivated) {
+              this.isAPIactivated = true;
+              this.selectedOsoba = this.osobe.find(x => x.osobaID == data.osobaID);
+              this.visualisationService.getIzvodiForOsobaDropdown(data.osobaID).subscribe(
+                izvodi => { 
+                  this.izvodi = izvodi;
+                  if(data.izvodID) {
+                    this.selectedIzvod = this.izvodi.find(x => x.izvodID == data.izvodID);
+                  }
+                }
+              )
+            }
+          }
+        )
+      }
     );
+    
     this.hasActiveFilter();
   }
 
@@ -94,7 +115,7 @@ export class VisualisationToolbarComponent implements OnInit {
     if(event && event.osobaID) {
       this.selectedIzvod = null;
       this.visualisationService.getIzvodiForOsobaDropdown(event.osobaID).subscribe(
-        data => { this.izvodi = data;  }
+        data => { this.izvodi = data; console.log('aktivirao se izvod search')  }
       )
     } else {
       this.izvodi = [];
