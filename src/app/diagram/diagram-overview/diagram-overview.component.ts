@@ -58,8 +58,11 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
         nodeDistance: 5000,
         damping: 0.01
       }
-    },
-    defaultColor: {
+    }
+  }
+
+  colors = {
+    default: {
       background: '#97c2fc',
       border: '#2b7ce9',
       highlight: {
@@ -67,7 +70,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
         border: '#2b7ce9'
       }
     },
-    alarmedColor: {
+    alarmed: {
       background: '#cb5',
       border: '#711',
       highlight: {
@@ -76,6 +79,7 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   data: any
   nodeActive: any = null
   edgeActive: any = null
@@ -136,18 +140,16 @@ export class DiagramOverviewComponent implements OnInit, OnDestroy {
     this.nodeActive = this.nodes.get(idx)
 
     const srcEvt = ctx.event.srcEvent
-    console.log('CTX', this.nodeActive, this.nodeActive.alarmed)
+    //console.log('CTX', this.nodeActive, this.nodeActive.alarmed)
     if (srcEvt.ctrlKey === true) {
       const id = this.nodeActive.id
       if (this.nodeActive.alarmed === true) {
         let origLook = this.nodeActive.origLook
-        if (!origLook) { origLook = this.options.defaultColor }
-        console.log('RLX', origLook)
+        if (!origLook) { origLook = this.colors.default }
         this.nodes.update({ id: id, shadow: true, color: origLook, alarmed: false })
       } else {
         const origLook = this.nodeActive.color
-        console.log('OLX', origLook)
-        this.nodes.update({ id: id, shadow: true, color: this.options.alarmedColor, origLook: origLook, alarmed: true })
+        this.nodes.update({ id: id, shadow: true, color: this.colors.alarmed, origLook: origLook, alarmed: true })
       }
     }
 
